@@ -59,9 +59,17 @@ fun SearchScreen(navController: NavHostController) {
               onClick = {
                 val searchWithFilters = SearchWithFilters("", "", "", "", 0.0)
 
-                if (button == "Country")  { }
-                else if (button == "Currency") { }
-                else { }
+                when (button) {
+                  "Country" -> {
+
+                  }
+                  "Currency" -> {
+
+                  }
+                  "Size" -> {
+
+                  }
+                }
 
               }) {
 
