@@ -12,7 +12,10 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -86,12 +89,7 @@ fun SearchAppBar(navController: NavHostController) {
       BasicTextField(
         value = text.value,
         maxLines = 1,
-        onValueChange = {
-          text.value = it;
-           if (text.value == "") {
-            navController.popBackStack()
-            focusManager.clearFocus()
-          }},
+        onValueChange = { text.value = it; },
         enabled = true,
         modifier = Modifier
           .focusRequester(focusRequester)
@@ -102,9 +100,11 @@ fun SearchAppBar(navController: NavHostController) {
             }
           }
           .onKeyEvent {
-            if (text.value == "" && it.key == Key.Backspace) {
-              navController.popBackStack()
-              focusManager.clearFocus()
+            if (text.value == "") {
+              if (it.key == Key.Backspace) {
+                navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
+                focusManager.clearFocus()
+              }
             }
             true
           }

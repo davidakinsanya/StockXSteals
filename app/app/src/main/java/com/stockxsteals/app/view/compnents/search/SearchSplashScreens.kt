@@ -36,62 +36,62 @@ fun SearchScreen(navController: NavHostController) {
     "Settings"
   )
   Scaffold() {
-      Column(
-        modifier = Modifier
-          .padding(top = 30.dp)
-      ) {
+    Column(
+      modifier = Modifier
+        .padding(top = 30.dp)
+    ) {
 
-        LazyRow(modifier = Modifier
-          .height(30.dp)
-          .padding(start = 15.dp, end = 10.dp)
-          .fillMaxWidth()) {
+      LazyRow(modifier = Modifier
+        .height(30.dp)
+        .padding(start = 15.dp, end = 10.dp)
+        .fillMaxWidth()) {
 
-          items(buttons) { button ->
-            if (button != "Settings") {
-              Button(modifier = Modifier
-                .width(90.dp)
-                .padding(end = 5.dp),
-                border = BorderStroke(0.5.dp, color = Color(224, 176, 255)),
-                shape = RoundedCornerShape(50.dp),
-                colors = ButtonDefaults.buttonColors(
-                  backgroundColor = Color.White
-                ),
-                onClick = {
-                  val searchWithFilters = SearchWithFilters("", "", "", "", 0.0)
+        items(buttons) { button ->
+          if (button != "Settings") {
+            Button(modifier = Modifier
+              .width(90.dp)
+              .padding(end = 5.dp),
+              border = BorderStroke(0.5.dp, color = Color(224, 176, 255)),
+              shape = RoundedCornerShape(50.dp),
+              colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color.White
+              ),
+              onClick = {
+                val searchWithFilters = SearchWithFilters("", "", "", "", 0.0)
 
-                  if (button == "Country")  { } // TODO:
-                    else if (button == "Currency") { } // TODO:
-                      else { } // TODO:
+                if (button == "Country")  { }
+                else if (button == "Currency") { }
+                else { }
 
-                }) {
+              }) {
 
-                Text(text = button, fontSize = 10.sp, fontWeight = FontWeight.Light)
+              Text(text = button, fontSize = 10.sp, fontWeight = FontWeight.Light)
+            }
+
+          } else {
+            val focusManager = LocalFocusManager.current
+
+            Row(modifier = Modifier.padding(start = 10.dp)) {
+              IconButton(onClick = {
+                navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
+                focusManager.clearFocus()
+              }) {
+                Icon(
+                  imageVector = Icons.Filled.ArrowBack,
+                  contentDescription = "Back Icon"
+                )
               }
-
-            } else {
-              val focusManager = LocalFocusManager.current
-
-              Row(modifier = Modifier.padding(start = 10.dp)) {
-                IconButton(onClick = {
-                  navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
-                  focusManager.clearFocus()
-                }) {
-                  Icon(
-                    imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = "Back Icon"
-                  )
-                }
-                IconButton(onClick = { /*TODO*/ }) {
-                  Icon(
-                    imageVector = Icons.Filled.Settings,
-                    contentDescription = "Settings Icon"
-                  )
-                }
+              IconButton(onClick = { /*TODO*/ }) {
+                Icon(
+                  imageVector = Icons.Filled.Settings,
+                  contentDescription = "Settings Icon"
+                )
               }
             }
           }
         }
-        DisplayExampleMessage(navController = navController)
       }
+      DisplayExampleMessage(navController = navController)
+    }
   }
 }
