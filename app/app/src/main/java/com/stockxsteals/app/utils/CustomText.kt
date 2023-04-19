@@ -19,11 +19,8 @@ class CustomText {
   fun AppendCustomText(text: String, modifier: Modifier = Modifier) {
 
     var results: MatchResult? = boldRegex.find(text)
-
     val boldIndexes = mutableListOf<Pair<Int, Int>>()
-
     val keywords = mutableListOf<String>()
-
     var finalText = text
 
     while (results != null) {
