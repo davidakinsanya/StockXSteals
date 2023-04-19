@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.sp
 class CustomText {
   private val boldRegex = Regex("(?<!\\*)\\*\\*(?!\\*).*?(?<!\\*)\\*\\*(?!\\*)")
 
-
   @Composable
   fun AppendCustomText(text: String, modifier: Modifier = Modifier) {
 

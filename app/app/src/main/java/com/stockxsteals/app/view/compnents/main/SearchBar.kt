@@ -94,9 +94,13 @@ fun SearchAppBar(navController: NavHostController) {
         modifier = Modifier
           .focusRequester(focusRequester)
           .onFocusChanged {
-            if (it.isFocused) {
-             keyboardController?.show()
-              navController.navigate(searchRoute)
+            if (selected != "Trends") {
+              if (it.isFocused) {
+                keyboardController?.show()
+                navController.navigate(searchRoute)
+              }
+            } else {
+              focusManager.clearFocus()
             }
           }
           .onKeyEvent {
@@ -134,7 +138,8 @@ fun SearchAppBar(navController: NavHostController) {
           },
           placeholder = {
             Text(
-              text = selected,
+              text = selected
+              ,
               fontSize = 16.sp,
             )
           },
