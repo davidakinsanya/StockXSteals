@@ -88,7 +88,7 @@ fun SearchByChip(selected: MutableState<String>) {
 fun SearchPageButtons(navController: NavHostController) {
   val focusManager = LocalFocusManager.current
 
-  Row(modifier = Modifier.padding(start = 50.dp)) {
+  Row(modifier = Modifier.padding(start = 30.dp)) {
     IconButton(
       onClick = {
       navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
