@@ -146,7 +146,7 @@ fun RoundTextField(navController: NavHostController,
       .fillMaxWidth(.9f)
       .border(
         border = BorderStroke(width =
-          if (search2) 2.dp else 0.5.dp,
+          if (search2) 2.dp else 3.5.dp,
           color =
           if (search2) mauve else Color.Red),
         shape = RoundedCornerShape(50.dp)
@@ -175,7 +175,7 @@ fun RoundTextField(navController: NavHostController,
       },
       placeholder = {
         Text(
-          text = if (search2) "Enter Search .." else "",
+          text = if (search2) "Enter Search ..." else "",
           fontSize = 16.sp,
         )
       },

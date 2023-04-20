@@ -21,14 +21,15 @@ fun SetupScreen(navController: NavHostController) {
   )
 
   val searchDestination = AppScreens.TopSearch.route
+  val settingsDestination = AppScreens.Settings.route
   var selected = ""
   val navBackStackEntry by navController.currentBackStackEntryAsState()
   val currentDestination = navBackStackEntry?.destination
-
   screens.forEach { _ ->
     val bool = currentDestination?.hierarchy?.any {
-      it.route == searchDestination
+      it.route == searchDestination || it.route == settingsDestination
     } == true
+
 
 
     Scaffold(

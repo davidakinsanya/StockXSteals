@@ -20,7 +20,7 @@ sealed class AppScreens (
   object Settings: AppScreens(
     route = "settings",
     title = "Settings",
-    icon = "https://img.icons8.com/fluency/512/settings.png"
+    icon = "https://img.icons8.com/ios-glyphs/512/settings.png"
   )
 
   object TopSearch: AppScreens(
