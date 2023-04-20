@@ -7,7 +7,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -81,20 +80,15 @@ fun SearchByChip(selected: MutableState<String>) {
 fun SearchPageButtons(navController: NavHostController) {
   val focusManager = LocalFocusManager.current
 
-  Row(modifier = Modifier.padding(start = 10.dp)) {
-    IconButton(onClick = {
+  Row(modifier = Modifier.padding(start = 50.dp)) {
+    IconButton(
+      onClick = {
       navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
       focusManager.clearFocus()
     }) {
       Icon(
         imageVector = Icons.Filled.ArrowBack,
         contentDescription = "Back Icon"
-      )
-    }
-    IconButton(onClick = { /*TODO*/ }) {
-      Icon(
-        imageVector = Icons.Filled.Settings,
-        contentDescription = "Settings Icon"
       )
     }
   }

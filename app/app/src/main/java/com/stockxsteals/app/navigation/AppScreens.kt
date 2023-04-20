@@ -14,13 +14,13 @@ sealed class AppScreens (
   object Search: AppScreens (
     route = "search",
     title = "Search",
-    icon = "https://img.icons8.com/material/512/search-more.png"
+    icon = "https://img.icons8.com/color/512/search.png"
   )
 
   object Settings: AppScreens(
     route = "settings",
     title = "Settings",
-    icon = "https://img.icons8.com/metro/512/toggle-on.png"
+    icon = "https://img.icons8.com/fluency/512/settings.png"
   )
 
   object TopSearch: AppScreens(
