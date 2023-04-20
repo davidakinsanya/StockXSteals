@@ -73,7 +73,7 @@ fun SearchAppBar(navController: NavHostController) {
   }
 
   TopAppBar(backgroundColor = Color(0xFFFFFFFF)) {
-    val text = remember { mutableStateOf(selected) }
+    val text = remember { mutableStateOf(selected) } // TODO: In future retrieve from ViewModel
 
     Row(modifier = Modifier.padding(start = 10.dp)) {
 

@@ -25,7 +25,7 @@ import com.stockxsteals.app.model.SearchWithFilters
 @Composable
 fun SearchScreen(navController: NavHostController) {
   val filterSelect = remember { mutableStateOf("") }
-  val searchWithFilters = SearchWithFilters("", "", "", "", 0.0) // In future retrieve from ViewModel
+  val searchWithFilters = SearchWithFilters("", "", "", "", 0.0) //TODO: In future retrieve from ViewModel
 
   Scaffold {
     Column(
