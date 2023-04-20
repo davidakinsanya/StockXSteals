@@ -145,8 +145,7 @@ fun RoundTextField(navController: NavHostController,
       .height(35.dp)
       .fillMaxWidth(.9f)
       .border(
-        border = BorderStroke(width =
-          if (search2) 2.dp else 3.5.dp,
+        border = BorderStroke(width = 1.5.dp,
           color =
           if (search2) mauve else Color.Red),
         shape = RoundedCornerShape(50.dp)
