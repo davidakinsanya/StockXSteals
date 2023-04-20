@@ -30,8 +30,6 @@ fun SetupScreen(navController: NavHostController) {
       it.route == searchDestination || it.route == settingsDestination
     } == true
 
-
-
     Scaffold(
       topBar = { SearchAppBar(navController = navController)},
       bottomBar = { if (!bool) BottomBar(navController = navController) }

@@ -24,6 +24,9 @@ import com.stockxsteals.app.model.SearchWithFilters
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SearchScreen(navController: NavHostController) {
+  val filterSelect = remember { mutableStateOf("") }
+  val searchWithFilters = SearchWithFilters("", "", "", "", 0.0) // In future retrieve from ViewModel
+
   Scaffold {
     Column(
       modifier = Modifier
@@ -31,6 +34,7 @@ fun SearchScreen(navController: NavHostController) {
     ) {
 
       val selected = remember { mutableStateOf("") }
+
       Row(modifier = Modifier
         .height(30.dp)
         .padding(start = 15.dp, end = 10.dp)
@@ -40,6 +44,7 @@ fun SearchScreen(navController: NavHostController) {
         chipList.forEach { it ->
           FilterButtons(button = it,
                         selected = selected.value,
+                        filterSelect = filterSelect,
                         onSelected = {
                           selected.value = it
                         })
@@ -48,7 +53,9 @@ fun SearchScreen(navController: NavHostController) {
         }
       }
       val codeOrSlug = remember { mutableStateOf("") }
+
       SearchByChip(codeOrSlug)
+      SwitchFilters(filterSelect.value, searchWithFilters)
     }
   }
 
@@ -67,6 +74,7 @@ fun SearchByChip(selected: MutableState<String>) {
       chipList.forEach { it ->
         FilterButtons(button = it,
           selected = selected.value,
+          filterSelect = null,
           onSelected = {
             selected.value = it
           })
@@ -98,9 +106,11 @@ fun SearchPageButtons(navController: NavHostController) {
 @Composable
 fun  FilterButtons(button: String,
                    selected: String,
+                   filterSelect: MutableState<String>?,
                    onSelected: (String) -> Unit) {
 
   val isSelected = selected == button
+
   val mauve = Color(224, 176, 255)
   val bgColor = if (isSelected) mauve else Color.White
   val textColor = if (isSelected) Color.White else Color.Black
@@ -115,22 +125,10 @@ fun  FilterButtons(button: String,
       backgroundColor = bgColor
     ),
     onClick = {
-      val searchWithFilters = SearchWithFilters("", "", "", "", 0.0)
       onSelected(button)
-
-      when (button) {
-        "Country" -> {
-
-        }
-        "Currency" -> {
-
-
-        }
-        "Size" -> {
-
-        }
+      if (listOf("Country", "Currency", "Size").contains(button)) {
+        filterSelect!!.value = button
       }
-
     }) {
 
     Text(text = button,
