@@ -9,12 +9,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -23,7 +25,7 @@ import com.stockxsteals.app.model.SearchWithFilters
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SearchScreen(navController: NavHostController) {
-  Scaffold() {
+  Scaffold {
     Column(
       modifier = Modifier
         .padding(top = 30.dp)
@@ -46,9 +48,34 @@ fun SearchScreen(navController: NavHostController) {
         SearchPageButtons(navController = navController)
         }
       }
-      DisplayExampleMessage(navController = navController)
+      val codeOrSlug = remember { mutableStateOf("") }
+      SearchByChip(codeOrSlug)
     }
   }
+
+@Composable
+fun SearchByChip(selected: MutableState<String>) {
+  Column(modifier = Modifier.padding(top = 70.dp)) {
+    Row(
+      modifier = Modifier
+        .height(30.dp)
+        .padding(start = 15.dp, end = 10.dp)
+        .fillMaxWidth()
+    ) {
+
+      val chipList = listOf("Code", "Slug")
+
+      chipList.forEach { it ->
+        FilterButtons(button = it,
+          selected = selected.value,
+          onSelected = {
+            selected.value = it
+          })
+      }
+    }
+    DisplayExampleMessage(selected)
+  }
+}
 
 @Composable
 fun SearchPageButtons(navController: NavHostController) {
@@ -115,6 +142,7 @@ fun  FilterButtons(button: String,
     Text(text = button,
       fontSize = 10.sp,
       fontWeight = fontWeight,
+      textAlign = TextAlign.Center,
       color = textColor)
   }
 }

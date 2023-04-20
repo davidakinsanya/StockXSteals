@@ -4,29 +4,28 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.CustomText
 
 @Composable
 fun ExampleInput(type: String) {
-  Column(modifier = Modifier.padding(start = 16.dp, top = 75.dp)) {
+  Column(modifier = Modifier.padding(start = 15.dp, top = 5.dp)) {
     when (type) {
-      "Search By Code" -> {
+      "Code" -> {
         CustomText().AppendCustomText(
           modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 10.dp, start = 50.dp, end = 50.dp),
+            .padding(top = 10.dp, end = 50.dp),
           text = "Example of a valid code is: **'CT5053-001'**.\n(Nike SB Dunk Low Travis Scott)",
         )
       }
-      "Search By Slug" -> {
+      "Slug" -> {
         CustomText().AppendCustomText(
           modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 10.dp, start = 20.dp, end  = 50.dp),
+            .padding(top = 10.dp, end  = 50.dp),
           text = "Example of a valid slug is: \n **'nike-air-max-1-travis-scott-wheat'**. \n (Nike SB Dunk Low Travis Scott)",
         )
       }
@@ -35,13 +34,13 @@ fun ExampleInput(type: String) {
 }
 
 @Composable
-fun DisplayExampleMessage(navController: NavHostController) {
-  when (navController.previousBackStackEntry?.destination?.route) {
-    AppScreens.SearchByCode.route -> {
-      ExampleInput(type = "Search By Code")
+fun DisplayExampleMessage(selected: MutableState<String>) {
+  when (selected.value) {
+    "Code" -> {
+      ExampleInput(type = "Code")
     }
-    AppScreens.SearchBySlug.route -> {
-      ExampleInput(type = "Search By Slug")
+    "Slug" -> {
+      ExampleInput(type = "Slug")
     }
   }
 }

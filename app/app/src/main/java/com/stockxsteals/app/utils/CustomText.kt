@@ -59,7 +59,7 @@ class CustomText {
       text = annotatedString,
       fontWeight = FontWeight.Light,
       fontFamily = FontFamily.SansSerif,
-      textAlign = TextAlign.Center
+      textAlign = TextAlign.Left
     )
   }
 }
