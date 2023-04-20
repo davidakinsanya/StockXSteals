@@ -49,6 +49,8 @@ fun RowScope.AddItem(
     it.route == screen.route
   } == true
 
+  val currentScreen = navController.currentDestination?.route
+
   BottomNavigationItem(
     modifier = Modifier
       .background(color = Color(0xFFFFFFFF)),
@@ -59,7 +61,7 @@ fun RowScope.AddItem(
         modifier = Modifier
           .fillMaxSize(0.55f))   },
     selected = selected,
-    onClick = { navController.navigate(screen.route)},
+    onClick = { if(currentScreen != screen.route) navController.navigate(screen.route) },
     label = {
       Text(text = screen.title,
         color = Color.Black,
