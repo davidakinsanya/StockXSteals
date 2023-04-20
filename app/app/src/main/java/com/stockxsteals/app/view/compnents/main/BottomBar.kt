@@ -23,8 +23,8 @@ import com.stockxsteals.app.navigation.AppScreens
 fun BottomBar(navController: NavHostController) {
   val screens = listOf(
     AppScreens.Trends,
-    AppScreens.SearchByCode,
-    AppScreens.SearchBySlug,
+    AppScreens.Search,
+    AppScreens.Settings,
   )
 
   val navBackStackEntry by navController.currentBackStackEntryAsState()

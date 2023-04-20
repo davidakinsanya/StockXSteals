@@ -11,16 +11,16 @@ sealed class AppScreens (
     icon =  "https://img.icons8.com/offices/512/graph.png"
   )
 
-  object SearchByCode: AppScreens (
-    route = "search_by_code",
-    title = "Search By Code",
-    icon = "https://img.icons8.com/color/512/barcode-scanner.png"
+  object Search: AppScreens (
+    route = "search",
+    title = "Search",
+    icon = "https://img.icons8.com/material/512/search-more.png"
   )
 
-  object SearchBySlug: AppScreens(
-    route = "search_by_slug",
-    title = "Search By Slug",
-    icon = "https://img.icons8.com/pulsar-color/512/new-product.png"
+  object Settings: AppScreens(
+    route = "settings",
+    title = "Settings",
+    icon = "https://img.icons8.com/metro/512/toggle-on.png"
   )
 
   object TopSearch: AppScreens(

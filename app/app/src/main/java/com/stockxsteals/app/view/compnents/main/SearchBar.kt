@@ -12,12 +12,10 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
@@ -27,6 +25,7 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -44,8 +43,8 @@ fun SearchAppBar(navController: NavHostController) {
 
   val screens = listOf(
     AppScreens.Trends,
-    AppScreens.SearchByCode,
-    AppScreens.SearchBySlug,
+    AppScreens.Search,
+    AppScreens.Settings,
   )
 
   val focusManager = LocalFocusManager.current
@@ -86,73 +85,105 @@ fun SearchAppBar(navController: NavHostController) {
 
       Spacer(modifier = Modifier.padding(10.dp))
 
-      BasicTextField(
-        value = text.value,
-        maxLines = 1,
-        onValueChange = { text.value = it; },
-        enabled = true,
-        modifier = Modifier
-          .focusRequester(focusRequester)
-          .onFocusChanged {
-            if (selected != "Trends") {
-              if (it.isFocused) {
-                keyboardController?.show()
-                navController.navigate(searchRoute)
-              }
-            } else {
-              focusManager.clearFocus()
-            }
-          }
-          .onKeyEvent {
-            if (text.value == "") {
-              if (it.key == Key.Backspace) {
-                navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
-                focusManager.clearFocus()
-              }
-            }
-            true
-          }
-          .height(35.dp)
-          .fillMaxWidth(.9f)
-          .border(
-            border = BorderStroke(2.dp, color = Color(224, 176, 255)),
-            shape = RoundedCornerShape(50.dp)
-          ),
-          keyboardActions = KeyboardActions(),
-          keyboardOptions = KeyboardOptions()) {
-
-        val interactionSource = remember { MutableInteractionSource() }
-        TextFieldDefaults.TextFieldDecorationBox(
-          value = text.value,
-          innerTextField = it,
-          singleLine = true,
-          enabled = true,
-          visualTransformation = VisualTransformation.None,
-          trailingIcon = {
-            IconButton(onClick = { /*TODO*/ }) {
-              Icon(
-                imageVector = Icons.Filled.Search,
-                contentDescription = "Search Icon"
-              )
-            }
-          },
-          placeholder = {
-            Text(
-              text = selected
-              ,
-              fontSize = 16.sp,
-            )
-          },
-          interactionSource = interactionSource,
-          // keep horizontal paddings but change the vertical
-          contentPadding = TextFieldDefaults.textFieldWithoutLabelPadding(
-            top = 0.dp, bottom = 0.dp
-          ),
+      RoundTextField(
+          navController = navController,
+          text = text,
+          selected = selected,
+          focusManager = focusManager,
+          focusRequester = focusRequester,
+          keyboardController = keyboardController,
+          searchRoute = searchRoute
         )
-      }
-
-      Spacer(modifier = Modifier.padding(10.dp))
-
     }
+      Spacer(modifier = Modifier.padding(10.dp))
+    }
+  }
+
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class)
+@Composable
+fun RoundTextField(navController: NavHostController,
+                   text: MutableState<String>,
+                   selected: String,
+                   focusManager: FocusManager,
+                   focusRequester: FocusRequester,
+                   keyboardController: SoftwareKeyboardController?,
+                   searchRoute: String) {
+
+  val navBackStackEntry by navController.currentBackStackEntryAsState()
+  val currentDestination = navBackStackEntry?.destination
+
+  val mauve = Color(224, 176, 255)
+  val search = selected == "Search"
+  val search2 = search || currentDestination?.route == "top_search"
+
+  BasicTextField(
+    value = text.value,
+    maxLines = 1,
+    onValueChange = { text.value = it; },
+    enabled = true,
+    modifier = Modifier
+      .focusRequester(focusRequester)
+      .onFocusChanged {
+          if (it.isFocused) {
+            if (search) {
+            keyboardController?.show()
+            navController.navigate(searchRoute)
+            } else {
+            focusManager.clearFocus()
+          }
+        }
+      }
+      .onKeyEvent {
+        if (text.value == "") {
+          if (it.key == Key.Backspace) {
+            navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
+            focusManager.clearFocus()
+          }
+        }
+        true
+      }
+      .height(35.dp)
+      .fillMaxWidth(.9f)
+      .border(
+        border = BorderStroke(width =
+          if (search2) 2.dp else 0.5.dp,
+          color =
+          if (search2) mauve else Color.Red),
+        shape = RoundedCornerShape(50.dp)
+      ),
+    keyboardActions = KeyboardActions(),
+    keyboardOptions = KeyboardOptions()) {
+
+    val interactionSource = remember { MutableInteractionSource() }
+    TextFieldDefaults.TextFieldDecorationBox(
+      value = text.value,
+      innerTextField = it,
+      singleLine = true,
+      enabled = true,
+      visualTransformation = VisualTransformation.None,
+      trailingIcon = {
+        IconButton(onClick = {
+
+          // TODO : check search2 is true first.
+
+        }) {
+          Icon(
+            imageVector = Icons.Filled.Search,
+            contentDescription = "Search Icon"
+          )
+        }
+      },
+      placeholder = {
+        Text(
+          text = if (search2) "Enter Search .." else "",
+          fontSize = 16.sp,
+        )
+      },
+      interactionSource = interactionSource,
+      // keep horizontal paddings but change the vertical
+      contentPadding = TextFieldDefaults.textFieldWithoutLabelPadding(
+        top = 0.dp, bottom = 0.dp
+      ),
+    )
   }
 }

@@ -13,11 +13,11 @@ fun NavGraph(navController: NavHostController) {
     composable(route = AppScreens.Trends.route) {
       SneakerViewComponent()
     }
-    composable(route = AppScreens.SearchByCode.route) {
+    composable(route = AppScreens.Search.route) {
       SneakerViewComponent()
     }
 
-    composable(route = AppScreens.SearchBySlug.route) {
+    composable(route = AppScreens.Settings.route) {
       SneakerViewComponent()
     }
 

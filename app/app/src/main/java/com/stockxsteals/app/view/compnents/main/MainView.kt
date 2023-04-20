@@ -16,8 +16,8 @@ import com.stockxsteals.app.navigation.NavGraph
 fun SetupScreen(navController: NavHostController) {
   val screens = listOf(
     AppScreens.Trends,
-    AppScreens.SearchByCode,
-    AppScreens.SearchBySlug,
+    AppScreens.Search,
+    AppScreens.Settings,
   )
 
   val searchDestination = AppScreens.TopSearch.route
@@ -32,7 +32,7 @@ fun SetupScreen(navController: NavHostController) {
 
 
     Scaffold(
-      topBar = { SearchAppBar(navController = navController) },
+      topBar = { SearchAppBar(navController = navController)},
       bottomBar = { if (!bool) BottomBar(navController = navController) }
     ) {
       NavGraph(navController = navController)
