@@ -1,6 +1,5 @@
 package com.stockxsteals.app.view.compnents.search
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -44,6 +43,7 @@ fun SwitchFilters(selected: String,
                   focusRequester: FocusRequester,
                   keyboardController: SoftwareKeyboardController?,
                   searchRoute: String) {
+
   when(selected) {
     "Country" -> {
       FilterByCountry(
@@ -92,6 +92,7 @@ fun FilterByCountry(selected: String,
                     focusRequester: FocusRequester,
                     keyboardController: SoftwareKeyboardController?,
                     searchRoute: String) {
+
   Row(modifier =
   Modifier
     .padding(top = 20.dp, start = 10.dp)) {
@@ -107,7 +108,6 @@ fun FilterByCountry(selected: String,
     )
   }
 }
-// Log.d("country", "1")
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -119,6 +119,7 @@ fun FilterByCurrency(selected: String,
                      focusRequester: FocusRequester,
                      keyboardController: SoftwareKeyboardController?,
                      searchRoute: String) {
+
   Row(modifier =
   Modifier
     .padding(top = 20.dp, start = 10.dp)) {
@@ -133,7 +134,6 @@ fun FilterByCurrency(selected: String,
       searchRoute = searchRoute
     )
   }
-  Log.d("currency", "2")
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -146,6 +146,7 @@ fun FilterBySize(selected: String,
                  focusRequester: FocusRequester,
                  keyboardController: SoftwareKeyboardController?,
                  searchRoute: String) {
+
   Row(modifier =
   Modifier
     .padding(top = 20.dp, start = 10.dp)) {
@@ -162,7 +163,6 @@ fun FilterBySize(selected: String,
     )
 
   }
-  Log.d("size", "3")
 }
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class)
@@ -175,6 +175,7 @@ fun FilterTextField(selected: String,
                     focusRequester: FocusRequester,
                     keyboardController: SoftwareKeyboardController?,
                     searchRoute: String) {
+
   val mauve = Color(224, 176, 255)
 
   BasicTextField(
