@@ -32,7 +32,7 @@ import com.stockxsteals.app.navigation.AppScreens
 @Composable
 fun SearchScreen(navController: NavHostController) {
   val filterSelect = remember { mutableStateOf("") }
-  val searchWithFilters = SearchWithFilters("", "", "", "", 0.0) //TODO: In future retrieve from ViewModel
+  val searchWithFilters = SearchWithFilters("", "", "", "", "", 0.0) //TODO: In future retrieve from ViewModel
   val focusManager = LocalFocusManager.current
   val focusRequester = remember { FocusRequester() }
   val keyboardController = LocalSoftwareKeyboardController.current
