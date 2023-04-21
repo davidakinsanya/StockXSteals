@@ -2,6 +2,7 @@ package com.stockxsteals.app.view.compnents.search
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -11,22 +12,30 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.model.SearchWithFilters
+import com.stockxsteals.app.navigation.AppScreens
 
+@OptIn(ExperimentalComposeUiApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SearchScreen(navController: NavHostController) {
   val filterSelect = remember { mutableStateOf("") }
   val searchWithFilters = SearchWithFilters("", "", "", "", 0.0) //TODO: In future retrieve from ViewModel
-
+  val focusManager = LocalFocusManager.current
+  val focusRequester = remember { FocusRequester() }
+  val keyboardController = LocalSoftwareKeyboardController.current
   Scaffold {
     Column(
       modifier = Modifier
@@ -55,7 +64,22 @@ fun SearchScreen(navController: NavHostController) {
       val codeOrSlug = remember { mutableStateOf("") }
 
       SearchByChip(codeOrSlug)
-      SwitchFilters(filterSelect.value, searchWithFilters)
+    Column(modifier =
+    Modifier
+      .padding(start = 15.dp, top = 170.dp)
+      .height(200.dp)
+      .fillMaxWidth(.95f)
+      .border(BorderStroke(1.dp, SolidColor(Color.LightGray))),
+    ) {
+      SwitchFilters(selected = filterSelect.value,
+        filterObj = searchWithFilters,
+        navController = navController,
+        text = remember { mutableStateOf("") },
+        focusManager = focusManager,
+        focusRequester = focusRequester,
+        keyboardController = keyboardController,
+        searchRoute = AppScreens.TopSearch.route)
+    }
     }
   }
 
