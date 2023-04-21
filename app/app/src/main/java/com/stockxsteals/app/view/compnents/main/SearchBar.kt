@@ -126,14 +126,12 @@ fun RoundTextField(navController: NavHostController,
       .onFocusChanged {
           if (it.isFocused) {
             if (search) {
-              keyboardController?.show()
-              navController.navigate(searchRoute)
-            } else if (navController.currentDestination?.route == AppScreens.TopSearch.route) {
-              keyboardController?.show()
-              } else {
-                focusManager.clearFocus()
-              }
-            }
+            keyboardController?.show()
+            navController.navigate(searchRoute)
+            } else {
+            focusManager.clearFocus()
+          }
+        }
       }
       .onKeyEvent {
         if (text.value == "") {
