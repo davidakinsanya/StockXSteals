@@ -9,6 +9,9 @@ class FilterViewModel: ViewModel() {
 
   private var searchWithFilters = SearchWithFilters("", "", "", "", "", 0.0)
 
+  fun getCurrentSearch(): SearchWithFilters {
+    return searchWithFilters
+  }
   fun filterVariablesToString(): String {
     return "Search Params\n\n" +
             "Code: ${searchWithFilters.code} \n" +
