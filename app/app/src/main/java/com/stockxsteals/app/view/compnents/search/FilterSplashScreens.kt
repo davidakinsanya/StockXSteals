@@ -148,7 +148,7 @@ fun FilterBySize(selected: String,
                  searchRoute: String) {
   Row(modifier =
   Modifier
-    .padding(top = 20.dp, start = 15.dp)) {
+    .padding(top = 20.dp, start = 10.dp)) {
 
     FilterTextField(
       filterObj = filterObj,
