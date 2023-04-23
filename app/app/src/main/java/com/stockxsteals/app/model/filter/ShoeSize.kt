@@ -1,6 +1,6 @@
 package com.stockxsteals.app.model.filter
 
-enum class Size(val type: String, val listOfSizes: List<Double>) {
+enum class ShoeSize(val type: String, val listOfSizes: List<Double>) {
   US_M(
     "US M", listOf(
       3.5, 4.0, 4.5, 5.0,

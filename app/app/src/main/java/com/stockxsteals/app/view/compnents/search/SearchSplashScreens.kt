@@ -26,13 +26,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.model.SearchWithFilters
 import com.stockxsteals.app.navigation.AppScreens
+import com.stockxsteals.app.viewmodel.FilterViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun SearchScreen(navController: NavHostController) {
+fun SearchScreen(navController: NavHostController, model: FilterViewModel) {
   val filterSelect = remember { mutableStateOf("") }
-  val searchWithFilters = SearchWithFilters("", "", "", "", "", 0.0) //TODO: In future retrieve from ViewModel
+  val searchWithFilters = model.getCurrentSearch()
   val focusManager = LocalFocusManager.current
   val focusRequester = remember { FocusRequester() }
   val keyboardController = LocalSoftwareKeyboardController.current
@@ -41,9 +42,7 @@ fun SearchScreen(navController: NavHostController) {
       modifier = Modifier
         .padding(top = 30.dp)
     ) {
-
       val selected = remember { mutableStateOf("") }
-
       Row(modifier = Modifier
         .height(30.dp)
         .padding(start = 15.dp, end = 10.dp)
@@ -71,7 +70,8 @@ fun SearchScreen(navController: NavHostController) {
       .fillMaxWidth(.95f)
       .border(BorderStroke(1.dp, SolidColor(Color.LightGray))),
     ) {
-      SwitchFilters(selected = filterSelect.value,
+      SwitchFilters(filterModel = model,
+        selected = filterSelect.value,
         filterObj = searchWithFilters,
         navController = navController,
         text = remember { mutableStateOf("") },

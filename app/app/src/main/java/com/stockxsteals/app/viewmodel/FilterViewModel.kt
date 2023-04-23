@@ -3,7 +3,7 @@ package com.stockxsteals.app.viewmodel
 import androidx.lifecycle.ViewModel
 import com.stockxsteals.app.model.SearchWithFilters
 import com.stockxsteals.app.model.filter.Currency
-import com.stockxsteals.app.model.filter.Size
+import com.stockxsteals.app.model.filter.ShoeSize
 
 class FilterViewModel: ViewModel() {
 
@@ -18,7 +18,7 @@ class FilterViewModel: ViewModel() {
             "Slug: ${searchWithFilters.slug} \n" +
             "Country: ${searchWithFilters.country} \n" +
             "Currency: ${searchWithFilters.currency} \n" +
-            "Size: ${searchWithFilters.size.toString()}"
+            "ShoeSize: ${searchWithFilters.size.toString()}"
   }
 
   fun getFilterMap(): HashMap<String,List<Any>> {
@@ -35,10 +35,10 @@ class FilterViewModel: ViewModel() {
           listMap["Country"] = this.getCountry()
         }
         "Currency" -> {
-          listMap["Currency"] = this.getCurrencyType()
+          listMap["Currency"] = this.getCurrencyType().toList()
         }
         "Size" -> {
-          listMap["Size"] = this.getSizeLabels()
+          listMap["Size"] = this.getSizeLabels().toList()
         }
       }
     }
@@ -56,47 +56,33 @@ class FilterViewModel: ViewModel() {
     }
   }
 
-  fun appendCountryAndCurrency(selected: String, text: String) {
+  fun appendCountryAndCurrency(selected: String?, text: String?) {
     when (selected) {
       "Country" -> {
-        searchWithFilters.country = text
+        if (text != null) searchWithFilters.country = text
       }
       "Currency" -> {
-        searchWithFilters.currency = text
+        if (text != null) searchWithFilters.currency = text
       }
     }
   }
 
-  fun appendSize(size: Double, sizeType: String) {
-    searchWithFilters.sizeType = sizeType
-    searchWithFilters.size = size
+  fun appendSize(size: Double?, sizeType: String?) {
+    if (sizeType != null) searchWithFilters.sizeType = sizeType
+    if (size != null) searchWithFilters.size = size
+
   }
 
-  private fun getSizeLabels(): List<String> {
-    val sizesList = mutableListOf<String>();
-    Size.values().forEach {
-      sizesList.add(it.type)
-    }
-    return sizesList
+  private fun getSizeLabels(): Array<ShoeSize> {
+    return ShoeSize.values()
   }
 
-  fun getSizesNumbers(type: String): List<Double> {
-    return Size.valueOf(type).listOfSizes
+
+  fun getCurrencyType(): Array<Currency> {
+    return Currency.values()
   }
 
-  fun getCurrencyType(): List<String> {
-    val currencyList = mutableListOf<String>();
-    Currency.values().forEach {
-      currencyList.add(it.type)
-    }
-    return currencyList
-  }
-
-  fun getCurrencySymbol(type: String): String {
-    return Currency.valueOf(type).symbol
-  }
-
-  fun getCountry(): List<String> {
+  private fun getCountry(): List<String> {
     return java.util.Locale.getISOCountries().asList()
   }
 }

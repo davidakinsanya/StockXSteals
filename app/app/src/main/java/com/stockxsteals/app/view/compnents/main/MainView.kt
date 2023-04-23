@@ -10,6 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.navigation.NavGraph
+import com.stockxsteals.app.viewmodel.FilterViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -34,7 +35,7 @@ fun SetupScreen(navController: NavHostController) {
       topBar = { SearchAppBar(navController = navController)},
       bottomBar = { if (!bool) BottomBar(navController = navController) }
     ) {
-      NavGraph(navController = navController)
+      NavGraph(navController = navController, filterModel = FilterViewModel())
     }
   }
 }
