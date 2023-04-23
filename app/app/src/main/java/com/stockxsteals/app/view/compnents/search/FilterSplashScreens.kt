@@ -121,20 +121,6 @@ fun FilterByCurrency(model: FilterViewModel,
       keyboardController = keyboardController,
       searchRoute = searchRoute
     )
-
-    /*
-    Spacer(Modifier.padding(start = 10.dp))
-
-    SecondaryFilterTextField(model = model,
-      navController = navController,
-      filterObj = filterObj,
-      text = text,
-      selected = selected,
-      focusManager = focusManager,
-      focusRequester = focusRequester,
-      keyboardController = keyboardController,
-      searchRoute = searchRoute
-    ) */
   }
 }
 
