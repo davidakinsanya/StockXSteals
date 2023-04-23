@@ -21,6 +21,30 @@ class FilterViewModel: ViewModel() {
             "Size: ${searchWithFilters.size.toString()}"
   }
 
+  fun getFilterMap(): HashMap<String,List<Any>> {
+    val listMap: HashMap<String, List<Any>> = HashMap()
+
+    listMap["Country"] = arrayListOf()
+    listMap["Currency"] = arrayListOf()
+    listMap["Size"] = arrayListOf()
+
+    listMap.keys.forEach { entry ->
+
+      when(entry) {
+        "Country" -> {
+          listMap["Country"] = this.getCountry()
+        }
+        "Currency" -> {
+          listMap["Currency"] = this.getCurrencyType()
+        }
+        "Size" -> {
+          listMap["Size"] = this.getSizeLabels()
+        }
+      }
+    }
+    return listMap
+  }
+
   fun appendSlugOrCode(selected: String, text: String) {
     when (selected) {
       "Code" -> {
@@ -48,7 +72,7 @@ class FilterViewModel: ViewModel() {
     searchWithFilters.size = size
   }
 
-  fun getSizeLabels(): List<String> {
+  private fun getSizeLabels(): List<String> {
     val sizesList = mutableListOf<String>();
     Size.values().forEach {
       sizesList.add(it.type)
@@ -70,5 +94,9 @@ class FilterViewModel: ViewModel() {
 
   fun getCurrencySymbol(type: String): String {
     return Currency.valueOf(type).symbol
+  }
+
+  fun getCountry(): List<String> {
+    return java.util.Locale.getISOCountries().asList()
   }
 }
