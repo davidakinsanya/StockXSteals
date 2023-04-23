@@ -44,8 +44,6 @@ import com.stockxsteals.app.model.filter.Currency
 import com.stockxsteals.app.model.filter.ShoeSize
 import com.stockxsteals.app.viewmodel.FilterViewModel
 
-var sizeType = ""
-
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun FilterTextField(model: FilterViewModel,
