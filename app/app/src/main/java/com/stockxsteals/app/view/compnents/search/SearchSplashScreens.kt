@@ -66,7 +66,7 @@ fun SearchScreen(navController: NavHostController, model: FilterViewModel) {
     Column(modifier =
     Modifier
       .padding(start = 15.dp, top = 170.dp)
-      .height(250.dp)
+      .height(200.dp)
       .fillMaxWidth(.95f)
       .border(BorderStroke(0.5.dp, SolidColor(Color.LightGray))),
       ) {

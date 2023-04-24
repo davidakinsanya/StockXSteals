@@ -40,7 +40,7 @@ fun CustomProgressBar(progressNum: Int) {
   Column(
     modifier = Modifier
       .fillMaxSize()
-      .padding(top = 150.dp, start = 15.dp, end = 30.dp)
+      .padding(top = 100.dp, start = 15.dp, end = 30.dp)
   ) {
     // for the text above the progressBar
     Row(
