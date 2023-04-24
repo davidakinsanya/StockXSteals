@@ -24,8 +24,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.stockxsteals.app.model.SearchWithFilters
-import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.FilterViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -33,7 +31,6 @@ import com.stockxsteals.app.viewmodel.FilterViewModel
 @Composable
 fun SearchScreen(navController: NavHostController, model: FilterViewModel) {
   val filterSelect = remember { mutableStateOf("") }
-  val searchWithFilters = model.getCurrentSearch()
   val focusManager = LocalFocusManager.current
   val focusRequester = remember { FocusRequester() }
   val keyboardController = LocalSoftwareKeyboardController.current
@@ -61,24 +58,21 @@ fun SearchScreen(navController: NavHostController, model: FilterViewModel) {
         }
       }
       val codeOrSlug = remember { mutableStateOf("") }
-
       SearchByChip(codeOrSlug)
+
     Column(modifier =
     Modifier
       .padding(start = 15.dp, top = 170.dp)
       .height(200.dp)
       .fillMaxWidth(.95f)
-      .border(BorderStroke(1.dp, SolidColor(Color.LightGray))),
+      .border(BorderStroke(0.5.dp, SolidColor(Color.LightGray))),
     ) {
       SwitchFilters(filterModel = model,
         selected = filterSelect.value,
-        filterObj = searchWithFilters,
-        navController = navController,
         text = remember { mutableStateOf("") },
         focusManager = focusManager,
         focusRequester = focusRequester,
-        keyboardController = keyboardController,
-        searchRoute = AppScreens.TopSearch.route)
+        keyboardController = keyboardController)
     }
     }
   }

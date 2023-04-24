@@ -38,8 +38,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
-import androidx.navigation.NavHostController
-import com.stockxsteals.app.model.SearchWithFilters
 import com.stockxsteals.app.model.filter.Currency
 import com.stockxsteals.app.model.filter.ShoeSize
 import com.stockxsteals.app.viewmodel.FilterViewModel
@@ -48,23 +46,17 @@ import com.stockxsteals.app.viewmodel.FilterViewModel
 @Composable
 fun FilterTextField(model: FilterViewModel,
                     selected: String,
-                    filterObj: SearchWithFilters,
-                    navController: NavHostController,
                     text: MutableState<String>,
                     focusManager: FocusManager,
                     focusRequester: FocusRequester,
-                    keyboardController: SoftwareKeyboardController?,
-                    searchRoute: String) {
+                    keyboardController: SoftwareKeyboardController?) {
 
-  var selectedItem = remember { mutableStateOf("") }
   val expanded = remember { mutableStateOf(false) }
   val textFieldSize = remember { mutableStateOf(Size.Zero) }
   val icon = if (expanded.value) Icons.Filled.KeyboardArrowUp
   else Icons.Filled.KeyboardArrowDown
   val filterMap = model.getFilterMap()
   val label = remember { mutableStateOf(selected) }
-
-
   val mauve = Color(224, 176, 255)
 
   BasicTextField(
@@ -184,21 +176,12 @@ fun FilterTextField(model: FilterViewModel,
 @Composable
 fun SecondaryFilterTextField(model: FilterViewModel,
                     selected: String,
-                    filterObj: SearchWithFilters,
-                    navController: NavHostController,
-                    text: MutableState<String>,
-                    focusManager: FocusManager,
-                    focusRequester: FocusRequester,
-                    keyboardController: SoftwareKeyboardController?,
-                    searchRoute: String) {
+                    text: MutableState<String>) {
 
-  var selectedItem = remember { mutableStateOf("") }
   val expanded = remember { mutableStateOf(false) }
   val textFieldSize = remember { mutableStateOf(Size.Zero) }
   val icon = if (expanded.value) Icons.Filled.KeyboardArrowUp
   else Icons.Filled.KeyboardArrowDown
-  val filterMap = model.getFilterMap()
-
   val mauve = Color(224, 176, 255)
 
   BasicTextField(
