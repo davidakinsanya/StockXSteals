@@ -111,10 +111,8 @@ fun FilterTextField(model: FilterViewModel,
       trailingIcon = {
         Icon(icon, "", Modifier.clickable {
           expanded.value = !expanded.value
-          if (selected == "Country" || selected == "Currency") {
-            text.value = ""
-            focusManager.clearFocus()
-          }
+          if (selected == "Country" || selected == "Currency") text.value = ""
+          focusManager.clearFocus()
         })
       },
       interactionSource = interactionSource,
@@ -188,13 +186,13 @@ fun SecondaryFilterTextField(model: FilterViewModel,
     value = text.value,
     maxLines = 1,
     onValueChange = { text.value = it; },
-    enabled = selected != "Country",
+    enabled = false,
     modifier = Modifier
       .onGloballyPositioned { coordinates ->
         textFieldSize.value = coordinates.size.toSize()
       }
       .height(35.dp)
-      .fillMaxWidth(.5f)
+      .fillMaxWidth(.8f)
       .border(
         border = BorderStroke(
           width = 1.5.dp,
@@ -214,8 +212,8 @@ fun SecondaryFilterTextField(model: FilterViewModel,
       visualTransformation = VisualTransformation.None,
       placeholder = {
         Text(
-          text = selected,
-          fontSize = 16.sp,
+          text = "Enter Your Size",
+          fontSize = 11.sp,
         )
       },
 
