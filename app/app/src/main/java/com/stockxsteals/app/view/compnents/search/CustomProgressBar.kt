@@ -20,10 +20,6 @@ fun CustomProgressBar(progressNum: Int) {
   val mauve = Color(224, 176, 255)
   val orchid = Color(153, 50, 204)
 
-  /* to avoid the direct calculation of progress variable which is a Float
-   and it can sometimes cause problems like it shows 0.4 to 0.400004 so, here I have use
-   progressCount and we will increase and decrease it and then convert it to progress(Float)
-   and then use that progress with our ProgressBar Width*/
   when (progressNum) {
     0 -> progress = 0.0f
     1 -> progress = 0.3f
@@ -56,20 +52,19 @@ fun CustomProgressBar(progressNum: Int) {
       // Text(text = "$progress")
     }
 
-    // Progress Bar
     Box(
       modifier = Modifier
         .fillMaxWidth()
         .height(17.dp)
     ) {
-      // for the background of the ProgressBar
+
       Box(
         modifier = Modifier
           .fillMaxSize()
           .clip(RoundedCornerShape(9.dp))
           .background(mauve)
       )
-      // for the progress of the ProgressBar
+
       Box(
         modifier = Modifier
           .fillMaxWidth(size)
