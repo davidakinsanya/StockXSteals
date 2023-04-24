@@ -172,7 +172,7 @@ fun FilterTextField(model: FilterViewModel,
   }
 }
 
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SecondaryFilterTextField(model: FilterViewModel,
                     selected: String,
@@ -242,13 +242,6 @@ fun SecondaryFilterTextField(model: FilterViewModel,
     ) {
 
       when (selected) {
-        "Currency" -> {
-          model.getCurrencyType().forEach { currency ->
-            DropdownMenuItem(onClick = { /*TODO*/ }) {
-              Text(text = currency.symbol)
-            }
-          }
-        }
         "Size" -> {
           ShoeSize.valueOf(model.getCurrentSearch().sizeType).listOfSizes.forEach { size ->
             DropdownMenuItem(onClick = {
@@ -256,7 +249,9 @@ fun SecondaryFilterTextField(model: FilterViewModel,
                 model.appendSize(size, null)
               }
             }) {
-              Text(text = size.toString())
+              Text(text = if (size.toString().contains(".0"))
+                          size.toInt().toString()
+                          else size.toString())
             }
           }
         }
