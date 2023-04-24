@@ -84,10 +84,7 @@ fun SearchScreen(navController: NavHostController, model: FilterViewModel) {
             keyboardController = keyboardController
           )
         }
-
-
         CustomProgressBar(progressNum = progressCount.value)
-        
       }
     }
   }
