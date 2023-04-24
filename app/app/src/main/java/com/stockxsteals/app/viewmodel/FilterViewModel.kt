@@ -18,7 +18,7 @@ class FilterViewModel: ViewModel() {
             "Slug: ${searchWithFilters.slug} \n" +
             "Country: ${searchWithFilters.country} \n" +
             "Currency: ${searchWithFilters.currency} \n" +
-            "ShoeSize: ${searchWithFilters.size.toString()}"
+            "Size: ${searchWithFilters.size}"
   }
 
   fun getFilterMap(): HashMap<String,List<Any>> {
