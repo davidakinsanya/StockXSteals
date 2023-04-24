@@ -20,22 +20,23 @@ fun SetupScreen(navController: NavHostController) {
     AppScreens.Search,
     AppScreens.Settings,
   )
-
+  val filterModel = FilterViewModel()
   val searchDestination = AppScreens.TopSearch.route
   val settingsDestination = AppScreens.Settings.route
   var selected = ""
   val navBackStackEntry by navController.currentBackStackEntryAsState()
   val currentDestination = navBackStackEntry?.destination
+
   screens.forEach { _ ->
     val bool = currentDestination?.hierarchy?.any {
       it.route == searchDestination || it.route == settingsDestination
     } == true
 
     Scaffold(
-      topBar = { SearchAppBar(navController = navController)},
+      topBar = { SearchAppBar(navController = navController, filterModel = filterModel)},
       bottomBar = { if (!bool) BottomBar(navController = navController) }
     ) {
-      NavGraph(navController = navController, filterModel = FilterViewModel())
+      NavGraph(navController = navController, filterModel = filterModel)
     }
   }
 }

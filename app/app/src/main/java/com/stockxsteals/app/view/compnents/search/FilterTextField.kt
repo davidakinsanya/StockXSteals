@@ -222,8 +222,8 @@ fun SecondaryFilterTextField(model: FilterViewModel,
       visualTransformation = VisualTransformation.None,
       placeholder = {
         Text(
-          text = "Enter Your Size",
-          fontSize = 11.sp,
+          text = "Your Size",
+          fontSize = 15.sp,
         )
       },
 

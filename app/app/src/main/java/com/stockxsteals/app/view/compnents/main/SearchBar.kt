@@ -1,5 +1,6 @@
 package com.stockxsteals.app.view.compnents.main
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -35,11 +36,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.stockxsteals.app.R
 import com.stockxsteals.app.navigation.AppScreens
+import com.stockxsteals.app.viewmodel.FilterViewModel
 
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
 @Composable
-fun SearchAppBar(navController: NavHostController) {
+fun SearchAppBar(navController: NavHostController, filterModel: FilterViewModel) {
 
   val screens = listOf(
     AppScreens.Trends,
@@ -87,6 +89,7 @@ fun SearchAppBar(navController: NavHostController) {
 
       RoundTextField(
           navController = navController,
+          model = filterModel,
           text = text,
           selected = selected,
           focusManager = focusManager,
@@ -102,6 +105,7 @@ fun SearchAppBar(navController: NavHostController) {
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun RoundTextField(navController: NavHostController,
+                   model: FilterViewModel,
                    text: MutableState<String>,
                    selected: String,
                    focusManager: FocusManager,
@@ -114,7 +118,7 @@ fun RoundTextField(navController: NavHostController,
 
   val mauve = Color(224, 176, 255)
   val search = selected == "Search"
-  val search2 = search || currentDestination?.route == "top_search"
+  val search2 = search || currentDestination?.route == "top_search" // TODO: Check for weird behaviours
 
   BasicTextField(
     value = text.value,
@@ -164,8 +168,9 @@ fun RoundTextField(navController: NavHostController,
       visualTransformation = VisualTransformation.None,
       trailingIcon = {
         IconButton(onClick = {
-
-          // TODO : check search2 is true first.
+          if (search2) {
+            Log.d("Update From Search", model.filterVariablesToString())
+          }
 
         }) {
           Icon(
