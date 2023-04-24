@@ -47,6 +47,7 @@ import com.stockxsteals.app.viewmodel.FilterViewModel
 fun FilterTextField(model: FilterViewModel,
                     selected: String,
                     text: MutableState<String>,
+                    progressCount: MutableState<Int>,
                     focusManager: FocusManager,
                     focusRequester: FocusRequester,
                     keyboardController: SoftwareKeyboardController?) {
@@ -135,14 +136,13 @@ fun FilterTextField(model: FilterViewModel,
             "Country" -> {
               DropdownMenuItem(onClick = {
                 if (text.value.isEmpty()) {
-
+                  if (progressCount.value < 4 && model.getCurrentSearch().country.isEmpty()) { progressCount.value++ }
                   model.appendCountryAndCurrency("Country", it.toString())
                   label.value = it.toString()
                   expanded.value = !expanded.value
-                  Log.d("Update", model.filterVariablesToString())
-
                 } else {
                   if (model.getCountry().contains(text.value)) {
+                    if (progressCount.value < 4 && model.getCurrentSearch().country.isEmpty()) { progressCount.value++ }
                     model.appendCountryAndCurrency("Country", text.value)
                   } // TODO: Include error message with 'else' block
                 }
@@ -152,12 +152,15 @@ fun FilterTextField(model: FilterViewModel,
             }
             "Currency" -> {
               DropdownMenuItem(onClick = {
+
                 if (text.value.isEmpty()) {
+                  if (progressCount.value < 4 && model.getCurrentSearch().currency.isEmpty()) { progressCount.value++ }
                   model.appendCountryAndCurrency("Currency", (it as Currency).name)
                   label.value = it.type
                   expanded.value = !expanded.value
-                  Log.d("Update", model.filterVariablesToString())
+
                 } else {
+                  if (progressCount.value < 4 && model.getCurrentSearch().currency.isEmpty()) { progressCount.value++ }
                   model.appendCountryAndCurrency("Currency", text.value)
                 }
               }) {
@@ -184,9 +187,11 @@ fun FilterTextField(model: FilterViewModel,
 @Composable
 fun SecondaryFilterTextField(model: FilterViewModel,
                     selected: String,
-                    text: MutableState<String>) {
+                    text: MutableState<String>,
+                    progressCount: MutableState<Int>) {
 
   val expanded = remember { mutableStateOf(false) }
+  val placeholder = remember { mutableStateOf("Your Size") }
   val textFieldSize = remember { mutableStateOf(Size.Zero) }
   val icon = if (expanded.value) Icons.Filled.KeyboardArrowUp
   else Icons.Filled.KeyboardArrowDown
@@ -222,7 +227,7 @@ fun SecondaryFilterTextField(model: FilterViewModel,
       visualTransformation = VisualTransformation.None,
       placeholder = {
         Text(
-          text = "Your Size",
+          text = placeholder.value,
           fontSize = 15.sp,
         )
       },
@@ -254,8 +259,14 @@ fun SecondaryFilterTextField(model: FilterViewModel,
           ShoeSize.valueOf(model.getCurrentSearch().sizeType).listOfSizes.forEach { size ->
             DropdownMenuItem(onClick = {
               if (model.getCurrentSearch().sizeType.isNotEmpty()) {
+                if (progressCount.value < 4 && model.getCurrentSearch().size == 0.0) { progressCount.value++ }
+
                 model.appendSize(size, null)
-                Log.d("Update", model.filterVariablesToString())
+
+                placeholder.value = if (size.toString().contains(".0")) size.toInt().toString()
+                                    else size.toString()
+
+                expanded.value = !expanded.value
               }
             }) {
               Text(text = if (size.toString().contains(".0"))

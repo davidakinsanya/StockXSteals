@@ -12,6 +12,7 @@ class FilterViewModel: ViewModel() {
   fun getCurrentSearch(): SearchWithFilters {
     return searchWithFilters
   }
+
   fun filterVariablesToString(): String {
     return "Search Params\n" +
             "Code: ${searchWithFilters.code} \n" +
@@ -45,6 +46,18 @@ class FilterViewModel: ViewModel() {
     return listMap
   }
 
+  private fun getSizeLabels(): Array<ShoeSize> {
+    return ShoeSize.values()
+  }
+
+  private fun getCurrencyType(): Array<Currency> {
+    return Currency.values()
+  }
+
+  fun getCountry(): List<String> {
+    return java.util.Locale.getISOCountries().asList()
+  }
+
   fun appendSlugOrCode(selected: String, text: String) {
     when (selected) {
       "Code" -> {
@@ -71,18 +84,5 @@ class FilterViewModel: ViewModel() {
     if (sizeType != null) searchWithFilters.sizeType = sizeType
     if (size != null) searchWithFilters.size = size
 
-  }
-
-  private fun getSizeLabels(): Array<ShoeSize> {
-    return ShoeSize.values()
-  }
-
-
-  private fun getCurrencyType(): Array<Currency> {
-    return Currency.values()
-  }
-
-  fun getCountry(): List<String> {
-    return java.util.Locale.getISOCountries().asList()
   }
 }

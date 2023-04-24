@@ -1,6 +1,7 @@
 package com.stockxsteals.app.view.compnents.search
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -31,9 +32,11 @@ import com.stockxsteals.app.viewmodel.FilterViewModel
 @Composable
 fun SearchScreen(navController: NavHostController, model: FilterViewModel) {
   val filterSelect = remember { mutableStateOf("") }
+  val progressCount = remember { mutableStateOf(0) }
   val focusManager = LocalFocusManager.current
   val focusRequester = remember { FocusRequester() }
   val keyboardController = LocalSoftwareKeyboardController.current
+
   Scaffold {
     Column(
       modifier = Modifier
@@ -61,18 +64,30 @@ fun SearchScreen(navController: NavHostController, model: FilterViewModel) {
       SearchByChip(codeOrSlug)
 
     Column(modifier =
-      Modifier
-        .padding(start = 15.dp, top = 170.dp)
-        .height(200.dp)
-        .fillMaxWidth(.95f)
-        .border(BorderStroke(0.5.dp, SolidColor(Color.LightGray))),
+    Modifier
+      .padding(start = 15.dp, top = 170.dp)
+      .height(250.dp)
+      .fillMaxWidth(.95f)
+      .border(BorderStroke(0.5.dp, SolidColor(Color.LightGray))),
       ) {
-        SwitchFilters(filterModel = model,
-          selected = filterSelect.value,
-          text = remember { mutableStateOf("") },
-          focusManager = focusManager,
-          focusRequester = focusRequester,
-          keyboardController = keyboardController)
+        Column(modifier =
+        Modifier
+          .fillMaxWidth()
+          .height(50.dp)) {
+          SwitchFilters(
+            filterModel = model,
+            selected = filterSelect.value,
+            text = remember { mutableStateOf("") },
+            progressCount = progressCount,
+            focusManager = focusManager,
+            focusRequester = focusRequester,
+            keyboardController = keyboardController
+          )
+        }
+
+
+        CustomProgressBar(progressNum = progressCount.value)
+        
       }
     }
   }
