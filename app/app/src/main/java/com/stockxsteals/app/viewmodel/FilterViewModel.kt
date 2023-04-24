@@ -13,7 +13,7 @@ class FilterViewModel: ViewModel() {
     return searchWithFilters
   }
   fun filterVariablesToString(): String {
-    return "Search Params\n\n" +
+    return "Search Params\n" +
             "Code: ${searchWithFilters.code} \n" +
             "Slug: ${searchWithFilters.slug} \n" +
             "Country: ${searchWithFilters.country} \n" +
@@ -78,11 +78,11 @@ class FilterViewModel: ViewModel() {
   }
 
 
-  fun getCurrencyType(): Array<Currency> {
+  private fun getCurrencyType(): Array<Currency> {
     return Currency.values()
   }
 
-  private fun getCountry(): List<String> {
+  fun getCountry(): List<String> {
     return java.util.Locale.getISOCountries().asList()
   }
 }

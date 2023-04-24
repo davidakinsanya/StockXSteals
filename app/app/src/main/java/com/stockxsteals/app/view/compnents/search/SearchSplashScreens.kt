@@ -61,19 +61,19 @@ fun SearchScreen(navController: NavHostController, model: FilterViewModel) {
       SearchByChip(codeOrSlug)
 
     Column(modifier =
-    Modifier
-      .padding(start = 15.dp, top = 170.dp)
-      .height(200.dp)
-      .fillMaxWidth(.95f)
-      .border(BorderStroke(0.5.dp, SolidColor(Color.LightGray))),
-    ) {
-      SwitchFilters(filterModel = model,
-        selected = filterSelect.value,
-        text = remember { mutableStateOf("") },
-        focusManager = focusManager,
-        focusRequester = focusRequester,
-        keyboardController = keyboardController)
-    }
+      Modifier
+        .padding(start = 15.dp, top = 170.dp)
+        .height(200.dp)
+        .fillMaxWidth(.95f)
+        .border(BorderStroke(0.5.dp, SolidColor(Color.LightGray))),
+      ) {
+        SwitchFilters(filterModel = model,
+          selected = filterSelect.value,
+          text = remember { mutableStateOf("") },
+          focusManager = focusManager,
+          focusRequester = focusRequester,
+          keyboardController = keyboardController)
+      }
     }
   }
 

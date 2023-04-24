@@ -34,6 +34,7 @@ import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.SoftwareKeyboardController
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -135,9 +136,16 @@ fun FilterTextField(model: FilterViewModel,
             "Country" -> {
               DropdownMenuItem(onClick = {
                 if (text.value.isEmpty()) {
+
                   model.appendCountryAndCurrency("Country", it.toString())
                   label.value = it.toString()
                   expanded.value = !expanded.value
+                  Log.d("Update", model.filterVariablesToString())
+
+                } else {
+                  if (model.getCountry().contains(text.value)) {
+                    model.appendCountryAndCurrency("Country", text.value)
+                  } // TODO: Include error message with 'else' block
                 }
               }) {
                 Text(text = it.toString())
@@ -149,6 +157,9 @@ fun FilterTextField(model: FilterViewModel,
                   model.appendCountryAndCurrency("Currency", (it as Currency).name)
                   label.value = it.type
                   expanded.value = !expanded.value
+                  Log.d("Update", model.filterVariablesToString())
+                } else {
+                  model.appendCountryAndCurrency("Currency", text.value)
                 }
               }) {
                 Text(text = (it as Currency).type)
@@ -245,6 +256,7 @@ fun SecondaryFilterTextField(model: FilterViewModel,
             DropdownMenuItem(onClick = {
               if (model.getCurrentSearch().sizeType.isNotEmpty()) {
                 model.appendSize(size, null)
+                Log.d("Update", model.filterVariablesToString())
               }
             }) {
               Text(text = if (size.toString().contains(".0"))
