@@ -84,7 +84,7 @@ fun SearchScreen(navController: NavHostController, model: FilterViewModel) {
             keyboardController = keyboardController
           )
         }
-        CustomProgressBar(progressNum = progressCount.value, selected = filterSelect.value)
+        CustomProgressBar(progressNum = progressCount.value)
       }
     }
   }

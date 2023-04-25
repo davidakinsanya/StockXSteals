@@ -13,12 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun CustomProgressBar(progressNum: Int, selected: String) {
+fun CustomProgressBar(progressNum: Int) {
   var progress by remember { mutableStateOf(0f) }
   val mauve = Color(224, 176, 255)
   val orchid = Color(153, 50, 204)
