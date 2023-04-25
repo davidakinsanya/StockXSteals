@@ -63,7 +63,13 @@ fun FilterTextField(model: FilterViewModel,
   BasicTextField(
     value = text.value,
     maxLines = 1,
-    onValueChange = { text.value = it; },
+    onValueChange = {
+      text.value = it
+      if (text.value.length >= 2)
+        expanded.value = true
+      else if (text.value == "")
+        focusManager.clearFocus()
+    },
     enabled = selected == "Country",
     modifier = Modifier
       .clickable { if (selected != "Country") expanded.value = !expanded.value }
@@ -78,6 +84,8 @@ fun FilterTextField(model: FilterViewModel,
           if (it.key == Key.Backspace) {
             focusManager.clearFocus()
           }
+        } else if (it.key == Key.Backspace) {
+          expanded.value = false
         }
         true
       }
@@ -138,6 +146,7 @@ fun FilterTextField(model: FilterViewModel,
             model.appendCountryAndCurrency("Country", it.toString())
             text.value = ""
             label.value = it.toString()
+            focusManager.clearFocus()
             expanded.value = !expanded.value
           }) {
            Text(text = it.toString())
