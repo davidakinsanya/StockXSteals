@@ -13,6 +13,13 @@ class FilterViewModel: ViewModel() {
     return searchWithFilters
   }
 
+  fun searchCheck(): Boolean {
+    return searchWithFilters.country.isNotEmpty() &&
+          searchWithFilters.currency.isNotEmpty() &&
+          searchWithFilters.size != 0.0 &&
+            (searchWithFilters.code.isNotEmpty() || searchWithFilters.slug.isNotEmpty())
+  }
+
   fun filterVariablesToString(): String {
     return "Search Params\n" +
             "Code: ${searchWithFilters.code} \n" +

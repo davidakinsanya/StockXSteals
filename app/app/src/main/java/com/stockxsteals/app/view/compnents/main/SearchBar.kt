@@ -169,6 +169,8 @@ fun RoundTextField(navController: NavHostController,
       trailingIcon = {
         IconButton(onClick = {
           if (search2) {
+            if (model.searchCheck())
+              Log.d("Update From Search", "This search valid.")
             Log.d("Update From Search", model.filterVariablesToString())
           }
 
