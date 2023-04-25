@@ -66,6 +66,7 @@ fun FilterTextField(model: FilterViewModel,
     onValueChange = { text.value = it; },
     enabled = selected == "Country",
     modifier = Modifier
+      .clickable { if (selected != "Country") expanded.value = !expanded.value }
       .focusRequester(focusRequester)
       .onFocusChanged {
         if (it.isFocused) {
@@ -193,6 +194,7 @@ fun SecondaryFilterTextField(model: FilterViewModel,
     onValueChange = { text.value = it; },
     enabled = false,
     modifier = Modifier
+      .clickable { if (model.getCurrentSearch().sizeType.isNotEmpty()) expanded.value = !expanded.value }
       .onGloballyPositioned { coordinates ->
         textFieldSize.value = coordinates.size.toSize()
       }
