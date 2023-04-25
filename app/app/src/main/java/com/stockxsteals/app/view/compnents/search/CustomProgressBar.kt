@@ -12,10 +12,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
-fun CustomProgressBar(progressNum: Int) {
+fun CustomProgressBar(progressNum: Int, selected: String) {
   var progress by remember { mutableStateOf(0f) }
   val mauve = Color(224, 176, 255)
   val orchid = Color(153, 50, 204)
@@ -46,10 +49,13 @@ fun CustomProgressBar(progressNum: Int) {
     Row(
       modifier = Modifier
         .widthIn(min = 30.dp)
-        .fillMaxWidth(size),
-      horizontalArrangement = Arrangement.End
+        .fillMaxWidth(fraction = size),
+      horizontalArrangement = if (progressNum < 3) Arrangement.End else Arrangement.Center
     ) {
-      // Text(text = "$progress")
+      if (progressNum < 3)
+        Text(text = "$progressNum/3", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+      else
+        Text(" Now Enter Product Code or Slug", fontSize = 12.sp, fontWeight = FontWeight.Bold)
     }
 
     Box(
