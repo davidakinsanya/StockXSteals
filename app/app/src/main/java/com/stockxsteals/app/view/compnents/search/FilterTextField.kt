@@ -286,5 +286,5 @@ fun countryListToggle(text: String, filterMap: Map<String, List<Any>>): List<Any
       match -> match.toString().take(1).uppercase()
                     .contains(text.take(1).uppercase())
       }
-  return filterMap["Country"]!!
+  return listOf()
 }
