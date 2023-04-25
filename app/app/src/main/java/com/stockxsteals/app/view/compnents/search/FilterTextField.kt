@@ -64,7 +64,7 @@ fun FilterTextField(model: FilterViewModel,
     value = text.value,
     maxLines = 1,
     onValueChange = { text.value = it; },
-    enabled = selected == "Country" || selected == "Currency",
+    enabled = selected == "Country",
     modifier = Modifier
       .focusRequester(focusRequester)
       .onFocusChanged {
@@ -112,7 +112,6 @@ fun FilterTextField(model: FilterViewModel,
       trailingIcon = {
         Icon(icon, "", Modifier.clickable {
           expanded.value = !expanded.value
-          if (selected == "Country" || selected == "Currency") text.value = ""
           focusManager.clearFocus()
         })
       },
@@ -131,38 +130,29 @@ fun FilterTextField(model: FilterViewModel,
         .height(130.dp)
     ) {
 
+      if (selected == "Country") {
+        countryListToggle(text.value, filterMap).forEach {
+          DropdownMenuItem(onClick = {
+            if (progressCount.value < 4 && model.getCurrentSearch().country.isEmpty()) { progressCount.value++ }
+            model.appendCountryAndCurrency("Country", it.toString())
+            text.value = ""
+            label.value = it.toString()
+            expanded.value = !expanded.value
+          }) {
+           Text(text = it.toString())
+          }
+        }
+      }
+
+
       filterMap[selected]?.forEach { it ->
           when (selected) {
-            "Country" -> {
-              DropdownMenuItem(onClick = {
-                if (text.value.isEmpty()) {
-                  if (progressCount.value < 4 && model.getCurrentSearch().country.isEmpty()) { progressCount.value++ }
-                  model.appendCountryAndCurrency("Country", it.toString())
-                  label.value = it.toString()
-                  expanded.value = !expanded.value
-                } else {
-                  if (model.getCountry().contains(text.value)) {
-                    if (progressCount.value < 4 && model.getCurrentSearch().country.isEmpty()) { progressCount.value++ }
-                    model.appendCountryAndCurrency("Country", text.value)
-                  } // TODO: Include error message with 'else' block
-                }
-              }) {
-                Text(text = it.toString())
-              }
-            }
             "Currency" -> {
               DropdownMenuItem(onClick = {
-
-                if (text.value.isEmpty()) {
-                  if (progressCount.value < 4 && model.getCurrentSearch().currency.isEmpty()) { progressCount.value++ }
-                  model.appendCountryAndCurrency("Currency", (it as Currency).name)
-                  label.value = it.type
-                  expanded.value = !expanded.value
-
-                } else {
-                  if (progressCount.value < 4 && model.getCurrentSearch().currency.isEmpty()) { progressCount.value++ }
-                  model.appendCountryAndCurrency("Currency", text.value)
-                }
+                if (progressCount.value < 4 && model.getCurrentSearch().currency.isEmpty()) { progressCount.value++ }
+                model.appendCountryAndCurrency("Currency", (it as Currency).name)
+                label.value = it.type
+                expanded.value = !expanded.value
               }) {
                 Text(text = (it as Currency).type)
               }
@@ -278,4 +268,12 @@ fun SecondaryFilterTextField(model: FilterViewModel,
       }
     }
   }
+}
+
+fun countryListToggle(text: String, filterMap: Map<String, List<Any>>): List<Any> {
+  if (text.isNotEmpty()) return filterMap["Country"]!!.filter {
+      match -> match.toString().take(1).uppercase()
+                    .contains(text.take(1).uppercase())
+      }
+  return filterMap["Country"]!!
 }
