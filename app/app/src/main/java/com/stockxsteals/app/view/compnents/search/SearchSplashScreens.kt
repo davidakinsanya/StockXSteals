@@ -48,46 +48,44 @@ fun SearchScreen(navController: NavHostController, model: FilterViewModel) {
         .padding(start = 15.dp, end = 10.dp)
         .fillMaxWidth()) {
 
-        val chipList = listOf("Country", "Currency", "Size")
-        chipList.forEach { it ->
-          FilterButtons(button = it,
-                        selected = selected.value,
-                        filterSelect = filterSelect,
-                        onSelected = {
-                          selected.value = it
-                        })
+          val chipList = listOf("Country", "Currency", "Size")
+          chipList.forEach { it ->
+            FilterButtons(button = it,
+                          selected = selected.value,
+                          filterSelect = filterSelect,
+                          onSelected = { selected.value = it })
+          }
+          SearchPageButtons(navController = navController)
         }
-        SearchPageButtons(navController = navController)
-        }
-      }
-      val codeOrSlug = remember { mutableStateOf("") }
-      SearchByChip(codeOrSlug)
+    }
+    val codeOrSlug = remember { mutableStateOf("") }
+    SearchByChip(codeOrSlug)
 
     Column(modifier =
-    Modifier
-      .padding(start = 15.dp, top = 170.dp)
-      .height(200.dp)
-      .fillMaxWidth(.95f)
-      .border(BorderStroke(0.5.dp, SolidColor(Color.LightGray))),
-      ) {
-        Column(modifier =
-        Modifier
-          .fillMaxWidth()
-          .height(50.dp)) {
-          SwitchFilters(
-            filterModel = model,
-            selected = filterSelect.value,
-            text = remember { mutableStateOf("") },
-            progressCount = progressCount,
-            focusManager = focusManager,
-            focusRequester = focusRequester,
-            keyboardController = keyboardController
-          )
+      Modifier
+        .padding(start = 15.dp, top = 170.dp)
+        .height(200.dp)
+        .fillMaxWidth(.95f)
+        .border(BorderStroke(0.5.dp, SolidColor(Color.LightGray))),
+        ) {
+          Column(modifier =
+          Modifier
+            .fillMaxWidth()
+            .height(50.dp)) {
+              SwitchFilters(
+                filterModel = model,
+                selected = filterSelect.value,
+                text = remember { mutableStateOf("") },
+                progressCount = progressCount,
+                focusManager = focusManager,
+                focusRequester = focusRequester,
+                keyboardController = keyboardController
+              )
+            }
+          CustomProgressBar(progressNum = progressCount.value)
         }
-        CustomProgressBar(progressNum = progressCount.value)
-      }
     }
-  }
+}
 
 @Composable
 fun SearchByChip(selected: MutableState<String>) {
@@ -105,9 +103,7 @@ fun SearchByChip(selected: MutableState<String>) {
         FilterButtons(button = it,
           selected = selected.value,
           filterSelect = null,
-          onSelected = {
-            selected.value = it
-          })
+          onSelected = { selected.value = it })
       }
     }
     DisplayExampleMessage(selected)
