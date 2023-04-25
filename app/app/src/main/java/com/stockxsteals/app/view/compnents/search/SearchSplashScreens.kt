@@ -149,7 +149,7 @@ fun  FilterButtons(button: String,
   Button(modifier = Modifier
     .width(90.dp)
     .padding(end = 5.dp),
-    border = BorderStroke(0.5.dp, color = Color(224, 176, 255)),
+    border = BorderStroke(0.7.dp, color = Color(224, 176, 255)),
     shape = RoundedCornerShape(50.dp),
     colors = ButtonDefaults.buttonColors(
       backgroundColor = bgColor
