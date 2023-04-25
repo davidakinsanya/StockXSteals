@@ -61,7 +61,7 @@ class FilterViewModel: ViewModel() {
     return Currency.values()
   }
 
-  fun getCountry(): List<String> {
+  private fun getCountry(): List<String> {
     return java.util.Locale.getISOCountries().asList()
   }
 
