@@ -3,7 +3,6 @@ import requests
 import re
 
 
-
 def stockx_search(search_title):
     search_map = {}
     
@@ -18,11 +17,11 @@ def stockx_search(search_title):
     search_res2 = search_res.find_all('div', {'class', 'css-pnc6ci'})
     img_search = search_res.find_all('div', {'class', 'css-tkc8ar'})
 
-
+    
     for i in range(0, len(search_res2)):
         search_map[img_search[i].img['alt']] = [
             search_res2[i].a['href'],
-            img_search[i].img['src']
+            img_search[i].img['src'] 
          ] 
         
     return search_map

@@ -12,9 +12,16 @@ class FilterViewModel: ViewModel() {
   private var searchWithFilters = SearchWithFilters("", "", "", "", "", 0.0)
 
   init {
-    // val python = Python.getInstance()
-    // val pythonFile = python.getModule("search")
-    // pythonFile.callAttr("stockx_search", "Nike Air Max 1 Travis Scott")
+    /*
+     val python = Python.getInstance()
+     val pythonFile = python.getModule("search")
+     val map = pythonFile.callAttr("stockx_search", "Nike Air Max 1 Travis Scott").asMap()
+
+    map.keys.forEach {
+      val arr = map[it]!!.asSet()
+      Log.d("Python", arr.elementAt(0).toString())
+    }
+    */
   }
 
   fun getCurrentSearch(): SearchWithFilters {
