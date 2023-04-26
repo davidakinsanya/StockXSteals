@@ -1,6 +1,8 @@
 package com.stockxsteals.app.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.chaquo.python.Python
 import com.stockxsteals.app.model.SearchWithFilters
 import com.stockxsteals.app.model.filter.Currency
 import com.stockxsteals.app.model.filter.ShoeSize
@@ -8,6 +10,12 @@ import com.stockxsteals.app.model.filter.ShoeSize
 class FilterViewModel: ViewModel() {
 
   private var searchWithFilters = SearchWithFilters("", "", "", "", "", 0.0)
+
+  init {
+    // val python = Python.getInstance()
+    // val pythonFile = python.getModule("search")
+    // pythonFile.callAttr("stockx_search", "Nike Air Max 1 Travis Scott")
+  }
 
   fun getCurrentSearch(): SearchWithFilters {
     return searchWithFilters
