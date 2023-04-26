@@ -27,6 +27,4 @@ class MainActivity : ComponentActivity() {
     if (!Python.isStarted())
       Python.start(AndroidPlatform(this))
   }
-
-
-  }
+}
