@@ -5,6 +5,7 @@ import re
 
 
 def stockx_search(search_title):
+    search_map = {}
     
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.5615.138 Safari/537.3"}
     reg_url = "https://stockx.com/en-gb/search?s={}".format(search_title)
@@ -19,10 +20,11 @@ def stockx_search(search_title):
 
 
     for i in range(0, len(search_res2)):
-        print(img_search[i].img['alt'],
-              "\n", search_res2[i].a['href'],
-              "\n", img_search[i].img['src'],
-              '\n\n')
+        search_map[img_search[i].img['alt']] = [
+            search_res2[i].a['href'],
+            img_search[i].img['src']
+         ] 
+        
+    return search_map
 
 
-stockx_search("Addidas")
