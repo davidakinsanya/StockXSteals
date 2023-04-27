@@ -37,6 +37,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.stockxsteals.app.R
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.FilterViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -117,6 +119,7 @@ fun RoundTextField(navController: NavHostController,
   val currentDestination = navBackStackEntry?.destination
   val sneakersDestination = AppScreens.SneakerSearch.route
   if (currentDestination?.route != sneakersDestination) text.value = ""
+  val coroutineScope = rememberCoroutineScope()
 
   val mauve = Color(224, 176, 255)
   val search = selected == "Search"
@@ -133,22 +136,22 @@ fun RoundTextField(navController: NavHostController,
         navController.navigate(sneakersDestination)
       }
       text.value = it
-      model.setSearchResults(text.value)
+      coroutineScope.launch(Dispatchers.Default) { model.setSearchResults(text.value) }
     },
     enabled = true,
     modifier = Modifier
       .focusRequester(focusRequester)
       .onFocusChanged {
-          if (it.isFocused) {
-            if (search) {
-              keyboardController?.show()
-              navController.navigate(searchRoute)
-            } else if (navController.currentDestination?.route == AppScreens.TopSearch.route) {
-                keyboardController?.show()
-            } else {
-              focusManager.clearFocus()
-            }
+        if (it.isFocused) {
+          if (search) {
+            keyboardController?.show()
+            navController.navigate(searchRoute)
+          } else if (navController.currentDestination?.route == AppScreens.TopSearch.route) {
+            keyboardController?.show()
+          } else {
+            focusManager.clearFocus()
           }
+        }
       }
       .onKeyEvent {
         if (text.value == "") {
@@ -162,9 +165,11 @@ fun RoundTextField(navController: NavHostController,
       .height(35.dp)
       .fillMaxWidth(.9f)
       .border(
-        border = BorderStroke(width = 1.5.dp,
+        border = BorderStroke(
+          width = 1.5.dp,
           color =
-          if (search2) mauve else Color.Red),
+          if (search2) mauve else Color.Red
+        ),
         shape = RoundedCornerShape(50.dp)
       ),
     keyboardActions = KeyboardActions(),

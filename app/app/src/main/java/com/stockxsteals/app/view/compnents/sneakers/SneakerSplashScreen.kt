@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
@@ -25,6 +26,14 @@ import com.stockxsteals.app.viewmodel.FilterViewModel
 @Composable
 fun SneakerSplashScreen(navController: NavHostController, model: FilterViewModel) {
   val focusManager = LocalFocusManager.current
+  val searchRes = model.bootMap.collectAsState()
+
+  /*
+     [].keys.forEach {
+     val arr = map[it]!!.asSet()
+     Log.d("Python", arr.elementAt(0).toString())
+  }
+  */
 
   Scaffold {
     Column(
@@ -52,13 +61,6 @@ fun SneakerSplashScreen(navController: NavHostController, model: FilterViewModel
           )
         }
       }
-
-      /*
-      map.keys.forEach {
-        val arr = map[it]!!.asSet()
-        Log.d("Python", arr.elementAt(0).toString())
-     }
-     */
     }
   }
 }
