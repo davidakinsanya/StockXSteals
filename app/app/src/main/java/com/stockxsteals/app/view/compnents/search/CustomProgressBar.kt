@@ -26,8 +26,7 @@ fun CustomProgressBar(progressNum: Int) {
     0 -> progress = 0.0f
     1 -> progress = 0.3f
     2 -> progress = 0.6f
-    3 -> progress = 0.9f
-    4 -> progress = 1.0f
+    3 -> progress = 0.94f
   }
 
   val size by animateFloatAsState(
@@ -54,7 +53,7 @@ fun CustomProgressBar(progressNum: Int) {
       if (progressNum < 3)
         Text(text = "$progressNum/3", fontSize = 12.sp, fontWeight = FontWeight.Bold)
       else
-        Text(" Now Enter Product Code or Slug", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+        Text("Enter Your Sneaker", fontSize = 12.sp, fontWeight = FontWeight.Bold)
     }
 
     Box(

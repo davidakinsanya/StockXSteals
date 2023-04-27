@@ -1,6 +1,5 @@
 package com.stockxsteals.app.view.compnents.search
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -120,7 +119,8 @@ fun FilterTextField(model: FilterViewModel,
 
       trailingIcon = {
         Icon(icon, "", Modifier.clickable {
-          expanded.value = !expanded.value
+          if (selected != "Country")
+            expanded.value = !expanded.value
           focusManager.clearFocus()
         })
       },
@@ -229,7 +229,7 @@ fun SecondaryFilterTextField(model: FilterViewModel,
       placeholder = {
         Text(
           text = placeholder.value,
-          fontSize = 15.sp,
+          fontSize = 14.sp,
         )
       },
 

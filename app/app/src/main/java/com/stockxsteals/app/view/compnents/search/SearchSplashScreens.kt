@@ -1,7 +1,6 @@
 package com.stockxsteals.app.view.compnents.search
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -41,13 +40,14 @@ fun SearchScreen(navController: NavHostController, model: FilterViewModel) {
   Scaffold {
     Column(
       modifier = Modifier
+        .fillMaxWidth()
         .padding(top = 30.dp)
     ) {
       val selected = remember { mutableStateOf("") }
       Row(modifier = Modifier
+        .fillMaxWidth()
         .height(30.dp)
-        .padding(start = 15.dp, end = 10.dp)
-        .fillMaxWidth()) {
+        .padding(start = 15.dp, end = 10.dp)) {
 
           val chipList = listOf("Country", "Currency", "Size")
           chipList.forEach { it ->
@@ -59,14 +59,12 @@ fun SearchScreen(navController: NavHostController, model: FilterViewModel) {
           SearchPageButtons(navController = navController)
         }
     }
-    val codeOrSlug = remember { mutableStateOf("") }
-    SearchByChip(codeOrSlug)
 
     Column(modifier =
       Modifier
-        .padding(start = 15.dp, top = 170.dp)
-        .height(200.dp)
         .fillMaxWidth(.95f)
+        .padding(start = 15.dp, top = 100.dp)
+        .height(200.dp)
         .border(BorderStroke(0.5.dp, SolidColor(Color.LightGray))),
         ) {
           Column(modifier =
@@ -86,29 +84,6 @@ fun SearchScreen(navController: NavHostController, model: FilterViewModel) {
           CustomProgressBar(progressNum = progressCount.value)
         }
     }
-}
-
-@Composable
-fun SearchByChip(selected: MutableState<String>) {
-  Column(modifier = Modifier.padding(top = 70.dp)) {
-    Row(
-      modifier = Modifier
-        .height(30.dp)
-        .padding(start = 15.dp, end = 10.dp)
-        .fillMaxWidth()
-    ) {
-
-      val chipList = listOf("Code", "Slug")
-
-      chipList.forEach { it ->
-        FilterButtons(button = it,
-          selected = selected.value,
-          filterSelect = null,
-          onSelected = { selected.value = it })
-      }
-    }
-    DisplayExampleMessage(selected)
-  }
 }
 
 @Composable
@@ -134,7 +109,6 @@ fun SearchPageButtons(navController: NavHostController) {
     }
   }
 }
-
 
 @Composable
 fun  FilterButtons(button: String,

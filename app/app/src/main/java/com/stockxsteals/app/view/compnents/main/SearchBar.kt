@@ -203,6 +203,5 @@ fun RoundTextField(navController: NavHostController,
         top = 0.dp, bottom = 0.dp
       ),
     )
-    Log.d("SEE SUMM", text.value)
   }
 }
