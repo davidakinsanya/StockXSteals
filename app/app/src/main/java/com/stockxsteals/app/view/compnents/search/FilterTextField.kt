@@ -241,7 +241,11 @@ fun SecondaryFilterTextField(model: FilterViewModel,
       placeholder = {
         Text(
           text = if (model.getCurrentSearch().size != 0.0) {
-            model.getCurrentSearch().size.toString()
+
+            if (model.getCurrentSearch().toString().contains(".0"))
+              model.getCurrentSearch().size.toInt().toString()
+            else model.getCurrentSearch().size.toString()
+
           } else {
             placeholder.value
           },
