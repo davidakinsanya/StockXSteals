@@ -52,6 +52,10 @@ fun SneakerSplashScreen(navController: NavHostController, model: FilterViewModel
         Spacer(modifier = Modifier.padding(30.dp))
         IconButton(
           onClick = {
+            navController.currentBackStackEntry?.savedStateHandle?.set(
+              key = "filterModel",
+              value = model
+            )
             navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
             focusManager.clearFocus()
           }) {

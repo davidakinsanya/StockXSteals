@@ -1,5 +1,6 @@
 package com.stockxsteals.app.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -25,11 +26,23 @@ fun NavGraph(navController: NavHostController, filterModel: FilterViewModel) {
     }
 
     composable(route = AppScreens.TopSearch.route) {
-      SearchScreen(navController = navController, model = filterModel)
+      if (navController.previousBackStackEntry?.destination?.route != AppScreens.Search.route) {
+        val model =
+          navController.previousBackStackEntry?.savedStateHandle?.get<FilterViewModel>("filterModel")
+        if (model != null)
+          SearchScreen(navController = navController, model = model)
+      } else {
+        SearchScreen(navController = navController, model = filterModel)
+      }
     }
 
     composable(route = AppScreens.SneakerSearch.route) {
-      SneakerSplashScreen(navController = navController, model = filterModel)
+
+      val model = navController.previousBackStackEntry?.savedStateHandle?.get<FilterViewModel>("filterModel")
+      if (model != null)
+        SneakerSplashScreen(navController = navController, model = model)
+
     }
+
   }
 }

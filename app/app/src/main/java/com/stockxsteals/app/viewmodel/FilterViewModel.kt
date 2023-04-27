@@ -12,9 +12,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-class FilterViewModel: ViewModel() {
+class FilterViewModel: ViewModel(), java.io.Serializable {
 
   private var searchWithFilters = SearchWithFilters("", "", "", "", 0.0)
   private val _bootMap = MutableStateFlow(mutableMapOf<PyObject, PyObject>())
