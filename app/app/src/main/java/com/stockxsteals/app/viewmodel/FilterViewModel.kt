@@ -86,7 +86,7 @@ class FilterViewModel: ViewModel() {
 
   }
 
-  fun setSearchResults(search: String){
+  fun setSearchResults(search: String) {
     val python = Python.getInstance()
     val pythonFile = python.getModule("search")
     this.map = pythonFile.callAttr("stockx_search", search).asMap()
