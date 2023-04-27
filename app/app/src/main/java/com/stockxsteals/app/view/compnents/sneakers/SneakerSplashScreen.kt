@@ -52,6 +52,13 @@ fun SneakerSplashScreen(navController: NavHostController, model: FilterViewModel
           )
         }
       }
+
+      /*
+      map.keys.forEach {
+        val arr = map[it]!!.asSet()
+        Log.d("Python", arr.elementAt(0).toString())
+     }
+     */
     }
   }
 }

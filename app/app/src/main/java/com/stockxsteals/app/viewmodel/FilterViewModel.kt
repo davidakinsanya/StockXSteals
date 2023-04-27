@@ -96,10 +96,3 @@ class FilterViewModel: ViewModel() {
     return this.map
   }
 }
-
-  /*
-    map.keys.forEach {
-      val arr = map[it]!!.asSet()
-      Log.d("Python", arr.elementAt(0).toString())
-    }
-   */
