@@ -39,7 +39,7 @@ import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.FilterViewModel
 
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchAppBar(navController: NavHostController, filterModel: FilterViewModel) {
 
@@ -116,6 +116,7 @@ fun RoundTextField(navController: NavHostController,
   val navBackStackEntry by navController.currentBackStackEntryAsState()
   val currentDestination = navBackStackEntry?.destination
   val sneakersDestination = AppScreens.SneakerSearch.route
+  if (currentDestination?.route != sneakersDestination) text.value = ""
 
   val mauve = Color(224, 176, 255)
   val search = selected == "Search"
@@ -202,5 +203,6 @@ fun RoundTextField(navController: NavHostController,
         top = 0.dp, bottom = 0.dp
       ),
     )
+    Log.d("SEE SUMM", text.value)
   }
 }

@@ -30,14 +30,12 @@ fun SetupScreen(navController: NavHostController) {
 
   screens.forEach { _ ->
     val bool = currentDestination?.hierarchy?.any {
-      it.route != searchDestination ||
-              it.route != settingsDestination ||
-              it.route != sneakersDestination
+      it.route == searchDestination || it.route == settingsDestination || it.route == sneakersDestination
     } == true
 
     Scaffold(
       topBar = { SearchAppBar(navController = navController, filterModel = filterModel)},
-      bottomBar = { if (bool) BottomBar(navController = navController) }
+      bottomBar = { if (!bool) BottomBar(navController = navController) }
     ) {
       NavGraph(navController = navController, filterModel = filterModel)
     }

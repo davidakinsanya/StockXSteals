@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.FilterViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -112,12 +113,18 @@ fun SearchByChip(selected: MutableState<String>) {
 
 @Composable
 fun SearchPageButtons(navController: NavHostController) {
+  val sneakersDestination = AppScreens.SneakerSearch.route
+  val searchDestination = AppScreens.Search.route
   val focusManager = LocalFocusManager.current
 
   Row(modifier = Modifier.padding(start = 30.dp)) {
     IconButton(
       onClick = {
-      navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
+        if (navController.previousBackStackEntry?.destination?.route!! != sneakersDestination) {
+          navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
+        } else {
+          navController.navigate(searchDestination)
+        }
       focusManager.clearFocus()
     }) {
       Icon(
