@@ -160,11 +160,6 @@ fun RoundTextField(navController: NavHostController,
       .onKeyEvent {
         if (text.value == "") {
           if (it.key == Key.Backspace) {
-            navController.currentBackStackEntry?.savedStateHandle?.set(
-              key = "filterModel",
-              value = model
-            )
-            navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
             focusManager.clearFocus()
           }
         }

@@ -26,13 +26,16 @@ fun NavGraph(navController: NavHostController, filterModel: FilterViewModel) {
     }
 
     composable(route = AppScreens.TopSearch.route) {
-      if (navController.previousBackStackEntry?.destination?.route != AppScreens.Search.route) {
-        val model =
-          navController.previousBackStackEntry?.savedStateHandle?.get<FilterViewModel>("filterModel")
-        if (model != null)
-          SearchScreen(navController = navController, model = model)
-      } else {
-        SearchScreen(navController = navController, model = filterModel)
+      when(navController.previousBackStackEntry?.destination?.route) {
+        AppScreens.SneakerSearch.route -> {
+          val model =
+            navController.previousBackStackEntry?.savedStateHandle?.get<FilterViewModel>("filterModel")
+          if (model != null)
+            SearchScreen(navController = navController, model = model)
+        }
+        else -> {
+          SearchScreen(navController = navController, model = filterModel)
+        }
       }
     }
 
