@@ -1,6 +1,6 @@
 package com.stockxsteals.app.viewmodel
 
-import android.util.Log
+
 import androidx.lifecycle.ViewModel
 import com.chaquo.python.PyObject
 import com.chaquo.python.Python
@@ -11,6 +11,7 @@ import com.stockxsteals.app.model.filter.ShoeSize
 class FilterViewModel: ViewModel() {
 
   private var searchWithFilters = SearchWithFilters("", "", "", "", 0.0)
+  var map: MutableMap<PyObject, PyObject>? = null
 
 
   fun getCurrentSearch(): SearchWithFilters {
@@ -85,10 +86,14 @@ class FilterViewModel: ViewModel() {
 
   }
 
-  fun getSearchResults(search: String): MutableMap<PyObject, PyObject> {
+  fun setSearchResults(search: String){
     val python = Python.getInstance()
     val pythonFile = python.getModule("search")
-    return pythonFile.callAttr("stockx_search", search).asMap()
+    this.map = pythonFile.callAttr("stockx_search", search).asMap()
+  }
+
+  fun getSearchResults(): MutableMap<PyObject, PyObject>? {
+    return map
   }
 }
 
