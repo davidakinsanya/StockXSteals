@@ -115,15 +115,24 @@ fun RoundTextField(navController: NavHostController,
 
   val navBackStackEntry by navController.currentBackStackEntryAsState()
   val currentDestination = navBackStackEntry?.destination
+  val sneakersDestination = AppScreens.SneakerSearch.route
 
   val mauve = Color(224, 176, 255)
   val search = selected == "Search"
-  val search2 = search || currentDestination?.route == "top_search" // TODO: Check for weird behaviours
+  val search2 = search ||
+          currentDestination?.route == "top_search" ||
+          currentDestination?.route == sneakersDestination // TODO: Check for weird behaviours
 
   BasicTextField(
     value = text.value,
     maxLines = 1,
-    onValueChange = { text.value = it; },
+    onValueChange =
+    {
+      if (currentDestination?.route != sneakersDestination) {
+        navController.navigate(sneakersDestination)
+      }
+      text.value = it;
+    },
     enabled = true,
     modifier = Modifier
       .focusRequester(focusRequester)

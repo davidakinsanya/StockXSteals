@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import com.stockxsteals.app.view.compnents.main.SneakerViewComponent
 import com.stockxsteals.app.view.compnents.search.SearchScreen
 import com.stockxsteals.app.view.compnents.settings.SettingsSplashScreen
+import com.stockxsteals.app.view.compnents.sneakers.SneakerSplashScreen
 import com.stockxsteals.app.viewmodel.FilterViewModel
 
 @Composable
@@ -25,6 +26,10 @@ fun NavGraph(navController: NavHostController, filterModel: FilterViewModel) {
 
     composable(route = AppScreens.TopSearch.route) {
       SearchScreen(navController = navController, model = filterModel)
+    }
+
+    composable(route = AppScreens.SneakerSearch.route) {
+      SneakerSplashScreen(navController = navController, model = filterModel)
     }
   }
 }

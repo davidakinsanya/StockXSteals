@@ -28,4 +28,10 @@ sealed class AppScreens (
     title = "Search",
     icon = ""
   )
+
+  object SneakerSearch: AppScreens(
+    route = "sneaker_search",
+    title = "Sneaker Search",
+    icon = ""
+  )
 }
