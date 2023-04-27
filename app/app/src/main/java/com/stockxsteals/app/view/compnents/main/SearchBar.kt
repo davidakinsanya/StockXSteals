@@ -131,7 +131,7 @@ fun RoundTextField(navController: NavHostController,
       if (currentDestination?.route != sneakersDestination) {
         navController.navigate(sneakersDestination)
       }
-      text.value = it;
+      text.value = it
     },
     enabled = true,
     modifier = Modifier
