@@ -6,7 +6,6 @@ def stockx_search(search_title):
     url = "https://stockx.com/en-gb/search?s={}".format(search_title)
     search_map = {}
 
-
     scraper = cloudscraper.create_scraper(
         browser={
         'browser': 'chrome',

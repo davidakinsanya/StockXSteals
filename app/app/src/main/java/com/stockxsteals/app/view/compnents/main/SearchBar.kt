@@ -136,7 +136,7 @@ fun RoundTextField(navController: NavHostController,
         navController.navigate(sneakersDestination)
       }
       text.value = it
-      coroutineScope.launch(Dispatchers.Default) { model.setSearchResults(text.value) }
+      // coroutineScope.launch(Dispatchers.Default) { model.setSearchResults(text.value) }
     },
     enabled = true,
     modifier = Modifier
