@@ -112,7 +112,19 @@ fun FilterTextField(model: FilterViewModel,
       visualTransformation = VisualTransformation.None,
       placeholder = {
         Text(
-          text = label.value,
+          text = when(selected) {
+            "Country" -> {
+              model.getCurrentSearch().country.ifEmpty { label.value }
+            }
+            "Currency" -> {
+              model.getCurrentSearch().currency.ifEmpty { label.value }
+            }
+            "Size" -> {
+              model.getCurrentSearch().sizeType.ifEmpty { label.value }
+            }
+           else -> label.value
+          }
+          ,
           fontSize = 16.sp,
         )
       },
@@ -228,7 +240,11 @@ fun SecondaryFilterTextField(model: FilterViewModel,
       visualTransformation = VisualTransformation.None,
       placeholder = {
         Text(
-          text = placeholder.value,
+          text = if (model.getCurrentSearch().size != 0.0) {
+            model.getCurrentSearch().size.toString()
+          } else {
+            placeholder.value
+          },
           fontSize = 14.sp,
         )
       },

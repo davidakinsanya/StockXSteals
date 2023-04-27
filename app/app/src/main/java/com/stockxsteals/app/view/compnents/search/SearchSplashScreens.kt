@@ -61,11 +61,11 @@ fun SearchScreen(navController: NavHostController, model: FilterViewModel) {
     }
 
     Column(modifier =
-      Modifier
-        .fillMaxWidth(.95f)
-        .padding(start = 15.dp, top = 100.dp)
-        .height(200.dp)
-        .border(BorderStroke(0.5.dp, SolidColor(Color.LightGray))),
+    Modifier
+      .fillMaxWidth(.95f)
+      .padding(start = 15.dp, top = 100.dp)
+      .height(200.dp)
+      .border(BorderStroke(0.5.dp, SolidColor(Color.LightGray))),
         ) {
           Column(modifier =
           Modifier
