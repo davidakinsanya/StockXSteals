@@ -1,6 +1,5 @@
 package com.stockxsteals.app.navigation
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -40,11 +39,9 @@ fun NavGraph(navController: NavHostController, filterModel: FilterViewModel) {
     }
 
     composable(route = AppScreens.SneakerSearch.route) {
-
       val model = navController.previousBackStackEntry?.savedStateHandle?.get<FilterViewModel>("filterModel")
       if (model != null)
         SneakerSplashScreen(navController = navController, model = model)
-
     }
 
   }
