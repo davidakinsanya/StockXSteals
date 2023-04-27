@@ -2,6 +2,7 @@ package com.stockxsteals.app.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.chaquo.python.PyObject
 import com.chaquo.python.Python
 import com.stockxsteals.app.model.SearchWithFilters
 import com.stockxsteals.app.model.filter.Currency
@@ -9,20 +10,8 @@ import com.stockxsteals.app.model.filter.ShoeSize
 
 class FilterViewModel: ViewModel() {
 
-  private var searchWithFilters = SearchWithFilters("", "", "", "", "", 0.0)
+  private var searchWithFilters = SearchWithFilters("", "", "", "", 0.0)
 
-  init {
-    /*
-     val python = Python.getInstance()
-     val pythonFile = python.getModule("search")
-     val map = pythonFile.callAttr("stockx_search", "Nike Air Max 1 Travis Scott").asMap()
-
-    map.keys.forEach {
-      val arr = map[it]!!.asSet()
-      Log.d("Python", arr.elementAt(0).toString())
-    }
-    */
-  }
 
   fun getCurrentSearch(): SearchWithFilters {
     return searchWithFilters
@@ -30,21 +19,20 @@ class FilterViewModel: ViewModel() {
 
   fun searchCheck(): Boolean {
     return searchWithFilters.country.isNotEmpty() &&
-          searchWithFilters.currency.isNotEmpty() &&
-          searchWithFilters.size != 0.0 &&
-            (searchWithFilters.code.isNotEmpty() || searchWithFilters.slug.isNotEmpty())
+            searchWithFilters.currency.isNotEmpty() &&
+            searchWithFilters.size != 0.0 &&
+            searchWithFilters.slug.isNotEmpty()
   }
 
   fun filterVariablesToString(): String {
     return "Search Params\n" +
-            "Code: ${searchWithFilters.code} \n" +
             "Slug: ${searchWithFilters.slug} \n" +
             "Country: ${searchWithFilters.country} \n" +
             "Currency: ${searchWithFilters.currency} \n" +
             "Size: ${searchWithFilters.size}"
   }
 
-  fun getFilterMap(): HashMap<String,List<Any>> {
+  fun getFilterMap(): HashMap<String, List<Any>> {
     val listMap: HashMap<String, List<Any>> = HashMap()
 
     listMap["Country"] = arrayListOf()
@@ -53,7 +41,7 @@ class FilterViewModel: ViewModel() {
 
     listMap.keys.forEach { entry ->
 
-      when(entry) {
+      when (entry) {
         "Country" -> {
           listMap["Country"] = this.getCountry()
         }
@@ -80,17 +68,6 @@ class FilterViewModel: ViewModel() {
     return java.util.Locale.getISOCountries().asList()
   }
 
-  fun appendSlugOrCode(selected: String, text: String) {
-    when (selected) {
-      "Code" -> {
-        searchWithFilters.code = text
-      }
-      "Slug" -> {
-        searchWithFilters.slug = text
-      }
-    }
-  }
-
   fun appendCountryAndCurrency(selected: String?, text: String?) {
     when (selected) {
       "Country" -> {
@@ -107,4 +84,17 @@ class FilterViewModel: ViewModel() {
     if (size != null) searchWithFilters.size = size
 
   }
+
+  fun getSearchResults(search: String): MutableMap<PyObject, PyObject> {
+    val python = Python.getInstance()
+    val pythonFile = python.getModule("search")
+    return pythonFile.callAttr("stockx_search", search).asMap()
+  }
 }
+
+  /*
+    map.keys.forEach {
+      val arr = map[it]!!.asSet()
+      Log.d("Python", arr.elementAt(0).toString())
+    }
+   */
