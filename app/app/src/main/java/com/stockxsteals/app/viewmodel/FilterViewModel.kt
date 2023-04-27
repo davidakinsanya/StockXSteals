@@ -11,7 +11,7 @@ import com.stockxsteals.app.model.filter.ShoeSize
 class FilterViewModel: ViewModel() {
 
   private var searchWithFilters = SearchWithFilters("", "", "", "", 0.0)
-  var map: MutableMap<PyObject, PyObject>? = null
+  private var map: MutableMap<PyObject, PyObject>? = null
 
 
   fun getCurrentSearch(): SearchWithFilters {
@@ -93,7 +93,7 @@ class FilterViewModel: ViewModel() {
   }
 
   fun getSearchResults(): MutableMap<PyObject, PyObject>? {
-    return map
+    return this.map
   }
 }
 

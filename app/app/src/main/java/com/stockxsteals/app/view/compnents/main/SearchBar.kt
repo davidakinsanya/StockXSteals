@@ -133,6 +133,7 @@ fun RoundTextField(navController: NavHostController,
         navController.navigate(sneakersDestination)
       }
       text.value = it
+      model.setSearchResults(text.value)
     },
     enabled = true,
     modifier = Modifier
