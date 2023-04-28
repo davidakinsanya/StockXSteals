@@ -1,6 +1,5 @@
 package com.stockxsteals.app.view.compnents.main
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -38,6 +37,7 @@ import com.stockxsteals.app.R
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.FilterViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -132,11 +132,7 @@ fun RoundTextField(navController: NavHostController,
   BasicTextField(
     value = text.value,
     maxLines = 1,
-    onValueChange =
-    {
-      text.value = it
-      Log.d("check", model.filterVariablesToString())
-    },
+    onValueChange = { text.value = it },
     enabled = true,
     modifier = Modifier
       .focusRequester(focusRequester)
@@ -188,7 +184,11 @@ fun RoundTextField(navController: NavHostController,
               key = "filterModel",
               value = model
             )
-            coroutineScope.launch(Dispatchers.Default) { model.setSearchResults(text.value) }
+            focusManager.clearFocus()
+            coroutineScope.launch(Dispatchers.Default) {
+              model.setSearchResults(text.value)
+              delay(3000)
+            }
             navController.navigate(sneakersDestination)
           }
 

@@ -1,8 +1,8 @@
 package com.stockxsteals.app.view.compnents.sneakers
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -42,7 +42,12 @@ fun SneakerSplashScreen(navController: NavHostController, model: FilterViewModel
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically) {
 
-        Text(text = "Sneakers", fontWeight = FontWeight.ExtraBold, fontSize = 25.sp, textAlign = TextAlign.Center)
+        Text(
+          text = "Sneakers",
+          fontWeight = FontWeight.ExtraBold,
+          fontSize = 25.sp,
+          textAlign = TextAlign.Center
+        )
         Spacer(modifier = Modifier.padding(30.dp))
         IconButton(
           onClick = {
@@ -58,12 +63,22 @@ fun SneakerSplashScreen(navController: NavHostController, model: FilterViewModel
             contentDescription = "Back Icon"
           )
         }
+      }
+      LazyColumn(
+        modifier = Modifier
+          .fillMaxWidth()
+          .fillMaxHeight()
+          .padding(top = 25.dp),
+          contentPadding = PaddingValues(10.dp)) {
 
-         map.keys.forEach {
-           val arr = map[it]!!.asSet()
-           Log.d("Python", arr.elementAt(0).toString())
-         }
-
+        items(1) {
+          map.keys.forEach {
+            SearchEntry(title = it.toString(),
+              result = map[it]!!.asSet(),
+              model = model,
+              navController = navController)
+          }
+        }
       }
     }
   }
