@@ -185,10 +185,7 @@ fun RoundTextField(navController: NavHostController,
               value = model
             )
             focusManager.clearFocus()
-            coroutineScope.launch(Dispatchers.Default) {
-              model.setSearchResults(text.value)
-              delay(3000)
-            }
+            coroutineScope.launch(Dispatchers.Default) { model.setSearchResults(text.value) }
             navController.navigate(sneakersDestination)
           }
 
