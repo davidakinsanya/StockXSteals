@@ -19,7 +19,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.stockxsteals.app.view.compnents.main.SearchAppBar
 import com.stockxsteals.app.viewmodel.FilterViewModel
 
 
@@ -59,7 +58,6 @@ fun SneakerSplashScreen(navController: NavHostController, model: FilterViewModel
             contentDescription = "Back Icon"
           )
         }
-        Log.d("Update From Search", model.filterVariablesToString())
 
          map.keys.forEach {
            val arr = map[it]!!.asSet()
