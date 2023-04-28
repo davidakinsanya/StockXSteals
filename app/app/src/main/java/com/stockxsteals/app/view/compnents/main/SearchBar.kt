@@ -118,7 +118,9 @@ fun RoundTextField(navController: NavHostController,
   val navBackStackEntry by navController.currentBackStackEntryAsState()
   val currentDestination = navBackStackEntry?.destination
   val sneakersDestination = AppScreens.SneakerSearch.route
-  if (currentDestination?.route != sneakersDestination) text.value = ""
+  val searchDestination = AppScreens.Search.route
+  if (currentDestination?.route == sneakersDestination ||
+     currentDestination?.route == searchDestination) text.value = ""
   val coroutineScope = rememberCoroutineScope()
 
   val mauve = Color(224, 176, 255)
@@ -132,15 +134,8 @@ fun RoundTextField(navController: NavHostController,
     maxLines = 1,
     onValueChange =
     {
-      if (currentDestination?.route != sneakersDestination) {
-        navController.currentBackStackEntry?.savedStateHandle?.set(
-          key = "filterModel",
-          value = model
-        )
-        navController.navigate(sneakersDestination)
-      }
       text.value = it
-      // coroutineScope.launch(Dispatchers.Default) { model.setSearchResults(text.value) }
+      Log.d("check", model.filterVariablesToString())
     },
     enabled = true,
     modifier = Modifier
@@ -160,6 +155,7 @@ fun RoundTextField(navController: NavHostController,
       .onKeyEvent {
         if (text.value == "") {
           if (it.key == Key.Backspace) {
+            navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
             focusManager.clearFocus()
           }
         }
@@ -187,10 +183,13 @@ fun RoundTextField(navController: NavHostController,
       visualTransformation = VisualTransformation.None,
       trailingIcon = {
         IconButton(onClick = {
-          if (search2) {
-            if (model.searchCheck())
-              Log.d("Update From Search", "This search valid.")
-            Log.d("Update From Search", model.filterVariablesToString())
+          if (search2 && model.searchCheck()) {
+            navController.currentBackStackEntry?.savedStateHandle?.set(
+              key = "filterModel",
+              value = model
+            )
+            coroutineScope.launch(Dispatchers.Default) { model.setSearchResults(text.value) }
+            navController.navigate(sneakersDestination)
           }
 
         }) {

@@ -27,8 +27,7 @@ class FilterViewModel: ViewModel(), java.io.Serializable {
   fun searchCheck(): Boolean {
     return searchWithFilters.country.isNotEmpty() &&
             searchWithFilters.currency.isNotEmpty() &&
-            searchWithFilters.size != 0.0 &&
-            searchWithFilters.slug.isNotEmpty()
+            searchWithFilters.size != 0.0
   }
 
   fun filterVariablesToString(): String {

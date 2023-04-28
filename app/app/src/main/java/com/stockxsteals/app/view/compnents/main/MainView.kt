@@ -34,7 +34,7 @@ fun SetupScreen(navController: NavHostController) {
     } == true
 
     Scaffold(
-      topBar = { SearchAppBar(navController = navController, filterModel = filterModel)},
+      topBar = { SearchAppBar(navController = navController, filterModel = filterModel) },
       bottomBar = { if (!bool) BottomBar(navController = navController) }
     ) {
       NavGraph(navController = navController, filterModel = filterModel)
