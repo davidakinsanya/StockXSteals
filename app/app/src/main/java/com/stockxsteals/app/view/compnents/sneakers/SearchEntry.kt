@@ -1,6 +1,5 @@
 package com.stockxsteals.app.view.compnents.sneakers
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.Text
@@ -21,7 +20,7 @@ fun SearchEntry(title: String,
                 model: FilterViewModel,
                 navController: NavHostController
 ) {
-  Log.d("url", result.elementAt(1).toString())
+
   Card(
     modifier = Modifier
       .fillMaxWidth(1.0f)
