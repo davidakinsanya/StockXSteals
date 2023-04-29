@@ -21,8 +21,10 @@ android {
       version "3.8"
 
       pip {
+        install "selenium"
+        install "undetected-chromedriver"
         install "bs4"
-        install "cloudscraper"
+        install "lxml"
       }
 
       ndk {
