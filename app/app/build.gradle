@@ -22,8 +22,8 @@ android {
 
       pip {
         install "selenium"
-        install "undetected-chromedriver"
         install "bs4"
+        install "undetected-chromedriver"
         install "lxml"
       }
 
