@@ -1,10 +1,9 @@
-from selenium import webdriver
 import undetected_chromedriver as uc
 from bs4 import BeautifulSoup as bs4
 
 def driver():
     user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.5615.49 Safari/537.36"
-    options = webdriver.ChromeOptions()
+    options = uc.ChromeOptions()
     options.add_argument('--headless=new')
     options.add_argument(f'user-agent={user_agent}')
     options.add_argument("--window-size=1920,1080")
