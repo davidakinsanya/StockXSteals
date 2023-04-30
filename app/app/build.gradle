@@ -21,10 +21,8 @@ android {
       version "3.8"
 
       pip {
-        install "selenium"
-        install "bs4"
         install "undetected-chromedriver"
-        install "lxml"
+        install "bs4"
       }
     }
     ndk {

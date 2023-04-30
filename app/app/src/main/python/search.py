@@ -1,7 +1,9 @@
+import traceback
+import os
+from os.path import dirname, join
 import undetected_chromedriver as uc
 from bs4 import BeautifulSoup as bs4
-import os
-from os.path import dirname, join, isfile
+
 
 def driver():
     user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.5615.49 Safari/537.36"
@@ -19,7 +21,7 @@ def driver():
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--no-sandbox')
 
-    filename = join(dirname(__file__) , "chromedriver.exe")
+    filename = join(dirname(__file__), "chromedriver.exe")
     os.chmod(filename, 0o0755)
 
     return uc.Chrome(
@@ -56,7 +58,7 @@ def stockx_search(search_title):
     try:
         search_map = search(search_title)
     except Exception as e:
-        print(e)
+        print(traceback.format_exc())
         pass
     return search_map
 
