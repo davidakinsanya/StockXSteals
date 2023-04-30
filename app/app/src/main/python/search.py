@@ -1,5 +1,7 @@
 import undetected_chromedriver as uc
 from bs4 import BeautifulSoup as bs4
+import os
+from os.path import dirname, join, isfile
 
 def driver():
     user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.5615.49 Safari/537.36"
@@ -16,20 +18,23 @@ def driver():
     options.add_argument('--disable-gpu')
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--no-sandbox')
-    
+
+    filename = join(dirname(__file__) , "chromedriver.exe")
+    os.chmod(filename, 0o0755)
+
     return uc.Chrome(
-            browser_executable_path = "/",
+            browser_executable_path = filename,
             options=options
         )
 
     
-def stockx_search(search_title):
+def search(search_title):
     web_driver = driver()
     url = "https://stockx.com/en-gb/search?s={}".format(search_title)
     web_driver.get(url)
     search_map = {}
     doc = bs4(web_driver.page_source, 'html.parser')
-    web_driver.close()
+    web_driver.quit()
         
     search_res = doc.find('div', {'class', 'loading css-1ouqd68'})
     search_res2 = search_res.find_all('div', {'class', 'css-pnc6ci'})
@@ -41,5 +46,19 @@ def stockx_search(search_title):
             search_res2[i].a['href'].replace('/en-gb/', ''),
             img_search[i].img['src'] 
          ]
+        print(img_search[i].img['src'])
         
     return search_map
+
+
+def stockx_search(search_title):
+    search_map = {}
+    try:
+        search_map = search(search_title)
+    except Exception as e:
+        print(e)
+        pass
+    return search_map
+
+
+#stockx_search("Nike Air Max 1 Travis Scott")
