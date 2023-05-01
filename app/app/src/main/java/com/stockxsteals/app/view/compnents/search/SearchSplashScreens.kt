@@ -26,11 +26,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.FilterViewModel
+import com.stockxsteals.app.viewmodel.UIViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun SearchScreen(navController: NavHostController, model: FilterViewModel) {
+fun SearchScreen(navController: NavHostController, model: FilterViewModel, uiModel: UIViewModel) {
   val filterSelect = remember { mutableStateOf("") }
   val progressCount = remember { mutableStateOf(0) }
   val focusManager = LocalFocusManager.current
@@ -49,14 +50,14 @@ fun SearchScreen(navController: NavHostController, model: FilterViewModel) {
         .height(30.dp)
         .padding(start = 15.dp, end = 10.dp)) {
 
-          val chipList = listOf("Country", "Currency", "Size")
-          chipList.forEach { it ->
+          uiModel.listOfChips().forEach { it ->
             FilterButtons(button = it,
                           selected = selected.value,
+                          uiModel = uiModel,
                           filterSelect = filterSelect,
                           onSelected = { selected.value = it })
           }
-          SearchPageButtons(navController = navController)
+          SearchPageButtons(navController = navController, uiModel = uiModel)
         }
     }
 
@@ -87,15 +88,14 @@ fun SearchScreen(navController: NavHostController, model: FilterViewModel) {
 }
 
 @Composable
-fun SearchPageButtons(navController: NavHostController) {
-  val sneakersDestination = AppScreens.SneakerSearch.route
+fun SearchPageButtons(navController: NavHostController, uiModel: UIViewModel) {
   val searchDestination = AppScreens.Search.route
   val focusManager = LocalFocusManager.current
 
   Row(modifier = Modifier.padding(start = 30.dp)) {
     IconButton(
       onClick = {
-        if (navController.previousBackStackEntry?.destination?.route!! != sneakersDestination) {
+        if (uiModel.previousScreenSneaker(navController)) {
           navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
         } else {
           navController.navigate(searchDestination)
@@ -113,10 +113,12 @@ fun SearchPageButtons(navController: NavHostController) {
 @Composable
 fun  FilterButtons(button: String,
                    selected: String,
+                   uiModel: UIViewModel,
                    filterSelect: MutableState<String>?,
                    onSelected: (String) -> Unit) {
 
   val isSelected = selected == button
+  val focusManager = LocalFocusManager.current
 
   val mauve = Color(224, 176, 255)
   val bgColor = if (isSelected) mauve else Color.White
@@ -132,8 +134,9 @@ fun  FilterButtons(button: String,
       backgroundColor = bgColor
     ),
     onClick = {
+      focusManager.clearFocus()
       onSelected(button)
-      if (listOf("Country", "Currency", "Size").contains(button)) {
+      if (uiModel.listOfChips().contains(button)) {
         filterSelect!!.value = button
       }
     }) {

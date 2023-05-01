@@ -5,6 +5,7 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.key
 import androidx.navigation.NavDestination
+import androidx.navigation.NavHostController
 import com.stockxsteals.app.navigation.AppScreens
 
 class UIViewModel {
@@ -39,6 +40,14 @@ class UIViewModel {
   @OptIn(ExperimentalComposeUiApi::class)
   fun nextPressBackSpace(it: KeyEvent): Boolean {
     return it.key == Key.Backspace
+  }
+
+  fun listOfChips(): List<String> {
+    return listOf("Country", "Currency", "Size")
+  }
+
+  fun previousScreenSneaker(navController: NavHostController): Boolean {
+    return navController.previousBackStackEntry?.destination?.route!! != "sneaker_search"
   }
 
 
