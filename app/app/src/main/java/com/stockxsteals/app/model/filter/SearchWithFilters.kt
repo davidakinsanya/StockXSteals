@@ -1,4 +1,4 @@
-package com.stockxsteals.app.model
+package com.stockxsteals.app.model.filter
 
 data class SearchWithFilters(var slug: String,
                              var country: String,

@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.stockxsteals.app.model.GridItem
+import com.stockxsteals.app.model.ui.GridItem
 import kotlin.random.Random
 
 @OptIn(ExperimentalFoundationApi::class)

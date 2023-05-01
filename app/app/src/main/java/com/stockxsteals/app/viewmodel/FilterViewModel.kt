@@ -4,8 +4,7 @@ package com.stockxsteals.app.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chaquo.python.PyObject
-import com.chaquo.python.Python
-import com.stockxsteals.app.model.SearchWithFilters
+import com.stockxsteals.app.model.filter.SearchWithFilters
 import com.stockxsteals.app.model.filter.Currency
 import com.stockxsteals.app.model.filter.ShoeSize
 import kotlinx.coroutines.Dispatchers

@@ -1,4 +1,4 @@
-package com.stockxsteals.app.model
+package com.stockxsteals.app.model.ui
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
