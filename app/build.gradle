@@ -1,4 +1,4 @@
-buildscript {
+ buildscript {
   ext {
     compose_ui_version = '1.4.0-beta01'
     kotlin_version = "1.8.10"

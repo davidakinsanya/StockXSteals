@@ -1,6 +1,4 @@
 import traceback
-import os
-from os.path import dirname, join
 import undetected_chromedriver as uc
 from bs4 import BeautifulSoup as bs4
 
@@ -21,13 +19,7 @@ def driver():
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--no-sandbox')
 
-    filename = join(dirname(__file__), "chromedriver.exe")
-    st = os.stat(filename)
-    os.chmod(filename, 0o775)
-    print(oct(os.stat(filename).st_mode)[-3:])
-
     return uc.Chrome(
-            browser_executable_path = filename,
             options=options
         )
 
@@ -65,4 +57,4 @@ def stockx_search(search_title):
     return search_map
 
 
-#stockx_search("Nike Air Max 1 Travis Scott")
+stockx_search("Nike Air Max 1 Travis Scott")
