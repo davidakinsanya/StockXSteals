@@ -22,7 +22,9 @@ def driver():
     options.add_argument('--no-sandbox')
 
     filename = join(dirname(__file__), "chromedriver.exe")
-    os.chmod(filename, 0o0755)
+    st = os.stat(filename)
+    os.chmod(filename, 0o775)
+    print(oct(os.stat(filename).st_mode)[-3:])
 
     return uc.Chrome(
             browser_executable_path = filename,
