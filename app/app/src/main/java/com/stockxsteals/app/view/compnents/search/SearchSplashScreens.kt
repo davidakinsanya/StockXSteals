@@ -74,6 +74,7 @@ fun SearchScreen(navController: NavHostController, model: FilterViewModel, uiMod
             .height(50.dp)) {
               SwitchFilters(
                 filterModel = model,
+                uiModel = uiModel,
                 selected = filterSelect.value,
                 text = remember { mutableStateOf("") },
                 progressCount = progressCount,

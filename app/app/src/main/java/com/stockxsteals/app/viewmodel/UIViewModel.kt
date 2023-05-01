@@ -4,11 +4,12 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.key
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.navigation.AppScreens
 
-class UIViewModel {
+class UIViewModel: ViewModel() {
 
   fun listOfScreens(): List<AppScreens> {
     return listOf(
@@ -48,6 +49,23 @@ class UIViewModel {
 
   fun previousScreenSneaker(navController: NavHostController): Boolean {
     return navController.previousBackStackEntry?.destination?.route!! != "sneaker_search"
+  }
+
+  fun countryFilled(text: String): Boolean {
+    return text.length >= 2
+  }
+
+  fun selectedIsCountry(selected: String): Boolean {
+    return selected == "Country"
+  }
+
+  fun progressCheck(progressCount: Int): Boolean {
+    return progressCount < 4
+  }
+
+  fun sizeModifier(size: Double): String {
+    return if (size.toString().contains(".0")) size.toInt().toString()
+    else size.toString()
   }
 
 

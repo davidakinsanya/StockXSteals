@@ -11,10 +11,12 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import com.stockxsteals.app.viewmodel.FilterViewModel
+import com.stockxsteals.app.viewmodel.UIViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SwitchFilters(filterModel: FilterViewModel,
+                  uiModel: UIViewModel,
                   selected: String,
                   text: MutableState<String>,
                   progressCount: MutableState<Int>,
@@ -24,7 +26,9 @@ fun SwitchFilters(filterModel: FilterViewModel,
 
   when(selected) {
     "Country" -> {
-      FilterByCountry(model = filterModel,
+      FilterByCountry(
+        model = filterModel,
+        uiModel = uiModel,
         selected = selected,
         text = text,
         progressCount = progressCount,
@@ -34,7 +38,9 @@ fun SwitchFilters(filterModel: FilterViewModel,
     }
 
     "Currency" -> {
-      FilterByCurrency(model = filterModel,
+      FilterByCurrency(
+        model = filterModel,
+        uiModel = uiModel,
         selected = selected,
         text = text,
         progressCount = progressCount,
@@ -44,7 +50,9 @@ fun SwitchFilters(filterModel: FilterViewModel,
     }
 
     "Size" -> {
-      FilterBySize(model = filterModel,
+      FilterBySize(
+        model = filterModel,
+        uiModel = uiModel,
         selected = selected,
         text = text,
         progressCount = progressCount,
@@ -59,6 +67,7 @@ fun SwitchFilters(filterModel: FilterViewModel,
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun FilterByCountry(model: FilterViewModel,
+                    uiModel: UIViewModel,
                     selected: String,
                     text: MutableState<String>,
                     progressCount: MutableState<Int>,
@@ -70,7 +79,9 @@ fun FilterByCountry(model: FilterViewModel,
   Row(modifier =
   Modifier
     .padding(top = 20.dp, start = 10.dp)) {
-    FilterTextField(model = model,
+    FilterTextField(
+      model = model,
+      uiModel = uiModel,
       text = text,
       progressCount = progressCount,
       selected = selected,
@@ -84,6 +95,7 @@ fun FilterByCountry(model: FilterViewModel,
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun FilterByCurrency(model: FilterViewModel,
+                     uiModel: UIViewModel,
                      selected: String,
                      text: MutableState<String>,
                      progressCount: MutableState<Int>,
@@ -95,7 +107,9 @@ fun FilterByCurrency(model: FilterViewModel,
   Row(modifier =
   Modifier
     .padding(top = 20.dp, start = 10.dp)) {
-    FilterTextField(model = model,
+    FilterTextField(
+      model = model,
+      uiModel = uiModel,
       text = text,
       progressCount = progressCount,
       selected = selected,
@@ -108,6 +122,7 @@ fun FilterByCurrency(model: FilterViewModel,
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun FilterBySize(model: FilterViewModel,
+                 uiModel: UIViewModel,
                  selected: String,
                  text: MutableState<String>,
                  progressCount: MutableState<Int>,
@@ -120,7 +135,9 @@ fun FilterBySize(model: FilterViewModel,
   Modifier
     .padding(top = 20.dp, start = 10.dp)) {
 
-    FilterTextField(model = model,
+    FilterTextField(
+      model = model,
+      uiModel = uiModel,
       text = text,
       progressCount = progressCount,
       selected = selected,
@@ -130,7 +147,9 @@ fun FilterBySize(model: FilterViewModel,
 
     Spacer(Modifier.padding(start = 10.dp))
 
-    SecondaryFilterTextField(model = model,
+    SecondaryFilterTextField(
+      model = model,
+      uiModel = uiModel,
       text = text,
       progressCount = progressCount,
       selected = selected)

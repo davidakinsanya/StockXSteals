@@ -27,8 +27,6 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
@@ -40,10 +38,12 @@ import androidx.compose.ui.unit.toSize
 import com.stockxsteals.app.model.filter.Currency
 import com.stockxsteals.app.model.filter.ShoeSize
 import com.stockxsteals.app.viewmodel.FilterViewModel
+import com.stockxsteals.app.viewmodel.UIViewModel
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun FilterTextField(model: FilterViewModel,
+                    uiModel: UIViewModel,
                     selected: String,
                     text: MutableState<String>,
                     progressCount: MutableState<Int>,
@@ -64,14 +64,15 @@ fun FilterTextField(model: FilterViewModel,
     maxLines = 1,
     onValueChange = {
       text.value = it
-      if (text.value.length >= 2)
+      if (uiModel.countryFilled(text.value))
         expanded.value = true
-      else if (text.value == "")
-        focusManager.clearFocus()
     },
-    enabled = selected == "Country",
+    enabled = uiModel.selectedIsCountry(selected),
     modifier = Modifier
-      .clickable { if (selected != "Country") expanded.value = !expanded.value }
+      .clickable {
+        if (!uiModel.selectedIsCountry(selected))
+        expanded.value = !expanded.value
+      }
       .focusRequester(focusRequester)
       .onFocusChanged {
         if (it.isFocused) {
@@ -79,11 +80,11 @@ fun FilterTextField(model: FilterViewModel,
         }
       }
       .onKeyEvent {
-        if (text.value == "") {
-          if (it.key == Key.Backspace) {
+        if (uiModel.textIsEmpty(text.value)) {
+          if (uiModel.nextPressBackSpace(it)) {
             focusManager.clearFocus()
           }
-        } else if (it.key == Key.Backspace) {
+        } else if (uiModel.nextPressBackSpace(it)) {
           expanded.value = false
         }
         true
@@ -131,7 +132,7 @@ fun FilterTextField(model: FilterViewModel,
 
       trailingIcon = {
         Icon(icon, "", Modifier.clickable {
-          if (selected != "Country")
+          if (!uiModel.selectedIsCountry(selected))
             expanded.value = !expanded.value
           focusManager.clearFocus()
         })
@@ -151,10 +152,12 @@ fun FilterTextField(model: FilterViewModel,
         .height(130.dp)
     ) {
 
-      if (selected == "Country") {
+      if (uiModel.selectedIsCountry(selected)) {
         countryListToggle(text.value, filterMap).forEach {
           DropdownMenuItem(onClick = {
-            if (progressCount.value < 4 && model.getCurrentSearch().country.isEmpty()) { progressCount.value++ }
+            if (uiModel.progressCheck(progressCount.value)
+              && model.getCurrentSearch().country.isEmpty())  progressCount.value++
+
             model.appendCountryAndCurrency("Country", it.toString())
             text.value = ""
             label.value = it.toString()
@@ -166,12 +169,13 @@ fun FilterTextField(model: FilterViewModel,
         }
       }
 
-
       filterMap[selected]?.forEach { it ->
           when (selected) {
             "Currency" -> {
               DropdownMenuItem(onClick = {
-                if (progressCount.value < 4 && model.getCurrentSearch().currency.isEmpty()) { progressCount.value++ }
+                if (uiModel.progressCheck(progressCount.value)
+                  && model.getCurrentSearch().currency.isEmpty()) progressCount.value++
+
                 model.appendCountryAndCurrency("Currency", (it as Currency).name)
                 label.value = it.type
                 expanded.value = !expanded.value
@@ -198,6 +202,7 @@ fun FilterTextField(model: FilterViewModel,
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SecondaryFilterTextField(model: FilterViewModel,
+                             uiModel: UIViewModel,
                     selected: String,
                     text: MutableState<String>,
                     progressCount: MutableState<Int>) {
@@ -280,19 +285,14 @@ fun SecondaryFilterTextField(model: FilterViewModel,
           ShoeSize.valueOf(model.getCurrentSearch().sizeType).listOfSizes.forEach { size ->
             DropdownMenuItem(onClick = {
               if (model.getCurrentSearch().sizeType.isNotEmpty()) {
-                if (progressCount.value < 4 && model.getCurrentSearch().size == 0.0) { progressCount.value++ }
+                if (uiModel.progressCheck(progressCount.value) && model.getCurrentSearch().size == 0.0)  progressCount.value++
 
                 model.appendSize(size, null)
-
-                placeholder.value = if (size.toString().contains(".0")) size.toInt().toString()
-                                    else size.toString()
-
+                placeholder.value = uiModel.sizeModifier(size)
                 expanded.value = !expanded.value
               }
             }) {
-              Text(text = if (size.toString().contains(".0"))
-                          size.toInt().toString()
-                          else size.toString())
+              Text(text = uiModel.sizeModifier(size))
             }
           }
         }
