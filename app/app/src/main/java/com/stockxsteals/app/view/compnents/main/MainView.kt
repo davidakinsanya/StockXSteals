@@ -11,16 +11,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.navigation.NavGraph
 import com.stockxsteals.app.viewmodel.FilterViewModel
+import com.stockxsteals.app.viewmodel.UIViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SetupScreen(navController: NavHostController) {
-  val screens = listOf(
-    AppScreens.Trends,
-    AppScreens.Search,
-    AppScreens.Settings,
-  )
+
   val filterModel = FilterViewModel()
+  val uiModel = UIViewModel()
   val searchDestination = AppScreens.TopSearch.route
   val settingsDestination = AppScreens.Settings.route
   val sneakersDestination = AppScreens.SneakerSearch.route
@@ -28,16 +26,16 @@ fun SetupScreen(navController: NavHostController) {
   val navBackStackEntry by navController.currentBackStackEntryAsState()
   val currentDestination = navBackStackEntry?.destination
 
-  screens.forEach { _ ->
+  uiModel.listOfScreens().forEach { _ ->
     val bool = currentDestination?.hierarchy?.any {
       it.route == searchDestination || it.route == settingsDestination || it.route == sneakersDestination
     } == true
 
     Scaffold(
-      topBar = { SearchAppBar(navController = navController, filterModel = filterModel) },
+      topBar = { SearchAppBar(navController = navController, filterModel = filterModel, uiModel = uiModel) },
       bottomBar = { if (!bool) BottomBar(navController = navController) }
     ) {
-      NavGraph(navController = navController, filterModel = filterModel)
+      NavGraph(navController = navController, filterModel = filterModel, uiModel = uiModel)
     }
   }
 }

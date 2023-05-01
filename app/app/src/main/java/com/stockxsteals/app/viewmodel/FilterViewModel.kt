@@ -93,10 +93,10 @@ class FilterViewModel: ViewModel(), java.io.Serializable {
 
   fun setSearchResults(search: String) {
     viewModelScope.launch(Dispatchers.Default) {  // to run code in Background Thread
-      val python = Python.getInstance()
-      val pythonFile = python.getModule("search")
-      val map = pythonFile.callAttr("stockx_search", search).asMap()
-      _bootMap.emit(map)
+      //val python = Python.getInstance()
+      //val pythonFile = python.getModule("search")
+      //val map = pythonFile.callAttr("stockx_search", search).asMap()
+      //_bootMap.emit(map)
     }
   }
 }

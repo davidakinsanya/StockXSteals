@@ -9,9 +9,10 @@ import com.stockxsteals.app.view.compnents.search.SearchScreen
 import com.stockxsteals.app.view.compnents.settings.SettingsSplashScreen
 import com.stockxsteals.app.view.compnents.sneakers.SneakerSplashScreen
 import com.stockxsteals.app.viewmodel.FilterViewModel
+import com.stockxsteals.app.viewmodel.UIViewModel
 
 @Composable
-fun NavGraph(navController: NavHostController, filterModel: FilterViewModel) {
+fun NavGraph(navController: NavHostController, filterModel: FilterViewModel, uiModel: UIViewModel) {
   NavHost(navController = navController, startDestination = AppScreens.Trends.route) {
     composable(route = AppScreens.Trends.route) {
       SneakerViewComponent()
