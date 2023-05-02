@@ -9,7 +9,7 @@ import retrofit2.http.Query
 interface RetrofitHandler {
 
   @GET
-  fun getTrends(@Query("query") slug: String,
+  fun getTrends(@Query("query") type: String,
                 @Query("currency") currency: String): Call<List<Trend>>
 
 
