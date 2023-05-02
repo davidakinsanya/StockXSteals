@@ -11,7 +11,7 @@ class TrendsDAO {
     
     return if (res.isSuccessful) res.body()!!
     else {
-      println(res.errorBody())
+      println(res.code())
       return null
     }
     
