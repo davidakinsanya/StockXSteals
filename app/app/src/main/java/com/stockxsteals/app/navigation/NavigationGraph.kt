@@ -8,14 +8,19 @@ import com.stockxsteals.app.view.compnents.main.SneakerViewComponent
 import com.stockxsteals.app.view.compnents.search.SearchScreen
 import com.stockxsteals.app.view.compnents.settings.SettingsSplashScreen
 import com.stockxsteals.app.view.compnents.sneakers.SneakerSplashScreen
+import com.stockxsteals.app.view.compnents.trends.TrendsViewComponent
 import com.stockxsteals.app.viewmodel.FilterViewModel
+import com.stockxsteals.app.viewmodel.ServerViewModel
 import com.stockxsteals.app.viewmodel.UIViewModel
 
 @Composable
-fun NavGraph(navController: NavHostController, filterModel: FilterViewModel, uiModel: UIViewModel) {
+fun NavGraph(navController: NavHostController,
+             filterModel: FilterViewModel,
+             uiModel: UIViewModel,
+             serverModel: ServerViewModel) {
   NavHost(navController = navController, startDestination = AppScreens.Trends.route) {
     composable(route = AppScreens.Trends.route) {
-      SneakerViewComponent()
+      TrendsViewComponent(serverModel)
     }
     composable(route = AppScreens.Search.route) {
       SneakerViewComponent()

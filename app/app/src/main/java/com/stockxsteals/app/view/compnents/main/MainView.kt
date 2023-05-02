@@ -11,6 +11,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.navigation.NavGraph
 import com.stockxsteals.app.viewmodel.FilterViewModel
+import com.stockxsteals.app.viewmodel.ServerViewModel
 import com.stockxsteals.app.viewmodel.UIViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -19,6 +20,7 @@ fun SetupScreen(navController: NavHostController) {
 
   val filterModel = FilterViewModel()
   val uiModel = UIViewModel()
+  val serverModel = ServerViewModel()
   val searchDestination = AppScreens.TopSearch.route
   val settingsDestination = AppScreens.Settings.route
   val sneakersDestination = AppScreens.SneakerSearch.route
@@ -35,7 +37,11 @@ fun SetupScreen(navController: NavHostController) {
       topBar = { SearchAppBar(navController = navController, filterModel = filterModel, uiModel = uiModel) },
       bottomBar = { if (!bool) BottomBar(navController = navController) }
     ) {
-      NavGraph(navController = navController, filterModel = filterModel, uiModel = uiModel)
+      NavGraph(
+        navController = navController,
+        filterModel = filterModel,
+        uiModel = uiModel,
+        serverModel = serverModel)
     }
   }
 }

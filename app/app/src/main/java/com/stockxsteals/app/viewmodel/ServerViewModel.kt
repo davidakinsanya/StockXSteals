@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class ServerViewModel: ViewModel() {
 
   private val _bootTrends = MutableStateFlow<List<Trend>>(listOf())
-  var bootMap: StateFlow<List<Trend>> = _bootTrends
+  var bootTrends: StateFlow<List<Trend>> = _bootTrends
 
   init {
     viewModelScope.launch(Dispatchers.Default) {
@@ -25,7 +25,7 @@ class ServerViewModel: ViewModel() {
 
 
   private fun getTrends(): List<Trend>? {
-    val res = RetrofitInstance.trend.getTrends("sneaker", "USD").execute()
+    val res = RetrofitInstance.trend.getTrends("sneakers", "EUR").execute()
     return if (res.isSuccessful)
       res.body()!!
     else {
