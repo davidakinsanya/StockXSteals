@@ -27,10 +27,9 @@ fun TrendsViewComponent(serverModel: ServerViewModel) {
         .padding(top = 30.dp)
         .fillMaxHeight(.88f)
     ) {
-      currentTrends.value.forEach {
-        Log.d("trends!!", it.toString())
-      }
-      LazyGrid()
+
+      TrendsLazyGrid(currentTrends.value)
+
     }
   }
 }
