@@ -10,7 +10,7 @@ import retrofit2.http.Query
 interface RetrofitHandler {
   
   companion object {
-    const val api_key = "fdde012a2emsh84b64c2a982e062p1ee167jsn7f2379a2c999"
+    const val api_key = "#####################################"
     const val api_host = "stockx1.p.rapidapi.com"
     
   }
