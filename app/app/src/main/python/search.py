@@ -32,8 +32,6 @@ def search():
     driver.get(url)
     search_map = {}
     doc = bs4(driver.page_source, 'html.parser')
-    driver.close()
-            
     search_res = doc.find('div', {'class', 'loading css-1ouqd68'})
     search_res2 = search_res.find_all('div', {'class', 'css-pnc6ci'})
     img_search = search_res.find_all('div', {'class', 'css-tkc8ar'})
