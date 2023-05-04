@@ -73,10 +73,12 @@ fun SneakerSplashScreen(navController: NavHostController, model: FilterViewModel
 
         items(1) {
           map.keys.forEach {
+            /*
             SearchEntry(title = it.toString(),
               result = map[it]!!.asSet(),
               model = model,
               navController = navController)
+             */
           }
         }
       }

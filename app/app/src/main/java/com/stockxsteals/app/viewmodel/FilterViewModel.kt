@@ -3,7 +3,6 @@ package com.stockxsteals.app.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.chaquo.python.PyObject
 import com.stockxsteals.app.model.filter.SearchWithFilters
 import com.stockxsteals.app.model.filter.Currency
 import com.stockxsteals.app.model.filter.ShoeSize
@@ -15,8 +14,8 @@ import kotlinx.coroutines.launch
 class FilterViewModel: ViewModel(), java.io.Serializable {
 
   private var searchWithFilters = SearchWithFilters("", "", "", "", 0.0)
-  private val _bootMap = MutableStateFlow(mutableMapOf<PyObject, PyObject>())
-  var bootMap: StateFlow<MutableMap<PyObject, PyObject>> = _bootMap
+  private val _bootMap =  MutableStateFlow(mutableMapOf<String, List<String>>())
+  var bootMap: StateFlow<MutableMap<String, List<String>>> = _bootMap
 
 
   fun getCurrentSearch(): SearchWithFilters {
@@ -92,10 +91,7 @@ class FilterViewModel: ViewModel(), java.io.Serializable {
 
   fun setSearchResults(search: String) {
     viewModelScope.launch(Dispatchers.Default) {  // to run code in Background Thread
-      //val python = Python.getInstance()
-      //val pythonFile = python.getModule("search")
-      //val map = pythonFile.callAttr("stockx_search", search).asMap()
-      //_bootMap.emit(map)
+      //_bootMap.emit()
     }
   }
 }

@@ -9,7 +9,7 @@
       android:dataExtractionRules="@xml/data_extraction_rules"
       android:fullBackupContent="@xml/backup_rules"
       android:icon="@mipmap/stockxstealslogo"
-      android:label="StockXSteals"
+      android:label="L8test."
       android:roundIcon="@mipmap/stockxstealslogo_round"
       android:supportsRtl="true"
       android:theme="@style/Theme.AppCompat.Light"
@@ -17,7 +17,6 @@
     <activity
         android:name=".MainActivity"
         android:exported="true"
-        android:label="L8test."
         android:theme="@style/Theme.AppCompat.Light">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
