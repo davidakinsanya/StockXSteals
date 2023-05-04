@@ -89,7 +89,7 @@ fun RandomColorBox(item: GridItem, trend: Trend) {
           Modifier
             .fillMaxHeight()
             .padding(16.dp)
-            .fillMaxWidth(0.7f))
+            .fillMaxWidth(0.05f))
 
       }
 
