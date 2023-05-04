@@ -1,8 +1,11 @@
 package com.stockxsteals.app.viewmodel
 
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.stockxsteals.app.http.RetrofitHandler
+import com.stockxsteals.app.http.RetrofitInstance
 import com.stockxsteals.app.model.filter.SearchWithFilters
 import com.stockxsteals.app.model.filter.Currency
 import com.stockxsteals.app.model.filter.ShoeSize
@@ -14,8 +17,8 @@ import kotlinx.coroutines.launch
 class FilterViewModel: ViewModel(), java.io.Serializable {
 
   private var searchWithFilters = SearchWithFilters("", "", "", "", 0.0)
-  private val _bootMap =  MutableStateFlow(mutableMapOf<String, List<String>>())
-  var bootMap: StateFlow<MutableMap<String, List<String>>> = _bootMap
+  private val _bootMap =  MutableStateFlow(mapOf<String, List<String>>())
+  var bootMap: StateFlow<Map<String, List<String>>> = _bootMap
 
 
   fun getCurrentSearch(): SearchWithFilters {
@@ -91,7 +94,11 @@ class FilterViewModel: ViewModel(), java.io.Serializable {
 
   fun setSearchResults(search: String) {
     viewModelScope.launch(Dispatchers.Default) {  // to run code in Background Thread
-      //_bootMap.emit()
+      val res = RetrofitInstance.filterSearch.getSearch(search).execute()
+      if (res.isSuccessful)
+        _bootMap.emit(res.body()!!)
+      else
+        Log.d("error", res.code().toString())
     }
   }
 }

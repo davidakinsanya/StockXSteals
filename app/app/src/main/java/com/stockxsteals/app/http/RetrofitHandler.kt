@@ -13,4 +13,6 @@ interface RetrofitHandler {
                 @Query("currency") currency: String): Call<List<Trend>>
 
 
+  @GET("/")
+  fun getSearch(@Query("search") search: String): Call<Map<String, List<String>>>
 }

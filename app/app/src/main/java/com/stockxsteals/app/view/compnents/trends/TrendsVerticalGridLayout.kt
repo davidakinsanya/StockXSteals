@@ -87,8 +87,9 @@ fun RandomColorBox(item: GridItem, trend: Trend) {
           contentDescription = "Expand Button",
           modifier =
           Modifier
-            .fillMaxHeight(0.05f)
-            .fillMaxWidth(0.05f))
+            .fillMaxHeight()
+            .padding(16.dp)
+            .fillMaxWidth(0.7f))
 
       }
 

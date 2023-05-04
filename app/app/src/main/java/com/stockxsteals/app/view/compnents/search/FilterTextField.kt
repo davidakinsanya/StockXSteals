@@ -71,7 +71,7 @@ fun FilterTextField(model: FilterViewModel,
     modifier = Modifier
       .clickable {
         if (!uiModel.selectedIsCountry(selected))
-        expanded.value = !expanded.value
+          expanded.value = !expanded.value
       }
       .focusRequester(focusRequester)
       .onFocusChanged {
@@ -113,19 +113,7 @@ fun FilterTextField(model: FilterViewModel,
       visualTransformation = VisualTransformation.None,
       placeholder = {
         Text(
-          text = when(selected) {
-            "Country" -> {
-              model.getCurrentSearch().country.ifEmpty { label.value }
-            }
-            "Currency" -> {
-              model.getCurrentSearch().currency.ifEmpty { label.value }
-            }
-            "Size" -> {
-              model.getCurrentSearch().sizeType.ifEmpty { label.value }
-            }
-           else -> label.value
-          }
-          ,
+          text = label.value,
           fontSize = 16.sp,
         )
       },
@@ -155,6 +143,7 @@ fun FilterTextField(model: FilterViewModel,
       if (uiModel.selectedIsCountry(selected)) {
         countryListToggle(text.value, filterMap).forEach {
           DropdownMenuItem(onClick = {
+
             if (uiModel.progressCheck(progressCount.value)
               && model.getCurrentSearch().country.isEmpty())  progressCount.value++
 
@@ -163,6 +152,7 @@ fun FilterTextField(model: FilterViewModel,
             label.value = it.toString()
             focusManager.clearFocus()
             expanded.value = !expanded.value
+
           }) {
            Text(text = it.toString())
           }
@@ -173,12 +163,14 @@ fun FilterTextField(model: FilterViewModel,
           when (selected) {
             "Currency" -> {
               DropdownMenuItem(onClick = {
+
                 if (uiModel.progressCheck(progressCount.value)
                   && model.getCurrentSearch().currency.isEmpty()) progressCount.value++
 
                 model.appendCountryAndCurrency("Currency", (it as Currency).name)
                 label.value = it.type
                 expanded.value = !expanded.value
+
               }) {
                 Text(text = (it as Currency).type)
               }
@@ -220,7 +212,10 @@ fun SecondaryFilterTextField(model: FilterViewModel,
     onValueChange = { text.value = it; },
     enabled = false,
     modifier = Modifier
-      .clickable { if (model.getCurrentSearch().sizeType.isNotEmpty()) expanded.value = !expanded.value }
+      .clickable {
+        if (model.getCurrentSearch().sizeType.isNotEmpty())
+          expanded.value = !expanded.value
+      }
       .onGloballyPositioned { coordinates ->
         textFieldSize.value = coordinates.size.toSize()
       }
@@ -285,7 +280,8 @@ fun SecondaryFilterTextField(model: FilterViewModel,
           ShoeSize.valueOf(model.getCurrentSearch().sizeType).listOfSizes.forEach { size ->
             DropdownMenuItem(onClick = {
               if (model.getCurrentSearch().sizeType.isNotEmpty()) {
-                if (uiModel.progressCheck(progressCount.value) && model.getCurrentSearch().size == 0.0)  progressCount.value++
+                if (uiModel.progressCheck(progressCount.value) &&
+                  model.getCurrentSearch().size == 0.0)  progressCount.value++
 
                 model.appendSize(size, null)
                 placeholder.value = uiModel.sizeModifier(size)
