@@ -1,13 +1,19 @@
 package com.stockxsteals.app.view.compnents.sneakers
 
 import android.util.Log
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -25,13 +31,17 @@ fun SearchEntry(title: String,
                 model: FilterViewModel,
                 navController: NavHostController
 ) {
+  val mauve = Color(224, 176, 255)
 
-  Card(
+  Column(
     modifier = Modifier
       .fillMaxWidth(1.0f)
       .padding(5.dp)
-      .height(140.dp),
-    elevation = 5.dp,
+      .height(140.dp)
+      .border(
+        border = BorderStroke(width = 0.5.dp,
+          color = mauve),
+        shape = RoundedCornerShape(20.dp))
   ) {
     Row(
       modifier = Modifier.fillMaxSize(),
