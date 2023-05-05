@@ -1,6 +1,5 @@
 package com.stockxsteals.app.view.compnents.trends
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight

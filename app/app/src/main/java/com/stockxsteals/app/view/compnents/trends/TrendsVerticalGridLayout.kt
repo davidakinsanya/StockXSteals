@@ -1,7 +1,5 @@
 package com.stockxsteals.app.view.compnents.trends
 
-
-
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
