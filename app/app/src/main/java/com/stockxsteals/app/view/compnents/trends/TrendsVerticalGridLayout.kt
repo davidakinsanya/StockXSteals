@@ -79,17 +79,17 @@ fun RandomColorBox(item: GridItem, trend: Trend) {
 
       Row(modifier =
       Modifier
-        .height(10.dp)
-        .padding(3.dp),
-        horizontalArrangement = Arrangement.End) {
+        .height(50.dp)
+        .padding(end = 5.dp),
+        horizontalArrangement = Arrangement.SpaceBetween) {
         AsyncImage(
           model = "https://img.icons8.com/?size=512&id=38033&format=png",
           contentDescription = "Expand Button",
           modifier =
           Modifier
-            .fillMaxHeight()
-            .padding(16.dp)
-            .fillMaxWidth(0.05f))
+            .fillMaxHeight(.9f)
+            .padding(start = 150.dp)
+            .fillMaxWidth(1f))
 
       }
 
@@ -115,7 +115,7 @@ fun RandomColorBox(item: GridItem, trend: Trend) {
           fontWeight = FontWeight.Bold,
           modifier =
           Modifier
-            .padding(20.dp)
+            .padding(start = 20.dp, end = 20.dp, bottom = 20.dp)
             .width(200.dp)
            )
       }

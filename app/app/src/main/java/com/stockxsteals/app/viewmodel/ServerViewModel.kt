@@ -18,8 +18,8 @@ class ServerViewModel: ViewModel() {
 
   init {
     viewModelScope.launch(Dispatchers.Default) {
-       //val trends = getTrends()
-       //if (!trends.isNullOrEmpty()) _bootTrends.emit(trends)
+       val trends = getTrends()
+       if (!trends.isNullOrEmpty()) _bootTrends.emit(trends)
     }
   }
 
