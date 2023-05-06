@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-
 import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
@@ -81,7 +80,7 @@ fun RandomColorBox(item: GridItem, trend: Trend) {
         .padding(end = 5.dp),
         horizontalArrangement = Arrangement.SpaceBetween) {
         AsyncImage(
-          model = "https://img.icons8.com/?size=512&id=38033&format=png",
+          model = "https://img.icons8.com/?size=512&id=69155&format=png",
           contentDescription = "Expand Button",
           modifier =
           Modifier

@@ -1,22 +1,27 @@
 package com.stockxsteals.app.view.compnents.sneakers
 
-import android.util.Log
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -79,5 +84,82 @@ fun SearchEntry(title: String,
             .padding(16.dp))
     }
   }
+}
 
+@Composable
+fun AlternativeEntry() {
+  val mauve = Color(224, 176, 255)
+  for (i in 0..18)
+    Column(
+      modifier = Modifier
+        .fillMaxWidth(1.0f)
+        .padding(5.dp)
+        .height(140.dp)
+        .border(
+          border = BorderStroke(width = 0.5.dp,
+            color = mauve),
+          shape = RoundedCornerShape(20.dp))
+    ) {
+      Row(modifier = Modifier.padding(20.dp),
+        horizontalArrangement = Arrangement.SpaceBetween) {
+        Column() {
+          Box(
+            modifier = Modifier
+              .width(100.dp)
+              .height(20.dp)
+              .shimmerEffect()
+          )
+          Spacer(modifier = Modifier.height(16.dp))
+          Box(
+            modifier = Modifier
+              .width(145.dp)
+              .height(20.dp)
+              .shimmerEffect()
+          )
+          Spacer(modifier = Modifier.height(16.dp))
+          Box(
+            modifier = Modifier
+              .width(200.dp)
+              .height(20.dp)
+              .shimmerEffect()
+          )
+        }
+        Spacer(Modifier.padding(15.dp))
+        Box(
+          modifier = Modifier
+            .size(100.dp)
+            .clip(RectangleShape)
+            .shimmerEffect()
+        )
+      }
+    }
+}
+
+fun Modifier.shimmerEffect(): Modifier = composed {
+  var size by remember {
+    mutableStateOf(IntSize.Zero)
+  }
+  val transition = rememberInfiniteTransition()
+  val startOffsetX by transition.animateFloat(
+    initialValue = -2 * size.width.toFloat(),
+    targetValue = 2 * size.width.toFloat(),
+    animationSpec = infiniteRepeatable(
+      animation = tween(1000)
+    )
+  )
+
+  background(
+    brush = Brush.linearGradient(
+      colors = listOf(
+        Color(224, 176, 255),
+        Color(218, 112, 214),
+        Color(216, 191, 216),
+      ),
+      start = Offset(startOffsetX, 0f),
+      end = Offset(startOffsetX + size.width.toFloat(), size.height.toFloat())
+    )
+  )
+    .onGloballyPositioned {
+      size = it.size
+    }
 }

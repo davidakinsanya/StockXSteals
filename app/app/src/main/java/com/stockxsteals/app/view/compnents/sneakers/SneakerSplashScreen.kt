@@ -72,12 +72,18 @@ fun SneakerSplashScreen(navController: NavHostController, model: FilterViewModel
           contentPadding = PaddingValues(10.dp)) {
 
         items(1) {
-          map.keys.forEach {
-            SearchEntry(title = it.toString(),
-              result = map[it]!!,
-              model = model,
-              navController = navController)
+          if (map.keys.isEmpty()) {
+            AlternativeEntry()
+          } else {
+            map.keys.forEach {
+              SearchEntry(
+                title = it.toString(),
+                result = map[it]!!,
+                model = model,
+                navController = navController
+              )
 
+            }
           }
         }
       }

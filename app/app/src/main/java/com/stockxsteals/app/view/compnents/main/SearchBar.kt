@@ -1,5 +1,6 @@
 package com.stockxsteals.app.view.compnents.main
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -21,6 +22,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
@@ -31,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.stockxsteals.app.MainActivity
 import com.stockxsteals.app.R
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.FilterViewModel
@@ -120,6 +123,8 @@ fun RoundTextField(navController: NavHostController,
   val searchIsFilterOrSneakerScreen
   = uiModel.searchIsFilterOrSneakerScreen(selected, currentDestination)
 
+  val context = LocalContext.current
+
   BasicTextField(
     value = text.value,
     maxLines = 1,
@@ -170,17 +175,24 @@ fun RoundTextField(navController: NavHostController,
       visualTransformation = VisualTransformation.None,
       trailingIcon = {
         IconButton(onClick = {
-          if (searchIsFilterOrSneakerScreen && model.searchCheck()) {
-            navController.currentBackStackEntry?.savedStateHandle?.set(
-              key = "filterModel",
-              value = model
-            )
-            focusManager.clearFocus()
-            coroutineScope.launch(Dispatchers.Default) { model.setSearchResults(text.value) }
-            navController.navigate(sneakersDestination)
+          if (searchIsFilterOrSneakerScreen) {
+            if (uiModel.selectedIsSearch(selected)) {
+              navController.navigate(searchRoute)
+            } else if (model.searchCheck()) {
+              navController.currentBackStackEntry?.savedStateHandle?.set(
+                key = "filterModel",
+                value = model
+              )
+              focusManager.clearFocus()
+              coroutineScope.launch(Dispatchers.Default) { model.setSearchResults(text.value) }
+              navController.navigate(sneakersDestination)
+            } else if (navController.currentDestination?.route == sneakersDestination)
+              Toast.makeText(context, "Please select a sneaker.", Toast.LENGTH_SHORT).show()
+             else
+              Toast.makeText(context, "Please complete all filters.", Toast.LENGTH_SHORT).show()
           }
-
-        }) {
+        })
+        {
           Icon(
             imageVector = Icons.Filled.Search,
             contentDescription = "Search Icon"
