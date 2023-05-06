@@ -46,7 +46,7 @@ fun SearchEntry(title: String,
       .border(
         border = BorderStroke(width = 0.5.dp,
           color = mauve),
-        shape = RoundedCornerShape(20.dp))
+        shape = RoundedCornerShape(5.dp))
   ) {
     Row(
       modifier = Modifier.fillMaxSize(),
@@ -88,7 +88,6 @@ fun SearchEntry(title: String,
 
 @Composable
 fun AlternativeEntry() {
-  val mauve = Color(224, 176, 255)
   for (i in 0..18)
     Column(
       modifier = Modifier
