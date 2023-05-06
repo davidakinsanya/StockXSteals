@@ -82,7 +82,6 @@ fun SneakerSplashScreen(navController: NavHostController, model: FilterViewModel
                 model = model,
                 navController = navController
               )
-
             }
           }
         }
