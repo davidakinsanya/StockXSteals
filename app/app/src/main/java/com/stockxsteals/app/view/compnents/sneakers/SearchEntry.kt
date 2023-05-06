@@ -92,6 +92,7 @@ fun AlternativeEntry() {
         .fillMaxWidth(1.0f)
         .padding(5.dp)
         .height(140.dp)
+        .clip(RoundedCornerShape(5.dp))
         .background(color = Color.White)
     ) {
       Row(modifier = Modifier.padding(20.dp),
