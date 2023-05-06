@@ -95,10 +95,6 @@ fun AlternativeEntry() {
         .fillMaxWidth(1.0f)
         .padding(5.dp)
         .height(140.dp)
-        .border(
-          border = BorderStroke(width = 0.5.dp,
-            color = mauve),
-          shape = RoundedCornerShape(20.dp))
     ) {
       Row(modifier = Modifier.padding(20.dp),
         horizontalArrangement = Arrangement.SpaceBetween) {
