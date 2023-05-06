@@ -1,6 +1,7 @@
 package com.stockxsteals.app.view.compnents.sneakers
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Icon
@@ -13,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -32,7 +34,9 @@ fun SneakerSplashScreen(navController: NavHostController, model: FilterViewModel
   Scaffold {
     Column(
       modifier = Modifier
+        .background(color = Color(250, 240, 250))
         .padding(top = 30.dp)
+        .fillMaxSize()
     ) {
       Row(modifier =
       Modifier
