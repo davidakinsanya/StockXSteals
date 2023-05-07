@@ -18,7 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.stockxsteals.app.model.http.Trend
+import com.stockxsteals.app.api.dto.Trend
 import com.stockxsteals.app.model.ui.GridItem
 import kotlin.random.Random
 

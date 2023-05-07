@@ -1,4 +1,4 @@
-package com.stockxsteals.app.model.http
+package com.stockxsteals.app.model.dto
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

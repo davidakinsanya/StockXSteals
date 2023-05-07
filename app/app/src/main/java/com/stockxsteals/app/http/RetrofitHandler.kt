@@ -1,7 +1,8 @@
 package com.stockxsteals.app.http
 
 
-import com.stockxsteals.app.model.http.Trend
+import com.stockxsteals.app.model.dto.Product
+import com.stockxsteals.app.model.dto.Trend
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -21,4 +22,10 @@ interface RetrofitHandler {
 
   @GET("/")
   fun getSearch(@Query("search") search: String): Call<Map<String, List<String>>>
+
+  @Headers("X-RapidAPI-Key: $api_key", "X-RapidAPI-Host: $api_host")
+  @GET("product")
+  fun searchProduct(@Query("query") slug: String,
+                    @Query("currency") currency: String,
+                    @Query("country") country: String): Call<Product>
 }
