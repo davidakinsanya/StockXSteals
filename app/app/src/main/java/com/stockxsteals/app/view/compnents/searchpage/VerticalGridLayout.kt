@@ -1,4 +1,4 @@
-package com.stockxsteals.app.view.compnents.main
+package com.stockxsteals.app.view.compnents.searchpage
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background

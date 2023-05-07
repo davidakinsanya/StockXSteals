@@ -1,4 +1,4 @@
-package com.stockxsteals.app.view.compnents.search
+package com.stockxsteals.app.view.compnents.topsearch
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke

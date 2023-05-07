@@ -1,4 +1,4 @@
-package com.stockxsteals.app.view.compnents.search
+package com.stockxsteals.app.view.compnents.topsearch
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*

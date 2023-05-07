@@ -62,7 +62,10 @@ fun SearchEntry(title: String,
               model.getCurrentSearch().currency,
               model.getCurrentSearch().country)
           }
-
+          navController.currentBackStackEntry?.savedStateHandle?.set(
+            key = "productModel",
+            value = productModel
+          )
           navController.navigate(searchRoute)
         },
       verticalAlignment = Alignment.CenterVertically,

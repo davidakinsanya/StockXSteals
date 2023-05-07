@@ -4,13 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.stockxsteals.app.view.compnents.main.SneakerViewComponent
-import com.stockxsteals.app.view.compnents.search.SearchScreen
+import com.stockxsteals.app.view.compnents.searchpage.SneakerViewComponent
+import com.stockxsteals.app.view.compnents.topsearch.SearchScreen
 import com.stockxsteals.app.view.compnents.settings.SettingsSplashScreen
 import com.stockxsteals.app.view.compnents.sneakers.SneakerSplashScreen
 import com.stockxsteals.app.view.compnents.trends.TrendsViewComponent
 import com.stockxsteals.app.viewmodel.FilterViewModel
-import com.stockxsteals.app.viewmodel.TrendsViewModel
 import com.stockxsteals.app.viewmodel.UIViewModel
 
 @Composable
@@ -23,6 +22,7 @@ fun NavGraph(navController: NavHostController,
       TrendsViewComponent()
     }
     composable(route = AppScreens.Search.route) {
+      val model = navController.previousBackStackEntry?.savedStateHandle?.get<FilterViewModel>("productModel")
       SneakerViewComponent()
     }
 
