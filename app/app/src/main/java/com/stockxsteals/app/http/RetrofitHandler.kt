@@ -15,13 +15,13 @@ interface RetrofitHandler {
     const val api_host = "stockx1.p.rapidapi.com"
   }
 
+  @GET("/")
+  fun getSearch(@Query("search") search: String): Call<Map<String, List<String>>>
+
   @Headers("X-RapidAPI-Key: $api_key", "X-RapidAPI-Host: $api_host")
   @GET("trends")
   fun getTrends(@Query("query") type: String,
                 @Query("currency") currency: String): Call<List<Trend>>
-
-  @GET("/")
-  fun getSearch(@Query("search") search: String): Call<Map<String, List<String>>>
 
   @Headers("X-RapidAPI-Key: $api_key", "X-RapidAPI-Host: $api_host")
   @GET("product")
