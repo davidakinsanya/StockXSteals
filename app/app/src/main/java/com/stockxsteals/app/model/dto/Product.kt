@@ -16,3 +16,13 @@ data class Product(@SerializedName("id") @Expose val id: String,
                    @SerializedName("variants") @Expose val variants: List<Variants>,
                    @SerializedName("market") @Expose val market: Market
 )
+
+fun blankProduct(): Product {
+  return Product("","","",
+    "" , "", "",
+    "", "", "",
+    listOf(), listOf(), Market(
+      Bids(0,0,0,0),
+      Sales(0,0,0f,0f, 0, 0, 0f), )
+  )
+}

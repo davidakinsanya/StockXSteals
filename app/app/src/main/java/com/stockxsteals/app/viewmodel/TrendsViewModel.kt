@@ -4,16 +4,14 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stockxsteals.app.http.RetrofitInstance
-import com.stockxsteals.app.model.dto.Product
-import com.stockxsteals.app.model.dto.Trend
+import com.stockxsteals.app.model.dto.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ServerViewModel: ViewModel() {
-
+class TrendsViewModel: ViewModel() {
   private val _bootTrends = MutableStateFlow<List<Trend>>(listOf())
   var bootTrends: StateFlow<List<Trend>> = _bootTrends
 
@@ -30,21 +28,6 @@ class ServerViewModel: ViewModel() {
       res.body()!!
     else {
       Log.d("error", res.errorBody().toString())
-      null
-    }
-  }
-
-  private suspend fun getProduct(slug: String,
-                                 currency: String,
-                                 country: String): Product? = withContext(Dispatchers.IO) {
-    val res = RetrofitInstance
-      .productSearchVariable
-      .searchProduct(slug, currency, country)
-      .execute()
-
-    return@withContext if (res.isSuccessful) res.body()!!
-    else {
-      println(res.errorBody())
       null
     }
   }

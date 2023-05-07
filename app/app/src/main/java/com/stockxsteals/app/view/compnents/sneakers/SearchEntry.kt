@@ -28,7 +28,10 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.stockxsteals.app.R
+import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.FilterViewModel
+import com.stockxsteals.app.viewmodel.ProductSearchViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun SearchEntry(title: String,
@@ -36,7 +39,10 @@ fun SearchEntry(title: String,
                 model: FilterViewModel,
                 navController: NavHostController
 ) {
-  val mauve = Color(224, 176, 255)
+
+  val productModel = ProductSearchViewModel()
+  val coroutineScope = rememberCoroutineScope()
+  val searchRoute = AppScreens.Search.route
 
   Column(
     modifier = Modifier
@@ -47,7 +53,18 @@ fun SearchEntry(title: String,
       .background(color = Color.White)
   ) {
     Row(
-      modifier = Modifier.fillMaxSize(),
+      modifier = Modifier
+        .fillMaxSize()
+        .clickable {
+          coroutineScope.launch {
+            productModel.getProduct(
+              result[0],
+              model.getCurrentSearch().currency,
+              model.getCurrentSearch().country)
+          }
+
+          navController.navigate(searchRoute)
+        },
       verticalAlignment = Alignment.CenterVertically,
       horizontalArrangement = Arrangement.SpaceAround
     ) {

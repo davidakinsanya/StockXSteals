@@ -10,11 +10,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.stockxsteals.app.viewmodel.ServerViewModel
+import com.stockxsteals.app.viewmodel.TrendsViewModel
 
 @Composable
-fun TrendsViewComponent(serverModel: ServerViewModel) {
-  val currentTrends = serverModel.bootTrends.collectAsState()
+fun TrendsViewComponent() {
+  val currentTrends = TrendsViewModel().bootTrends.collectAsState()
   Column(
     modifier = Modifier
       .fillMaxSize()
