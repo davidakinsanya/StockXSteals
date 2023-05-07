@@ -14,9 +14,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
+import com.stockxsteals.app.viewmodel.ProductSearchViewModel
 
 @Composable
-fun SneakerViewComponent() {
+fun SneakerViewComponent(productModel: ProductSearchViewModel?) {
   Column(
     modifier = Modifier
       .fillMaxSize()

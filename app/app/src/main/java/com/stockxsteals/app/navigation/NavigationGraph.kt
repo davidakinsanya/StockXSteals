@@ -10,6 +10,7 @@ import com.stockxsteals.app.view.compnents.settings.SettingsSplashScreen
 import com.stockxsteals.app.view.compnents.sneakers.SneakerSplashScreen
 import com.stockxsteals.app.view.compnents.trends.TrendsViewComponent
 import com.stockxsteals.app.viewmodel.FilterViewModel
+import com.stockxsteals.app.viewmodel.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.UIViewModel
 
 @Composable
@@ -22,8 +23,14 @@ fun NavGraph(navController: NavHostController,
       TrendsViewComponent()
     }
     composable(route = AppScreens.Search.route) {
-      val model = navController.previousBackStackEntry?.savedStateHandle?.get<FilterViewModel>("productModel")
-      SneakerViewComponent()
+      val productModel = navController
+        .previousBackStackEntry
+        ?.savedStateHandle
+        ?.get<ProductSearchViewModel>("productModel")
+
+      if (productModel != null)
+        SneakerViewComponent(productModel = productModel)
+      else SneakerViewComponent(productModel = null)
     }
 
     composable(route = AppScreens.Settings.route) {
@@ -35,7 +42,11 @@ fun NavGraph(navController: NavHostController,
     }
 
     composable(route = AppScreens.SneakerSearch.route) {
-      val model = navController.previousBackStackEntry?.savedStateHandle?.get<FilterViewModel>("filterModel")
+      val model = navController
+        .previousBackStackEntry
+        ?.savedStateHandle
+        ?.get<FilterViewModel>("filterModel")
+
       if (model != null)
         SneakerSplashScreen(navController = navController, model = model)
     }
