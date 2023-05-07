@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.stockxsteals.app.MainActivity
 import com.stockxsteals.app.R
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.FilterViewModel
@@ -72,7 +71,7 @@ fun SearchAppBar(navController: NavHostController, filterModel: FilterViewModel,
   }
 
   TopAppBar(backgroundColor = Color(0xFFFFFFFF)) {
-    val text = remember { mutableStateOf(selected) } // TODO: In future retrieve from ViewModel
+    val text = remember { mutableStateOf(selected) }
 
     Row(modifier = Modifier.padding(start = 10.dp)) {
 
