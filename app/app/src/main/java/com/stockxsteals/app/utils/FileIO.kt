@@ -28,6 +28,7 @@ fun readCurrentTrends(file: String): Trend? {
     val fileVariable: File = File(file)
     return Gson().fromJson(fileVariable.readText(), trend)
   }
+  File(file).deleteRecursively()
   return null
 }
 
