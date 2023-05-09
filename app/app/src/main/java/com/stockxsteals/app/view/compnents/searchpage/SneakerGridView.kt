@@ -7,17 +7,29 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
+import coil.compose.AsyncImage
+import com.stockxsteals.app.model.ui.ProductView
+import com.stockxsteals.app.view.compnents.sneakers.shimmerEffect
 import com.stockxsteals.app.viewmodel.ProductSearchViewModel
 
 @Composable
 fun SneakerViewComponent(productModel: ProductSearchViewModel?) {
+
+  val productResults = productModel?.searchResult?.collectAsState()
+  val productView = if (productResults != null) ProductView(productResults.value) else null
+
   Column(
     modifier = Modifier
       .fillMaxSize()
@@ -28,14 +40,18 @@ fun SneakerViewComponent(productModel: ProductSearchViewModel?) {
         .padding(top = 30.dp)
         .fillMaxHeight(.88f)
     ) {
-      Pager()
+      if (productResults != null) {
+        Pager(productView)
+      } else {
+        Pager(null)
+      }
     }
   }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun Pager() {
+fun Pager(view: ProductView?) {
   val pagerState = rememberPagerState()
 
   HorizontalPager(pageCount = 4) { page ->
@@ -70,7 +86,44 @@ fun Pager() {
         .clip(RoundedCornerShape(10.dp))
         .background(color = Color(0xFFFFFFFF).copy(1f))
     ) {
-      // Card content
+      if (view != null) {
+        PagerTopRow(view.getConstant())
+      }
     }
   }
+}
+
+@Composable
+fun PagerTopRow(constants: List<String>) {
+
+  Row(modifier = Modifier.padding(20.dp),
+    horizontalArrangement = Arrangement.SpaceBetween) {
+    Column() {
+      Text(
+        text = constants[0],
+        fontSize = 18.sp,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier
+          .width(200.dp)
+          .height(20.dp)
+      )
+      Spacer(modifier = Modifier.height(16.dp))
+      Text(
+        text = constants[1],
+        fontSize = 18.sp,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier
+          .width(145.dp)
+          .height(20.dp)
+      )
+    }
+    Spacer(Modifier.padding(5.dp))
+    AsyncImage(
+      model = constants[2],
+      contentDescription = "Sneaker Image",
+      modifier = Modifier
+        .size(100.dp)
+        .clip(RectangleShape))
+  }
+
 }
