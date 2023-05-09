@@ -29,8 +29,8 @@ fun NavGraph(navController: NavHostController,
         ?.get<ProductSearchViewModel>("productModel")
 
       if (productModel != null)
-        SneakerViewComponent(productModel = productModel)
-      else SneakerViewComponent(productModel = null)
+        SneakerViewComponent(productModel = productModel, uiModel = uiModel)
+      else SneakerViewComponent(productModel = null, uiModel = uiModel)
     }
 
     composable(route = AppScreens.Settings.route) {

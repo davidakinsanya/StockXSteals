@@ -1,5 +1,6 @@
 package com.stockxsteals.app.viewmodel
 
+import androidx.compose.runtime.State
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
@@ -7,6 +8,7 @@ import androidx.compose.ui.input.key.key
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
+import com.stockxsteals.app.model.dto.Product
 import com.stockxsteals.app.navigation.AppScreens
 
 class UIViewModel: ViewModel() {
@@ -68,5 +70,7 @@ class UIViewModel: ViewModel() {
     else size.toString()
   }
 
-
+  fun productIsNull(product: State<Product>?): Boolean {
+    return product == null
+  }
 }
