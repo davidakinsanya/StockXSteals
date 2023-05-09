@@ -24,7 +24,7 @@ fun SneakerViewComponent(productModel: ProductSearchViewModel?, uiModel: UIViewM
 
   val productResults = productModel?.searchResult?.collectAsState()
   val productView =
-    if (uiModel.productIsNull(productResults))
+    if (uiModel.productIsNotNull(productResults))
       ProductView(productResults!!.value)
     else
       null
@@ -39,10 +39,10 @@ fun SneakerViewComponent(productModel: ProductSearchViewModel?, uiModel: UIViewM
         .padding(top = 30.dp)
         .fillMaxHeight(.88f)
     ) {
-      if (uiModel.productIsNull(productResults)) {
-        Pager(productView, uiModel.productIsNull(productResults))
+      if (uiModel.productIsNotNull(productResults)) {
+        Pager(productView, uiModel.productIsNotNull(productResults))
       } else {
-        Pager(null, uiModel.productIsNull(productResults))
+        Pager(null, uiModel.productIsNotNull(productResults))
       }
     }
   }

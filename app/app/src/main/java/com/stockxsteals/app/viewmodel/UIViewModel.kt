@@ -70,7 +70,7 @@ class UIViewModel: ViewModel() {
     else size.toString()
   }
 
-  fun productIsNull(product: State<Product>?): Boolean {
-    return product == null
+  fun productIsNotNull(product: State<Product>?): Boolean {
+    return product != null
   }
 }
