@@ -9,9 +9,7 @@ import java.io.FileWriter
 import java.io.IOException
 import java.time.LocalDateTime
 
-fun dirExists(file: File): Boolean {
-  return file.exists()
-}
+
 fun writeCurrentTrends(location: String, trends: List<Trend>) {
   val trendsFile = "current trends : " + LocalDateTime.now() + " : .json"
 
