@@ -9,20 +9,22 @@ import java.io.FileWriter
 import java.io.IOException
 import java.time.LocalDateTime
 
-
-fun writeCurrentTrends(trend: Trend) {
-  val trendsFile = "current trends : " + LocalDateTime.now()
+fun dirExists(file: File): Boolean {
+  return file.exists()
+}
+fun writeCurrentTrends(location: String, trends: List<Trend>) {
+  val trendsFile = "current trends : " + LocalDateTime.now() + " : .json"
 
   try {
-    val writer = FileWriter(File(trendsFile))
-    writer.use { Gson().toJson(trend) }
+    val writer = FileWriter(File(location, trendsFile))
+    writer.use { Gson().toJson(trends) }
     writer.close()
   } catch (e : IOException){
     Log.e("err","not fn", e)
   }
 }
 
-fun readCurrentTrends(file: String): Trend? {
+fun readCurrentTrends(file: String): List<Trend>? {
   if (!fileIsOld(file.split(" : ")[1])) {
     val trend = object : TypeToken<Trend>() {}.type
     val fileVariable: File = File(file)
