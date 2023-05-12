@@ -1,5 +1,6 @@
 package com.stockxsteals.app.view.compnents.trends
 
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -18,19 +19,22 @@ import java.io.File
 
 @Composable
 fun TrendsViewComponent() {
-  var currentTrends: List<Trend>? = null;
+  val currentTrends: List<Trend>?
 
-  val dir = File(LocalContext.current.filesDir, "/obj")
+  val dir = File(LocalContext.current.filesDir, "/trends/obj")
   if (!dir.exists()) dir.mkdirs()
 
-  if (dir.listFiles()?.size == 1) {
-    dir.listFiles()?.forEach { file ->
-      currentTrends = readCurrentTrends(file.name)
+  currentTrends = when (dir.listFiles()?.size) {
+    0 -> {
+      TrendsViewModel(LocalContext.current).bootTrends.collectAsState().value
+    }
+    1 -> {
+      readCurrentTrends(dir.listFiles()?.get(0)!!.path)
+    }
+    else -> {
+      TrendsViewModel(LocalContext.current).bootTrends.collectAsState().value
     }
   }
-
-  if (currentTrends == null)
-    currentTrends = TrendsViewModel(LocalContext.current).bootTrends.collectAsState().value
 
   Column(
     modifier = Modifier

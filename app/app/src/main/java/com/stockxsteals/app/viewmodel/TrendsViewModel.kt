@@ -20,7 +20,7 @@ class TrendsViewModel(context: Context): ViewModel() {
 
   init {
     viewModelScope.launch(Dispatchers.Default) {
-        //val file = File(context.filesDir, "/obj")
+        //val file = File(context.filesDir, "/trends/obj")
        //val trends = getTrends(file)
       //if (!trends.isNullOrEmpty()) _bootTrends.emit(trends)
     }
