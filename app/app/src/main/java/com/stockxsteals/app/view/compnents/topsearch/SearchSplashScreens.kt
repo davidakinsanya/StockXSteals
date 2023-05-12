@@ -25,8 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.navigation.AppScreens
-import com.stockxsteals.app.viewmodel.FilterViewModel
-import com.stockxsteals.app.viewmodel.UIViewModel
+import com.stockxsteals.app.viewmodel.ui.FilterViewModel
+import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")

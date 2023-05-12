@@ -9,9 +9,9 @@ import com.stockxsteals.app.view.compnents.topsearch.SearchScreen
 import com.stockxsteals.app.view.compnents.settings.SettingsSplashScreen
 import com.stockxsteals.app.view.compnents.sneakers.SneakerSplashScreen
 import com.stockxsteals.app.view.compnents.trends.TrendsViewComponent
-import com.stockxsteals.app.viewmodel.FilterViewModel
-import com.stockxsteals.app.viewmodel.ProductSearchViewModel
-import com.stockxsteals.app.viewmodel.UIViewModel
+import com.stockxsteals.app.viewmodel.ui.FilterViewModel
+import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
+import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
 @Composable
 fun NavGraph(navController: NavHostController,

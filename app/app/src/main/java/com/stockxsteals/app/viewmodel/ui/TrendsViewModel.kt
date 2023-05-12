@@ -1,4 +1,4 @@
-package com.stockxsteals.app.viewmodel
+package com.stockxsteals.app.viewmodel.ui
 
 import android.content.Context
 import android.util.Log

@@ -1,10 +1,9 @@
-package com.stockxsteals.app.viewmodel
+package com.stockxsteals.app.viewmodel.ui
 
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.stockxsteals.app.http.RetrofitHandler
 import com.stockxsteals.app.http.RetrofitInstance
 import com.stockxsteals.app.model.filter.SearchWithFilters
 import com.stockxsteals.app.model.filter.Currency

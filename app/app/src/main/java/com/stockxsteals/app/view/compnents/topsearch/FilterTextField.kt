@@ -37,8 +37,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import com.stockxsteals.app.model.filter.Currency
 import com.stockxsteals.app.model.filter.ShoeSize
-import com.stockxsteals.app.viewmodel.FilterViewModel
-import com.stockxsteals.app.viewmodel.UIViewModel
+import com.stockxsteals.app.viewmodel.ui.FilterViewModel
+import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class)
 @Composable
@@ -195,9 +195,9 @@ fun FilterTextField(model: FilterViewModel,
 @Composable
 fun SecondaryFilterTextField(model: FilterViewModel,
                              uiModel: UIViewModel,
-                    selected: String,
-                    text: MutableState<String>,
-                    progressCount: MutableState<Int>) {
+                             selected: String,
+                             text: MutableState<String>,
+                             progressCount: MutableState<Int>) {
 
   val expanded = remember { mutableStateOf(false) }
   val placeholder = remember { mutableStateOf("Your Size") }

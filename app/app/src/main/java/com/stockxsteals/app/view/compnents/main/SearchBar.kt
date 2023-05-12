@@ -35,8 +35,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.stockxsteals.app.R
 import com.stockxsteals.app.navigation.AppScreens
-import com.stockxsteals.app.viewmodel.FilterViewModel
-import com.stockxsteals.app.viewmodel.UIViewModel
+import com.stockxsteals.app.viewmodel.ui.FilterViewModel
+import com.stockxsteals.app.viewmodel.ui.UIViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

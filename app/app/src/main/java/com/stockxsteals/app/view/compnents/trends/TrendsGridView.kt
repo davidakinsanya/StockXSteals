@@ -14,7 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.utils.readCurrentTrends
-import com.stockxsteals.app.viewmodel.TrendsViewModel
+import com.stockxsteals.app.viewmodel.ui.TrendsViewModel
 import java.io.File
 
 @Composable

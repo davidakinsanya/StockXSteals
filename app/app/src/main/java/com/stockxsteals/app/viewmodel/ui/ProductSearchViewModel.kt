@@ -1,4 +1,4 @@
-package com.stockxsteals.app.viewmodel
+package com.stockxsteals.app.viewmodel.ui
 
 import androidx.lifecycle.ViewModel
 import com.stockxsteals.app.http.RetrofitInstance

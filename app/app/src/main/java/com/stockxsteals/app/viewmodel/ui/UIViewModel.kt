@@ -1,4 +1,4 @@
-package com.stockxsteals.app.viewmodel
+package com.stockxsteals.app.viewmodel.ui
 
 import androidx.compose.runtime.State
 import androidx.compose.ui.ExperimentalComposeUiApi

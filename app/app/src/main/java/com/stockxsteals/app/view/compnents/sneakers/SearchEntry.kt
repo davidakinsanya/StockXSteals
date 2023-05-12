@@ -29,8 +29,8 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.stockxsteals.app.R
 import com.stockxsteals.app.navigation.AppScreens
-import com.stockxsteals.app.viewmodel.FilterViewModel
-import com.stockxsteals.app.viewmodel.ProductSearchViewModel
+import com.stockxsteals.app.viewmodel.ui.FilterViewModel
+import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import kotlinx.coroutines.launch
 
 @Composable

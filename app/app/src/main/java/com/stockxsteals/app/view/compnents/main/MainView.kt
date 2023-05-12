@@ -10,8 +10,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.navigation.NavGraph
-import com.stockxsteals.app.viewmodel.FilterViewModel
-import com.stockxsteals.app.viewmodel.UIViewModel
+import com.stockxsteals.app.viewmodel.ui.FilterViewModel
+import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable

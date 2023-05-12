@@ -16,8 +16,8 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import com.stockxsteals.app.model.ui.ProductView
-import com.stockxsteals.app.viewmodel.ProductSearchViewModel
-import com.stockxsteals.app.viewmodel.UIViewModel
+import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
+import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
 @Composable
 fun SneakerViewComponent(productModel: ProductSearchViewModel?, uiModel: UIViewModel) {
