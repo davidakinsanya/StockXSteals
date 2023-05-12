@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.stockxsteals.app.db.database.DailySearchDatabase
 import com.stockxsteals.app.db.repository.DailySearchRepository
 import kotlinx.coroutines.launch
-import java.sql.Timestamp
 
 class DailySearchViewModel(application: Application): AndroidViewModel(application) {
   private val readSearchNumber: LiveData<Int>
