@@ -8,7 +8,7 @@ import androidx.room.Query
 import com.stockxsteals.app.db.entity.FilterPreset
 
 @Dao
-internal interface FilterPresetsDAO {
+interface FilterPresetsDAO {
   @Insert(onConflict = OnConflictStrategy.IGNORE)
   fun addPreset(preset: FilterPreset)
 
