@@ -1,18 +1,27 @@
 package com.stockxsteals.app.viewmodel.db
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
+import androidx.lifecycle.ViewModel
+import com.stockxsteals.app.datasource.intrface.PremiumDataSource
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class PremiumViewModel(application: Application): AndroidViewModel(application) {
-  // private val readIsPremium: LiveData<Boolean>
-  // private val repository: PremiumRepository
+@HiltViewModel
+class PremiumViewModel
+@Inject constructor (
+  private val premiumDataSource: PremiumDataSource
+): ViewModel() {
 
-  init {}
+   suspend fun getIsPremium(): Int {
+    return withContext(Dispatchers.IO) {
+      premiumDataSource.getIsPremium()
+    }
+  }
 
-  fun setPremium(isPremium: Boolean) {
-    viewModelScope.launch {}
+   suspend fun setIsPremium(isPremium: Int) {
+    withContext(Dispatchers.IO) {
+      premiumDataSource.setIsPremium(isPremium)
+    }
   }
 }
