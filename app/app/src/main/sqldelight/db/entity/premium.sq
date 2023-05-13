@@ -1,0 +1,12 @@
+CREATE TABLE premium (
+   isPremium INTEGER NOT NULL PRIMARY KEY
+);
+
+getIsPremium:
+SELECT isPremium FROM premium;
+
+setIsPremium:
+UPDATE
+ premium
+SET
+ isPremium = :isPremium;

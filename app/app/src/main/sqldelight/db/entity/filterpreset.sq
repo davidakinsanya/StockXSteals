@@ -1,0 +1,15 @@
+CREATE TABLE filterPreset (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    country TEXT NOT NULL,
+    currency TEXT NOT NULL,
+    sizeType TEXT NOT NULL,
+    size REAL NOT NULL
+);
+
+addPreset:
+INSERT OR REPLACE
+INTO filterPreset (country, currency, sizeType, size)
+VALUES (?,?,?,?);
+
+getAllPresets:
+SELECT * FROM filterPreset;

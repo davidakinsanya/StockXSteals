@@ -1,0 +1,36 @@
+CREATE TABLE DailySearchQuota (
+ timestamp TEXT NOT NULL PRIMARY KEY,
+ search_limit INTEGER NOT NULL,
+ search_number INTEGER NOT NULL
+);
+
+getSearchNumber:
+SELECT search_number
+FROM DailySearchQuota;
+
+getSearchLimit:
+SELECT search_limit
+FROM DailySearchQuota;
+
+getTimeStamp:
+SELECT timestamp
+FROM DailySearchQuota;
+
+insertSearch:
+INSERT OR REPLACE
+INTO DailySearchQuota
+VALUES (?,?,?);
+
+updateSearchNumber:
+UPDATE DailySearchQuota
+SET search_number = :search_number;
+
+updateSearchLimit:
+UPDATE DailySearchQuota
+SET search_limit = :search_limit;
+
+updateTimeStamp:
+UPDATE
+ DailySearchQuota
+SET
+ timestamp = :timestamp;
