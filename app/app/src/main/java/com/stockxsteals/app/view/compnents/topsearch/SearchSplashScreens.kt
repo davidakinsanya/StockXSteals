@@ -31,7 +31,10 @@ import com.stockxsteals.app.viewmodel.ui.UIViewModel
 @OptIn(ExperimentalComposeUiApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun SearchScreen(navController: NavHostController, model: FilterViewModel, uiModel: UIViewModel) {
+fun SearchScreen(navController: NavHostController,
+                 filterModel: FilterViewModel,
+                 uiModel: UIViewModel) {
+
   val filterSelect = remember { mutableStateOf("") }
   val progressCount = remember { mutableStateOf(0) }
   val focusManager = LocalFocusManager.current
@@ -78,7 +81,7 @@ fun SearchScreen(navController: NavHostController, model: FilterViewModel, uiMod
           .height(50.dp)
       ) {
         SwitchFilters(
-          filterModel = model,
+          filterModel = filterModel,
           uiModel = uiModel,
           selected = filterSelect.value,
           text = remember { mutableStateOf("") },

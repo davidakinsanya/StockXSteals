@@ -38,7 +38,7 @@ fun NavGraph(navController: NavHostController,
     }
 
     composable(route = AppScreens.TopSearch.route) {
-      SearchScreen(navController = navController, model = filterModel, uiModel = uiModel)
+      SearchScreen(navController = navController, filterModel, uiModel = uiModel)
     }
 
     composable(route = AppScreens.SneakerSearch.route) {

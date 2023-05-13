@@ -5,11 +5,14 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.stockxsteals.app.datasource.intrface.FilterPresetDataSource
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.navigation.NavGraph
+import com.stockxsteals.app.viewmodel.db.FilterPresetsViewModel
 import com.stockxsteals.app.viewmodel.ui.FilterViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
@@ -17,12 +20,16 @@ import com.stockxsteals.app.viewmodel.ui.UIViewModel
 @Composable
 fun SetupScreen(navController: NavHostController) {
 
-  val filterModel = FilterViewModel()
+  val presetsModel: FilterPresetsViewModel = hiltViewModel()
+  val filterModel = FilterViewModel(presetsModel)
+
   val uiModel = UIViewModel()
+
   val searchDestination = AppScreens.TopSearch.route
   val settingsDestination = AppScreens.Settings.route
   val sneakersDestination = AppScreens.SneakerSearch.route
   var selected = ""
+
   val navBackStackEntry by navController.currentBackStackEntryAsState()
   val currentDestination = navBackStackEntry?.destination
 

@@ -8,12 +8,14 @@ import com.stockxsteals.app.http.RetrofitInstance
 import com.stockxsteals.app.model.filter.SearchWithFilters
 import com.stockxsteals.app.model.filter.Currency
 import com.stockxsteals.app.model.filter.ShoeSize
+import com.stockxsteals.app.viewmodel.db.FilterPresetsViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class FilterViewModel: ViewModel(), java.io.Serializable {
+class FilterViewModel(private val presetModel: FilterPresetsViewModel)
+  :ViewModel(), java.io.Serializable {
 
   private var searchWithFilters = SearchWithFilters("", "", "", "", 0.0)
   private val _bootMap =  MutableStateFlow(mapOf<String, List<String>>())
