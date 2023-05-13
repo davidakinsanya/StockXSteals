@@ -11,19 +11,12 @@ import com.stockxsteals.app.db.repository.PremiumRepository
 import kotlinx.coroutines.launch
 
 class PremiumViewModel(application: Application): AndroidViewModel(application) {
-  private val readIsPremium: LiveData<Boolean>
-  private val repository: PremiumRepository
+  // private val readIsPremium: LiveData<Boolean>
+  // private val repository: PremiumRepository
 
-  init {
-    val premiumDAO = PremiumDatabase.getDatabase(application).premiumDAO()
-
-    repository = PremiumRepository(premiumDAO)
-    readIsPremium = repository.readIsPremium
-  }
+  init {}
 
   fun setPremium(isPremium: Boolean) {
-    viewModelScope.launch {
-      repository.setPremium(isPremium)
-    }
+    viewModelScope.launch {}
   }
 }

@@ -45,47 +45,61 @@ fun SearchScreen(navController: NavHostController, model: FilterViewModel, uiMod
         .padding(top = 30.dp)
     ) {
       val selected = remember { mutableStateOf("") }
-      Row(modifier = Modifier
-        .fillMaxWidth()
-        .height(30.dp)
-        .padding(start = 15.dp, end = 10.dp)) {
+      Row(
+        modifier = Modifier
+          .fillMaxWidth()
+          .height(30.dp)
+          .padding(start = 15.dp, end = 10.dp)
+      ) {
 
-          uiModel.listOfChips().forEach { it ->
-            FilterButtons(button = it,
-                          selected = selected.value,
-                          uiModel = uiModel,
-                          filterSelect = filterSelect,
-                          onSelected = { selected.value = it })
-          }
-          SearchPageButtons(navController = navController, uiModel = uiModel)
+        uiModel.listOfChips().forEach { it ->
+          FilterButtons(button = it,
+            selected = selected.value,
+            uiModel = uiModel,
+            filterSelect = filterSelect,
+            onSelected = { selected.value = it })
         }
+        SearchPageButtons(navController = navController, uiModel = uiModel)
+      }
+    }
+
+    Column(
+      modifier =
+      Modifier
+        .fillMaxWidth(.95f)
+        .padding(start = 15.dp, top = 100.dp)
+        .height(200.dp)
+        .border(BorderStroke(0.5.dp, SolidColor(Color.LightGray))),
+    ) {
+      Column(
+        modifier =
+        Modifier
+          .fillMaxWidth()
+          .height(50.dp)
+      ) {
+        SwitchFilters(
+          filterModel = model,
+          uiModel = uiModel,
+          selected = filterSelect.value,
+          text = remember { mutableStateOf("") },
+          progressCount = progressCount,
+          focusManager = focusManager,
+          focusRequester = focusRequester,
+          keyboardController = keyboardController
+        )
+      }
+      CustomProgressBar(progressNum = progressCount.value)
     }
 
     Column(modifier =
     Modifier
       .fillMaxWidth(.95f)
-      .padding(start = 15.dp, top = 100.dp)
-      .height(200.dp)
+      .padding(start = 15.dp, top = 310.dp)
+      .fillMaxHeight(0.9f)
       .border(BorderStroke(0.5.dp, SolidColor(Color.LightGray))),
-        ) {
-          Column(modifier =
-          Modifier
-            .fillMaxWidth()
-            .height(50.dp)) {
-              SwitchFilters(
-                filterModel = model,
-                uiModel = uiModel,
-                selected = filterSelect.value,
-                text = remember { mutableStateOf("") },
-                progressCount = progressCount,
-                focusManager = focusManager,
-                focusRequester = focusRequester,
-                keyboardController = keyboardController
-              )
-            }
-          CustomProgressBar(progressNum = progressCount.value)
-        }
+    ) {
     }
+  }
 }
 
 @Composable

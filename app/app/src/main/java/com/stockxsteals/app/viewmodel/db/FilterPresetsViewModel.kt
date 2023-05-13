@@ -10,18 +10,12 @@ import com.stockxsteals.app.db.repository.FilterPresetsRepository
 import kotlinx.coroutines.launch
 
 class FilterPresetsViewModel(application: Application): AndroidViewModel(application) {
-  private val readAllPresets: LiveData<List<FilterPreset>>
-  private val repository: FilterPresetsRepository
+  // private val readAllPresets: LiveData<List<FilterPreset>>
+  // private val repository: FilterPresetsRepository
 
-  init {
-    val presetsDAO = FilterPresetDatabase.getDatabase(application).filterPresetsDAO()
-    repository = FilterPresetsRepository(presetsDAO)
-    readAllPresets = repository.readAllPresets
-  }
+  init {}
 
   fun addPreset(preset: FilterPreset) {
-    viewModelScope.launch {
-      repository.addPreset(preset)
-    }
+    viewModelScope.launch {}
   }
 }
