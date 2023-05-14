@@ -1,7 +1,9 @@
 package com.stockxsteals.app.view.compnents.topsearch
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -20,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
@@ -42,6 +45,7 @@ fun SearchScreen(navController: NavHostController,
   val filterSelect = remember { mutableStateOf("") }
   val progressCount = remember { mutableStateOf(0) }
   val focusManager = LocalFocusManager.current
+  val context = LocalContext.current
   val focusRequester = remember { FocusRequester() }
   val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -114,7 +118,7 @@ fun SearchScreen(navController: NavHostController,
       .border(BorderStroke(0.5.dp, SolidColor(Color.LightGray))),
     ) {
       items(allPresets.size) { index ->
-        DisplayPreset(preset = allPresets[index])
+        DisplayPreset(preset = allPresets[index], filterModel, progressCount, context)
       }
     }
   }
@@ -183,7 +187,11 @@ fun  FilterButtons(button: String,
 }
 
 @Composable
-fun DisplayPreset(preset: FilterPreset) {
+fun DisplayPreset(preset: FilterPreset,
+                  model: FilterViewModel,
+                  count: MutableState<Int>,
+                  context: Context
+) {
   val BLUE = Color(173, 216, 230)
   Row(modifier = Modifier
     .padding(start = 15.dp, end = 30.dp, top = 30.dp, bottom = 30.dp)
@@ -201,7 +209,6 @@ fun DisplayPreset(preset: FilterPreset) {
       )
     }
     Row (modifier = Modifier
-         .clickable { }
          .padding(start = 10.dp)
          .fillMaxWidth(0.8f),
          horizontalArrangement = Arrangement.SpaceBetween,
@@ -214,7 +221,17 @@ fun DisplayPreset(preset: FilterPreset) {
 
     }
 
-    IconButton(modifier = Modifier.padding(start = 30.dp).fillMaxSize(), onClick = {}) {
+    IconButton(modifier =
+    Modifier
+      .padding(start = 30.dp)
+      .fillMaxSize(),
+      onClick = {
+        count.value = model.appendCountryAndCurrency("Country", preset.country, count)
+        count.value = model.appendCountryAndCurrency("Currency", preset.currency, count)
+        model.appendSize(null, preset.sizeType, count) // null
+        count.value = model.appendSize(preset.size, null, count)!!
+       Toast.makeText(context, "Preset #${preset.id} Added!", Toast.LENGTH_SHORT).show()
+      }) {
       Icon(
         imageVector = Icons.Filled.Check,
         contentDescription = "Check Icon",

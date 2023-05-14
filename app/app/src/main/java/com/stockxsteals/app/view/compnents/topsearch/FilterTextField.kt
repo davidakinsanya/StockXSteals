@@ -113,7 +113,25 @@ fun FilterTextField(model: FilterViewModel,
       visualTransformation = VisualTransformation.None,
       placeholder = {
         Text(
-          text = label.value,
+          text =
+          when (selected) {
+            "Country" -> {
+              model.getCurrentSearch().country.ifEmpty {
+                label.value
+              }
+            }
+            "Currency" -> {
+              model.getCurrentSearch().currency.ifEmpty {
+                label.value
+              }
+            }
+            "Size" -> {
+              model.getCurrentSearch().sizeType.ifEmpty {
+                label.value
+              }
+            }
+            else -> { label.value }
+          },
           fontSize = 16.sp,
         )
       },
@@ -145,9 +163,11 @@ fun FilterTextField(model: FilterViewModel,
           DropdownMenuItem(onClick = {
 
             if (uiModel.progressCheck(progressCount.value)
-              && model.getCurrentSearch().country.isEmpty())  progressCount.value++
+              && model.getCurrentSearch().country.isEmpty())  {
+              progressCount.value =
+                model.appendCountryAndCurrency("Country", it.toString(), progressCount)
+            }
 
-            model.appendCountryAndCurrency("Country", it.toString())
             text.value = ""
             label.value = it.toString()
             focusManager.clearFocus()
@@ -165,10 +185,11 @@ fun FilterTextField(model: FilterViewModel,
               DropdownMenuItem(onClick = {
 
                 if (uiModel.progressCheck(progressCount.value)
-                  && model.getCurrentSearch().currency.isEmpty()) progressCount.value++
-
-                model.appendCountryAndCurrency("Currency", (it as Currency).name)
-                label.value = it.type
+                  && model.getCurrentSearch().currency.isEmpty()) {
+                  progressCount.value = model.
+                  appendCountryAndCurrency("Currency", (it as Currency).name, progressCount)
+                }
+                label.value = (it as Currency).type
                 expanded.value = !expanded.value
 
               }) {
@@ -177,7 +198,7 @@ fun FilterTextField(model: FilterViewModel,
             }
             "Size" -> {
               DropdownMenuItem(onClick = {
-                model.appendSize(null, (it as ShoeSize).name)
+                model.appendSize(null, (it as ShoeSize).name, progressCount)
                 label.value = it.type
                 expanded.value = !expanded.value
               }
@@ -281,9 +302,10 @@ fun SecondaryFilterTextField(model: FilterViewModel,
             DropdownMenuItem(onClick = {
               if (model.getCurrentSearch().sizeType.isNotEmpty()) {
                 if (uiModel.progressCheck(progressCount.value) &&
-                  model.getCurrentSearch().size == 0.0)  progressCount.value++
-
-                model.appendSize(size, null)
+                  model.getCurrentSearch().size == 0.0)  {
+                  progressCount.value =
+                    model.appendSize(size, null, progressCount)!!
+                }
                 placeholder.value = uiModel.sizeModifier(size)
                 expanded.value = !expanded.value
               }

@@ -2,6 +2,7 @@ package com.stockxsteals.app.viewmodel.ui
 
 
 import android.util.Log
+import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stockxsteals.app.http.RetrofitInstance
@@ -20,6 +21,14 @@ class FilterViewModel(private val presetModel: FilterPresetsViewModel)
   private var searchWithFilters = SearchWithFilters("", "", "", "", 0.0)
   private val _bootMap =  MutableStateFlow(mapOf<String, List<String>>())
   var bootMap: StateFlow<Map<String, List<String>>> = _bootMap
+
+  fun filterVariablesToString(): String {
+    return "Search Params\n" +
+            "Slug: ${searchWithFilters.slug} \n" +
+            "Country: ${searchWithFilters.country} \n" +
+            "Currency: ${searchWithFilters.currency} \n" +
+            "Size: ${searchWithFilters.size}"
+  }
 
   fun getPresetsModel(): FilterPresetsViewModel {
     return presetModel
@@ -71,21 +80,31 @@ class FilterViewModel(private val presetModel: FilterPresetsViewModel)
     return java.util.Locale.getISOCountries().asList()
   }
 
-  fun appendCountryAndCurrency(selected: String?, text: String?) {
+  fun appendCountryAndCurrency(selected: String?, text: String?, count: MutableState<Int>): Int {
     when (selected) {
       "Country" -> {
-        if (text != null) searchWithFilters.country = text
+        if (text != null) {
+          searchWithFilters.country = text
+          count.value++
+        }
       }
       "Currency" -> {
-        if (text != null) searchWithFilters.currency = text
+        if (text != null) {
+          searchWithFilters.currency = text
+          count.value++;
+        }
       }
     }
+    return count.value
   }
 
-  fun appendSize(size: Double?, sizeType: String?) {
+  fun appendSize(size: Double?, sizeType: String?, count: MutableState<Int>): Int? {
     if (sizeType != null) searchWithFilters.sizeType = sizeType
-    if (size != null) searchWithFilters.size = size
-
+    if (size != null) {
+      searchWithFilters.size = size
+      count.value++
+    }
+    return if (size != null) count.value else null
   }
 
   fun setSearchResults(search: String) {
