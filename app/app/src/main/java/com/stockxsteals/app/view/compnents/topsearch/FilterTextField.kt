@@ -126,7 +126,7 @@ fun FilterTextField(model: FilterViewModel,
               }
             }
             "Size" -> {
-              model.getCurrentSearch().sizeType.ifEmpty {
+              model.getCurrentSearch().sizeType.replace("_", " ").ifEmpty {
                 label.value
               }
             }
