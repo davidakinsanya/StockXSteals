@@ -21,6 +21,9 @@ class FilterViewModel(private val presetModel: FilterPresetsViewModel)
   private val _bootMap =  MutableStateFlow(mapOf<String, List<String>>())
   var bootMap: StateFlow<Map<String, List<String>>> = _bootMap
 
+  fun getPresetsModel(): FilterPresetsViewModel {
+    return presetModel
+  }
 
   fun getCurrentSearch(): SearchWithFilters {
     return searchWithFilters

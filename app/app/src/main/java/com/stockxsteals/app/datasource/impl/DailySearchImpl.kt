@@ -6,7 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class DailySearchImpl(db : Database): DailySearchDataSource {
-  private val queries = db.dailysearchquotaQueries
+  private val queries = db.dailySearchQuotaQueries
 
   override suspend fun getSearchNumber(): Int {
    return withContext(Dispatchers.IO) {

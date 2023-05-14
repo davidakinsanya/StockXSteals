@@ -1,17 +1,16 @@
 package com.stockxsteals.app.view.compnents.topsearch
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -27,6 +26,10 @@ import androidx.navigation.NavHostController
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.ui.FilterViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
+import db.entity.FilterPreset
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -40,6 +43,14 @@ fun SearchScreen(navController: NavHostController,
   val focusManager = LocalFocusManager.current
   val focusRequester = remember { FocusRequester() }
   val keyboardController = LocalSoftwareKeyboardController.current
+
+  val model = filterModel.getPresetsModel()
+  val allPresets = model.allPreset.collectAsState(initial = emptyList()).value
+  if (allPresets.isEmpty()) {
+    Log.d("000", "empty")
+  } else {
+    Log.d("000", allPresets.size.toString())
+  }
 
   Scaffold {
     Column(
@@ -94,7 +105,7 @@ fun SearchScreen(navController: NavHostController,
       CustomProgressBar(progressNum = progressCount.value)
     }
 
-    Column(modifier =
+    LazyColumn(modifier =
     Modifier
       .fillMaxWidth(.95f)
       .padding(start = 15.dp, top = 310.dp)

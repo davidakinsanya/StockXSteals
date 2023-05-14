@@ -37,6 +37,7 @@ import com.stockxsteals.app.R
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.ui.FilterViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -183,7 +184,18 @@ fun RoundTextField(navController: NavHostController,
                 value = model
               )
               focusManager.clearFocus()
-              coroutineScope.launch(Dispatchers.Default) { model.setSearchResults(text.value) }
+              coroutineScope.launch(Dispatchers.Default) {
+                val currentSearch = model.getCurrentSearch()
+                val presetModel = model.getPresetsModel()
+
+                presetModel.addPreset(
+                  currentSearch.country,
+                  currentSearch.currency,
+                  currentSearch.sizeType,
+                  currentSearch.size)
+
+                model.setSearchResults(text.value)
+              }
               navController.navigate(sneakersDestination)
             } else if (navController.currentDestination?.route == sneakersDestination)
               Toast.makeText(context, "Please select a sneaker.", Toast.LENGTH_SHORT).show()

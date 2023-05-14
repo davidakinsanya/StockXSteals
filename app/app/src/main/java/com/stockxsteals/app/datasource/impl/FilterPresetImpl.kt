@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.Dispatcher
 
 class FilterPresetImpl(db: Database): FilterPresetDataSource {
-  private val queries = db.filterpresetQueries
+  private val queries = db.filterPresetQueries
 
   override suspend fun getAllPresets(): Flow<List<FilterPreset>> {
     return withContext(Dispatchers.IO) {
