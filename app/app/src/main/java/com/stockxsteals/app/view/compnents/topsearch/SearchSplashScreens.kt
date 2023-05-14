@@ -11,6 +11,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -201,8 +203,8 @@ fun DisplayPreset(preset: FilterPreset) {
     }
     Row (modifier = Modifier
          .clickable { }
-         .padding(start = 30.dp)
-         .fillMaxWidth(),
+         .padding(start = 10.dp)
+         .fillMaxWidth(0.8f),
          horizontalArrangement = Arrangement.SpaceBetween,
          verticalAlignment = Alignment.CenterVertically) {
 
@@ -210,6 +212,14 @@ fun DisplayPreset(preset: FilterPreset) {
       Text("'${preset.currency}'", color = BLUE, fontWeight = FontWeight.Bold)
       Text("'${preset.sizeType}'", color = BLUE, fontWeight = FontWeight.Bold)
       Text("'${preset.size}'", color = BLUE, fontWeight = FontWeight.Bold)
+
+    }
+
+    IconButton(modifier = Modifier.padding(start = 30.dp).fillMaxSize(), onClick = {}) {
+      Icon(
+        imageVector = Icons.Filled.Check,
+        contentDescription = "Check Icon",
+      )
     }
   }
 }
