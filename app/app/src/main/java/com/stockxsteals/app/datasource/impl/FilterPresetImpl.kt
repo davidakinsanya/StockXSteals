@@ -31,4 +31,10 @@ class FilterPresetImpl(db: Database): FilterPresetDataSource {
       queries.addPreset(country, currency, sizeType, size)
     }
   }
+
+  override suspend fun deletePreset(id: Long) {
+    withContext(Dispatchers.IO) {
+      queries.deletePreset(id)
+    }
+  }
 }

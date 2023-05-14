@@ -2,11 +2,9 @@ package com.stockxsteals.app.view.compnents.topsearch
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,6 +32,8 @@ import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.ui.FilterViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
 import db.entity.FilterPreset
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -45,17 +45,13 @@ fun SearchScreen(navController: NavHostController,
   val filterSelect = remember { mutableStateOf("") }
   val progressCount = remember { mutableStateOf(0) }
   val focusManager = LocalFocusManager.current
-  val context = LocalContext.current
   val focusRequester = remember { FocusRequester() }
   val keyboardController = LocalSoftwareKeyboardController.current
 
   val model = filterModel.getPresetsModel()
   val allPresets = model.allPreset.collectAsState(initial = emptyList()).value
-  if (allPresets.isEmpty()) {
-    Log.d("000", "empty")
-  } else {
-    Log.d("000", allPresets.size.toString())
-  }
+  val context = LocalContext.current
+  val scope = rememberCoroutineScope()
 
   Scaffold {
     Column(
@@ -118,7 +114,7 @@ fun SearchScreen(navController: NavHostController,
       .border(BorderStroke(0.5.dp, SolidColor(Color.LightGray))),
     ) {
       items(allPresets.size) { index ->
-        DisplayPreset(preset = allPresets[index], filterModel, progressCount, context)
+        DisplayPreset(preset = allPresets[index], filterModel, progressCount, scope, context)
       }
     }
   }
@@ -190,16 +186,20 @@ fun  FilterButtons(button: String,
 fun DisplayPreset(preset: FilterPreset,
                   model: FilterViewModel,
                   count: MutableState<Int>,
+                  scope: CoroutineScope,
                   context: Context
 ) {
   val BLUE = Color(173, 216, 230)
   Row(modifier = Modifier
-    .padding(start = 15.dp, end = 30.dp, top = 30.dp, bottom = 30.dp)
+    .padding(start = 15.dp, end = 30.dp, top = 30.dp)
     .fillMaxWidth(),
     horizontalArrangement = Arrangement.SpaceBetween,
     verticalAlignment = Alignment.CenterVertically) {
 
-    IconButton(onClick = {}) {
+    IconButton(onClick = {
+      Toast.makeText(context, "Preset Deleted!", Toast.LENGTH_SHORT).show()
+      scope.launch { model.getPresetsModel().deletePreset(preset.id) }
+    }) {
       Icon(
         imageVector = Icons.Filled.Delete,
         contentDescription = "Delete Icon",
@@ -209,8 +209,8 @@ fun DisplayPreset(preset: FilterPreset,
       )
     }
     Row (modifier = Modifier
-         .padding(start = 10.dp)
-         .fillMaxWidth(0.8f),
+      .padding(start = 10.dp)
+      .fillMaxWidth(0.8f),
          horizontalArrangement = Arrangement.SpaceBetween,
          verticalAlignment = Alignment.CenterVertically) {
 
@@ -230,7 +230,7 @@ fun DisplayPreset(preset: FilterPreset,
         count.value = model.appendCountryAndCurrency("Currency", preset.currency, count)
         model.appendSize(null, preset.sizeType, count) // null
         count.value = model.appendSize(preset.size, null, count)!!
-       Toast.makeText(context, "Preset #${preset.id} Added!", Toast.LENGTH_SHORT).show()
+       Toast.makeText(context, "Preset Added!", Toast.LENGTH_SHORT).show()
       }) {
       Icon(
         imageVector = Icons.Filled.Check,

@@ -42,4 +42,10 @@ class FilterPresetsViewModel
       filterPresetDataSource.addPreset(country, currency, sizeType, size)
     }
   }
+
+  suspend fun deletePreset(id: Long) {
+    withContext(Dispatchers.IO) {
+      filterPresetDataSource.deletePreset(id)
+    }
+  }
 }

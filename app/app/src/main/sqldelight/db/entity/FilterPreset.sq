@@ -13,3 +13,6 @@ VALUES (?,?,?,?);
 
 getAllPresets:
 SELECT * FROM filterPreset;
+
+deletePreset:
+DELETE FROM filterPreset WHERE id = :id;

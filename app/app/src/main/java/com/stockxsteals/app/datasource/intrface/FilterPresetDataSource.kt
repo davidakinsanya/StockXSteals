@@ -10,4 +10,6 @@ interface FilterPresetDataSource {
   suspend fun getAllPresets(): Flow<List<FilterPreset>>
 
   suspend fun addPreset(country: String, currency: String, sizeType: String, size: Double)
+
+  suspend fun deletePreset(id: Long)
 }
