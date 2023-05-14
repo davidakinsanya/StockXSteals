@@ -4,13 +4,16 @@ import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -27,9 +30,6 @@ import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.ui.FilterViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
 import db.entity.FilterPreset
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -112,6 +112,9 @@ fun SearchScreen(navController: NavHostController,
       .fillMaxHeight(0.9f)
       .border(BorderStroke(0.5.dp, SolidColor(Color.LightGray))),
     ) {
+      items(allPresets.size) { index ->
+        DisplayPreset(preset = allPresets[index])
+      }
     }
   }
 }
@@ -175,5 +178,38 @@ fun  FilterButtons(button: String,
       fontWeight = fontWeight,
       textAlign = TextAlign.Center,
       color = textColor)
+  }
+}
+
+@Composable
+fun DisplayPreset(preset: FilterPreset) {
+  val BLUE = Color(173, 216, 230)
+  Row(modifier = Modifier
+    .padding(start = 15.dp, end = 30.dp, top = 30.dp, bottom = 30.dp)
+    .fillMaxWidth(),
+    horizontalArrangement = Arrangement.SpaceBetween,
+    verticalAlignment = Alignment.CenterVertically) {
+
+    IconButton(onClick = {}) {
+      Icon(
+        imageVector = Icons.Filled.Delete,
+        contentDescription = "Delete Icon",
+        modifier = Modifier
+          .fillMaxWidth(0.05f)
+          .fillMaxHeight(0.05f)
+      )
+    }
+    Row (modifier = Modifier
+         .clickable { }
+         .padding(start = 30.dp)
+         .fillMaxWidth(),
+         horizontalArrangement = Arrangement.SpaceBetween,
+         verticalAlignment = Alignment.CenterVertically) {
+
+      Text("'${preset.country}'", color = BLUE, fontWeight = FontWeight.Bold)
+      Text("'${preset.currency}'", color = BLUE, fontWeight = FontWeight.Bold)
+      Text("'${preset.sizeType}'", color = BLUE, fontWeight = FontWeight.Bold)
+      Text("'${preset.size}'", color = BLUE, fontWeight = FontWeight.Bold)
+    }
   }
 }

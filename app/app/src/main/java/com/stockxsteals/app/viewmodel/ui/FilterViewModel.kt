@@ -35,14 +35,6 @@ class FilterViewModel(private val presetModel: FilterPresetsViewModel)
             searchWithFilters.size != 0.0
   }
 
-  fun filterVariablesToString(): String {
-    return "Search Params\n" +
-            "Slug: ${searchWithFilters.slug} \n" +
-            "Country: ${searchWithFilters.country} \n" +
-            "Currency: ${searchWithFilters.currency} \n" +
-            "Size: ${searchWithFilters.size}"
-  }
-
   fun getFilterMap(): HashMap<String, List<Any>> {
     val listMap: HashMap<String, List<Any>> = HashMap()
 
