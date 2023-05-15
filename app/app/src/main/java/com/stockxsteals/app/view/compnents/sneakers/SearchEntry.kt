@@ -1,5 +1,6 @@
 package com.stockxsteals.app.view.compnents.sneakers
 
+import android.widget.Toast
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
@@ -24,14 +25,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.stockxsteals.app.R
 import com.stockxsteals.app.navigation.AppScreens
+import com.stockxsteals.app.viewmodel.db.DailySearchViewModel
 import com.stockxsteals.app.viewmodel.ui.FilterViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 
 @Composable
 fun SearchEntry(title: String,
@@ -40,9 +44,19 @@ fun SearchEntry(title: String,
                 navController: NavHostController
 ) {
 
-  val productModel = ProductSearchViewModel()
+  val dailySearchModel: DailySearchViewModel = hiltViewModel()
+  val productModel = ProductSearchViewModel(dailySearchModel)
   val coroutineScope = rememberCoroutineScope()
   val searchRoute = AppScreens.Search.route
+  val context = LocalContext.current
+
+  val dailySearch = productModel.getSearchModel()
+  val noQuota = dailySearch.quota.collectAsState(initial = emptyList()).value.isEmpty()
+
+  val quota = if
+          (!noQuota) dailySearch.quota.collectAsState(initial = emptyList()).value[0]
+  else
+    null
 
   Column(
     modifier = Modifier
@@ -57,10 +71,19 @@ fun SearchEntry(title: String,
         .fillMaxSize()
         .clickable {
           coroutineScope.launch {
-            productModel.getProduct(
-              result[0],
-              model.getCurrentSearch().currency,
-              model.getCurrentSearch().country)
+            if (noQuota) {
+              dailySearch.insertSearch(LocalDateTime.now().toString(), 3, 1)
+            }
+            else if (dailySearch.dbLogic(quota!!) == 1) {
+              Toast.makeText(context, "${quota.search_limit - quota.search_number} free daily searches left.", Toast.LENGTH_LONG).show()
+              productModel.getProduct(
+                result[0],
+                model.getCurrentSearch().currency,
+                model.getCurrentSearch().country
+              )
+            } else {
+              Toast.makeText(context,"Please upgrade to L8test Premium.", Toast.LENGTH_SHORT).show()
+            }
           }
           navController.currentBackStackEntry?.savedStateHandle?.set(
             key = "productModel",

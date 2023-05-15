@@ -1,36 +1,46 @@
 CREATE TABLE DailySearchQuota (
- timestamp TEXT NOT NULL PRIMARY KEY,
+ id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+ timestamp TEXT NOT NULL,
  search_limit INTEGER NOT NULL,
  search_number INTEGER NOT NULL
 );
 
 getSearchNumber:
 SELECT search_number
-FROM DailySearchQuota;
+FROM DailySearchQuota
+WHERE id = :id;
 
 getSearchLimit:
 SELECT search_limit
-FROM DailySearchQuota;
+FROM DailySearchQuota
+WHERE id = :id;
 
 getTimeStamp:
 SELECT timestamp
-FROM DailySearchQuota;
+FROM DailySearchQuota
+WHERE id = :id;
 
 insertSearch:
 INSERT OR REPLACE
-INTO DailySearchQuota
+INTO DailySearchQuota (timestamp, search_limit, search_number)
 VALUES (?,?,?);
+
+getQuota:
+SELECT * FROM DailySearchQuota;
 
 updateSearchNumber:
 UPDATE DailySearchQuota
-SET search_number = :search_number;
+SET search_number = :search_number
+WHERE id = :id;
 
 updateSearchLimit:
 UPDATE DailySearchQuota
-SET search_limit = :search_limit;
+SET search_limit = :search_limit
+WHERE id = :id;
 
 updateTimeStamp:
 UPDATE
  DailySearchQuota
 SET
- timestamp = :timestamp;
+ timestamp = :timestamp
+WHERE id = :id;
