@@ -71,19 +71,24 @@ fun SearchEntry(title: String,
         .fillMaxSize()
         .clickable {
           coroutineScope.launch {
+            var displayItem = false
             if (noQuota) {
               dailySearch.insertSearch(LocalDateTime.now().toString(), 3, 1)
+              displayItem = true
             }
             else if (dailySearch.dbLogic(quota!!) == 1) {
               Toast.makeText(context, "${quota.search_limit - quota.search_number} free daily searches left.", Toast.LENGTH_LONG).show()
+              displayItem = true
+            } else {
+              Toast.makeText(context,"Please upgrade to L8test Premium.", Toast.LENGTH_SHORT).show()
+            }
+
+            if (displayItem)
               productModel.getProduct(
                 result[0],
                 model.getCurrentSearch().currency,
                 model.getCurrentSearch().country
               )
-            } else {
-              Toast.makeText(context,"Please upgrade to L8test Premium.", Toast.LENGTH_SHORT).show()
-            }
           }
           navController.currentBackStackEntry?.savedStateHandle?.set(
             key = "productModel",
