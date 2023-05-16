@@ -95,7 +95,7 @@ fun SearchEntry(title: String,
               displayItem = true
             } else {
               Toast
-                .makeText(context, "Please upgrade to L8test Premium.", Toast.LENGTH_SHORT)
+                .makeText(context, "Please upgrade to L8test Premium.", Toast.LENGTH_LONG)
                 .show()
             }
 
