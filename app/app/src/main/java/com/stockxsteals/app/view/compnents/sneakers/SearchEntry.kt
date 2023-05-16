@@ -32,6 +32,7 @@ import coil.request.ImageRequest
 import com.stockxsteals.app.R
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.db.DailySearchViewModel
+import com.stockxsteals.app.viewmodel.db.PremiumViewModel
 import com.stockxsteals.app.viewmodel.ui.FilterViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import kotlinx.coroutines.launch
@@ -45,7 +46,8 @@ fun SearchEntry(title: String,
 ) {
 
   val dailySearchModel: DailySearchViewModel = hiltViewModel()
-  val productModel = ProductSearchViewModel(dailySearchModel)
+  val premiumModel: PremiumViewModel = hiltViewModel()
+  val productModel = ProductSearchViewModel(dailySearchModel, premiumModel)
   val coroutineScope = rememberCoroutineScope()
   val searchRoute = AppScreens.Search.route
   val context = LocalContext.current
@@ -71,19 +73,29 @@ fun SearchEntry(title: String,
         .fillMaxSize()
         .clickable {
           coroutineScope.launch {
+            val isPremium = productModel.isPremium()
             var displayItem = false
             if (noQuota) {
-              dailySearch.insertSearch(LocalDateTime.now().toString(), 3, 1)
+              dailySearch.insertSearch(
+                LocalDateTime
+                  .now()
+                  .toString(), 3, 1
+              )
               displayItem = true
-            } else if (dailySearch.dbLogic(quota!!) == 1) {
-              Toast.makeText(
-                context,
-                "${quota.search_limit - quota.search_number} free daily searches left.",
-                Toast.LENGTH_LONG
-              ).show()
+            } else if (dailySearch.dbLogic(quota!!) == 1 || isPremium) {
+              if (!isPremium) {
+                Toast
+                .makeText(
+                  context,
+                  "${quota.search_limit - quota.search_number} free daily searches left.",
+                  Toast.LENGTH_LONG
+                )
+                .show()
+              }
               displayItem = true
             } else {
-              Toast.makeText(context, "Please upgrade to L8test Premium.", Toast.LENGTH_SHORT)
+              Toast
+                .makeText(context, "Please upgrade to L8test Premium.", Toast.LENGTH_SHORT)
                 .show()
             }
 
