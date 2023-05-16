@@ -226,11 +226,8 @@ fun DisplayPreset(preset: FilterPreset,
       .padding(start = 30.dp)
       .fillMaxSize(),
       onClick = {
-        count.value = model.appendCountryAndCurrency("Country", preset.country, count)
-        count.value = model.appendCountryAndCurrency("Currency", preset.currency, count)
-        model.appendSize(null, preset.sizeType, count) // null
-        count.value = model.appendSize(preset.size, null, count)!!
-       Toast.makeText(context, "Preset Added!", Toast.LENGTH_SHORT).show()
+        model.addPreset(preset, count)
+        Toast.makeText(context, "Preset Added!", Toast.LENGTH_SHORT).show()
       }) {
       Icon(
         imageVector = Icons.Filled.Check,

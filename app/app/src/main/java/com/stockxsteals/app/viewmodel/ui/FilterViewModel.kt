@@ -10,6 +10,7 @@ import com.stockxsteals.app.model.filter.SearchWithFilters
 import com.stockxsteals.app.model.filter.Currency
 import com.stockxsteals.app.model.filter.ShoeSize
 import com.stockxsteals.app.viewmodel.db.FilterPresetsViewModel
+import db.entity.FilterPreset
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -91,7 +92,7 @@ class FilterViewModel(private val presetModel: FilterPresetsViewModel)
       "Currency" -> {
         if (text != null) {
           searchWithFilters.currency = text
-          count.value++;
+          count.value++
         }
       }
     }
@@ -115,5 +116,12 @@ class FilterViewModel(private val presetModel: FilterPresetsViewModel)
       else
         Log.d("error", res.code().toString())
     }
+  }
+
+  fun addPreset(preset: FilterPreset, count: MutableState<Int>) {
+    count.value = this.appendCountryAndCurrency("Country", preset.country, count)
+    count.value = this.appendCountryAndCurrency("Currency", preset.currency, count)
+    this.appendSize(null, preset.sizeType, count) // null
+    count.value = this.appendSize(preset.size, null, count)!!
   }
 }
