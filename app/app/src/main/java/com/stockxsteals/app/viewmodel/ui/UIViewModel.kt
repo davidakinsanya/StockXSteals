@@ -21,6 +21,15 @@ class UIViewModel: ViewModel() {
     )
   }
 
+  fun bottomNavBool(): List<String> {
+    return listOf(
+      AppScreens.TopSearch.route,
+      AppScreens.Settings.route,
+      AppScreens.SneakerSearch.route,
+      AppScreens.SettingScreen.route
+    )
+  }
+
   fun selectedIsSearch(selected: String): Boolean {
     return selected == "Search"
   }

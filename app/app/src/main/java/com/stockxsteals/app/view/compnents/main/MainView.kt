@@ -9,7 +9,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.navigation.NavGraph
 import com.stockxsteals.app.viewmodel.db.FilterPresetsViewModel
 import com.stockxsteals.app.viewmodel.ui.FilterViewModel
@@ -23,10 +22,6 @@ fun SetupScreen(navController: NavHostController) {
   val filterModel = FilterViewModel(presetsModel)
 
   val uiModel = UIViewModel()
-
-  val searchDestination = AppScreens.TopSearch.route
-  val settingsDestination = AppScreens.Settings.route
-  val sneakersDestination = AppScreens.SneakerSearch.route
   var selected = ""
 
   val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -34,7 +29,7 @@ fun SetupScreen(navController: NavHostController) {
 
   uiModel.listOfScreens().forEach { _ ->
     val bool = currentDestination?.hierarchy?.any {
-      it.route == searchDestination || it.route == settingsDestination || it.route == sneakersDestination
+      uiModel.bottomNavBool().contains(it.route)
     } == true
 
     Scaffold(

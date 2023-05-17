@@ -40,7 +40,6 @@ import com.stockxsteals.app.viewmodel.ui.UIViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchAppBar(navController: NavHostController, filterModel: FilterViewModel, uiModel: UIViewModel) {

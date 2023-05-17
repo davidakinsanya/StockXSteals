@@ -23,6 +23,12 @@ sealed class AppScreens (
     icon = "https://img.icons8.com/ios-glyphs/512/settings.png"
   )
 
+  object SettingScreen: AppScreens(
+    route = "setting_screen",
+    title = "Setting Screen",
+    icon = ""
+  )
+
   object TopSearch: AppScreens(
     route = "top_search",
     title = "Search",
