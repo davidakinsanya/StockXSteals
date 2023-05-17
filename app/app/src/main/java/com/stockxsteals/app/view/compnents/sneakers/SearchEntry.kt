@@ -36,7 +36,6 @@ import com.stockxsteals.app.viewmodel.db.PremiumViewModel
 import com.stockxsteals.app.viewmodel.ui.FilterViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 
 @Composable
 fun SearchEntry(title: String,
@@ -76,11 +75,7 @@ fun SearchEntry(title: String,
             val isPremium = productModel.isPremium()
             var displayItem = false
             if (noQuota) {
-              dailySearch.insertSearch(
-                LocalDateTime
-                  .now()
-                  .toString(), 3, 1
-              )
+              dailySearch.insertSearch(3, 1)
               displayItem = true
             } else if (dailySearch.dbLogic(quota!!) == 1 || isPremium) {
               if (!isPremium) {

@@ -2,6 +2,7 @@ package com.stockxsteals.app.viewmodel.ui
 
 import android.content.Context
 import android.util.Log
+import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stockxsteals.app.http.RetrofitInstance
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.LocalDateTime
 import java.io.File
 
 class TrendsViewModel(context: Context): ViewModel() {

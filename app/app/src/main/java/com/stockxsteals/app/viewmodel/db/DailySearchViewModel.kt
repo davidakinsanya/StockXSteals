@@ -3,13 +3,13 @@ package com.stockxsteals.app.viewmodel.db
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stockxsteals.app.datasource.intrface.DailySearchDataSource
+import com.stockxsteals.app.utils.getCurrentDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import db.entity.DailySearchQuota
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,9 +26,9 @@ class DailySearchViewModel
     }
   }
 
-  suspend fun insertSearch(timestamp: String, search_limit: Int, search_number: Int) {
+  suspend fun insertSearch(search_limit: Int, search_number: Int) {
     withContext(Dispatchers.IO) {
-      dailySearchDataSource.insertSearch(timestamp, search_limit, search_number)
+      dailySearchDataSource.insertSearch(getCurrentDate(), search_limit, search_number)
     }
   }
 
@@ -52,7 +52,7 @@ class DailySearchViewModel
 
       } else {
         dailySearchDataSource.updateSearchNumber(1, quota.id)
-        dailySearchDataSource.updateTimeStamp(LocalDateTime.now().toString(), quota.id)
+        dailySearchDataSource.updateTimeStamp(getCurrentDate(), quota.id)
         return@withContext 1
       }
     }
@@ -61,7 +61,7 @@ class DailySearchViewModel
 
   private fun sameDateCheck(timestamp: String): Boolean {
     val stampDate = timestamp.split("T")
-    val currentDate = LocalDateTime.now().toString().split("T")
+    val currentDate = getCurrentDate().split("T")
     return currentDate.toString().equals(stampDate)
   }
 }

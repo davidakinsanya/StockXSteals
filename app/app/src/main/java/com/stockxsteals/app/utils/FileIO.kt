@@ -4,14 +4,22 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.stockxsteals.app.model.dto.Trend
+import kotlinx.datetime.Instant
+import kotlinx.datetime.Clock
+import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.TimeZone
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
-import java.time.LocalDateTime
 
+fun getCurrentDate(): String {
+  val now: Instant = Clock.System.now()
+  return now.toLocalDateTime(TimeZone.currentSystemDefault()).toString()
+}
 
 fun writeCurrentTrends(location: String, trends: List<Trend>) {
-  val trendsFile = "current trends : " + LocalDateTime.now() + " : .json"
+
+  val trendsFile = "current trends : ${ getCurrentDate() } : .json"
 
   try {
     val writer = FileWriter(File(location, trendsFile))
@@ -37,7 +45,7 @@ private fun fileIsOld(timestamp: String): Boolean {
   val stampArr = stampSplit[1].split(":")
   val stampDateArr = stampSplit[0].split("-")
 
-  val currentDate = LocalDateTime.now().toString().split("T")
+  val currentDate = getCurrentDate().split("T")
   val currentTimeArr = currentDate[1].split(":")
   val currentDateArr = currentDate[0].split("-")
 
