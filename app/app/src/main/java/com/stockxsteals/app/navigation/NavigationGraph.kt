@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.stockxsteals.app.navigation.nested.searchGraph
+import com.stockxsteals.app.navigation.nested.settingsNavGraph
 import com.stockxsteals.app.view.compnents.searchpage.SneakerViewComponent
 import com.stockxsteals.app.view.compnents.trends.TrendsViewComponent
 import com.stockxsteals.app.viewmodel.ui.FilterViewModel
