@@ -75,7 +75,7 @@ fun SearchEntry(title: String,
             val isPremium = productModel.isPremium()
             var displayItem = false
             if (noQuota) {
-              dailySearch.insertSearch(3, 1)
+              dailySearch.insertSearch(4, 1)
               displayItem = true
             } else if (dailySearch.dbLogic(quota!!) == 1 || isPremium) {
               if (!isPremium) {
