@@ -3,7 +3,6 @@ package com.stockxsteals.app.view.compnents.settings
 import android.app.Activity
 import android.content.Context
 import android.widget.Toast
-import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import com.qonversion.android.sdk.Qonversion
 import com.qonversion.android.sdk.QonversionError
