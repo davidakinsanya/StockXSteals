@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -21,13 +22,17 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.navigation.AppScreens
+import com.stockxsteals.app.viewmodel.db.PremiumViewModel
 import com.stockxsteals.app.viewmodel.ui.QonversionViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SettingsSplashScreen(navController: NavHostController) {
   val qonversionModel: QonversionViewModel = viewModel()
+  val premiumModel: PremiumViewModel = viewModel()
+  val scope = rememberCoroutineScope()
   val context = LocalContext.current
+
   Scaffold {
     Column(
       modifier = Modifier
@@ -94,7 +99,10 @@ fun SettingsSplashScreen(navController: NavHostController) {
                IconButton(
                  onClick = {
                    if (settingScreens[item] == "Upgrade") {
-                     paymentFlow(navController, qonversionModel, context)
+                     paymentFlow(scope,
+                                 qonversionModel,
+                                 premiumModel,
+                                 context)
                    } else {
                      navController
                        .currentBackStackEntry
