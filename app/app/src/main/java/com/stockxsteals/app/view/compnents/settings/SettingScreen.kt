@@ -15,14 +15,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.stockxsteals.app.viewmodel.ui.QonversionViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SettingScreen(setting: String, navController: NavHostController) {
-  val qonversionModel: QonversionViewModel = viewModel()
   Scaffold {
     Column(
       modifier = Modifier

@@ -13,16 +13,21 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.navigation.AppScreens
+import com.stockxsteals.app.viewmodel.ui.QonversionViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SettingsSplashScreen(navController: NavHostController) {
+  val qonversionModel: QonversionViewModel = viewModel()
+  val context = LocalContext.current
   Scaffold {
     Column(
       modifier = Modifier
@@ -88,14 +93,18 @@ fun SettingsSplashScreen(navController: NavHostController) {
 
                IconButton(
                  onClick = {
-                   navController
-                     .currentBackStackEntry
-                     ?.savedStateHandle
-                     ?.set (
-                       "setting",
-                       settingScreens[item]
-                     )
-                   navController.navigate(AppScreens.SettingScreen.route)
+                   if (settingScreens[item] == "Upgrade") {
+                     paymentFlow(navController, qonversionModel, context)
+                   } else {
+                     navController
+                       .currentBackStackEntry
+                       ?.savedStateHandle
+                       ?.set(
+                         "setting",
+                         settingScreens[item]
+                       )
+                     navController.navigate(AppScreens.SettingScreen.route)
+                   }
                  }) {
                  Icon(
                    imageVector = Icons.Default.Info,
