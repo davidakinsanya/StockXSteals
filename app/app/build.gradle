@@ -75,6 +75,9 @@ android {
     def nav_version = "2.5.3"
     def accompanist_version = "0.30.1"
 
+    // Qonversion SDK
+    implementation 'io.qonversion.android.sdk:sdk:3.2.3'
+
     // Native Kotlin DateTime
     implementation "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
 
