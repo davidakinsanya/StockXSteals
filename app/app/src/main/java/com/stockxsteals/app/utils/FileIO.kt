@@ -17,6 +17,12 @@ fun getCurrentDate(): String {
   return now.toLocalDateTime(TimeZone.currentSystemDefault()).toString()
 }
 
+fun sameDateCheck(timestamp: String): Boolean {
+  val stampDate = timestamp.split("T")[0].split("-")
+  val currentDate = getCurrentDate().split("T")[0].split("-")
+  return currentDate.toString().equals(stampDate)
+}
+
 fun writeCurrentTrends(location: String, trends: List<Trend>) {
 
   val trendsFile = "current trends : ${ getCurrentDate() } : .json"

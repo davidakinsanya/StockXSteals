@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stockxsteals.app.datasource.intrface.DailySearchDataSource
 import com.stockxsteals.app.utils.getCurrentDate
+import com.stockxsteals.app.utils.sameDateCheck
 import dagger.hilt.android.lifecycle.HiltViewModel
 import db.entity.DailySearchQuota
 import kotlinx.coroutines.Dispatchers
@@ -57,11 +58,5 @@ class DailySearchViewModel
       }
     }
     return -1
-  }
-
-  private fun sameDateCheck(timestamp: String): Boolean {
-    val stampDate = timestamp.split("T")
-    val currentDate = getCurrentDate().split("T")
-    return currentDate.toString().equals(stampDate)
   }
 }

@@ -3,10 +3,12 @@ package com.stockxsteals.app.viewmodel.db
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stockxsteals.app.datasource.intrface.DailySearchHistorySource
+import com.stockxsteals.app.utils.sameDateCheck
 import dagger.hilt.android.lifecycle.HiltViewModel
 import db.entity.DailySearchHistory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -22,6 +24,12 @@ class DailySearchHistoryViewModel
   init {
     viewModelScope.launch {
       searches = getSearchHistory()
+      searches.onEach {
+        if (!sameDateCheck(it[0].timestamp)) {
+          clearSearches()
+          return@onEach
+        }
+      }
     }
   }
   private suspend fun getSearchHistory(): Flow<List<DailySearchHistory>> {
@@ -50,7 +58,7 @@ class DailySearchHistoryViewModel
     }
   }
 
-   suspend fun clearSearches() {
+   private suspend fun clearSearches() {
     withContext(Dispatchers.IO) {
       dailySearchHistorySource.clearSearches()
     }
