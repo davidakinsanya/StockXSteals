@@ -19,17 +19,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.navigation.AppScreens
-import com.stockxsteals.app.viewmodel.db.PremiumViewModel
-import com.stockxsteals.app.viewmodel.ui.QonversionViewModel
+import com.stockxsteals.app.viewmodel.ui.SettingViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun SettingsSplashScreen(navController: NavHostController) {
-  val qonversionModel: QonversionViewModel = viewModel()
-  val premiumModel: PremiumViewModel = viewModel()
+fun SettingsSplashScreen(navController: NavHostController,
+                         settingModel: SettingViewModel
+) {
   val scope = rememberCoroutineScope()
   val context = LocalContext.current
 
@@ -100,8 +98,7 @@ fun SettingsSplashScreen(navController: NavHostController) {
                  onClick = {
                    if (settingScreens[item] == "Upgrade") {
                      paymentFlow(scope,
-                                 qonversionModel,
-                                 premiumModel,
+                                 settingModel,
                                  context)
                    } else {
                      navController
