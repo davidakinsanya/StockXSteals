@@ -4,10 +4,12 @@ import android.app.Application
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
 import com.stockxsteals.app.Database
+import com.stockxsteals.app.datasource.impl.DailySearchHistoryImpl
 import com.stockxsteals.app.datasource.impl.DailySearchImpl
 import com.stockxsteals.app.datasource.impl.FilterPresetImpl
 import com.stockxsteals.app.datasource.impl.PremiumImpl
 import com.stockxsteals.app.datasource.intrface.DailySearchDataSource
+import com.stockxsteals.app.datasource.intrface.DailySearchHistorySource
 import com.stockxsteals.app.datasource.intrface.FilterPresetDataSource
 import com.stockxsteals.app.datasource.intrface.PremiumDataSource
 import dagger.Module
@@ -46,5 +48,11 @@ object AppModule {
   @Singleton
   fun providePremiumDataSource(driver: SqlDriver): PremiumDataSource {
     return PremiumImpl(Database(driver))
+  }
+
+  @Provides
+  @Singleton
+  fun provideDailySearchHistoryDataSource(driver: SqlDriver): DailySearchHistorySource {
+    return DailySearchHistoryImpl(Database(driver))
   }
 }

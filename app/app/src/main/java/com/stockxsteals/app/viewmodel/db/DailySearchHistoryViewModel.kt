@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DailySearchHistoryViewModel
-  @Inject constructor (
+@Inject constructor (
   private val dailySearchHistorySource: DailySearchHistorySource
   ): ViewModel() {
 
