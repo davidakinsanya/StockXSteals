@@ -16,10 +16,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.stockxsteals.app.viewmodel.ui.SettingViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun SettingScreen(setting: String, navController: NavHostController) {
+fun SettingScreen(setting: String,
+                  settingModel: SettingViewModel,
+                  navController: NavHostController) {
+
   Scaffold {
     Column(
       modifier = Modifier
@@ -53,7 +57,20 @@ fun SettingScreen(setting: String, navController: NavHostController) {
           )
         }
       }
-      // Logic goes here ..
+     SettingPage(setting, settingModel)
+    }
+  }
+}
+
+@Composable
+fun SettingPage(setting: String, settingModel: SettingViewModel) {
+  when (setting) {
+    "Search History" -> {
+
+    }
+
+    "About Us" -> {
+
     }
   }
 }
