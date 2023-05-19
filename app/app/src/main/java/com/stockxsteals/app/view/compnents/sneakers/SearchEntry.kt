@@ -74,9 +74,11 @@ fun SearchEntry(title: String,
           coroutineScope.launch {
             val isPremium = productModel.isPremium()
             var displayItem = false
+
             if (noQuota) {
               dailySearch.insertSearch(4, 1)
               displayItem = true
+
             } else if (dailySearch.dbLogic(quota!!) == 1 || isPremium) {
               if (!isPremium) {
                 Toast
@@ -88,6 +90,7 @@ fun SearchEntry(title: String,
                 .show()
               }
               displayItem = true
+
             } else {
               Toast
                 .makeText(context, "Please upgrade to L8test+.", Toast.LENGTH_LONG)

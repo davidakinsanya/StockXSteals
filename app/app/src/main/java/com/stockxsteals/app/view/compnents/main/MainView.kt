@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -12,18 +13,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.stockxsteals.app.navigation.NavGraph
 import com.stockxsteals.app.viewmodel.db.DailySearchHistoryViewModel
+import com.stockxsteals.app.viewmodel.db.DailySearchViewModel
 import com.stockxsteals.app.viewmodel.db.FilterPresetsViewModel
 import com.stockxsteals.app.viewmodel.db.PremiumViewModel
-import com.stockxsteals.app.viewmodel.ui.FilterViewModel
-import com.stockxsteals.app.viewmodel.ui.QonversionViewModel
-import com.stockxsteals.app.viewmodel.ui.SettingViewModel
-import com.stockxsteals.app.viewmodel.ui.UIViewModel
+import com.stockxsteals.app.viewmodel.ui.*
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SetupScreen(navController: NavHostController) {
 
   val presetsModel: FilterPresetsViewModel = hiltViewModel()
+  val dailySearchModel: DailySearchViewModel = hiltViewModel()
   val filterModel = FilterViewModel(presetsModel)
   val uiModel: UIViewModel = viewModel()
   val qonversionModel: QonversionViewModel = viewModel()
@@ -32,6 +32,7 @@ fun SetupScreen(navController: NavHostController) {
   val settingModel = SettingViewModel(qonversionModel,
                                       premiumModel,
                                       historyModel)
+  val trendsModel = TrendsViewModel(LocalContext.current, historyModel, dailySearchModel, premiumModel)
 
   var selected = ""
 
@@ -51,7 +52,8 @@ fun SetupScreen(navController: NavHostController) {
         navController = navController,
         filterModel = filterModel,
         uiModel = uiModel,
-        settingModel = settingModel)
+        settingModel = settingModel,
+        trendsModel = trendsModel)
     }
   }
 }

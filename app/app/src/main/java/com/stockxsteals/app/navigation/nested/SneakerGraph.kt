@@ -8,13 +8,16 @@ import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.view.compnents.searchpage.SneakerViewComponent
 import com.stockxsteals.app.view.compnents.trends.TrendsViewComponent
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
+import com.stockxsteals.app.viewmodel.ui.TrendsViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
-fun NavGraphBuilder.sneakerGraph(navController: NavHostController, uiModel: UIViewModel) {
+fun NavGraphBuilder.sneakerGraph(navController: NavHostController,
+                                 uiModel: UIViewModel,
+                                 trendsModel: TrendsViewModel) {
   navigation(startDestination = AppScreens.Trends.route,
              route = "trends_route") {
     composable(route = AppScreens.Trends.route) {
-      TrendsViewComponent()
+      TrendsViewComponent(trendsModel)
     }
     composable(route = AppScreens.Search.route) {
       val productModel = navController

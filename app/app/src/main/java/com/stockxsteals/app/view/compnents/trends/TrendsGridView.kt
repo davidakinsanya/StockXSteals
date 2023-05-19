@@ -18,7 +18,7 @@ import com.stockxsteals.app.viewmodel.ui.TrendsViewModel
 import java.io.File
 
 @Composable
-fun TrendsViewComponent() {
+fun TrendsViewComponent(trendsModel: TrendsViewModel) {
   val currentTrends: List<Trend>?
 
   val dir = File(LocalContext.current.filesDir, "/trends/obj")
@@ -26,13 +26,13 @@ fun TrendsViewComponent() {
 
   currentTrends = when (dir.listFiles()?.size) {
     0 -> {
-      TrendsViewModel(LocalContext.current).bootTrends.collectAsState().value
+      trendsModel.bootTrends.collectAsState().value
     }
     1 -> {
       readCurrentTrends(dir.listFiles()?.get(0)!!.path)
     }
     else -> {
-      TrendsViewModel(LocalContext.current).bootTrends.collectAsState().value
+      trendsModel.bootTrends.collectAsState().value
     }
   }
 
@@ -47,7 +47,7 @@ fun TrendsViewComponent() {
         .fillMaxHeight(.88f)
     ) {
 
-      TrendsLazyGrid(currentTrends!!)
+      TrendsLazyGrid(currentTrends!!, trendsModel)
 
     }
   }

@@ -8,23 +8,21 @@ import com.stockxsteals.app.navigation.nested.searchGraph
 import com.stockxsteals.app.navigation.nested.settingsNavGraph
 import com.stockxsteals.app.view.compnents.searchpage.SneakerViewComponent
 import com.stockxsteals.app.view.compnents.trends.TrendsViewComponent
-import com.stockxsteals.app.viewmodel.ui.FilterViewModel
-import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
-import com.stockxsteals.app.viewmodel.ui.SettingViewModel
-import com.stockxsteals.app.viewmodel.ui.UIViewModel
+import com.stockxsteals.app.viewmodel.ui.*
 
 @Composable
 fun NavGraph(navController: NavHostController,
              filterModel: FilterViewModel,
              uiModel: UIViewModel,
-             settingModel: SettingViewModel
+             settingModel: SettingViewModel,
+            trendsModel: TrendsViewModel
 ) {
   NavHost(navController = navController,
           startDestination = AppScreens.Trends.route,
           route = "root_route") {
 
     composable(route = AppScreens.Trends.route) {
-      TrendsViewComponent()
+      TrendsViewComponent(trendsModel = trendsModel)
     }
 
     composable(route = AppScreens.Search.route) {
@@ -38,7 +36,7 @@ fun NavGraph(navController: NavHostController,
       else SneakerViewComponent(productModel = null, uiModel = uiModel)
     }
 
-    // sneakerGraph(navController, uiModel)
+    // sneakerGraph(navController, uiModel, trendsModel)
     settingsNavGraph(navController, settingModel)
     searchGraph(navController, filterModel, uiModel)
   }

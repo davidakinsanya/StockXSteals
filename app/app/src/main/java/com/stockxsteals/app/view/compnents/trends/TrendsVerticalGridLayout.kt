@@ -1,7 +1,9 @@
 package com.stockxsteals.app.view.compnents.trends
 
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -9,10 +11,13 @@ import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -20,11 +25,15 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.model.ui.GridItem
+import com.stockxsteals.app.utils.getCurrentDate
+import com.stockxsteals.app.viewmodel.ui.TrendsViewModel
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TrendsLazyGrid(trends: List<Trend>) {
+fun TrendsLazyGrid(trends: List<Trend>,
+                  trendsModel: TrendsViewModel) {
 
   val items = (1..trends.size).map {
     GridItem(height = Random.nextInt(200, 300).dp,
@@ -50,7 +59,7 @@ fun TrendsLazyGrid(trends: List<Trend>) {
 
     } else {
       itemsIndexed(trends) { num, trend ->
-        RandomColorBox(item = items[num], trend)
+        RandomColorBox(items[num], trend, trendsModel)
       }
     }
   }
@@ -67,7 +76,17 @@ fun AlternateBox(item: GridItem) {
 }
 
 @Composable
-fun RandomColorBox(item: GridItem, trend: Trend) {
+fun RandomColorBox(item: GridItem,
+                   trend: Trend,
+                   trendsModel: TrendsViewModel) {
+
+  val scope = rememberCoroutineScope()
+  val noQuota = trendsModel.getSearchModel().quota.collectAsState(initial = emptyList()).value.isEmpty()
+  val quota = if (!noQuota) trendsModel.getSearchModel().quota.collectAsState(initial = emptyList()).value[0] else null
+  val context = LocalContext.current
+
+
+
   Box(modifier = Modifier
     .fillMaxWidth()
     .height(item.height)
@@ -86,7 +105,41 @@ fun RandomColorBox(item: GridItem, trend: Trend) {
           Modifier
             .fillMaxHeight(.9f)
             .padding(start = 150.dp)
-            .fillMaxWidth(1f))
+            .fillMaxWidth(1f)
+            .clickable {
+              var displayItem = false
+
+              scope.launch {
+                val isPremium = trendsModel.getPremiumModel().getIsPremium() == 1
+                trendsModel.getHistoryModel().addSearch(getCurrentDate(), trend.image, trend.name, "")
+
+                if (noQuota) {
+                  trendsModel.getSearchModel().insertSearch(4, 1)
+                  displayItem = true
+
+                } else if (trendsModel.getSearchModel().dbLogic(quota!!) == 1 || isPremium) {
+                  if (!isPremium) {
+                    Toast
+                      .makeText(
+                        context,
+                        "${quota.search_limit - quota.search_number} free daily searches left.",
+                        Toast.LENGTH_LONG
+                      )
+                      .show()
+                  }
+
+                  displayItem = true
+
+                } else {
+                Toast
+                  .makeText(context, "Please upgrade to L8test+.", Toast.LENGTH_LONG)
+                  .show()
+                }
+
+                if (displayItem) { }
+
+              }
+            })
 
       }
 

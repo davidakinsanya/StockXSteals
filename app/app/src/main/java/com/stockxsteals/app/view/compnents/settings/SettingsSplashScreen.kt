@@ -26,7 +26,7 @@ import com.stockxsteals.app.viewmodel.ui.SettingViewModel
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SettingsSplashScreen(navController: NavHostController,
-                         settingModel: SettingViewModel
+                         settingModel: SettingViewModel,
 ) {
   val scope = rememberCoroutineScope()
   val context = LocalContext.current
@@ -71,8 +71,8 @@ fun SettingsSplashScreen(navController: NavHostController,
 
           val settingScreens = listOf(
             "Search History",
-            "Upgrade",
             "About Us",
+            "Upgrade",
             "Log Out"
           )
 

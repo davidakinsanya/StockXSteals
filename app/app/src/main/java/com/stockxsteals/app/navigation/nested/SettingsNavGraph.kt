@@ -27,7 +27,9 @@ fun NavGraphBuilder.settingsNavGraph(
         ?.get<String>("setting")
 
       if (setting != null)
-        SettingScreen(setting = setting, navController = navController)
+        SettingScreen(setting = setting,
+                      navController = navController,
+                      settingModel = settingModel)
     }
 
   }
