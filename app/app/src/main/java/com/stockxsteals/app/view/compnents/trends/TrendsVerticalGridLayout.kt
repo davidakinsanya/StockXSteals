@@ -111,13 +111,14 @@ fun RandomColorBox(item: GridItem,
 
               scope.launch {
                 val isPremium = trendsModel.getPremiumModel().getIsPremium() == 1
-                trendsModel.getHistoryModel().addSearch(getCurrentDate(), trend.image, trend.name, "")
 
                 if (noQuota) {
                   trendsModel.getSearchModel().insertSearch(4, 1)
+                  trendsModel.getHistoryModel().addSearch(getCurrentDate(), trend.image, trend.name, "")
                   displayItem = true
 
                 } else if (trendsModel.getSearchModel().dbLogic(quota!!) == 1 || isPremium) {
+                  trendsModel.getHistoryModel().addSearch(getCurrentDate(), trend.image, trend.name, "")
                   if (!isPremium) {
                     Toast
                       .makeText(

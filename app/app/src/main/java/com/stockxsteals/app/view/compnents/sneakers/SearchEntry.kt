@@ -31,6 +31,8 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.stockxsteals.app.R
 import com.stockxsteals.app.navigation.AppScreens
+import com.stockxsteals.app.utils.getCurrentDate
+import com.stockxsteals.app.viewmodel.db.DailySearchHistoryViewModel
 import com.stockxsteals.app.viewmodel.db.DailySearchViewModel
 import com.stockxsteals.app.viewmodel.db.PremiumViewModel
 import com.stockxsteals.app.viewmodel.ui.FilterViewModel
@@ -46,6 +48,7 @@ fun SearchEntry(title: String,
 
   val dailySearchModel: DailySearchViewModel = hiltViewModel()
   val premiumModel: PremiumViewModel = hiltViewModel()
+  val historyModel: DailySearchHistoryViewModel = hiltViewModel()
   val productModel = ProductSearchViewModel(dailySearchModel, premiumModel)
   val coroutineScope = rememberCoroutineScope()
   val searchRoute = AppScreens.Search.route
@@ -77,9 +80,11 @@ fun SearchEntry(title: String,
 
             if (noQuota) {
               dailySearch.insertSearch(4, 1)
+              historyModel.addSearch(getCurrentDate(), result[1], title, "")
               displayItem = true
 
             } else if (dailySearch.dbLogic(quota!!) == 1 || isPremium) {
+              historyModel.addSearch(getCurrentDate(), result[1], title, "")
               if (!isPremium) {
                 Toast
                 .makeText(
