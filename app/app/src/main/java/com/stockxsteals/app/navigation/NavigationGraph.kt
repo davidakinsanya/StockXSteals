@@ -10,12 +10,14 @@ import com.stockxsteals.app.view.compnents.searchpage.SneakerViewComponent
 import com.stockxsteals.app.view.compnents.trends.TrendsViewComponent
 import com.stockxsteals.app.viewmodel.ui.FilterViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
+import com.stockxsteals.app.viewmodel.ui.SettingViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
 @Composable
 fun NavGraph(navController: NavHostController,
              filterModel: FilterViewModel,
-             uiModel: UIViewModel
+             uiModel: UIViewModel,
+             settingModel: SettingViewModel
 ) {
   NavHost(navController = navController,
           startDestination = AppScreens.Trends.route,
@@ -37,7 +39,7 @@ fun NavGraph(navController: NavHostController,
     }
 
     // sneakerGraph(navController, uiModel)
-    settingsNavGraph(navController)
+    settingsNavGraph(navController, settingModel)
     searchGraph(navController, filterModel, uiModel)
   }
 }

@@ -6,12 +6,17 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.stockxsteals.app.navigation.NavGraph
+import com.stockxsteals.app.viewmodel.db.DailySearchHistoryViewModel
 import com.stockxsteals.app.viewmodel.db.FilterPresetsViewModel
+import com.stockxsteals.app.viewmodel.db.PremiumViewModel
 import com.stockxsteals.app.viewmodel.ui.FilterViewModel
+import com.stockxsteals.app.viewmodel.ui.QonversionViewModel
+import com.stockxsteals.app.viewmodel.ui.SettingViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -20,8 +25,14 @@ fun SetupScreen(navController: NavHostController) {
 
   val presetsModel: FilterPresetsViewModel = hiltViewModel()
   val filterModel = FilterViewModel(presetsModel)
+  val uiModel: UIViewModel = viewModel()
+  val qonversionModel: QonversionViewModel = viewModel()
+  val premiumModel: PremiumViewModel = viewModel()
+  val historyModel: DailySearchHistoryViewModel = viewModel()
+  val settingModel = SettingViewModel(qonversionModel,
+                                      premiumModel,
+                                      historyModel)
 
-  val uiModel = UIViewModel()
   var selected = ""
 
   val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -39,7 +50,8 @@ fun SetupScreen(navController: NavHostController) {
       NavGraph(
         navController = navController,
         filterModel = filterModel,
-        uiModel = uiModel)
+        uiModel = uiModel,
+        settingModel = settingModel)
     }
   }
 }

@@ -7,15 +7,17 @@ import androidx.navigation.compose.navigation
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.view.compnents.settings.SettingScreen
 import com.stockxsteals.app.view.compnents.settings.SettingsSplashScreen
+import com.stockxsteals.app.viewmodel.ui.SettingViewModel
 
 fun NavGraphBuilder.settingsNavGraph(
-  navController: NavHostController
+  navController: NavHostController,
+  settingModel: SettingViewModel
 ) {
   navigation(startDestination = AppScreens.Settings.route,
              route = "settings_route") {
 
     composable(route = AppScreens.Settings.route) {
-      SettingsSplashScreen(navController)
+      SettingsSplashScreen(navController, settingModel)
     }
 
     composable(route = AppScreens.SettingScreen.route) {
