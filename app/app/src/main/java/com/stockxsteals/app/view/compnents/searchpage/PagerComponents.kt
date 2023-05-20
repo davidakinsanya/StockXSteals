@@ -1,5 +1,6 @@
 package com.stockxsteals.app.view.compnents.searchpage
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -9,10 +10,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.stockxsteals.app.R
 
 @Composable
 fun PagerTopRow(constants: List<String>) {
@@ -56,5 +61,33 @@ fun PagerTopRow(constants: List<String>) {
         alignment = Alignment.Center
       )
     }
+  }
+}
+
+@Composable
+fun SinglePagerComponent() {
+  Column(modifier = Modifier.fillMaxHeight(),
+         horizontalAlignment = Alignment.CenterHorizontally,
+         verticalArrangement = Arrangement.Center) {
+
+    Image(painter = painterResource(R.drawable.stockxsteals),
+      contentDescription = "Placeholder",
+      modifier = Modifier
+        .fillMaxWidth()
+        .fillMaxHeight(.4f)
+        .graphicsLayer { alpha = 0.55f })
+
+    Text(text = "Welcome To L8test.",
+         modifier = Modifier.padding(10.dp),
+         fontSize = 12.sp,
+         fontWeight = FontWeight.Bold
+    )
+
+    Text(text = "Hit the \uD83D\uDD0D icon to start your search.",
+         modifier = Modifier.width(250.dp),
+         maxLines = 2,
+      textAlign = TextAlign.Center,
+      fontSize = 12.sp,
+      fontWeight = FontWeight.Bold)
   }
 }
