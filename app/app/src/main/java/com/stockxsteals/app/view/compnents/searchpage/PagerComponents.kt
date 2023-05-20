@@ -74,14 +74,8 @@ fun SinglePagerComponent() {
       contentDescription = "Placeholder",
       modifier = Modifier
         .fillMaxWidth()
-        .fillMaxHeight(.4f)
+        .fillMaxHeight(.35f)
         .graphicsLayer { alpha = 0.55f })
-
-    Text(text = "Welcome To L8test.",
-         modifier = Modifier.padding(10.dp),
-         fontSize = 12.sp,
-         fontWeight = FontWeight.Bold
-    )
 
     Text(text = "Hit the \uD83D\uDD0D icon to start your search.",
          modifier = Modifier.width(250.dp),
