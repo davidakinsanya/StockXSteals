@@ -2,7 +2,9 @@ package com.stockxsteals.app.model.dto
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Trend(@SerializedName("id") @Expose val id: String,
                  @SerializedName("slug") @Expose val slug: String,
                  @SerializedName("name") @Expose val name: String,
