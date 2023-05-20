@@ -14,10 +14,9 @@ import com.stockxsteals.app.viewmodel.ui.*
 
 @Composable
 fun NavGraph(navController: NavHostController,
-             filterModel: FilterViewModel,
-             uiModel: UIViewModel,
+             productSearchViewModel: ProductSearchViewModel,
              settingModel: SettingViewModel,
-            trendsModel: TrendsViewModel
+             trendsModel: TrendsViewModel
 ) {
   NavHost(navController = navController,
           startDestination = AppScreens.Trends.route,
@@ -34,26 +33,27 @@ fun NavGraph(navController: NavHostController,
         ?.get<ProductSearchViewModel>("productModel")
 
       if (productModel != null)
-        SneakerViewComponent(productModel = productModel, uiModel = uiModel)
-      else SneakerViewComponent(productModel = null, uiModel = uiModel)
+        SneakerViewComponent(productModel = productModel, uiModel = productSearchViewModel.getUIModel())
+      else SneakerViewComponent(productModel = null, uiModel = productSearchViewModel.getUIModel())
     }
 
     composable(route = AppScreens.TopSearch.route) {
-      SearchScreen(navController = navController, filterModel, uiModel = uiModel)
+      SearchScreen(navController = navController,
+                   productSearchViewModel = productSearchViewModel)
     }
 
     composable(route = AppScreens.SneakerSearch.route) {
       val model = navController
         .previousBackStackEntry
         ?.savedStateHandle
-        ?.get<FilterViewModel>("filterModel")
+        ?.get<ProductSearchViewModel>("productSearchViewModel")
 
       if (model != null)
-        SneakerSplashScreen(navController = navController, model = model)
+        SneakerSplashScreen(navController = navController, productSearchViewModel = model)
     }
 
-    // sneakerGraph(navController, uiModel, trendsModel)
+    // sneakerGraph(navController, productSearchViewModel = productSearchViewModel)
     settingsNavGraph(navController, settingModel)
-    //searchGraph(navController, filterModel, uiModel)
+    //searchGraph(navController, productSearchViewModel)
   }
 }

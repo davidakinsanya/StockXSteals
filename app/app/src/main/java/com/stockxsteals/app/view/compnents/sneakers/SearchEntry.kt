@@ -25,36 +25,27 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.stockxsteals.app.R
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.getCurrentDate
-import com.stockxsteals.app.viewmodel.db.DailySearchHistoryViewModel
-import com.stockxsteals.app.viewmodel.db.DailySearchViewModel
-import com.stockxsteals.app.viewmodel.db.PremiumViewModel
-import com.stockxsteals.app.viewmodel.ui.FilterViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun SearchEntry(title: String,
                 result: List<String>,
-                model: FilterViewModel,
+                productSearchViewModel: ProductSearchViewModel,
                 navController: NavHostController
 ) {
 
-  val dailySearchModel: DailySearchViewModel = hiltViewModel()
-  val premiumModel: PremiumViewModel = hiltViewModel()
-  val historyModel: DailySearchHistoryViewModel = hiltViewModel()
-  val productModel = ProductSearchViewModel(dailySearchModel, premiumModel)
   val coroutineScope = rememberCoroutineScope()
   val searchRoute = AppScreens.Search.route
   val context = LocalContext.current
 
-  val dailySearch = productModel.getSearchModel()
+  val dailySearch = productSearchViewModel.getSearchModel()
   val noQuota = dailySearch.quota.collectAsState(initial = emptyList()).value.isEmpty()
 
   val quota = if
@@ -75,16 +66,16 @@ fun SearchEntry(title: String,
         .fillMaxSize()
         .clickable {
           coroutineScope.launch {
-            val isPremium = productModel.isPremium()
+            val isPremium = productSearchViewModel.isPremium()
             var displayItem = false
 
             if (noQuota) {
               dailySearch.insertSearch(4, 1)
-              historyModel.addSearch(getCurrentDate(), result[1], title, "")
+              productSearchViewModel.getHistoryModel().addSearch(getCurrentDate(), result[1], title, "")
               displayItem = true
 
             } else if (dailySearch.dbLogic(quota!!) == 1 || isPremium) {
-              historyModel.addSearch(getCurrentDate(), result[1], title, "")
+              productSearchViewModel.getHistoryModel().addSearch(getCurrentDate(), result[1], title, "")
               if (!isPremium) {
                 Toast
                 .makeText(
@@ -103,15 +94,15 @@ fun SearchEntry(title: String,
             }
 
             if (displayItem) {
-              productModel.getProduct(
+              productSearchViewModel.getProduct(
                 result[0],
-                model.getCurrentSearch().currency,
-                model.getCurrentSearch().country
+                productSearchViewModel.getFilterModel().getCurrentSearch().currency,
+                productSearchViewModel.getFilterModel().getCurrentSearch().country
               )
 
               navController.currentBackStackEntry?.savedStateHandle?.set(
                 key = "productModel",
-                value = productModel
+                value = productSearchViewModel
               )
               navController.navigate(searchRoute)
             }

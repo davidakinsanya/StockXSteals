@@ -1,6 +1,7 @@
 package com.stockxsteals.app.viewmodel.db
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.stockxsteals.app.datasource.intrface.FilterPresetDataSource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,7 +11,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-
 
 @HiltViewModel
 class FilterPresetsViewModel
@@ -39,7 +39,17 @@ class FilterPresetsViewModel
     size: Double
   ) {
     withContext(Dispatchers.IO) {
-      filterPresetDataSource.addPreset(country, currency, sizeType, size)
+      var count = 0
+      getAllPresets().asLiveData().value?.forEach {
+        if (it.country != country
+          && it.currency != currency
+          && it.sizeType != sizeType
+          && it.size != size) {
+          count++
+        }
+      }
+      if (count == getAllPresets().asLiveData().value?.size)
+        filterPresetDataSource.addPreset(country, currency, sizeType, size)
     }
   }
 

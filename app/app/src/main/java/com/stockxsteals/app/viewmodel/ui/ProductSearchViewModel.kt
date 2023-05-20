@@ -3,6 +3,7 @@ package com.stockxsteals.app.viewmodel.ui
 import androidx.lifecycle.ViewModel
 import com.stockxsteals.app.http.RetrofitInstance
 import com.stockxsteals.app.model.dto.*
+import com.stockxsteals.app.viewmodel.db.DailySearchHistoryViewModel
 import com.stockxsteals.app.viewmodel.db.DailySearchViewModel
 import com.stockxsteals.app.viewmodel.db.PremiumViewModel
 import kotlinx.coroutines.Dispatchers
@@ -10,14 +11,30 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
 
-class ProductSearchViewModel(private val searchModel: DailySearchViewModel,
-                             private val premiumModel: PremiumViewModel): ViewModel(), java.io.Serializable {
+class ProductSearchViewModel(private val filterModel: FilterViewModel,
+                             private val searchModel: DailySearchViewModel,
+                             private val historyModel: DailySearchHistoryViewModel,
+                             private val premiumModel: PremiumViewModel,
+                             private val uiModel: UIViewModel): ViewModel(), java.io.Serializable {
 
   private val _searchResult = MutableStateFlow(blankProduct())
   val searchResult: StateFlow<Product> = _searchResult
 
+
+  fun getFilterModel(): FilterViewModel {
+    return filterModel
+  }
+
   fun getSearchModel(): DailySearchViewModel {
     return searchModel
+  }
+
+  fun getHistoryModel(): DailySearchHistoryViewModel {
+    return historyModel
+  }
+
+  fun getUIModel(): UIViewModel {
+    return uiModel
   }
 
   private fun getPremiumModel(): PremiumViewModel {

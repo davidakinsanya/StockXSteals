@@ -35,14 +35,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.stockxsteals.app.R
 import com.stockxsteals.app.navigation.AppScreens
-import com.stockxsteals.app.viewmodel.ui.FilterViewModel
-import com.stockxsteals.app.viewmodel.ui.UIViewModel
+import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun SearchAppBar(navController: NavHostController, filterModel: FilterViewModel, uiModel: UIViewModel) {
+fun SearchAppBar(navController: NavHostController,
+                 productSearchViewModel: ProductSearchViewModel) {
 
   val focusManager = LocalFocusManager.current
   val focusRequester = remember { FocusRequester() }
@@ -54,13 +54,13 @@ fun SearchAppBar(navController: NavHostController, filterModel: FilterViewModel,
   var searchScreen = false
   var selected = ""
 
-  uiModel.listOfScreens().forEach { _ ->
+  productSearchViewModel.getUIModel().listOfScreens().forEach { _ ->
     searchScreen = currentDestination?.hierarchy?.any {
       it.route == searchRoute
     } == true
   }
 
-  uiModel.listOfScreens().forEach { screen ->
+  productSearchViewModel.getUIModel().listOfScreens().forEach { screen ->
     val tempSelected = currentDestination?.hierarchy?.any {
       it.route == screen.route
     } == true
@@ -84,8 +84,7 @@ fun SearchAppBar(navController: NavHostController, filterModel: FilterViewModel,
 
       RoundTextField(
           navController = navController,
-          model = filterModel,
-          uiModel = uiModel,
+          productSearchViewModel = productSearchViewModel,
           text = text,
           selected = selected,
           focusManager = focusManager,
@@ -101,8 +100,7 @@ fun SearchAppBar(navController: NavHostController, filterModel: FilterViewModel,
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun RoundTextField(navController: NavHostController,
-                   model: FilterViewModel,
-                   uiModel: UIViewModel,
+                   productSearchViewModel: ProductSearchViewModel,
                    text: MutableState<String>,
                    selected: String,
                    focusManager: FocusManager,
@@ -113,13 +111,13 @@ fun RoundTextField(navController: NavHostController,
   val navBackStackEntry by navController.currentBackStackEntryAsState()
   val currentDestination = navBackStackEntry?.destination
   val sneakersDestination = AppScreens.SneakerSearch.route
-  if (uiModel.resetTextField(currentDestination)) text.value = ""
+  if (productSearchViewModel.getUIModel().resetTextField(currentDestination)) text.value = ""
   val coroutineScope = rememberCoroutineScope()
 
   val mauve = Color(224, 176, 255)
-  val selectedIsSearch = uiModel.selectedIsSearch(selected)
+  val selectedIsSearch = productSearchViewModel.getUIModel().selectedIsSearch(selected)
   val searchIsFilterOrSneakerScreen
-  = uiModel.searchIsFilterOrSneakerScreen(selected, currentDestination)
+  = productSearchViewModel.getUIModel().searchIsFilterOrSneakerScreen(selected, currentDestination)
 
   val context = LocalContext.current
 
@@ -143,8 +141,14 @@ fun RoundTextField(navController: NavHostController,
         }
       }
       .onKeyEvent {
-        if (uiModel.textIsEmpty(text.value)) {
-          if (uiModel.nextPressBackSpace(it)) {
+        if (productSearchViewModel
+            .getUIModel()
+            .textIsEmpty(text.value)
+        ) {
+          if (productSearchViewModel
+              .getUIModel()
+              .nextPressBackSpace(it)
+          ) {
             navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
             focusManager.clearFocus()
           }
@@ -174,25 +178,24 @@ fun RoundTextField(navController: NavHostController,
       trailingIcon = {
         IconButton(onClick = {
           if (searchIsFilterOrSneakerScreen) {
-            if (uiModel.selectedIsSearch(selected)) {
+            if (productSearchViewModel.getUIModel().selectedIsSearch(selected)) {
               navController.navigate(searchRoute)
-            } else if (model.searchCheck()) {
+            } else if (productSearchViewModel.getFilterModel().searchCheck()) {
               navController.currentBackStackEntry?.savedStateHandle?.set(
-                key = "filterModel",
-                value = model
+                key = "productSearchViewModel",
+                value = productSearchViewModel
               )
               focusManager.clearFocus()
               coroutineScope.launch(Dispatchers.Default) {
-                val currentSearch = model.getCurrentSearch()
-                val presetModel = model.getPresetsModel()
-
+                val presetModel = productSearchViewModel.getFilterModel().getPresetsModel()
+                val currentSearch = productSearchViewModel.getFilterModel().getCurrentSearch()
                 presetModel.addPreset(
                   currentSearch.country,
                   currentSearch.currency,
                   currentSearch.sizeType,
                   currentSearch.size)
 
-                model.setSearchResults(text.value)
+                productSearchViewModel.getFilterModel().setSearchResults(text.value)
               }
               navController.navigate(sneakersDestination)
             } else if (navController.currentDestination?.route == sneakersDestination)

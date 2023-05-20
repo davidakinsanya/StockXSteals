@@ -32,7 +32,14 @@ fun SetupScreen(navController: NavHostController) {
   val settingModel = SettingViewModel(qonversionModel,
                                       premiumModel,
                                       historyModel)
+
   val trendsModel = TrendsViewModel(LocalContext.current, historyModel, dailySearchModel, premiumModel)
+
+  val productSearchModel = ProductSearchViewModel(filterModel = filterModel,
+                                                  historyModel = historyModel,
+                                                  premiumModel = premiumModel,
+                                                  searchModel = dailySearchModel,
+                                                  uiModel = uiModel)
 
   var selected = ""
 
@@ -45,13 +52,12 @@ fun SetupScreen(navController: NavHostController) {
     } == true
 
     Scaffold(
-      topBar = { SearchAppBar(navController = navController, filterModel = filterModel, uiModel = uiModel) },
+      topBar = { SearchAppBar(navController = navController, productSearchViewModel = productSearchModel) },
       bottomBar = { if (!bool) BottomBar(navController = navController) }
     ) {
       NavGraph(
         navController = navController,
-        filterModel = filterModel,
-        uiModel = uiModel,
+        productSearchViewModel = productSearchModel,
         settingModel = settingModel,
         trendsModel = trendsModel)
     }

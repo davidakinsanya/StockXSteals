@@ -7,28 +7,27 @@ import androidx.navigation.compose.navigation
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.view.compnents.sneakers.SneakerSplashScreen
 import com.stockxsteals.app.view.compnents.topsearch.SearchScreen
-import com.stockxsteals.app.viewmodel.ui.FilterViewModel
-import com.stockxsteals.app.viewmodel.ui.UIViewModel
+import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 
 fun NavGraphBuilder.searchGraph(navController: NavHostController,
-                                filterModel: FilterViewModel,
-                                uiModel: UIViewModel) {
+                                productSearchViewModel: ProductSearchViewModel) {
 
   navigation(startDestination = AppScreens.TopSearch.route,
              route = "top_search_route") {
 
     composable(route = AppScreens.TopSearch.route) {
-      SearchScreen(navController = navController, filterModel, uiModel = uiModel)
+      SearchScreen(navController = navController,
+                   productSearchViewModel = productSearchViewModel)
     }
 
     composable(route = AppScreens.SneakerSearch.route) {
       val model = navController
         .previousBackStackEntry
         ?.savedStateHandle
-        ?.get<FilterViewModel>("filterModel")
+        ?.get<ProductSearchViewModel>("productSearchViewModel")
 
       if (model != null)
-        SneakerSplashScreen(navController = navController, model = model)
+        SneakerSplashScreen(navController = navController, productSearchViewModel = model)
     }
   }
 

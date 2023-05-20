@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.ui.FilterViewModel
+import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
 import db.entity.FilterPreset
 import kotlinx.coroutines.CoroutineScope
@@ -39,8 +40,7 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SearchScreen(navController: NavHostController,
-                 filterModel: FilterViewModel,
-                 uiModel: UIViewModel) {
+                productSearchViewModel: ProductSearchViewModel) {
 
   val filterSelect = remember { mutableStateOf("") }
   val progressCount = remember { mutableStateOf(0) }
@@ -48,7 +48,7 @@ fun SearchScreen(navController: NavHostController,
   val focusRequester = remember { FocusRequester() }
   val keyboardController = LocalSoftwareKeyboardController.current
 
-  val model = filterModel.getPresetsModel()
+  val model = productSearchViewModel.getFilterModel().getPresetsModel()
   val allPresets = model.allPreset.collectAsState(initial = emptyList()).value
   val context = LocalContext.current
   val scope = rememberCoroutineScope()
@@ -67,14 +67,14 @@ fun SearchScreen(navController: NavHostController,
           .padding(start = 15.dp, end = 10.dp)
       ) {
 
-        uiModel.listOfChips().forEach { it ->
+        productSearchViewModel.getUIModel().listOfChips().forEach { it ->
           FilterButtons(button = it,
             selected = selected.value,
-            uiModel = uiModel,
+            uiModel = productSearchViewModel.getUIModel(),
             filterSelect = filterSelect,
             onSelected = { selected.value = it })
         }
-        SearchPageButtons(navController = navController, uiModel = uiModel)
+        SearchPageButtons(navController = navController, uiModel = productSearchViewModel.getUIModel())
       }
     }
 
@@ -93,8 +93,8 @@ fun SearchScreen(navController: NavHostController,
           .height(50.dp)
       ) {
         SwitchFilters(
-          filterModel = filterModel,
-          uiModel = uiModel,
+          filterModel = productSearchViewModel.getFilterModel(),
+          uiModel = productSearchViewModel.getUIModel(),
           selected = filterSelect.value,
           text = remember { mutableStateOf("") },
           progressCount = progressCount,
@@ -114,7 +114,7 @@ fun SearchScreen(navController: NavHostController,
       .border(BorderStroke(0.5.dp, SolidColor(Color.LightGray))),
     ) {
       items(allPresets.size) { index ->
-        DisplayPreset(preset = allPresets[index], filterModel, progressCount, scope, context)
+        DisplayPreset(preset = allPresets[index], productSearchViewModel.getFilterModel(), progressCount, scope, context)
       }
     }
   }
@@ -197,7 +197,6 @@ fun DisplayPreset(preset: FilterPreset,
     verticalAlignment = Alignment.CenterVertically) {
 
     IconButton(onClick = {
-      Toast.makeText(context, "Preset Deleted!", Toast.LENGTH_SHORT).show()
       scope.launch { model.getPresetsModel().deletePreset(preset.id) }
     }) {
       Icon(
