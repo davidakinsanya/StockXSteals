@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.stockxsteals.app.navigation.nested.searchGraph
 import com.stockxsteals.app.navigation.nested.settingsNavGraph
 import com.stockxsteals.app.view.compnents.searchpage.SneakerViewComponent
 import com.stockxsteals.app.view.compnents.sneakers.SneakerSplashScreen
@@ -33,8 +32,10 @@ fun NavGraph(navController: NavHostController,
         ?.get<ProductSearchViewModel>("productModel")
 
       if (productModel != null)
-        SneakerViewComponent(productModel = productModel, uiModel = productSearchViewModel.getUIModel())
-      else SneakerViewComponent(productModel = null, uiModel = productSearchViewModel.getUIModel())
+        SneakerViewComponent(productModel = productModel,
+                             uiModel = productSearchViewModel.getUIModel())
+      else SneakerViewComponent(productModel = null,
+                                uiModel = productSearchViewModel.getUIModel())
     }
 
     composable(route = AppScreens.TopSearch.route) {
@@ -49,11 +50,10 @@ fun NavGraph(navController: NavHostController,
         ?.get<ProductSearchViewModel>("productSearchViewModel")
 
       if (model != null)
-        SneakerSplashScreen(navController = navController, productSearchViewModel = model)
+        SneakerSplashScreen(navController = navController,
+                            productSearchViewModel = model)
     }
 
-    // sneakerGraph(navController, productSearchViewModel = productSearchViewModel)
     settingsNavGraph(navController, settingModel)
-    //searchGraph(navController, productSearchViewModel)
   }
 }
