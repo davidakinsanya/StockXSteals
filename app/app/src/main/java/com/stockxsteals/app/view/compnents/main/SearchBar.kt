@@ -180,7 +180,7 @@ fun RoundTextField(navController: NavHostController,
           if (searchIsFilterOrSneakerScreen) {
             if (productSearchViewModel.getUIModel().selectedIsSearch(selected)) {
               navController.navigate(searchRoute)
-            } else if (productSearchViewModel.getFilterModel().searchCheck()) {
+            } else if (productSearchViewModel.getFilterModel().searchCheck() && text.value.isNotEmpty()) {
               navController.currentBackStackEntry?.savedStateHandle?.set(
                 key = "productSearchViewModel",
                 value = productSearchViewModel
@@ -198,8 +198,12 @@ fun RoundTextField(navController: NavHostController,
                 productSearchViewModel.getFilterModel().setSearchResults(text.value)
               }
               navController.navigate(sneakersDestination)
-            } else if (navController.currentDestination?.route == sneakersDestination)
-              Toast.makeText(context, "Please select a sneaker.", Toast.LENGTH_SHORT).show()
+            } else if (navController.currentDestination?.route == sneakersDestination || text.value.isEmpty())
+              if (navController.currentDestination?.route == sneakersDestination) {
+                Toast.makeText(context, "Please select a sneaker.", Toast.LENGTH_SHORT).show()
+              } else {
+                Toast.makeText(context, "Please enter your sneaker.", Toast.LENGTH_SHORT).show()
+              }
              else
               Toast.makeText(context, "Please complete all filters.", Toast.LENGTH_SHORT).show()
           }
