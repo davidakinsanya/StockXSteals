@@ -5,13 +5,11 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
@@ -59,17 +57,10 @@ fun RowScope.AddItem(
         model = screen.icon,
         contentDescription = "Navigation Icon",
         modifier = Modifier
-          .fillMaxSize(0.55f))   },
+          .fillMaxSize(0.55f)
+          .graphicsLayer { alpha = if (currentScreen != screen.route) 0.4f else 1f })
+           },
     selected = selected,
     onClick = { if(currentScreen != screen.route) navController.navigate(screen.route) },
-    label = {
-      Text(text = screen.title,
-        color = Color.Black,
-        fontSize = 12.sp,
-        fontWeight =
-        if (selected)
-          FontWeight.ExtraBold
-        else
-          FontWeight.Normal) },
   )
 }

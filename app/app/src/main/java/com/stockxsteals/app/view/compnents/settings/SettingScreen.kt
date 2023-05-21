@@ -42,8 +42,9 @@ fun SettingScreen(setting: String,
         Text(
           text = setting,
           fontWeight = FontWeight.ExtraBold,
-          fontSize = 20.sp,
-          textAlign = TextAlign.Center
+          modifier = Modifier.width(100.dp),
+          fontSize = 23.sp,
+          textAlign = TextAlign.Left
         )
 
         Spacer(modifier = Modifier.padding(30.dp))

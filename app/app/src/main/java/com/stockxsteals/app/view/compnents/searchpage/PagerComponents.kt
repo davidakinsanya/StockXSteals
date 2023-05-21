@@ -77,7 +77,7 @@ fun SinglePagerComponent() {
         .fillMaxHeight(.35f)
         .graphicsLayer { alpha = 0.55f })
 
-    Text(text = "Hit the \uD83D\uDD0D icon to start your search.",
+    Text(text = "Hit the \uD83D\uDD0D icon above to start your search.",
          modifier = Modifier.width(250.dp),
          maxLines = 2,
       textAlign = TextAlign.Center,

@@ -39,7 +39,7 @@ fun SettingsSplashScreen(navController: NavHostController,
       Row(modifier =
       Modifier
         .fillMaxWidth()
-        .padding(bottom = 100.dp)
+        .padding(bottom = 80.dp)
         .height(50.dp),
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically) {
@@ -47,6 +47,7 @@ fun SettingsSplashScreen(navController: NavHostController,
         Text(text = "Settings",
              fontWeight = FontWeight.ExtraBold,
              fontSize = 25.sp,
+             modifier = Modifier.width(100.dp),
           textAlign = TextAlign.Center)
 
         Spacer(modifier = Modifier.padding(30.dp))
@@ -70,9 +71,10 @@ fun SettingsSplashScreen(navController: NavHostController,
         .fillMaxHeight(0.9f)) {
 
           val settingScreens = listOf(
-            "Search History",
-            "About Us",
             "Upgrade",
+            "Searches",
+            "About Us",
+            "T&Cs",
             "Log Out"
           )
 
@@ -92,7 +94,7 @@ fun SettingsSplashScreen(navController: NavHostController,
                     modifier = Modifier.width(150.dp)
                )
 
-               Spacer(modifier = Modifier.padding(25.dp))
+               Spacer(modifier = Modifier.padding(5.dp))
 
                IconButton(
                  onClick = {

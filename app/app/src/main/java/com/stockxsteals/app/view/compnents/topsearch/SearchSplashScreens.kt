@@ -40,7 +40,7 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SearchScreen(navController: NavHostController,
-                productSearchViewModel: ProductSearchViewModel) {
+                 productSearchViewModel: ProductSearchViewModel) {
 
   val filterSelect = remember { mutableStateOf("") }
   val progressCount = remember { mutableStateOf(0) }
@@ -84,7 +84,7 @@ fun SearchScreen(navController: NavHostController,
         .fillMaxWidth(.95f)
         .padding(start = 15.dp, top = 100.dp)
         .height(200.dp)
-        .border(BorderStroke(0.5.dp, SolidColor(Color.LightGray))),
+        .border(BorderStroke(1.dp, SolidColor(Color.LightGray))),
     ) {
       Column(
         modifier =
@@ -111,7 +111,7 @@ fun SearchScreen(navController: NavHostController,
       .fillMaxWidth(.95f)
       .padding(start = 15.dp, top = 310.dp)
       .fillMaxHeight(0.9f)
-      .border(BorderStroke(0.5.dp, SolidColor(Color.LightGray))),
+      .border(BorderStroke(1.dp, SolidColor(Color.LightGray))),
     ) {
       items(allPresets.size) { index ->
         DisplayPreset(preset = allPresets[index], productSearchViewModel.getFilterModel(), progressCount, scope, context)
@@ -161,7 +161,7 @@ fun  FilterButtons(button: String,
   Button(modifier = Modifier
     .width(90.dp)
     .padding(end = 5.dp),
-    border = BorderStroke(0.7.dp, color = Color(224, 176, 255)),
+    border = BorderStroke(1.dp, color = Color(224, 176, 255)),
     shape = RoundedCornerShape(50.dp),
     colors = ButtonDefaults.buttonColors(
       backgroundColor = bgColor
