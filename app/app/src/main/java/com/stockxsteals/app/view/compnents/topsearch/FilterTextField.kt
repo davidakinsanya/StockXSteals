@@ -161,11 +161,12 @@ fun FilterTextField(model: FilterViewModel,
       if (uiModel.selectedIsCountry(selected)) {
         countryListToggle(text.value, filterMap).forEach {
           DropdownMenuItem(onClick = {
-
-            if (uiModel.progressCheck(progressCount.value)
-              && model.getCurrentSearch().country.isEmpty())  {
-              progressCount.value =
-                model.appendCountryAndCurrency("Country", it.toString(), progressCount)
+            if (uiModel.progressCheck(progressCount.value))  {
+              if (model.getCurrentSearch().country.isEmpty())
+                progressCount.value =
+                  model.appendCountryAndCurrency("Country", it.toString(), progressCount)
+              else
+                  model.appendCountryAndCurrency("Country", it.toString(), null)
             }
 
             text.value = ""
@@ -183,11 +184,19 @@ fun FilterTextField(model: FilterViewModel,
           when (selected) {
             "Currency" -> {
               DropdownMenuItem(onClick = {
-
-                if (uiModel.progressCheck(progressCount.value)
-                  && model.getCurrentSearch().currency.isEmpty()) {
-                  progressCount.value = model.
-                  appendCountryAndCurrency("Currency", (it as Currency).name, progressCount)
+                if (uiModel.progressCheck(progressCount.value)) {
+                  if (model.getCurrentSearch().currency.isEmpty()) {
+                    progressCount.value = model.appendCountryAndCurrency(
+                      "Currency",
+                      (it as Currency).name,
+                      progressCount
+                    )
+                  } else {
+                    model.appendCountryAndCurrency(
+                      "Currency",
+                      (it as Currency).name,
+                      null)
+                  }
                 }
                 label.value = (it as Currency).type
                 expanded.value = !expanded.value
@@ -301,10 +310,11 @@ fun SecondaryFilterTextField(model: FilterViewModel,
           ShoeSize.valueOf(model.getCurrentSearch().sizeType).listOfSizes.forEach { size ->
             DropdownMenuItem(onClick = {
               if (model.getCurrentSearch().sizeType.isNotEmpty()) {
-                if (uiModel.progressCheck(progressCount.value) &&
-                  model.getCurrentSearch().size == 0.0)  {
+                if (model.getCurrentSearch().size == 0.0)  {
                   progressCount.value =
-                    model.appendSize(size, null, progressCount)!!
+                    model.appendSize(size, null, progressCount)
+                } else {
+                  model.appendSize(size, null, null)
                 }
                 placeholder.value = uiModel.sizeModifier(size)
                 expanded.value = !expanded.value

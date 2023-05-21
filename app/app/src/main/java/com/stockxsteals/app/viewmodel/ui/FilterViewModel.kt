@@ -81,31 +81,32 @@ class FilterViewModel(private val presetModel: FilterPresetsViewModel)
     return java.util.Locale.getISOCountries().asList()
   }
 
-  fun appendCountryAndCurrency(selected: String?, text: String?, count: MutableState<Int>): Int {
+  fun appendCountryAndCurrency(selected: String?, text: String?, count: MutableState<Int>?): Int {
     when (selected) {
       "Country" -> {
         if (text != null) {
           searchWithFilters.country = text
-          count.value++
+          if (count != null) count.value++
         }
       }
       "Currency" -> {
         if (text != null) {
           searchWithFilters.currency = text
-          count.value++
+          if (count != null) count.value++
         }
       }
     }
-    return count.value
+    return count?.value ?: -1
   }
 
-  fun appendSize(size: Double?, sizeType: String?, count: MutableState<Int>): Int? {
+  fun appendSize(size: Double?, sizeType: String?, count: MutableState<Int>?): Int {
     if (sizeType != null) searchWithFilters.sizeType = sizeType
     if (size != null) {
       searchWithFilters.size = size
-      count.value++
+      if (count != null) count.value++
     }
-    return if (size != null) count.value else null
+    if (size != null) if (count != null) return count.value
+    return -1
   }
 
   fun setSearchResults(search: String) {
@@ -121,7 +122,7 @@ class FilterViewModel(private val presetModel: FilterPresetsViewModel)
   fun addPreset(preset: FilterPreset, count: MutableState<Int>) {
     count.value = this.appendCountryAndCurrency("Country", preset.country, count)
     count.value = this.appendCountryAndCurrency("Currency", preset.currency, count)
-    this.appendSize(null, preset.sizeType, count) // null
-    count.value = this.appendSize(preset.size, null, count)!!
+    this.appendSize(null, preset.sizeType, null) // append Size Type
+    count.value = this.appendSize(preset.size, null, count)
   }
 }
