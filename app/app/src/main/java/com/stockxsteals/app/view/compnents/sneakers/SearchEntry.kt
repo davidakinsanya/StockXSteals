@@ -55,7 +55,7 @@ fun SearchEntry(title: String,
 
   Column(
     modifier = Modifier
-      .fillMaxWidth(1.0f)
+      .fillMaxWidth()
       .padding(5.dp)
       .height(140.dp)
       .clip(RoundedCornerShape(20.dp))
@@ -149,7 +149,7 @@ fun AlternativeEntry() {
   for (i in 0..18)
     Column(
       modifier = Modifier
-        .fillMaxWidth(1.0f)
+        .fillMaxWidth()
         .padding(5.dp)
         .height(140.dp)
         .clip(RoundedCornerShape(5.dp))

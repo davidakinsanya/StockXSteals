@@ -39,7 +39,7 @@ fun writeCurrentTrends(location: String, trends: List<Trend>) {
 fun readCurrentTrends(file: String): List<Trend>? {
   if (!fileIsOld(file.split(" : ")[1])) {
     val trend = object : TypeToken<Trend>() {}.type
-    val fileVariable: File = File(file)
+    val fileVariable = File(file)
     return Gson().fromJson(fileVariable.readText(), trend)
   }
   File(file).deleteRecursively()

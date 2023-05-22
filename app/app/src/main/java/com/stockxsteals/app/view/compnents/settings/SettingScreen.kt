@@ -67,7 +67,7 @@ fun SettingScreen(setting: String,
 fun SettingPage(setting: String, settingModel: SettingViewModel) {
   when (setting) {
     "Searches" -> {
-
+      Searches(settingModel)
     }
 
     "About Us" -> {
