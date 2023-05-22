@@ -48,9 +48,18 @@ fun TopRow() {
 @Composable
 fun DisplayText() {
   Column(modifier = Modifier.padding(start = 30.dp, end = 30.dp)) {
+
     Text(
-      text = "Welcome to L8test. Think of a mobile-first, the digital \"Apple Store\" solely for sneakers.\n" +
-              "At L8test, we take a minimalist approach in presenting you with the latest, most \n" +
+      text = "Welcome to L8test.",
+      fontSize = 16.sp,
+      modifier = Modifier.width(450.dp),
+      textAlign = TextAlign.Center,
+      fontWeight = FontWeight.Medium
+    )
+
+    Text(
+      text = "\n\nThink of a mobile-first, the digital \"Apple Store\" solely for sneakers. " +
+              "At L8test, we take a minimalist approach in presenting you with the latest, most " +
               "market-favored sneakers in real-time.\n",
       fontSize = 16.sp,
       modifier = Modifier.width(450.dp),
@@ -67,10 +76,12 @@ fun DisplayText() {
     )
 
     Text(
-      text = "A term which depicts taking a real deep dive, combing through real-time marketplace data \n" +
-              "and relaying that data back to our user base in a clean, concise manner as well as \n" +
-              "providing (hopefully) an increasingly more accurate depiction of any given sneakers \n" +
-              "value to the global consumer at any given time, whether that be someone interesting \n" +
+      text = "Baseline sneaker trivia, regarding all sneakers, whether that is fresh on the market or " +
+              "in circulation for a few years. And the second part, a new term dubbed by us as " +
+              "\"Sneaker Analytics\".\n\nA term which depicts taking a real deep dive, combing through real-time marketplace data " +
+              "and relaying that data back to our user base in a clean, concise manner as well as providing " +
+              "(hopefully) an increasingly more accurate depiction of any given sneakers  value " +
+              "to the global consumer at any given time, whether that be someone interesting " +
               "in buying or selling a pair of sneakers.\n",
       fontSize = 16.sp,
       modifier = Modifier.width(450.dp),
@@ -79,8 +90,8 @@ fun DisplayText() {
     )
 
     Text(
-      text = "We matter because we provide an innovative and contemporary approach to the growing\n" +
-              "digital sneaker marketplace on a global scale. We are lean and willing are willing receptors \n" +
+      text = "We matter because we provide an innovative and contemporary approach to the growing " +
+              "digital sneaker marketplace on a global scale. We are lean and willing are willing receptors " +
               "to change and growth.\n",
       fontSize = 16.sp,
       modifier = Modifier.width(450.dp),
@@ -95,7 +106,7 @@ fun DisplayText() {
         .padding(bottom = 40.dp)
         .width(450.dp),
       textAlign = TextAlign.Center,
-      fontWeight = FontWeight.Light
+      fontWeight = FontWeight.Medium
     )
   }
 }
