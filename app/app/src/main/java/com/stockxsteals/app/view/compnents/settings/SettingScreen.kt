@@ -66,12 +66,16 @@ fun SettingScreen(setting: String,
 @Composable
 fun SettingPage(setting: String, settingModel: SettingViewModel) {
   when (setting) {
-    "Search History" -> {
+    "Searches" -> {
 
     }
 
     "About Us" -> {
       AboutUs()
+    }
+
+    "T&Cs" -> {
+      TermsAndConditions()
     }
   }
 }

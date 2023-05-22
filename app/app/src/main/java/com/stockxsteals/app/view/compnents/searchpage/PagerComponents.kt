@@ -81,7 +81,7 @@ fun SinglePagerComponent() {
          modifier = Modifier.width(250.dp),
          maxLines = 2,
       textAlign = TextAlign.Center,
-      fontSize = 12.sp,
-      fontWeight = FontWeight.Bold)
+      fontSize = 20.sp,
+      fontWeight = FontWeight.Light)
   }
 }

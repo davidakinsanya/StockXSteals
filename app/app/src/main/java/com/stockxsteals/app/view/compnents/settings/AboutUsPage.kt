@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -53,14 +54,16 @@ fun DisplayText() {
               "market-favored sneakers in real-time.\n",
       fontSize = 16.sp,
       modifier = Modifier.width(450.dp),
-      textAlign = TextAlign.Left
+      textAlign = TextAlign.Left,
+      fontWeight = FontWeight.Light
     )
 
     Text(
       text = "We compartmentalize our business approach in two distinct parts;\n",
       fontSize = 16.sp,
       modifier = Modifier.width(450.dp),
-      textAlign = TextAlign.Center
+      textAlign = TextAlign.Center,
+      fontWeight = FontWeight.Light
     )
 
     Text(
@@ -71,7 +74,8 @@ fun DisplayText() {
               "in buying or selling a pair of sneakers.\n",
       fontSize = 16.sp,
       modifier = Modifier.width(450.dp),
-      textAlign = TextAlign.Left
+      textAlign = TextAlign.Left,
+      fontWeight = FontWeight.Light
     )
 
     Text(
@@ -80,7 +84,8 @@ fun DisplayText() {
               "to change and growth.\n",
       fontSize = 16.sp,
       modifier = Modifier.width(450.dp),
-      textAlign = TextAlign.Left
+      textAlign = TextAlign.Left,
+      fontWeight = FontWeight.Light
     )
 
     Text(
@@ -89,7 +94,8 @@ fun DisplayText() {
       modifier = Modifier
         .padding(bottom = 40.dp)
         .width(450.dp),
-      textAlign = TextAlign.Center
+      textAlign = TextAlign.Center,
+      fontWeight = FontWeight.Light
     )
   }
 }
