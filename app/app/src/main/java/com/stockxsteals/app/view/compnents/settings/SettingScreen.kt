@@ -71,7 +71,7 @@ fun SettingPage(setting: String, settingModel: SettingViewModel) {
     }
 
     "About Us" -> {
-
+      AboutUs()
     }
   }
 }
