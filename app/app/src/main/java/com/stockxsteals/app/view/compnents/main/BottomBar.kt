@@ -58,7 +58,7 @@ fun RowScope.AddItem(
         contentDescription = "Navigation Icon",
         modifier = Modifier
           .fillMaxSize(0.55f)
-          .graphicsLayer { alpha = if (currentScreen != screen.route) 0.4f else 1f })
+          .graphicsLayer { alpha = if (currentScreen != screen.route) 0.2f else 1f })
            },
     selected = selected,
     onClick = { if(currentScreen != screen.route) navController.navigate(screen.route) },
