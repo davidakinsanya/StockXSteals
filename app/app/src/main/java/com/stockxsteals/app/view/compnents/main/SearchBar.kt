@@ -198,14 +198,14 @@ fun RoundTextField(navController: NavHostController,
                 productSearchViewModel.getFilterModel().setSearchResults(text.value)
               }
               navController.navigate(sneakersDestination)
-            } else if (navController.currentDestination?.route == sneakersDestination || text.value.isEmpty())
+            } else if (productSearchViewModel.getFilterModel().searchCheck() || text.value.isEmpty())
               if (navController.currentDestination?.route == sneakersDestination) {
                 Toast.makeText(context, "Please select a sneaker.", Toast.LENGTH_SHORT).show()
+              } else if (!productSearchViewModel.getFilterModel().searchCheck()) {
+                Toast.makeText(context, "Please complete all filters.", Toast.LENGTH_SHORT).show()
               } else {
                 Toast.makeText(context, "Please enter your sneaker.", Toast.LENGTH_SHORT).show()
               }
-             else
-              Toast.makeText(context, "Please complete all filters.", Toast.LENGTH_SHORT).show()
           }
         })
         {
