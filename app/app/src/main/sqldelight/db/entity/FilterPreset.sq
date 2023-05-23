@@ -1,9 +1,9 @@
 CREATE TABLE filterPreset (
-    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    country TEXT NOT NULL,
-    currency TEXT NOT NULL,
-    sizeType TEXT NOT NULL,
-    size REAL NOT NULL
+ id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+ country TEXT NOT NULL,
+ currency TEXT NOT NULL,
+ sizeType TEXT NOT NULL,
+ size REAL NOT NULL
 );
 
 addPreset:

@@ -2,13 +2,11 @@ package com.stockxsteals.app.viewmodel.db
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
 import com.stockxsteals.app.datasource.intrface.FilterPresetDataSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import db.entity.FilterPreset
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -18,18 +16,12 @@ class FilterPresetsViewModel
   private val filterPresetDataSource: FilterPresetDataSource
 ): ViewModel() {
 
-   lateinit var allPreset: Flow<List<FilterPreset>>
+  val allPreset = getAllPresets()
 
-  init {
-    viewModelScope.launch {
-       allPreset = getAllPresets()
-    }
-  }
 
-  private suspend fun getAllPresets(): Flow<List<FilterPreset>> {
-    return withContext(Dispatchers.IO) {
-      filterPresetDataSource.getAllPresets()
-    }
+  private fun getAllPresets(): Flow<List<FilterPreset>> {
+    return filterPresetDataSource.getAllPresets()
+
   }
 
    suspend fun addPreset(

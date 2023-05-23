@@ -12,10 +12,8 @@ import kotlinx.coroutines.withContext
 class DailySearchHistoryImpl(db: Database): DailySearchHistorySource {
   private val queries = db.dailySearchHistoryQueries
 
-  override suspend fun getSearchHistory(): Flow<List<DailySearchHistory>> {
-   return withContext(Dispatchers.IO) {
-     queries.getSearchHistory().asFlow().mapToList()
-   }
+  override fun getSearchHistory(): Flow<List<DailySearchHistory>> {
+   return queries.getSearchHistory().asFlow().mapToList()
   }
 
   override suspend fun deleteSearch(id: Long) {

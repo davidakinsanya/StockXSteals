@@ -16,7 +16,9 @@ import db.entity.DailySearchHistory
 
 @Composable
 fun Searches(settingModel: SettingViewModel) {
-  val searches = settingModel.getHistoryModel().searches.collectAsState(initial = emptyList()).value
+  val model = settingModel.getHistoryModel()
+  val searches = model.searches.collectAsState(initial = emptyList()).value
+
   LazyColumn(modifier = Modifier.padding(start = 30.dp, end = 30.dp)) {
     if (searches.isNotEmpty()) {
       items(searches.size) { i ->

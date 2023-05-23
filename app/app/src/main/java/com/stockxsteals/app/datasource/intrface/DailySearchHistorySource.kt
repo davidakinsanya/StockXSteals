@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface DailySearchHistorySource {
 
-  suspend fun getSearchHistory(): Flow<List<DailySearchHistory>>
+  fun getSearchHistory(): Flow<List<DailySearchHistory>>
 
   suspend fun deleteSearch(id: Long)
 

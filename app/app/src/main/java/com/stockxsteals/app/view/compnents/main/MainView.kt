@@ -24,11 +24,13 @@ fun SetupScreen(navController: NavHostController) {
 
   val presetsModel: FilterPresetsViewModel = hiltViewModel()
   val dailySearchModel: DailySearchViewModel = hiltViewModel()
+  val premiumModel: PremiumViewModel = hiltViewModel()
+  val historyModel: DailySearchHistoryViewModel = hiltViewModel()
+
   val filterModel = FilterViewModel(presetsModel)
   val uiModel: UIViewModel = viewModel()
   val qonversionModel: QonversionViewModel = viewModel()
-  val premiumModel: PremiumViewModel = viewModel()
-  val historyModel: DailySearchHistoryViewModel = viewModel()
+
   val settingModel = SettingViewModel(qonversionModel,
                                       premiumModel,
                                       historyModel)
