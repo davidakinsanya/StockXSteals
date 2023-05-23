@@ -8,13 +8,14 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 
 class CustomText {
   private val boldRegex = Regex("(?<!\\*)\\*\\*(?!\\*).*?(?<!\\*)\\*\\*(?!\\*)")
 
   @Composable
-  fun AppendCustomText(text: String, modifier: Modifier = Modifier) {
+  fun AppendCustomText(text: String, modifier: Modifier = Modifier, fontSize: TextUnit) {
 
     var results: MatchResult? = boldRegex.find(text)
     val boldIndexes = mutableListOf<Pair<Int, Int>>()
@@ -42,7 +43,7 @@ class CustomText {
           style = SpanStyle(
             fontWeight = FontWeight.Bold,
             color = Color(0xff64B5F6),
-            fontSize = 12.sp
+            fontSize = fontSize
 
           ),
           start = it.first,

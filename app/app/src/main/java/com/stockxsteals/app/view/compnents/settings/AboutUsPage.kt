@@ -14,6 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.stockxsteals.app.R
+import com.stockxsteals.app.utils.CustomText
 
 @Composable
 fun AboutUs() {
@@ -49,12 +50,10 @@ fun TopRow() {
 fun DisplayText() {
   Column(modifier = Modifier.padding(start = 30.dp, end = 30.dp)) {
 
-    Text(
-      text = "Welcome to L8test.",
-      fontSize = 16.sp,
+    CustomText().AppendCustomText(
+      text = "**Welcome to L8test.**",
       modifier = Modifier.width(450.dp),
-      textAlign = TextAlign.Center,
-      fontWeight = FontWeight.Medium
+      fontSize = 16.sp
     )
 
     Text(
@@ -99,14 +98,12 @@ fun DisplayText() {
       fontWeight = FontWeight.Light
     )
 
-    Text(
-      text = "Signed, L8test.",
-      fontSize = 16.sp,
+    CustomText().AppendCustomText(
+      text = "**Signed, L8test.**",
       modifier = Modifier
         .padding(bottom = 40.dp)
         .width(450.dp),
-      textAlign = TextAlign.Center,
-      fontWeight = FontWeight.Medium
+      fontSize = 16.sp
     )
   }
 }

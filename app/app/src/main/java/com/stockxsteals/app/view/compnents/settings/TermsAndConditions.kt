@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.stockxsteals.app.utils.CustomText
 
 @Composable
@@ -89,7 +90,8 @@ fun TermsAndConditions() {
                 "If you have any questions, concerns, or suggestions regarding this Privacy Policy\n" +
                 "or our privacy practices, please contact us at l8test@gmail.com.", modifier = Modifier
           .padding(bottom = 40.dp)
-          .width(450.dp)
+          .width(450.dp),
+        fontSize = 12.sp
       )
     }
   }
