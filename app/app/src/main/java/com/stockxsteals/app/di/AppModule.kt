@@ -28,7 +28,7 @@ object AppModule {
     return AndroidSqliteDriver(
       schema = Database.Schema,
       context = app,
-      name = "L8text.db"
+      name = "L8test.db"
     )
   }
 

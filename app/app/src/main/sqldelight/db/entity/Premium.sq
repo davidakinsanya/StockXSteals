@@ -1,5 +1,5 @@
 CREATE TABLE premium (
-   isPremium INTEGER NOT NULL PRIMARY KEY
+ isPremium INTEGER NOT NULL PRIMARY KEY DEFAULT 0
 );
 
 getIsPremium:

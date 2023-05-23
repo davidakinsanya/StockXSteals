@@ -40,8 +40,7 @@ class FilterPresetsViewModel
           count++
         }
       }
-      if (count == getAllPresets().asLiveData().value?.size)
-        filterPresetDataSource.addPreset(country, currency, sizeType, size)
+      if (count != 1) filterPresetDataSource.addPreset(country, currency, sizeType, size)
     }
   }
 

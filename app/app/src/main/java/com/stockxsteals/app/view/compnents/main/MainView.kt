@@ -43,7 +43,6 @@ fun SetupScreen(navController: NavHostController) {
                                                   searchModel = dailySearchModel,
                                                   uiModel = uiModel)
 
-  var selected = ""
 
   val navBackStackEntry by navController.currentBackStackEntryAsState()
   val currentDestination = navBackStackEntry?.destination
