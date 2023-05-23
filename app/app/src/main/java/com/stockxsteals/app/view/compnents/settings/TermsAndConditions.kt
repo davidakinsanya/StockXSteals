@@ -15,7 +15,6 @@ fun TermsAndConditions() {
       TopRow()
       CustomText().AppendCustomText(
         text = "**Privacy Policy for L8test.**\n" +
-                "\n\n" +
                 "**Effective Date: 18/05/2023**\n" +
                 "\n\n" +
                 "This Privacy Policy describes how L8test (\"we,\" \"us,\" or \"our\") collects, \n" +
