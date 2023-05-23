@@ -79,7 +79,7 @@ fun DisplayText() {
               "in circulation for a few years. And the second part, a new term dubbed by us as " +
               "\"Sneaker Analytics\".\n\nA term which depicts taking a real deep dive, combing through real-time marketplace data " +
               "and relaying that data back to our user base in a clean, concise manner as well as providing " +
-              "(hopefully) an increasingly more accurate depiction of any given sneakers  value " +
+              "(hopefully) an increasingly more accurate depiction of any given sneakers value " +
               "to the global consumer at any given time, whether that be someone interesting " +
               "in buying or selling a pair of sneakers.\n",
       fontSize = 16.sp,
