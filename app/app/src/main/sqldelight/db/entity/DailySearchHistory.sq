@@ -7,8 +7,7 @@ CREATE TABLE DailySearchHistory (
 );
 
 getSearchHistory:
-SELECT *
-FROM DailySearchHistory;
+SELECT * FROM DailySearchHistory;
 
 deleteSearch:
 DELETE FROM

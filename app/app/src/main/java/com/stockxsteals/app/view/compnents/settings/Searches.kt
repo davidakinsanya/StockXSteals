@@ -18,8 +18,10 @@ import db.entity.DailySearchHistory
 fun Searches(settingModel: SettingViewModel) {
   val searches = settingModel.getHistoryModel().searches.collectAsState(initial = emptyList()).value
   LazyColumn(modifier = Modifier.padding(start = 30.dp, end = 30.dp)) {
-    items(searches.size) { i ->
-      SearchRow(searches[i])
+    if (searches.isNotEmpty()) {
+      items(searches.size) { i ->
+        SearchRow(searches[i])
+      }
     }
   }
 }

@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 class DailySearchHistoryImpl(db: Database): DailySearchHistorySource {
-
   private val queries = db.dailySearchHistoryQueries
 
   override suspend fun getSearchHistory(): Flow<List<DailySearchHistory>> {
