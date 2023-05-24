@@ -43,7 +43,7 @@ fun LoginScreen(navController: NavHostController) {
   Scaffold(modifier = Modifier
     .fillMaxSize()
     .padding(
-      top = 95.dp,
+      top = 125.dp,
       start = 80.dp,
       end = 80.dp
     )) {
@@ -53,7 +53,7 @@ fun LoginScreen(navController: NavHostController) {
       Image(painter = painterResource(R.drawable.stockxsteals),
         contentDescription = "Logo",
         modifier = Modifier
-          .fillMaxWidth(0.6f)
+          .fillMaxWidth(0.8f)
           .fillMaxHeight(0.5f)
           .graphicsLayer { alpha = 0.8f })
 
@@ -67,7 +67,7 @@ fun LoginScreen(navController: NavHostController) {
               ) { state.open() }
               .border(
                 border = BorderStroke(
-                  width = 2.dp,
+                  width = 1.5.dp,
                   color = mauve
                 ),
                 shape = RoundedCornerShape(50.dp)
@@ -79,7 +79,7 @@ fun LoginScreen(navController: NavHostController) {
               horizontalArrangement = Arrangement.Center) {
             Text(text = "Sign In",
                  modifier = Modifier.padding(end = 20.dp),
-                 fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                 fontSize = 16.sp, fontWeight = FontWeight.Bold)
             AsyncImage(
               model = "https://img.icons8.com/?size=512&id=V5cGWnc9R4xj&format=png",
               contentDescription = "Google Logo",
