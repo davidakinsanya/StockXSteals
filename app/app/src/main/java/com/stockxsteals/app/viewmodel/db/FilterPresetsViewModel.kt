@@ -44,7 +44,7 @@ class FilterPresetsViewModel
                    currency: String,
                    sizeType: String,
                    size: Double): Boolean {
-    
+
     list.forEach {
       if (it.country == country
         && it.currency == currency
