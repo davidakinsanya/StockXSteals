@@ -44,15 +44,14 @@ class FilterPresetsViewModel
                    currency: String,
                    sizeType: String,
                    size: Double): Boolean {
-    var count = 0
+    
     list.forEach {
       if (it.country == country
         && it.currency == currency
         && it.sizeType == sizeType
-        && it.size == size) {
-        count++
-      }
+        && it.size == size
+      ) return true
     }
-    return count == 1
+    return false
   }
 }
