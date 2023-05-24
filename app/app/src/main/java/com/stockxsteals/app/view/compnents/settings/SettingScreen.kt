@@ -58,13 +58,13 @@ fun SettingScreen(setting: String,
           )
         }
       }
-     SettingPage(setting, settingModel)
+     SettingPage(setting, settingModel, navController)
     }
   }
 }
 
 @Composable
-fun SettingPage(setting: String, settingModel: SettingViewModel) {
+fun SettingPage(setting: String, settingModel: SettingViewModel, navController: NavHostController) {
   when (setting) {
     "Searches" -> {
       Searches(settingModel)
@@ -76,6 +76,10 @@ fun SettingPage(setting: String, settingModel: SettingViewModel) {
 
     "T&Cs" -> {
       TermsAndConditions()
+    }
+
+    "Log Out" -> {
+      navController.navigate("root_route")
     }
   }
 }

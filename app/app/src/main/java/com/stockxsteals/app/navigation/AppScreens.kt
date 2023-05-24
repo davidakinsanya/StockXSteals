@@ -5,6 +5,12 @@ sealed class AppScreens (
   val title: String,
   val icon: String
 ) {
+
+  object Login : AppScreens (
+    route = "login",
+    title = "Login",
+    icon = ""
+  )
   object Trends : AppScreens(
     route = "trends",
     title = "Trends",

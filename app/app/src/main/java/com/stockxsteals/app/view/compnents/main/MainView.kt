@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.navigation.NavGraph
 import com.stockxsteals.app.viewmodel.db.DailySearchHistoryViewModel
 import com.stockxsteals.app.viewmodel.db.DailySearchViewModel
@@ -44,16 +45,18 @@ fun SetupScreen(navController: NavHostController) {
                                                   uiModel = uiModel)
 
 
-  val navBackStackEntry by navController.currentBackStackEntryAsState()
-  val currentDestination = navBackStackEntry?.destination
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
 
-  uiModel.listOfScreens().forEach { _ ->
-    val bool = currentDestination?.hierarchy?.any {
+    uiModel.listOfScreens().forEach { _ ->
+      val bool = currentDestination?.hierarchy?.any {
       uiModel.bottomNavBool().contains(it.route)
     } == true
 
+    val isLogin = currentDestination?.route == AppScreens.Login.route
+
     Scaffold(
-      topBar = { SearchAppBar(navController = navController, productSearchViewModel = productSearchModel) },
+      topBar = { if (!isLogin) SearchAppBar(navController = navController, productSearchViewModel = productSearchModel) },
       bottomBar = { if (!bool) BottomBar(navController = navController) }
     ) {
       NavGraph(
