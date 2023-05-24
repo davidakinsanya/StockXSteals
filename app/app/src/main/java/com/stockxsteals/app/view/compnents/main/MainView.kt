@@ -53,10 +53,12 @@ fun SetupScreen(navController: NavHostController) {
       uiModel.bottomNavBool().contains(it.route)
     } == true
 
+    val isNull = currentDestination?.route == null
     val isLogin = currentDestination?.route == AppScreens.Login.route
 
+
     Scaffold(
-      topBar = { if (!isLogin) SearchAppBar(navController = navController, productSearchViewModel = productSearchModel) },
+      topBar = { if (!isLogin && !isNull) SearchAppBar(navController = navController, productSearchViewModel = productSearchModel) },
       bottomBar = { if (!bool) BottomBar(navController = navController) }
     ) {
       NavGraph(

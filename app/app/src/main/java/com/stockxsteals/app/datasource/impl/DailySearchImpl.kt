@@ -30,9 +30,9 @@ class DailySearchImpl(db : Database): DailySearchDataSource {
     }
   }
 
-  override suspend fun insertSearch(timestamp: String, search_limit: Int, search_number: Int) {
+  override suspend fun insertSearch(timestamp: String, search_number: Int) {
     withContext(Dispatchers.IO) {
-      queries.insertSearch(timestamp, search_limit.toLong(), search_number.toLong())
+      queries.insertSearch(timestamp, search_number.toLong())
     }
   }
 

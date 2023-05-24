@@ -70,7 +70,7 @@ fun SearchEntry(title: String,
             var displayItem = false
 
             if (noQuota) {
-              dailySearch.insertSearch(4, 1)
+              dailySearch.insertSearch()
               productSearchViewModel.getHistoryModel().addSearch(getCurrentDate(), result[1], title, "")
               displayItem = true
 

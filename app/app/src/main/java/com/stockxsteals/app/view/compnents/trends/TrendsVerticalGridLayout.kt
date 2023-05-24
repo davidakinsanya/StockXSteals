@@ -113,7 +113,7 @@ fun RandomColorBox(item: GridItem,
                 val isPremium = trendsModel.getPremiumModel().getIsPremium() == 1
 
                 if (noQuota) {
-                  trendsModel.getSearchModel().insertSearch(4, 1)
+                  trendsModel.getSearchModel().insertSearch()
                   trendsModel.getHistoryModel().addSearch(getCurrentDate(), trend.image, trend.name, "")
                   displayItem = true
 

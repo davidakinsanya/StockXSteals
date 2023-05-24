@@ -27,9 +27,9 @@ class DailySearchViewModel
     }
   }
 
-  suspend fun insertSearch(search_limit: Int, search_number: Int) {
+  suspend fun insertSearch() {
     withContext(Dispatchers.IO) {
-      dailySearchDataSource.insertSearch(getCurrentDate(), search_limit, search_number)
+      dailySearchDataSource.insertSearch(getCurrentDate(), 1)
     }
   }
 

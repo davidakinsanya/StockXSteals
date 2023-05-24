@@ -1,7 +1,7 @@
 CREATE TABLE DailySearchQuota (
  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
  timestamp TEXT NOT NULL,
- search_limit INTEGER NOT NULL,
+ search_limit INTEGER NOT NULL DEFAULT 2,
  search_number INTEGER NOT NULL
 );
 
@@ -22,8 +22,8 @@ WHERE id = :id;
 
 insertSearch:
 INSERT OR REPLACE
-INTO DailySearchQuota (timestamp, search_limit, search_number)
-VALUES (?,?,?);
+INTO DailySearchQuota (timestamp, search_number)
+VALUES (?,?);
 
 getQuota:
 SELECT * FROM DailySearchQuota;

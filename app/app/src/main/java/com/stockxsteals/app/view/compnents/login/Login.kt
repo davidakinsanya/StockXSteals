@@ -21,7 +21,6 @@ import coil.compose.AsyncImage
 import com.stevdzasan.onetap.OneTapSignInWithGoogle
 import com.stevdzasan.onetap.rememberOneTapSignInState
 import com.stockxsteals.app.R
-import com.stockxsteals.app.navigation.AppScreens
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -34,7 +33,7 @@ fun LoginScreen(navController: NavHostController) {
     clientId = "598526411757-osmt0f7ja2qs6rqrqp5j12s5lkq77quv.apps.googleusercontent.com",
     onTokenIdReceived = { tokenId ->
       Log.d("LOG", tokenId)
-      navController.navigate(AppScreens.Trends.route)
+      navController.navigate("trends_route")
     },
     onDialogDismissed = { message ->
       Log.d("LOG", message)
@@ -44,9 +43,10 @@ fun LoginScreen(navController: NavHostController) {
   Scaffold(modifier = Modifier
     .fillMaxSize()
     .padding(
-      top = 100.dp,
+      top = 95.dp,
       start = 80.dp,
-      end = 80.dp)) {
+      end = 80.dp
+    )) {
     Column(horizontalAlignment = Alignment.CenterHorizontally,
            verticalArrangement = Arrangement.Center) {
 
@@ -62,21 +62,24 @@ fun LoginScreen(navController: NavHostController) {
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier
               .width(250.dp)
-              .clickable { state.open() }
+              .clickable(
+                enabled = !state.opened
+              ) { state.open() }
               .border(
-              border = BorderStroke(
-                width = 2.dp,
-                color = mauve
-              ),
-              shape = RoundedCornerShape(50.dp))
+                border = BorderStroke(
+                  width = 2.dp,
+                  color = mauve
+                ),
+                shape = RoundedCornerShape(50.dp)
+              )
               .background(color = Color.Transparent),
 
           ) {
           Row(verticalAlignment = Alignment.CenterVertically,
               horizontalArrangement = Arrangement.Center) {
             Text(text = "Sign In",
-                 modifier = Modifier.padding(end = 15.dp),
-                 fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                 modifier = Modifier.padding(end = 20.dp),
+                 fontSize = 20.sp, fontWeight = FontWeight.Bold)
             AsyncImage(
               model = "https://img.icons8.com/?size=512&id=V5cGWnc9R4xj&format=png",
               contentDescription = "Google Logo",

@@ -74,7 +74,8 @@ fun SearchScreen(navController: NavHostController,
             filterSelect = filterSelect,
             onSelected = { selected.value = it })
         }
-        SearchPageButtons(navController = navController, uiModel = productSearchViewModel.getUIModel())
+        SearchPageButtons(navController = navController,
+                          uiModel = productSearchViewModel.getUIModel())
       }
     }
 

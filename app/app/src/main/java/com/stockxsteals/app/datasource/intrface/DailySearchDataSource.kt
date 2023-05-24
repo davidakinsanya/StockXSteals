@@ -3,7 +3,6 @@ package com.stockxsteals.app.datasource.intrface
 import db.entity.DailySearchQuota
 import kotlinx.coroutines.flow.Flow
 
-
 interface DailySearchDataSource {
 
   suspend fun getSearchNumber(id: Long): Int
@@ -12,7 +11,7 @@ interface DailySearchDataSource {
 
   suspend fun getTimeStamp(id: Long): String
 
-  suspend fun insertSearch(timestamp: String, search_limit: Int, search_number: Int)
+  suspend fun insertSearch(timestamp: String, search_number: Int)
 
   suspend fun updateSearchNumber(newNumber: Int, id: Long)
 
