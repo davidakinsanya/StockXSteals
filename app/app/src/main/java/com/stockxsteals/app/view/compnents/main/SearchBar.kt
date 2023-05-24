@@ -113,6 +113,9 @@ fun RoundTextField(navController: NavHostController,
   val sneakersDestination = AppScreens.SneakerSearch.route
   if (productSearchViewModel.getUIModel().resetTextField(currentDestination)) text.value = ""
   val coroutineScope = rememberCoroutineScope()
+  val presetModel = productSearchViewModel.getFilterModel().getPresetsModel()
+  val currentSearch = productSearchViewModel.getFilterModel().getCurrentSearch()
+  val allPresets = presetModel.allPreset.collectAsState(initial = emptyList()).value
 
   val mauve = Color(224, 176, 255)
   val selectedIsSearch = productSearchViewModel.getUIModel().selectedIsSearch(selected)
@@ -181,23 +184,33 @@ fun RoundTextField(navController: NavHostController,
             if (productSearchViewModel.getUIModel().selectedIsSearch(selected)) {
               navController.navigate(searchRoute)
             } else if (productSearchViewModel.getFilterModel().searchCheck() && text.value.isNotEmpty()) {
-              navController.currentBackStackEntry?.savedStateHandle?.set(
-                key = "productSearchViewModel",
-                value = productSearchViewModel
-              )
+
               focusManager.clearFocus()
               coroutineScope.launch(Dispatchers.Default) {
-                val presetModel = productSearchViewModel.getFilterModel().getPresetsModel()
-                val currentSearch = productSearchViewModel.getFilterModel().getCurrentSearch()
-                presetModel.addPreset(
+                val presetExists = presetModel.presetExists(
+                  allPresets,
                   currentSearch.country,
                   currentSearch.currency,
                   currentSearch.sizeType,
                   currentSearch.size)
 
+                if (!presetExists) {
+                  presetModel.addPreset(
+                    currentSearch.country,
+                    currentSearch.currency,
+                    currentSearch.sizeType,
+                    currentSearch.size
+                  )
+                }
                 productSearchViewModel.getFilterModel().setSearchResults(text.value)
               }
+
+              navController.currentBackStackEntry?.savedStateHandle?.set(
+                key = "productSearchViewModel",
+                value = productSearchViewModel
+              )
               navController.navigate(sneakersDestination)
+
             } else if (productSearchViewModel.getFilterModel().searchCheck() || text.value.isEmpty())
               if (navController.currentDestination?.route == sneakersDestination) {
                 Toast.makeText(context, "Please select a sneaker.", Toast.LENGTH_SHORT).show()

@@ -1,7 +1,6 @@
 package com.stockxsteals.app.viewmodel.db
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import com.stockxsteals.app.datasource.intrface.FilterPresetDataSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import db.entity.FilterPreset
@@ -31,16 +30,7 @@ class FilterPresetsViewModel
     size: Double
   ) {
     withContext(Dispatchers.IO) {
-      var count = 0
-      getAllPresets().asLiveData().value?.forEach {
-        if (it.country != country
-          && it.currency != currency
-          && it.sizeType != sizeType
-          && it.size != size) {
-          count++
-        }
-      }
-      if (count != 1) filterPresetDataSource.addPreset(country, currency, sizeType, size)
+      filterPresetDataSource.addPreset(country, currency, sizeType, size)
     }
   }
 
@@ -48,5 +38,21 @@ class FilterPresetsViewModel
     withContext(Dispatchers.IO) {
       filterPresetDataSource.deletePreset(id)
     }
+  }
+
+  fun presetExists(list: List<FilterPreset>, country: String,
+                   currency: String,
+                   sizeType: String,
+                   size: Double): Boolean {
+    var count = 0
+    list.forEach {
+      if (it.country == country
+        && it.currency == currency
+        && it.sizeType == sizeType
+        && it.size == size) {
+        count++
+      }
+    }
+    return count == 1
   }
 }
