@@ -10,10 +10,10 @@ import com.stockxsteals.app.view.compnents.sneakers.SneakerSplashScreen
 import com.stockxsteals.app.view.compnents.topsearch.SearchScreen
 import com.stockxsteals.app.view.compnents.trends.TrendsViewComponent
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
-import com.stockxsteals.app.viewmodel.ui.TrendsViewModel
+import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 
 fun NavGraphBuilder.sneakerNavGraph(
-  trendsModel: TrendsViewModel,
+  trendsModel: TrendsUIViewModel,
   productSearchViewModel: ProductSearchViewModel,
   navController: NavHostController) {
   navigation(

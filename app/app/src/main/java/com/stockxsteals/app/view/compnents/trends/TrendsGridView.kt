@@ -10,32 +10,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.stockxsteals.app.model.dto.Trend
-import com.stockxsteals.app.utils.readCurrentTrends
-import com.stockxsteals.app.viewmodel.ui.TrendsViewModel
-import java.io.File
+import com.stockxsteals.app.utils.fileIsOld
+import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 
 @Composable
-fun TrendsViewComponent(trendsModel: TrendsViewModel) {
+fun TrendsViewComponent(trendsModel: TrendsUIViewModel) {
   val currentTrends: List<Trend>?
-  val context = LocalContext.current
+  val trend = trendsModel.getDBTrend()
 
-  val dir = File(context.filesDir, "/trends/obj")
-  if (!dir.exists()) dir.mkdirs()
-  val listSize = dir.listFiles()?.size
-
-  currentTrends = when (listSize) {
-    0 -> {
-      trendsModel.bootTrends.collectAsState().value
-    }
-    1 -> {
-      readCurrentTrends(dir.listFiles()?.get(0)!!.path) // TODO: Replace with DB operation
-    }
-    else -> {
-      listOf()
-    }
+  // check timestamp exists or is old
+  if (trend.timestamp.isEmpty() || (trend.timestamp.isNotEmpty() && fileIsOld(trend.timestamp))) {
+    currentTrends = trendsModel.bootTrends.collectAsState().value
+  } else {
+    currentTrends = listOf()
   }
 
   Column(
@@ -49,7 +38,7 @@ fun TrendsViewComponent(trendsModel: TrendsViewModel) {
         .fillMaxHeight(.88f)
     ) {
 
-      TrendsLazyGrid(currentTrends!!, trendsModel)
+      TrendsLazyGrid(currentTrends, trendsModel)
 
     }
   }

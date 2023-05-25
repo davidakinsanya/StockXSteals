@@ -1,0 +1,17 @@
+CREATE TABLE Trends (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    timestamp TEXT NOT NULL,
+    json TEXT NOT NULL
+);
+
+getAllTrends:
+SELECT * FROM Trends;
+
+updateTrends:
+UPDATE Trends SET
+timestamp = :timestamp, json = :json
+WHERE id = :id;
+
+setFirstTrend:
+INSERT INTO Trends (timestamp, json)
+VALUES (?,?);

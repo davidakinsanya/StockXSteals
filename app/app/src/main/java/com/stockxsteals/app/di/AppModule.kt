@@ -4,14 +4,8 @@ import android.app.Application
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
 import com.stockxsteals.app.Database
-import com.stockxsteals.app.datasource.impl.DailySearchHistoryImpl
-import com.stockxsteals.app.datasource.impl.DailySearchImpl
-import com.stockxsteals.app.datasource.impl.FilterPresetImpl
-import com.stockxsteals.app.datasource.impl.PremiumImpl
-import com.stockxsteals.app.datasource.intrface.DailySearchDataSource
-import com.stockxsteals.app.datasource.intrface.DailySearchHistorySource
-import com.stockxsteals.app.datasource.intrface.FilterPresetDataSource
-import com.stockxsteals.app.datasource.intrface.PremiumDataSource
+import com.stockxsteals.app.datasource.impl.*
+import com.stockxsteals.app.datasource.intrface.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -54,5 +48,11 @@ object AppModule {
   @Singleton
   fun provideDailySearchHistoryDataSource(driver: SqlDriver): DailySearchHistorySource {
     return DailySearchHistoryImpl(Database(driver))
+  }
+
+  @Provides
+  @Singleton
+  fun provideTrendsDataSource(driver: SqlDriver): TrendsDataSource {
+    return TrendsImpl(Database(driver))
   }
 }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -13,10 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.navigation.NavGraph
-import com.stockxsteals.app.viewmodel.db.DailySearchHistoryViewModel
-import com.stockxsteals.app.viewmodel.db.DailySearchViewModel
-import com.stockxsteals.app.viewmodel.db.FilterPresetsViewModel
-import com.stockxsteals.app.viewmodel.db.PremiumViewModel
+import com.stockxsteals.app.viewmodel.db.*
 import com.stockxsteals.app.viewmodel.ui.*
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -27,6 +25,8 @@ fun SetupScreen(navController: NavHostController) {
   val dailySearchModel: DailySearchViewModel = hiltViewModel()
   val premiumModel: PremiumViewModel = hiltViewModel()
   val historyModel: DailySearchHistoryViewModel = hiltViewModel()
+  val recentTrendsModel: TrendsDBViewModel = hiltViewModel()
+  val trendDB = recentTrendsModel.trends.collectAsState(initial = emptyList()).value[0]
 
   val filterModel = FilterViewModel(presetsModel)
   val uiModel: UIViewModel = viewModel()
@@ -37,11 +37,13 @@ fun SetupScreen(navController: NavHostController) {
                                       premiumModel,
                                       historyModel)
 
-  val trendsModel = TrendsViewModel(LocalContext.current,
+  val trendsModel = TrendsUIViewModel(LocalContext.current,
                                     networkModel,
                                     historyModel,
                                     dailySearchModel,
-                                    premiumModel)
+                                    premiumModel,
+                                    recentTrendsModel,
+                                    trendDB)
 
   val productSearchModel = ProductSearchViewModel(filterModel = filterModel,
                                                   historyModel = historyModel,

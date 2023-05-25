@@ -12,7 +12,7 @@ import com.stockxsteals.app.viewmodel.ui.*
 fun NavGraph(navController: NavHostController,
              productSearchViewModel: ProductSearchViewModel,
              settingModel: SettingViewModel,
-             trendsModel: TrendsViewModel,
+             trendsModel: TrendsUIViewModel,
              networkModel: NetworkViewModel
 ) {
   NavHost(navController = navController,
