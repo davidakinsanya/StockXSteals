@@ -35,6 +35,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.stockxsteals.app.R
 import com.stockxsteals.app.navigation.AppScreens
+import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -42,7 +43,8 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchAppBar(navController: NavHostController,
-                 productSearchViewModel: ProductSearchViewModel) {
+                 productSearchViewModel: ProductSearchViewModel,
+                 networkModel: NetworkViewModel) {
 
   val focusManager = LocalFocusManager.current
   val focusRequester = remember { FocusRequester() }
@@ -85,6 +87,7 @@ fun SearchAppBar(navController: NavHostController,
       RoundTextField(
           navController = navController,
           productSearchViewModel = productSearchViewModel,
+          networkModel = networkModel,
           text = text,
           selected = selected,
           focusManager = focusManager,
@@ -101,6 +104,7 @@ fun SearchAppBar(navController: NavHostController,
 @Composable
 fun RoundTextField(navController: NavHostController,
                    productSearchViewModel: ProductSearchViewModel,
+                   networkModel: NetworkViewModel,
                    text: MutableState<String>,
                    selected: String,
                    focusManager: FocusManager,
@@ -187,22 +191,27 @@ fun RoundTextField(navController: NavHostController,
 
               focusManager.clearFocus()
               coroutineScope.launch(Dispatchers.Default) {
-                val presetExists = presetModel.presetExists(
-                  allPresets,
-                  currentSearch.country,
-                  currentSearch.currency,
-                  currentSearch.sizeType,
-                  currentSearch.size)
-
-                if (!presetExists) {
-                  presetModel.addPreset(
+                if (networkModel.checkConnection(context)) {
+                  val presetExists = presetModel.presetExists(
+                    allPresets,
                     currentSearch.country,
                     currentSearch.currency,
                     currentSearch.sizeType,
                     currentSearch.size
                   )
+
+                  if (!presetExists) {
+                    presetModel.addPreset(
+                      currentSearch.country,
+                      currentSearch.currency,
+                      currentSearch.sizeType,
+                      currentSearch.size
+                    )
+                  }
+                  productSearchViewModel.getFilterModel().setSearchResults(text.value)
+                } else {
+                  networkModel.toastMessage(context)
                 }
-                productSearchViewModel.getFilterModel().setSearchResults(text.value)
               }
 
               navController.currentBackStackEntry?.savedStateHandle?.set(

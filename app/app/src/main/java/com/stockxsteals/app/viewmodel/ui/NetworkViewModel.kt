@@ -3,6 +3,7 @@ package com.stockxsteals.app.viewmodel.ui
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.internal.Contexts
 import kotlinx.coroutines.Dispatchers
@@ -19,5 +20,11 @@ class NetworkViewModel(): ViewModel() {
       return@withContext capability?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
         ?: false
     }
+  }
+
+  fun toastMessage(context: Context) {
+    Toast.makeText(context,
+              "Please establish an internet connection.",
+                   Toast.LENGTH_LONG).show()
   }
 }

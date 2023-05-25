@@ -59,7 +59,10 @@ fun SetupScreen(navController: NavHostController) {
 
 
     Scaffold(
-      topBar = { if (!isLogin && !isNull) SearchAppBar(navController = navController, productSearchViewModel = productSearchModel) },
+      topBar = { if (!isLogin && !isNull) SearchAppBar(navController = navController,
+                                                       productSearchViewModel = productSearchModel,
+                                                       networkModel = networkModel) },
+
       bottomBar = { if (!bool) BottomBar(navController = navController) }
     ) {
       NavGraph(

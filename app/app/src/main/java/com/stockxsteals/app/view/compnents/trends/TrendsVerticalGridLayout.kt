@@ -145,9 +145,7 @@ fun RandomColorBox(item: GridItem,
                   if (displayItem) { }
 
                 } else {
-                  Toast.makeText(context,
-                            "Please establish an internet connection",
-                                 Toast.LENGTH_LONG).show()
+                  networkModel.toastMessage(context)
                 }
               }
             })

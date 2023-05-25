@@ -2,7 +2,6 @@ package com.stockxsteals.app.view.compnents.login
 
 import android.annotation.SuppressLint
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -78,9 +77,7 @@ fun LoginScreen(navController: NavHostController,
                   if (networkModel.checkConnection(context))
                     state.open()
                   else
-                    Toast.makeText(context,
-                              "Please establish an internet connection",
-                                   Toast.LENGTH_LONG).show()
+                    networkModel.toastMessage(context)
                 }
               }
               .border(
