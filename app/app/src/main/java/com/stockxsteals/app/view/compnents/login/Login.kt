@@ -42,8 +42,7 @@ fun LoginScreen(navController: NavHostController) {
 
   Scaffold(modifier = Modifier
     .fillMaxSize()
-    .padding(
-      top = 125.dp,
+    .padding(top = 50.dp,
       start = 80.dp,
       end = 80.dp
     )) {
@@ -67,7 +66,7 @@ fun LoginScreen(navController: NavHostController) {
               ) { state.open() }
               .border(
                 border = BorderStroke(
-                  width = 1.5.dp,
+                  width = 1.2.dp,
                   color = mauve
                 ),
                 shape = RoundedCornerShape(50.dp)
