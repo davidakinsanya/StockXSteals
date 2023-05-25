@@ -15,9 +15,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.Response
 import java.io.File
 
 class TrendsViewModel(context: Context,
+                      private val networkModel: NetworkViewModel,
                       private val historyModel: DailySearchHistoryViewModel,
                       private val dailySearchModel: DailySearchViewModel,
                       private val premiumModel: PremiumViewModel): ViewModel() {
@@ -28,9 +30,13 @@ class TrendsViewModel(context: Context,
   init {
     viewModelScope.launch(Dispatchers.Default) {
         //val file = File(context.filesDir, "/trends/obj")
-       //val trends = getTrends(file)
+       //val trends = getTrends(file, context)
       //if (!trends.isNullOrEmpty()) _bootTrends.emit(trends)
     }
+  }
+
+  fun getNetworkModel(): NetworkViewModel {
+    return networkModel
   }
 
   fun getHistoryModel(): DailySearchHistoryViewModel {
@@ -45,13 +51,22 @@ class TrendsViewModel(context: Context,
     return premiumModel
   }
 
-  private suspend fun getTrends(fileLocation: File): List<Trend>? = withContext(Dispatchers.IO) { // to run code in Background Thread
-    val res = RetrofitInstance.trend.getTrends("sneakers", "EUR").execute()
-    return@withContext if (res.isSuccessful) {
-      writeCurrentTrends(fileLocation.toString(), res.body()!!)
-      res.body()!!
+  private suspend fun getTrends(fileLocation: File, context: Context): List<Trend>? = withContext(Dispatchers.IO) { // to run code in Background Thread
+    var result: Response<List<Trend>>? = null
+
+    withContext(Dispatchers.IO) {
+      if (getNetworkModel().checkConnection(context)) {
+          result = RetrofitInstance.trend.getTrends("sneakers", "EUR").execute()
+      } else {
+        getNetworkModel().toastMessage(context)
+      }
+    }
+
+    return@withContext if (result != null && result!!.isSuccessful) {
+      writeCurrentTrends(fileLocation.toString(), result!!.body()!!)
+      result!!.body()!!
     } else {
-      Log.d("error", res.errorBody().toString())
+      Log.d("error", result!!.errorBody().toString())
       null
     }
   }

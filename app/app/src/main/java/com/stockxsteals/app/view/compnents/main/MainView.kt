@@ -37,7 +37,11 @@ fun SetupScreen(navController: NavHostController) {
                                       premiumModel,
                                       historyModel)
 
-  val trendsModel = TrendsViewModel(LocalContext.current, historyModel, dailySearchModel, premiumModel)
+  val trendsModel = TrendsViewModel(LocalContext.current,
+                                    networkModel,
+                                    historyModel,
+                                    dailySearchModel,
+                                    premiumModel)
 
   val productSearchModel = ProductSearchViewModel(filterModel = filterModel,
                                                   historyModel = historyModel,

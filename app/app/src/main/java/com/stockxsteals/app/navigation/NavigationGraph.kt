@@ -20,7 +20,7 @@ fun NavGraph(navController: NavHostController,
           route = "root_route") {
 
     loginGraph(navController, networkModel)
-    sneakerNavGraph(trendsModel, productSearchViewModel, networkModel, navController)
+    sneakerNavGraph(trendsModel, productSearchViewModel, navController)
     settingsNavGraph(navController, settingModel)
   }
 }

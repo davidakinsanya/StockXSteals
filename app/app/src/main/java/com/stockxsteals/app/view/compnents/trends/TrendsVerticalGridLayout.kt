@@ -26,7 +26,6 @@ import coil.compose.AsyncImage
 import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.model.ui.GridItem
 import com.stockxsteals.app.utils.getCurrentDate
-import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsViewModel
 import kotlinx.coroutines.launch
 import kotlin.random.Random
@@ -34,8 +33,7 @@ import kotlin.random.Random
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TrendsLazyGrid(trends: List<Trend>,
-                  trendsModel: TrendsViewModel,
-                  networkModel: NetworkViewModel
+                  trendsModel: TrendsViewModel
 ) {
 
   val items = (1..trends.size).map {
@@ -62,7 +60,7 @@ fun TrendsLazyGrid(trends: List<Trend>,
 
     } else {
       itemsIndexed(trends) { num, trend ->
-        RandomColorBox(items[num], trend, trendsModel, networkModel)
+        RandomColorBox(items[num], trend, trendsModel)
       }
     }
   }
@@ -81,10 +79,10 @@ fun AlternateBox(item: GridItem) {
 @Composable
 fun RandomColorBox(item: GridItem,
                    trend: Trend,
-                   trendsModel: TrendsViewModel,
-                   networkModel: NetworkViewModel) {
+                   trendsModel: TrendsViewModel) {
 
   val scope = rememberCoroutineScope()
+  val networkModel = trendsModel.getNetworkModel()
   val noQuota = trendsModel.getSearchModel().quota.collectAsState(initial = emptyList()).value.isEmpty()
   val quota = if (!noQuota) trendsModel.getSearchModel().quota.collectAsState(initial = emptyList()).value[0] else null
   val context = LocalContext.current
