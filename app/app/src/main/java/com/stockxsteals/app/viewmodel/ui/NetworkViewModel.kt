@@ -23,8 +23,6 @@ class NetworkViewModel(): ViewModel() {
   }
 
   fun toastMessage(context: Context) {
-    Toast.makeText(context,
-              "Please establish an internet connection.",
-                   Toast.LENGTH_LONG).show()
+    Toast.makeText(context, "No internet connection.", Toast.LENGTH_LONG).show()
   }
 }

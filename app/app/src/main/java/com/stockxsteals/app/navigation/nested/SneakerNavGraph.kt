@@ -54,6 +54,7 @@ fun NavGraphBuilder.sneakerNavGraph(
 
     if (model != null)
       SneakerSplashScreen(navController = navController,
-        productSearchViewModel = model)
+                          productSearchViewModel = model,
+                          networkModel = networkModel)
   }
 }

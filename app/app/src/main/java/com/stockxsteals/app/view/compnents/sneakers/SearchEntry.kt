@@ -31,6 +31,7 @@ import coil.request.ImageRequest
 import com.stockxsteals.app.R
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.getCurrentDate
+import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import kotlinx.coroutines.launch
 
@@ -38,6 +39,7 @@ import kotlinx.coroutines.launch
 fun SearchEntry(title: String,
                 result: List<String>,
                 productSearchViewModel: ProductSearchViewModel,
+                networkModel: NetworkViewModel,
                 navController: NavHostController
 ) {
 
@@ -68,43 +70,48 @@ fun SearchEntry(title: String,
           coroutineScope.launch {
             val isPremium = productSearchViewModel.isPremium()
             var displayItem = false
+            if (networkModel.checkConnection(context)) {
+              if (noQuota) {
+                dailySearch.insertSearch()
+                productSearchViewModel.getHistoryModel()
+                  .addSearch(getCurrentDate(), result[1], title, "")
+                displayItem = true
 
-            if (noQuota) {
-              dailySearch.insertSearch()
-              productSearchViewModel.getHistoryModel().addSearch(getCurrentDate(), result[1], title, "")
-              displayItem = true
+              } else if (dailySearch.dbLogic(quota!!) == 1 || isPremium) {
+                productSearchViewModel.getHistoryModel()
+                  .addSearch(getCurrentDate(), result[1], title, "")
+                if (!isPremium) {
+                  Toast
+                    .makeText(
+                      context,
+                      "${quota.search_limit - quota.search_number} free daily searches left.",
+                      Toast.LENGTH_LONG
+                    )
+                    .show()
+                }
+                displayItem = true
 
-            } else if (dailySearch.dbLogic(quota!!) == 1 || isPremium) {
-              productSearchViewModel.getHistoryModel().addSearch(getCurrentDate(), result[1], title, "")
-              if (!isPremium) {
+              } else {
                 Toast
-                .makeText(
-                  context,
-                  "${quota.search_limit - quota.search_number} free daily searches left.",
-                  Toast.LENGTH_LONG
-                )
-                .show()
+                  .makeText(context, "Please upgrade to L8test+.", Toast.LENGTH_LONG)
+                  .show()
               }
-              displayItem = true
 
+              if (displayItem) {
+                productSearchViewModel.getProduct(
+                  result[0],
+                  productSearchViewModel.getFilterModel().getCurrentSearch().currency,
+                  productSearchViewModel.getFilterModel().getCurrentSearch().country
+                )
+
+                navController.currentBackStackEntry?.savedStateHandle?.set(
+                  key = "productModel",
+                  value = productSearchViewModel
+                )
+                navController.navigate(searchRoute)
+              }
             } else {
-              Toast
-                .makeText(context, "Please upgrade to L8test+.", Toast.LENGTH_LONG)
-                .show()
-            }
-
-            if (displayItem) {
-              productSearchViewModel.getProduct(
-                result[0],
-                productSearchViewModel.getFilterModel().getCurrentSearch().currency,
-                productSearchViewModel.getFilterModel().getCurrentSearch().country
-              )
-
-              navController.currentBackStackEntry?.savedStateHandle?.set(
-                key = "productModel",
-                value = productSearchViewModel
-              )
-              navController.navigate(searchRoute)
+              networkModel.toastMessage(context)
             }
           }
         },

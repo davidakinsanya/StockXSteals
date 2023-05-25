@@ -21,11 +21,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun SneakerSplashScreen(navController: NavHostController, productSearchViewModel: ProductSearchViewModel) {
+fun SneakerSplashScreen(navController: NavHostController,
+                        productSearchViewModel: ProductSearchViewModel,
+                        networkModel: NetworkViewModel) {
+
   val focusManager = LocalFocusManager.current
   val searchRes = productSearchViewModel.getFilterModel().bootMap.collectAsState()
   val map = searchRes.value
@@ -83,6 +87,7 @@ fun SneakerSplashScreen(navController: NavHostController, productSearchViewModel
                 title = it,
                 result = map[it]!!,
                 productSearchViewModel = productSearchViewModel,
+                networkModel = networkModel,
                 navController = navController
               )
             }
