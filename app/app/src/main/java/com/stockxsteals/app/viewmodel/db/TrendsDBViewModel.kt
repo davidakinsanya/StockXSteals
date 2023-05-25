@@ -2,12 +2,14 @@ package com.stockxsteals.app.viewmodel.db
 
 import androidx.lifecycle.ViewModel
 import com.stockxsteals.app.datasource.intrface.TrendsDataSource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import db.entity.Trends
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@HiltViewModel
 class TrendsDBViewModel
 @Inject constructor(
   private val trendsDataSource: TrendsDataSource
