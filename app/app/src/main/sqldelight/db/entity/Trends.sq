@@ -13,5 +13,5 @@ timestamp = :timestamp, json = :json
 WHERE id = :id;
 
 setFirstTrend:
-INSERT INTO Trends (timestamp, json)
+INSERT OR REPLACE INTO Trends (timestamp, json)
 VALUES (?,?);

@@ -27,5 +27,4 @@ class TrendsImpl(db: Database): TrendsDataSource {
       queries.setFirstTrend(timestamp, json)
     }
   }
-
 }

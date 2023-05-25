@@ -1,36 +1,27 @@
 package com.stockxsteals.app.view.compnents.trends
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.beust.klaxon.Klaxon
 import com.stockxsteals.app.model.dto.Trend
-import com.stockxsteals.app.utils.fileIsOld
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 
 @Composable
 fun TrendsViewComponent(trendsModel: TrendsUIViewModel) {
-  val currentTrends: List<Trend>?
-  val trend = trendsModel.getDBTrend()
-  val context = LocalContext.current
 
-  currentTrends = if
-          (trend.timestamp.isEmpty() ||
-          (trend.timestamp.isNotEmpty() && fileIsOld(trend.timestamp))) {
-      trendsModel.initiateTrends(context, trend)
-      trendsModel.bootTrends.collectAsState().value
-  } else {
-   Klaxon().parse<List<Trend>>(trend.json)
-  }
+    var currentTrends: List<Trend> = listOf()
+  /*
+    currentTrends = trendsModel.bootTrends.collectAsState().value
+    if (currentTrends.isEmpty()) {
+      currentTrends = Klaxon().parse<List<Trend>>(trendsModel.getTrendsModel().trends.collectAsState(initial = emptyList()).value[0].json)!!
+    }
+   */
 
   Column(
     modifier = Modifier
@@ -43,7 +34,7 @@ fun TrendsViewComponent(trendsModel: TrendsUIViewModel) {
         .fillMaxHeight(.88f)
     ) {
 
-      TrendsLazyGrid(currentTrends!!, trendsModel)
+      TrendsLazyGrid(currentTrends, trendsModel)
 
     }
   }

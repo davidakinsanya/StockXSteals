@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -25,7 +25,8 @@ fun SetupScreen(navController: NavHostController) {
   val premiumModel: PremiumViewModel = hiltViewModel()
   val historyModel: DailySearchHistoryViewModel = hiltViewModel()
   val trendsDBModel: TrendsDBViewModel = hiltViewModel()
-  val trendDB = trendsDBModel.trends.collectAsState(initial = emptyList()).value[0]
+
+  val context = LocalContext.current
 
   val filterModel = FilterViewModel(presetsModel)
   val uiModel: UIViewModel = viewModel()
@@ -41,7 +42,7 @@ fun SetupScreen(navController: NavHostController) {
                                       dailySearchModel,
                                       premiumModel,
                                       trendsDBModel,
-                                      trendDB)
+                                      context)
 
   val productSearchModel = ProductSearchViewModel(filterModel = filterModel,
                                                   historyModel = historyModel,
