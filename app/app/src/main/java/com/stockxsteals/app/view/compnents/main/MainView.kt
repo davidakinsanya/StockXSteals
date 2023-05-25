@@ -6,7 +6,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -25,8 +24,8 @@ fun SetupScreen(navController: NavHostController) {
   val dailySearchModel: DailySearchViewModel = hiltViewModel()
   val premiumModel: PremiumViewModel = hiltViewModel()
   val historyModel: DailySearchHistoryViewModel = hiltViewModel()
-  val recentTrendsModel: TrendsDBViewModel = hiltViewModel()
-  val trendDB = recentTrendsModel.trends.collectAsState(initial = emptyList()).value[0]
+  val trendsDBModel: TrendsDBViewModel = hiltViewModel()
+  val trendDB = trendsDBModel.trends.collectAsState(initial = emptyList()).value[0]
 
   val filterModel = FilterViewModel(presetsModel)
   val uiModel: UIViewModel = viewModel()
@@ -37,13 +36,12 @@ fun SetupScreen(navController: NavHostController) {
                                       premiumModel,
                                       historyModel)
 
-  val trendsModel = TrendsUIViewModel(LocalContext.current,
-                                    networkModel,
-                                    historyModel,
-                                    dailySearchModel,
-                                    premiumModel,
-                                    recentTrendsModel,
-                                    trendDB)
+  val trendsModel = TrendsUIViewModel(networkModel,
+                                      historyModel,
+                                      dailySearchModel,
+                                      premiumModel,
+                                      trendsDBModel,
+                                      trendDB)
 
   val productSearchModel = ProductSearchViewModel(filterModel = filterModel,
                                                   historyModel = historyModel,

@@ -19,28 +19,21 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 
-class TrendsUIViewModel(context: Context,
-                        private val networkModel: NetworkViewModel,
+class TrendsUIViewModel(private val networkModel: NetworkViewModel,
                         private val historyModel: DailySearchHistoryViewModel,
                         private val dailySearchModel: DailySearchViewModel,
                         private val premiumModel: PremiumViewModel,
-                        private val recentTrendsModel: TrendsDBViewModel,
+                        private val trendsDBModel: TrendsDBViewModel,
                         private val dbTrend: Trends): ViewModel() {
 
   private val _bootTrends = MutableStateFlow<List<Trend>>(listOf())
-  var bootTrends: StateFlow<List<Trend>> = _bootTrends
+  val bootTrends: StateFlow<List<Trend>> = _bootTrends
 
-  init {
-    viewModelScope.launch(Dispatchers.Default) {
-       //val trends = getTrends(context, trend)
-      //if (!trends.isNullOrEmpty()) _bootTrends.emit(trends)
-    }
-  }
   fun getDBTrend(): Trends {
     return dbTrend
   }
-  fun getTrendsModel(): TrendsDBViewModel {
-    return recentTrendsModel
+  private fun getTrendsModel(): TrendsDBViewModel {
+    return trendsDBModel
   }
 
   fun getNetworkModel(): NetworkViewModel {
@@ -59,6 +52,14 @@ class TrendsUIViewModel(context: Context,
     return premiumModel
   }
 
+  fun initiateTrends(context: Context, dbTrend: Trends) {
+     viewModelScope.launch {
+       val trends = getTrends(context, dbTrend)
+       if (!trends.isNullOrEmpty()) _bootTrends.emit(trends)
+     }
+  }
+
+
   private suspend fun getTrends(context: Context,
                                 trends: Trends): List<Trend>? = withContext(Dispatchers.IO) { // to run code in Background Thread
 
@@ -74,7 +75,11 @@ class TrendsUIViewModel(context: Context,
 
     return@withContext if (result != null && result!!.isSuccessful) {
       val response =  result!!.body()!!
-      getTrendsModel().updateTrends(getCurrentDate(), response.toString(), trends.id)
+      if (trends.timestamp.isEmpty()) {
+        getTrendsModel().setFirstTrend(getCurrentDate(), response.toString())
+      } else {
+        getTrendsModel().updateTrends(getCurrentDate(), response.toString(), trends.id)
+      }
       response
     } else {
       Log.d("error", result!!.errorBody().toString())
