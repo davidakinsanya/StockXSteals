@@ -67,14 +67,14 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
       if (getTrendsModel().trends.count() == 0) {
 
         result = RetrofitInstance.trend.getTrends("sneakers", "EUR").execute()
-        getTrendsModel().setFirstTrend(getCurrentDate(), result!!.body()!!.toString())
+        getTrendsModel().setFirstTrend(getCurrentDate(), result.body()!!.toString())
 
       } else if (getTrendsModel().trends.count() == 1) {
 
         if (fileIsOld(getTrendsModel().trends.asLiveData().value!![0].timestamp)) {
 
           result = RetrofitInstance.trend.getTrends("sneakers", "EUR").execute()
-          getTrendsModel().updateTrends(getCurrentDate(), result!!.body()!!.toString(), 0)
+          getTrendsModel().updateTrends(getCurrentDate(), result.body()!!.toString(), 0)
 
         } else {
           return@withContext listOf()
@@ -83,6 +83,6 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
     } else {
       getNetworkModel().toastMessage(context)
     }
-    return@withContext if (result!!.body() != null) result.body()!! else null
+    return@withContext if (result != null && result.isSuccessful) result.body()!! else null
     }
   }
