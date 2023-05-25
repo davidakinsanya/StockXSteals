@@ -31,6 +31,7 @@ fun SetupScreen(navController: NavHostController) {
   val filterModel = FilterViewModel(presetsModel)
   val uiModel: UIViewModel = viewModel()
   val qonversionModel: QonversionViewModel = viewModel()
+  val networkModel: NetworkViewModel = viewModel()
 
   val settingModel = SettingViewModel(qonversionModel,
                                       premiumModel,
@@ -65,7 +66,8 @@ fun SetupScreen(navController: NavHostController) {
         navController = navController,
         productSearchViewModel = productSearchModel,
         settingModel = settingModel,
-        trendsModel = trendsModel)
+        trendsModel = trendsModel,
+        networkModel = networkModel)
     }
   }
 }

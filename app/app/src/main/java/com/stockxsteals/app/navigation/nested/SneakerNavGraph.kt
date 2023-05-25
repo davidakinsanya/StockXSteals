@@ -9,19 +9,22 @@ import com.stockxsteals.app.view.compnents.searchpage.SneakerViewComponent
 import com.stockxsteals.app.view.compnents.sneakers.SneakerSplashScreen
 import com.stockxsteals.app.view.compnents.topsearch.SearchScreen
 import com.stockxsteals.app.view.compnents.trends.TrendsViewComponent
+import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsViewModel
 
 fun NavGraphBuilder.sneakerNavGraph(
   trendsModel: TrendsViewModel,
   productSearchViewModel: ProductSearchViewModel,
+  networkModel: NetworkViewModel,
   navController: NavHostController) {
   navigation(
     startDestination = AppScreens.Trends.route,
     route = "trends_route"
   ) {
     composable(route = AppScreens.Trends.route) {
-      TrendsViewComponent(trendsModel = trendsModel)
+      TrendsViewComponent(trendsModel = trendsModel,
+                          networkModel = networkModel)
     }
 
     composable(route = AppScreens.Search.route) {

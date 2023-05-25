@@ -2,16 +2,19 @@ package com.stockxsteals.app.view.compnents.login
 
 import android.annotation.SuppressLint
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -21,11 +24,17 @@ import coil.compose.AsyncImage
 import com.stevdzasan.onetap.OneTapSignInWithGoogle
 import com.stevdzasan.onetap.rememberOneTapSignInState
 import com.stockxsteals.app.R
+import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun LoginScreen(navController: NavHostController) {
+fun LoginScreen(navController: NavHostController,
+                networkModel: NetworkViewModel) {
+
   val state = rememberOneTapSignInState()
+  val scope = rememberCoroutineScope()
+  val context = LocalContext.current
   val mauve = Color(224, 176, 255)
 
   OneTapSignInWithGoogle(
@@ -42,7 +51,8 @@ fun LoginScreen(navController: NavHostController) {
 
   Scaffold(modifier = Modifier
     .fillMaxSize()
-    .padding(top = 50.dp,
+    .padding(
+      top = 50.dp,
       start = 80.dp,
       end = 80.dp
     )) {
@@ -63,7 +73,16 @@ fun LoginScreen(navController: NavHostController) {
               .width(250.dp)
               .clickable(
                 enabled = !state.opened
-              ) { state.open() }
+              ) {
+                scope.launch {
+                  if (networkModel.checkConnection(context))
+                    state.open()
+                  else
+                    Toast.makeText(context,
+                              "Please establish an internet connection",
+                                   Toast.LENGTH_LONG).show()
+                }
+              }
               .border(
                 border = BorderStroke(
                   width = 1.2.dp,

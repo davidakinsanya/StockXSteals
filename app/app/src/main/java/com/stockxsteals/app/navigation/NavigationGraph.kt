@@ -12,14 +12,15 @@ import com.stockxsteals.app.viewmodel.ui.*
 fun NavGraph(navController: NavHostController,
              productSearchViewModel: ProductSearchViewModel,
              settingModel: SettingViewModel,
-             trendsModel: TrendsViewModel
+             trendsModel: TrendsViewModel,
+             networkModel: NetworkViewModel
 ) {
   NavHost(navController = navController,
           startDestination = "login_route",
           route = "root_route") {
 
-    loginGraph(navController)
-    sneakerNavGraph(trendsModel, productSearchViewModel, navController)
+    loginGraph(navController, networkModel)
+    sneakerNavGraph(trendsModel, productSearchViewModel, networkModel, navController)
     settingsNavGraph(navController, settingModel)
   }
 }

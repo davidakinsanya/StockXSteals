@@ -14,11 +14,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.utils.readCurrentTrends
+import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsViewModel
 import java.io.File
 
 @Composable
-fun TrendsViewComponent(trendsModel: TrendsViewModel) {
+fun TrendsViewComponent(trendsModel: TrendsViewModel,
+                        networkModel: NetworkViewModel) {
+
   val currentTrends: List<Trend>?
 
   val dir = File(LocalContext.current.filesDir, "/trends/obj")
@@ -47,7 +50,7 @@ fun TrendsViewComponent(trendsModel: TrendsViewModel) {
         .fillMaxHeight(.88f)
     ) {
 
-      TrendsLazyGrid(currentTrends!!, trendsModel)
+      TrendsLazyGrid(currentTrends!!, trendsModel, networkModel)
 
     }
   }

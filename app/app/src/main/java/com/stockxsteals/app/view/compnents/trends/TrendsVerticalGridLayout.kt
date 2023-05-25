@@ -26,6 +26,7 @@ import coil.compose.AsyncImage
 import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.model.ui.GridItem
 import com.stockxsteals.app.utils.getCurrentDate
+import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsViewModel
 import kotlinx.coroutines.launch
 import kotlin.random.Random
@@ -33,7 +34,9 @@ import kotlin.random.Random
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TrendsLazyGrid(trends: List<Trend>,
-                  trendsModel: TrendsViewModel) {
+                  trendsModel: TrendsViewModel,
+                  networkModel: NetworkViewModel
+) {
 
   val items = (1..trends.size).map {
     GridItem(height = Random.nextInt(200, 300).dp,
@@ -59,7 +62,7 @@ fun TrendsLazyGrid(trends: List<Trend>,
 
     } else {
       itemsIndexed(trends) { num, trend ->
-        RandomColorBox(items[num], trend, trendsModel)
+        RandomColorBox(items[num], trend, trendsModel, networkModel)
       }
     }
   }
@@ -78,7 +81,8 @@ fun AlternateBox(item: GridItem) {
 @Composable
 fun RandomColorBox(item: GridItem,
                    trend: Trend,
-                   trendsModel: TrendsViewModel) {
+                   trendsModel: TrendsViewModel,
+                   networkModel: NetworkViewModel) {
 
   val scope = rememberCoroutineScope()
   val noQuota = trendsModel.getSearchModel().quota.collectAsState(initial = emptyList()).value.isEmpty()
@@ -111,34 +115,40 @@ fun RandomColorBox(item: GridItem,
 
               scope.launch {
                 val isPremium = trendsModel.getPremiumModel().getIsPremium() == 1
+                if (networkModel.checkConnection(context)) {
+                  if (noQuota) {
+                    trendsModel.getSearchModel().insertSearch()
+                    trendsModel.getHistoryModel()
+                      .addSearch(getCurrentDate(), trend.image, trend.name, "")
+                    displayItem = true
 
-                if (noQuota) {
-                  trendsModel.getSearchModel().insertSearch()
-                  trendsModel.getHistoryModel().addSearch(getCurrentDate(), trend.image, trend.name, "")
-                  displayItem = true
+                  } else if (trendsModel.getSearchModel().dbLogic(quota!!) == 1 || isPremium) {
+                    trendsModel.getHistoryModel()
+                      .addSearch(getCurrentDate(), trend.image, trend.name, "")
+                    if (!isPremium) {
+                      Toast
+                        .makeText(
+                          context,
+                          "${quota.search_limit - quota.search_number} free daily searches left.",
+                          Toast.LENGTH_LONG
+                        )
+                        .show()
+                    }
 
-                } else if (trendsModel.getSearchModel().dbLogic(quota!!) == 1 || isPremium) {
-                  trendsModel.getHistoryModel().addSearch(getCurrentDate(), trend.image, trend.name, "")
-                  if (!isPremium) {
+                    displayItem = true
+
+                  } else {
                     Toast
-                      .makeText(
-                        context,
-                        "${quota.search_limit - quota.search_number} free daily searches left.",
-                        Toast.LENGTH_LONG
-                      )
+                      .makeText(context, "Please upgrade to L8test+.", Toast.LENGTH_LONG)
                       .show()
                   }
-
-                  displayItem = true
+                  if (displayItem) { }
 
                 } else {
-                Toast
-                  .makeText(context, "Please upgrade to L8test+.", Toast.LENGTH_LONG)
-                  .show()
+                  Toast.makeText(context,
+                            "Please establish an internet connection",
+                                 Toast.LENGTH_LONG).show()
                 }
-
-                if (displayItem) { }
-
               }
             })
 
