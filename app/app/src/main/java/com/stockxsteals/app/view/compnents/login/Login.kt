@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -67,7 +68,7 @@ fun LoginScreen(navController: NavHostController,
         Row(verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier
-              .width(250.dp)
+              .width(300.dp)
               .clickable(
                 enabled = !state.opened
               ) {
@@ -90,14 +91,16 @@ fun LoginScreen(navController: NavHostController,
           ) {
           Row(verticalAlignment = Alignment.CenterVertically,
               horizontalArrangement = Arrangement.Center) {
-            Text(text = "Sign In",
-                 modifier = Modifier.padding(end = 20.dp),
-                 fontSize = 16.sp, fontWeight = FontWeight.Bold)
             AsyncImage(
               model = "https://img.icons8.com/?size=512&id=V5cGWnc9R4xj&format=png",
               contentDescription = "Google Logo",
-              modifier = Modifier.fillMaxSize(0.15f)
+              modifier = Modifier.fillMaxSize(0.15f).padding(end = 10.dp),
+              alignment = Alignment.Center
             )
+            Text(text = "Sign In With Google",
+              modifier = Modifier.padding(start = 2.dp),
+              fontSize = 16.sp, fontWeight = FontWeight.Medium,
+              textAlign = TextAlign.Center)
           }
         }
       }
