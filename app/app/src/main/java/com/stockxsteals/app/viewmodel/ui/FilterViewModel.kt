@@ -1,11 +1,9 @@
 package com.stockxsteals.app.viewmodel.ui
 
 
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.stockxsteals.app.http.RetrofitInstance
 import com.stockxsteals.app.model.filter.SearchWithFilters
 import com.stockxsteals.app.model.filter.Currency
 import com.stockxsteals.app.model.filter.ShoeSize
@@ -109,13 +107,9 @@ class FilterViewModel(private val presetModel: FilterPresetsViewModel)
     return -1
   }
 
-  fun setSearchResults(search: String) {
+  fun setSearchResults(result: Map<String, List<String>>) {
     viewModelScope.launch(Dispatchers.Default) {  // to run code in Background Thread
-      val res = RetrofitInstance.filterSearch.getSearch(search).execute()
-      if (res.isSuccessful)
-        _bootMap.emit(res.body()!!)
-      else
-        Log.d("error", res.code().toString())
+        _bootMap.emit(result)
     }
   }
 

@@ -34,6 +34,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.stockxsteals.app.R
+import com.stockxsteals.app.http.ApiService
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
@@ -53,11 +54,10 @@ fun SearchAppBar(navController: NavHostController,
   val navBackStackEntry by navController.currentBackStackEntryAsState()
   val currentDestination = navBackStackEntry?.destination
   val searchRoute = AppScreens.TopSearch.route
-  var searchScreen = false
   var selected = ""
 
   productSearchViewModel.getUIModel().listOfScreens().forEach { _ ->
-    searchScreen = currentDestination?.hierarchy?.any {
+    val searchScreen = currentDestination?.hierarchy?.any {
       it.route == searchRoute
     } == true
   }
@@ -120,6 +120,7 @@ fun RoundTextField(navController: NavHostController,
   val presetModel = productSearchViewModel.getFilterModel().getPresetsModel()
   val currentSearch = productSearchViewModel.getFilterModel().getCurrentSearch()
   val allPresets = presetModel.allPreset.collectAsState(initial = emptyList()).value
+  val produceSearch = remember { mutableStateOf(false) }
 
   val mauve = Color(224, 176, 255)
   val selectedIsSearch = productSearchViewModel.getUIModel().selectedIsSearch(selected)
@@ -208,7 +209,7 @@ fun RoundTextField(navController: NavHostController,
                       currentSearch.size
                     )
                   }
-                  productSearchViewModel.getFilterModel().setSearchResults(text.value)
+                  produceSearch.value = true
                 } else {
                   networkModel.toastMessage(context)
                 }
@@ -249,5 +250,20 @@ fun RoundTextField(navController: NavHostController,
         top = 0.dp, bottom = 0.dp
       ),
     )
+
+    if (produceSearch.value) {
+      productSearchViewModel.getFilterModel().setSearchResults(doRequest(text.value))
+    }
   }
+}
+
+@Composable
+fun doRequest(search: String): Map<String, List<String>> {
+  val service = ApiService.create()
+  val data = produceState<Map<String, List<String>>>(
+    initialValue = emptyMap(),
+    producer = { value = service.getSearch(search) }
+  )
+
+  return data.value
 }
