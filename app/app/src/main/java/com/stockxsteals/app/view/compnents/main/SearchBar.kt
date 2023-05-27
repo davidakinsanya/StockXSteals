@@ -214,10 +214,6 @@ fun RoundTextField(navController: NavHostController,
                 }
               }
 
-              navController.currentBackStackEntry?.savedStateHandle?.set(
-                key = "productSearchViewModel",
-                value = productSearchViewModel
-              )
               navController.navigate(sneakersDestination)
 
             } else if (productSearchViewModel.getFilterModel().searchCheck() || text.value.isEmpty())

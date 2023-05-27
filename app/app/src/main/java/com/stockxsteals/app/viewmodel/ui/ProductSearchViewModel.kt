@@ -15,7 +15,7 @@ class ProductSearchViewModel(private val filterModel: FilterViewModel,
                              private val searchModel: DailySearchViewModel,
                              private val historyModel: DailySearchHistoryViewModel,
                              private val premiumModel: PremiumViewModel,
-                             private val uiModel: UIViewModel): ViewModel(), java.io.Serializable {
+                             private val uiModel: UIViewModel): ViewModel() {
 
   private val _searchResult = MutableStateFlow(blankProduct())
   val searchResult: StateFlow<Product> = _searchResult
