@@ -2,16 +2,12 @@ package com.stockxsteals.app.viewmodel.db
 
 import androidx.lifecycle.ViewModel
 import com.stockxsteals.app.datasource.intrface.DailySearchHistorySource
-import dagger.hilt.android.lifecycle.HiltViewModel
 import db.entity.DailySearchHistory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-@HiltViewModel
-class DailySearchHistoryViewModel
-@Inject constructor (
+class DailySearchHistoryViewModel (
   private val dailySearchHistorySource: DailySearchHistorySource
   ): ViewModel() {
 

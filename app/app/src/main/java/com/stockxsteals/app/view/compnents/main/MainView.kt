@@ -6,7 +6,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
@@ -15,16 +14,17 @@ import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.navigation.NavGraph
 import com.stockxsteals.app.viewmodel.db.*
 import com.stockxsteals.app.viewmodel.ui.*
+import org.koin.androidx.compose.getViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SetupScreen(navController: NavHostController) {
 
-  val presetsModel: FilterPresetsViewModel = hiltViewModel()
-  val dailySearchModel: DailySearchViewModel = hiltViewModel()
-  val premiumModel: PremiumViewModel = hiltViewModel()
-  val historyModel: DailySearchHistoryViewModel = hiltViewModel()
-  val trendsDBModel: TrendsDBViewModel = hiltViewModel()
+  val presetsModel: FilterPresetsViewModel = getViewModel()
+  val dailySearchModel: DailySearchViewModel = getViewModel()
+  val premiumModel: PremiumViewModel = getViewModel()
+  val historyModel: DailySearchHistoryViewModel = getViewModel()
+  val trendsDBModel: TrendsDBViewModel = getViewModel()
 
   val context = LocalContext.current
 

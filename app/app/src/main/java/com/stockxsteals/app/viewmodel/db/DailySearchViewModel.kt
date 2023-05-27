@@ -5,17 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.stockxsteals.app.datasource.intrface.DailySearchDataSource
 import com.stockxsteals.app.utils.getCurrentDate
 import com.stockxsteals.app.utils.sameDateCheck
-import dagger.hilt.android.lifecycle.HiltViewModel
 import db.entity.DailySearchQuota
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-@HiltViewModel
-class DailySearchViewModel
-@Inject constructor (
+class DailySearchViewModel (
   private val dailySearchDataSource: DailySearchDataSource
   ): ViewModel() {
 

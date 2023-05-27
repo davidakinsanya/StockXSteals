@@ -1,58 +1,67 @@
 package com.stockxsteals.app.di
 
-import android.app.Application
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
 import com.stockxsteals.app.Database
 import com.stockxsteals.app.datasource.impl.*
 import com.stockxsteals.app.datasource.intrface.*
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import com.stockxsteals.app.viewmodel.db.*
+import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-object AppModule {
+val appModule = module {
 
-  @Provides
-  @Singleton
-  fun provideSqlDriver(app: Application): SqlDriver {
-    return AndroidSqliteDriver(
-      schema = Database.Schema,
-      context = app,
-      name = "L8test.db"
-    )
+  single {
+    Database(get())
   }
 
-  @Provides
-  @Singleton
-  fun provideDailySearchDataSource(driver: SqlDriver): DailySearchDataSource {
-    return DailySearchImpl(Database(driver))
+  single<SqlDriver> {
+    AndroidSqliteDriver(
+        schema = Database.Schema,
+        context = this.androidContext(),
+        name = "L8test.db"
+      )
   }
 
-  @Provides
-  @Singleton
-  fun provideFilterPresetDataSource(driver: SqlDriver): FilterPresetDataSource {
-    return FilterPresetImpl(Database(driver))
+  viewModel {
+    FilterPresetsViewModel(get())
   }
 
-  @Provides
-  @Singleton
-  fun providePremiumDataSource(driver: SqlDriver): PremiumDataSource {
-    return PremiumImpl(Database(driver))
+  single<FilterPresetDataSource> {
+    FilterPresetImpl(get())
   }
 
-  @Provides
-  @Singleton
-  fun provideDailySearchHistoryDataSource(driver: SqlDriver): DailySearchHistorySource {
-    return DailySearchHistoryImpl(Database(driver))
+  viewModel {
+    DailySearchViewModel(get())
   }
 
-  @Provides
-  @Singleton
-  fun provideTrendsDataSource(driver: SqlDriver): TrendsDataSource {
-    return TrendsImpl(Database(driver))
+  single<DailySearchDataSource> {
+    DailySearchImpl(get())
+  }
+
+  viewModel {
+    PremiumViewModel(get())
+  }
+
+  single<PremiumDataSource> {
+    PremiumImpl(get())
+  }
+
+  viewModel {
+    DailySearchHistoryViewModel(get())
+  }
+
+  single<DailySearchHistorySource> {
+    DailySearchHistoryImpl(get())
+  }
+
+  viewModel {
+    TrendsDBViewModel(get())
+  }
+
+
+  single<TrendsDataSource> {
+    TrendsImpl(get())
   }
 }

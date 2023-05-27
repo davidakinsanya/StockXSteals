@@ -2,14 +2,10 @@ package com.stockxsteals.app.viewmodel.db
 
 import androidx.lifecycle.ViewModel
 import com.stockxsteals.app.datasource.intrface.PremiumDataSource
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-@HiltViewModel
-class PremiumViewModel
-@Inject constructor (
+class PremiumViewModel (
   private val premiumDataSource: PremiumDataSource
 ): ViewModel() {
 
