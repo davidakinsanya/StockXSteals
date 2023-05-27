@@ -213,6 +213,10 @@ fun RoundTextField(navController: NavHostController,
                   networkModel.toastMessage(context)
                 }
               }
+              navController.currentBackStackEntry?.savedStateHandle?.set(
+                key = "productSearchViewModel",
+                value = productSearchViewModel
+              )
 
               navController.navigate(sneakersDestination)
 
