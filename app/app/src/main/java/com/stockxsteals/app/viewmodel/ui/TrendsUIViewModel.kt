@@ -63,7 +63,6 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
       if (getTrendsModel().trends.count() == 0) {
         return@withContext 1
       } else if (getTrendsModel().trends.count() == 1) {
-
         if (fileIsOld(getTrendsModel().trends.asLiveData().value!![0].timestamp)) {
           return@withContext 0
         } else {
