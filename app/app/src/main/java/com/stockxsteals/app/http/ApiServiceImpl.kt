@@ -24,15 +24,15 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
       }
     } catch(e: RedirectResponseException) {
       // 3xx - code response
-      Log.d("error", e.response.status.description)
+      Log.d("3XX", e.response.status.description)
       mapOf()
     } catch (e: ClientRequestException) {
       // 4xx - code response
-      Log.d("error", e.response.status.description)
+      Log.d("4XX", e.response.status.description)
       mapOf()
     } catch (e: ServerResponseException) {
       // 5xx - code response
-      Log.d("error", e.response.status.description)
+      Log.d("5XX", e.response.status.description)
       mapOf()
     }
   }
@@ -51,15 +51,15 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
       }
     } catch(e: RedirectResponseException) {
       // 3xx - code response
-      Log.d("error", e.response.status.description)
+      Log.d("3XX", e.response.status.description)
       listOf()
     } catch (e: ClientRequestException) {
       // 4xx - code response
-      Log.d("error", e.response.status.description)
+      Log.d("4XX", e.response.status.description)
       listOf()
     } catch (e: ServerResponseException) {
       // 5xx - code response
-      Log.d("error", e.response.status.description)
+      Log.d("5XX", e.response.status.description)
       listOf()
     }
   }
@@ -82,15 +82,15 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
       }
     } catch(e: RedirectResponseException) {
       // 3xx - code response
-      Log.d("error", e.response.status.description)
+      Log.d("3XX", e.response.status.description)
       blankProduct()
     } catch (e: ClientRequestException) {
       // 4xx - code response
-      Log.d("error", e.response.status.description)
+      Log.d("4XX", e.response.status.description)
       blankProduct()
     } catch (e: ServerResponseException) {
       // 5xx - code response
-      Log.d("error", e.response.status.description)
+      Log.d("5XX", e.response.status.description)
       blankProduct()
     }
   }
