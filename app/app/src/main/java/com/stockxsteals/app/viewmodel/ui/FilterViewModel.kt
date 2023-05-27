@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class FilterViewModel(private val presetModel: FilterPresetsViewModel)
-  :ViewModel(), java.io.Serializable {
+  :ViewModel() {
 
   private var searchWithFilters = SearchWithFilters("", "", "", "", 0.0)
   private val _bootMap =  MutableStateFlow(mapOf<String, List<String>>())

@@ -25,16 +25,14 @@ fun NavGraphBuilder.sneakerNavGraph(
     }
 
     composable(route = AppScreens.Search.route) {
+      /*
       val productModel = navController
         .previousBackStackEntry
         ?.savedStateHandle
-        ?.get<ProductSearchViewModel>("productModel")
+        ?.get<ProductSearchViewModel>("productModel") */
 
-      if (productModel != null)
-        SneakerViewComponent(productModel = productModel,
+      SneakerViewComponent(productModel = productSearchViewModel,
           uiModel = productSearchViewModel.getUIModel())
-      else SneakerViewComponent(productModel = null,
-        uiModel = productSearchViewModel.getUIModel())
     }
   }
 
@@ -44,14 +42,15 @@ fun NavGraphBuilder.sneakerNavGraph(
   }
 
   composable(route = AppScreens.SneakerSearch.route) {
-    val model = navController
+    /* val model = navController
       .previousBackStackEntry
       ?.savedStateHandle
       ?.get<ProductSearchViewModel>("productSearchViewModel")
+     */
 
-    if (model != null)
+
       SneakerSplashScreen(navController = navController,
-                          productSearchViewModel = model,
+                          productSearchViewModel = productSearchViewModel,
                           networkModel = trendsModel.getNetworkModel())
   }
 }
