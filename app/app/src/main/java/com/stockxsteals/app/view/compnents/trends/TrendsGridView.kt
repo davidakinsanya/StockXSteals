@@ -10,9 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.beust.klaxon.Klaxon
-import com.stockxsteals.app.http.ApiService
+import com.stockxsteals.app.http.doRequest
 import com.stockxsteals.app.model.dto.Trend
-import com.stockxsteals.app.utils.getCurrentDate
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 
 @Composable
@@ -59,27 +58,4 @@ fun TrendsViewComponent(trendsModel: TrendsUIViewModel) {
 
     }
   }
-}
-
-@Composable
-fun doRequest(model: TrendsUIViewModel, type: String,
-              currency: String, int: Int): List<Trend> {
-
-  val service = ApiService.create()
-  val data = produceState<List<Trend>?>(
-    initialValue = emptyList(),
-    producer = { value = service.getTrends(type, currency) }
-  )
-   LaunchedEffect(int) {
-    when (int) {
-      0 -> {
-        model.getTrendsModel().setFirstTrend(getCurrentDate(), data.value.toString())
-      }
-
-      -1 -> {
-        model.getTrendsModel().updateTrends(getCurrentDate(), data.value.toString(), 0)
-      }
-    }
-  }
-  return data.value!!
 }

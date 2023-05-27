@@ -34,7 +34,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.stockxsteals.app.R
-import com.stockxsteals.app.http.ApiService
+import com.stockxsteals.app.http.doRequest
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
@@ -255,15 +255,4 @@ fun RoundTextField(navController: NavHostController,
       productSearchViewModel.getFilterModel().setSearchResults(doRequest(text.value))
     }
   }
-}
-
-@Composable
-fun doRequest(search: String): Map<String, List<String>> {
-  val service = ApiService.create()
-  val data = produceState<Map<String, List<String>>>(
-    initialValue = emptyMap(),
-    producer = { value = service.getSearch(search) }
-  )
-
-  return data.value
 }
