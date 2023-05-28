@@ -22,9 +22,53 @@ class DailySearchHistoryImpl(db: Database): DailySearchHistorySource {
    }
   }
 
-  override suspend fun addSearch(timestamp: String, name: String, image: String, json: String) {
+  override suspend fun addSearch(
+    timestamp: String,
+    country: String,
+    currency: String,
+    sizeType: String,
+    size: Double,
+    name: String,
+    image: String,
+    json: String
+  ) {
+    queries.addSearch(timestamp,
+      country,
+      currency,
+      sizeType,
+      size,
+      name,
+      image,
+      json)
+  }
+
+  override suspend fun updateSearch(
+    timestamp: String,
+    country: String,
+    currency: String,
+    sizeType: String,
+    size: Double,
+    name: String,
+    image: String,
+    json: String,
+    id: Long
+  ) {
     withContext(Dispatchers.IO) {
-      queries.addSearch(timestamp, name, image, json)
+      queries.updateSearch(timestamp,
+        country,
+        currency,
+        sizeType,
+        size,
+        name,
+        image,
+        json,
+        id)
+    }
+  }
+
+  override suspend fun getSearchByStamp(stamp: String): DailySearchHistory {
+    return withContext(Dispatchers.IO) {
+      queries.getSearchByStamp(stamp).executeAsOne()
     }
   }
 

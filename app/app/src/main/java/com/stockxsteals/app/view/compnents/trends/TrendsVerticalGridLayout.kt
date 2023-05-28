@@ -87,8 +87,6 @@ fun RandomColorBox(item: GridItem,
   val quota = if (!noQuota) trendsModel.getSearchModel().quota.collectAsState(initial = emptyList()).value[0] else null
   val context = LocalContext.current
 
-
-
   Box(modifier = Modifier
     .fillMaxWidth()
     .height(item.height)
@@ -116,13 +114,24 @@ fun RandomColorBox(item: GridItem,
                 if (networkModel.checkConnection(context)) {
                   if (noQuota) {
                     trendsModel.getSearchModel().insertSearch()
-                    trendsModel.getHistoryModel()
-                      .addSearch(getCurrentDate(), trend.image, trend.name, "")
+                    trendsModel
+                      .getHistoryModel()
+                      .addSearch(getCurrentDate(),
+                      country = "TRENDS", currency = "TRENDS", sizeType = "TRENDS",
+                      size = 0.0,
+                      trend.image,
+                      trend.name,
+                      "")
                     displayItem = true
 
                   } else if (trendsModel.getSearchModel().dbLogic(quota!!) == 1 || isPremium) {
                     trendsModel.getHistoryModel()
-                      .addSearch(getCurrentDate(), trend.image, trend.name, "")
+                      .addSearch(getCurrentDate(),
+                        country = "TRENDS", currency = "TRENDS", sizeType = "TRENDS",
+                        size = 0.0,
+                        trend.image,
+                        trend.name,
+                        "")
                     if (!isPremium) {
                       Toast
                         .makeText(
@@ -140,7 +149,7 @@ fun RandomColorBox(item: GridItem,
                       .makeText(context, "Please upgrade to L8test+.", Toast.LENGTH_LONG)
                       .show()
                   }
-                  if (displayItem) { }
+                  if (displayItem) { } // navigation
 
                 } else {
                   networkModel.toastMessage(context)

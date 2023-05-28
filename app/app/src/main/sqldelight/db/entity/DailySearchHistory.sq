@@ -1,6 +1,10 @@
 CREATE TABLE DailySearchHistory (
  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
  timestamp TEXT NOT NULL,
+ country TEXT NOT NULL,
+ currency TEXT NOT NULL,
+ sizeType TEXT NOT NULL,
+ size REAL NOT NULL,
  name TEXT NOT NULL,
  image TEXT NOT NULL,
  json TEXT NOT NULL
@@ -16,8 +20,26 @@ WHERE id = :id;
 
 addSearch:
 INSERT INTO
-DailySearchHistory (timestamp, name, image, json)
-VALUES (?,?,?,?);
+DailySearchHistory (timestamp, country, currency, sizeType, size, name, image, json)
+VALUES (?,?,?,?,?,?,?,?);
+
+updateSearch:
+UPDATE DailySearchHistory
+SET
+timestamp = :timestamp,
+country = :country,
+currency = :currency,
+sizeType = :sizeType,
+size = :size,
+name = :name,
+image = :image,
+json = :json
+WHERE
+id = :id;
+
+getSearchByStamp:
+SELECT * FROM DailySearchHistory
+WHERE timestamp = :timestamp;
 
 clearSearches:
 DELETE FROM DailySearchHistory;

@@ -10,9 +10,25 @@ interface DailySearchHistorySource {
   suspend fun deleteSearch(id: Long)
 
   suspend fun addSearch(timestamp: String,
+                        country: String,
+                        currency: String,
+                        sizeType: String,
+                        size: Double,
                         name: String,
                         image: String,
                         json: String)
+
+  suspend fun updateSearch(timestamp: String,
+                           country: String,
+                           currency: String,
+                           sizeType: String,
+                           size: Double,
+                           name: String,
+                           image: String,
+                           json: String,
+                           id: Long)
+
+  suspend fun getSearchByStamp(stamp: String): DailySearchHistory
 
   suspend fun clearSearches()
 }

@@ -188,8 +188,9 @@ fun RoundTextField(navController: NavHostController,
           if (searchIsFilterOrSneakerScreen) {
             if (productSearchViewModel.getUIModel().selectedIsSearch(selected)) {
               navController.navigate(searchRoute)
-            } else if (productSearchViewModel.getFilterModel().searchCheck() && text.value.isNotEmpty()) {
-
+            } else if (productSearchViewModel.getFilterModel()
+                .searchCheck() && text.value.isNotEmpty()
+            ) {
               focusManager.clearFocus()
               coroutineScope.launch(Dispatchers.Default) {
                 if (networkModel.checkConnection(context)) {
@@ -221,7 +222,9 @@ fun RoundTextField(navController: NavHostController,
 
               navController.navigate(sneakersDestination)
 
-            } else if (productSearchViewModel.getFilterModel().searchCheck() || text.value.isEmpty())
+            } else if (productSearchViewModel.getFilterModel()
+                .searchCheck() || text.value.isEmpty()
+            )
               if (navController.currentDestination?.route == sneakersDestination) {
                 Toast.makeText(context, "Please select a sneaker.", Toast.LENGTH_SHORT).show()
               } else if (!productSearchViewModel.getFilterModel().searchCheck()) {
@@ -251,8 +254,22 @@ fun RoundTextField(navController: NavHostController,
       ),
     )
 
-    if (produceSearch.value) {
-      productSearchViewModel.getFilterModel().setSearchResults(doRequest(text.value))
+      LaunchedEffect(key1 = produceSearch.value) {
+        if (produceSearch.value) {
+          val search = productSearchViewModel.getFilterModel().getCurrentSearch()
+          productSearchViewModel.getHistoryModel().addSearch(
+            timestamp = "0",
+            country = search.country,
+            currency = search.currency,
+            sizeType = search.sizeType,
+            size = search.size,
+            name = "",
+            image = "",
+            json = "")
+        }
+      }
+
+      if (produceSearch.value)
+        productSearchViewModel.getFilterModel().setSearchResults(doRequest(text.value))
     }
   }
-}

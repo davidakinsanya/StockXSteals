@@ -31,17 +31,16 @@ import coil.request.ImageRequest
 import com.stockxsteals.app.R
 import com.stockxsteals.app.http.doRequest
 import com.stockxsteals.app.navigation.AppScreens
-import com.stockxsteals.app.utils.getCurrentDate
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import kotlinx.coroutines.launch
 
 @Composable
  fun SearchEntry(title: String,
-                        result: List<String>,
-                        productSearchViewModel: ProductSearchViewModel,
-                        networkModel: NetworkViewModel,
-                        navController: NavHostController
+                 result: List<String>,
+                 productSearchViewModel: ProductSearchViewModel,
+                 networkModel: NetworkViewModel,
+                 navController: NavHostController
 ) {
 
   val coroutineScope = rememberCoroutineScope()
@@ -75,12 +74,9 @@ import kotlinx.coroutines.launch
             if (networkModel.checkConnection(context)) {
               if (noQuota) {
                 dailySearch.insertSearch()
-                productSearchViewModel.getHistoryModel()
-                  .addSearch(getCurrentDate(), result[1], title, "")
-
+                displayItem.value = true
               } else if (dailySearch.dbLogic(quota!!) == 1 || isPremium) {
-                productSearchViewModel.getHistoryModel()
-                  .addSearch(getCurrentDate(), result[1], title, "")
+                displayItem.value = true
                 if (!isPremium) {
                   Toast
                     .makeText(
@@ -90,7 +86,6 @@ import kotlinx.coroutines.launch
                     )
                     .show()
                 }
-                displayItem.value = true
               } else {
                 Toast
                   .makeText(context, "Please upgrade to L8test+.", Toast.LENGTH_LONG)
@@ -133,6 +128,26 @@ import kotlinx.coroutines.launch
             .fillMaxWidth(.8f)
             .fillMaxHeight()
             .padding(16.dp))
+
+
+      LaunchedEffect(key1 = displayItem.value) {
+        if (displayItem.value) {
+          val currentSearch = productSearchViewModel.getHistoryModel().getSearchByStamp("0")
+          productSearchViewModel
+            .getHistoryModel()
+            .updateSearch(
+              timestamp = "00",
+              country = currentSearch.country,
+              currency = currentSearch.currency,
+              sizeType = currentSearch.sizeType,
+              size = currentSearch.size,
+              name = result[0],
+              image = "",
+              json = "",
+              id = currentSearch.id)
+        }
+      }
+
 
       if (displayItem.value) {
         productSearchViewModel.addProduct(
