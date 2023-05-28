@@ -86,3 +86,14 @@ fun SearchEntryCoroutineDB(displayItem: MutableState<Boolean>,
     navController.navigate(searchRoute)
   }
 }
+
+@Composable
+fun DeleteSearchCoroutine(deleteSearch: MutableState<Boolean>,
+                          productSearchViewModel: ProductSearchViewModel) {
+  LaunchedEffect(deleteSearch.value) {
+    if (deleteSearch.value) {
+      val search = productSearchViewModel.getHistoryModel().getSearchByStamp("0")
+      productSearchViewModel.getHistoryModel().deleteSearch(search.id)
+    }
+  }
+}

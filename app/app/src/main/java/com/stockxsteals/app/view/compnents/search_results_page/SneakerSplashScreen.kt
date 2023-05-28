@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.stockxsteals.app.ui_coroutines.DeleteSearchCoroutine
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 
@@ -90,12 +91,8 @@ fun SneakerSplashScreen(navController: NavHostController,
               )
             }
           }
-          LaunchedEffect(deleteSearch.value) {
-            if (deleteSearch.value) {
-              val search = productSearchViewModel.getHistoryModel().getSearchByStamp("0")
-              productSearchViewModel.getHistoryModel().deleteSearch(search.id)
-            }
-          }
+          DeleteSearchCoroutine(deleteSearch = deleteSearch,
+                                productSearchViewModel = productSearchViewModel)
         }
       }
     }
