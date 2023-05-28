@@ -39,7 +39,7 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
 
   override suspend fun getTrends(query: String, currency: String): List<Trend> {
     return try {
-      client.get(stockxURL) {
+      client.get("$stockxURL/search") {
         url {
           parameters.append("query", query)
           parameters.append("currency", currency)
@@ -69,7 +69,7 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
                              country: String): Product {
 
     return try {
-      client.get(stockxURL) {
+      client.get("$stockxURL/trends") {
         url {
           parameters.append("query", query)
           parameters.append("currency", currency)

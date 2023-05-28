@@ -20,22 +20,15 @@ fun NavGraphBuilder.sneakerNavGraph(
     startDestination = AppScreens.Trends.route,
     route = "trends_route"
   ) {
+
     composable(route = AppScreens.Trends.route) {
       TrendsViewComponent(trendsModel = trendsModel)
     }
 
     composable(route = AppScreens.Search.route) {
-      val productModel = navController
-        .previousBackStackEntry
-        ?.savedStateHandle
-        ?.get<ProductSearchViewModel>("productModel")
-
-      if (productModel != null)
-        SneakerViewComponent(productModel = productModel,
-          uiModel = productSearchViewModel.getUIModel())
-      else SneakerViewComponent(productModel = null,
-        uiModel = productSearchViewModel.getUIModel())
-
+      // check if search state is populated
+      SneakerViewComponent(productModel = null,
+                           uiModel = productSearchViewModel.getUIModel())
     }
   }
 
@@ -45,14 +38,8 @@ fun NavGraphBuilder.sneakerNavGraph(
   }
 
   composable(route = AppScreens.SneakerSearch.route) {
-    val model = navController
-      .previousBackStackEntry
-      ?.savedStateHandle
-      ?.get<ProductSearchViewModel>("productSearchViewModel")
-
-    if (model != null)
-      SneakerSplashScreen(navController = navController,
-        productSearchViewModel = model,
+    SneakerSplashScreen(navController = navController,
+        productSearchViewModel = productSearchViewModel,
         networkModel = trendsModel.getNetworkModel())
   }
 }

@@ -17,8 +17,8 @@ import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 @Composable
 fun TrendsViewComponent(trendsModel: TrendsUIViewModel) {
 
-  val currentTrends: List<Trend>
-
+  val currentTrends: List<Trend> = listOf()
+  /*
   when (trendsModel.getFileState()) {
     1 -> {
       currentTrends = doRequest(model = trendsModel,
@@ -42,6 +42,8 @@ fun TrendsViewComponent(trendsModel: TrendsUIViewModel) {
       currentTrends = listOf()
     }
   }
+
+   */
 
   Column(
     modifier = Modifier

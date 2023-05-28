@@ -29,9 +29,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.navigation.AppScreens
+import com.stockxsteals.app.viewmodel.db.DailySearchHistoryViewModel
 import com.stockxsteals.app.viewmodel.ui.FilterViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
+import db.entity.DailySearchHistory
 import db.entity.FilterPreset
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -119,6 +121,15 @@ fun SearchScreen(navController: NavHostController,
       }
     }
   }
+}
+
+@Composable
+fun getCurrentSearch(model: DailySearchHistoryViewModel): DailySearchHistory {
+  val search = remember { mutableStateOf(DailySearchHistory(0, "", "", "", "", 0.0, "", "", "")) }
+  LaunchedEffect(key1 = 1) {
+   search.value = model.getSearchByStamp("0")
+  }
+  return search.value
 }
 
 @Composable

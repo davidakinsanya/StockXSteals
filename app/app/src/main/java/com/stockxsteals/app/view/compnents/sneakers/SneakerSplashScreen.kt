@@ -10,8 +10,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,6 +32,8 @@ fun SneakerSplashScreen(navController: NavHostController,
   val focusManager = LocalFocusManager.current
   val searchRes = productSearchViewModel.getFilterModel().bootMap.collectAsState()
   val map = searchRes.value
+
+  val deleteSearch = remember { mutableStateOf(false) }
 
   Scaffold {
     Column(
@@ -58,10 +59,7 @@ fun SneakerSplashScreen(navController: NavHostController,
         Spacer(modifier = Modifier.padding(30.dp))
         IconButton(
           onClick = {
-            navController.currentBackStackEntry?.savedStateHandle?.set(
-              key = "filterModel",
-              value = productSearchViewModel.getFilterModel()
-            )
+            deleteSearch.value = true
             navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
             focusManager.clearFocus()
           }) {
@@ -90,6 +88,12 @@ fun SneakerSplashScreen(navController: NavHostController,
                 networkModel = networkModel,
                 navController = navController
               )
+            }
+          }
+          LaunchedEffect(deleteSearch.value) {
+            if (deleteSearch.value) {
+              val search = productSearchViewModel.getHistoryModel().getSearchByStamp("0")
+              productSearchViewModel.getHistoryModel().deleteSearch(search.id)
             }
           }
         }

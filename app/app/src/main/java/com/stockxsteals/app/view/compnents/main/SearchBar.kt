@@ -215,13 +215,6 @@ fun RoundTextField(navController: NavHostController,
                   networkModel.toastMessage(context)
                 }
               }
-              navController.currentBackStackEntry?.savedStateHandle?.set(
-                key = "productSearchViewModel",
-                value = productSearchViewModel
-              )
-
-              navController.navigate(sneakersDestination)
-
             } else if (productSearchViewModel.getFilterModel()
                 .searchCheck() || text.value.isEmpty()
             )
@@ -266,6 +259,7 @@ fun RoundTextField(navController: NavHostController,
             name = "",
             image = "",
             json = "")
+          navController.navigate(sneakersDestination)
         }
       }
 
