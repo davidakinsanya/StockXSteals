@@ -1,6 +1,5 @@
 package com.stockxsteals.app.view.compnents.sneakers
 
-import android.widget.Toast
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
@@ -29,11 +28,11 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.stockxsteals.app.R
-import com.stockxsteals.app.http.doRequest
 import com.stockxsteals.app.navigation.AppScreens
+import com.stockxsteals.app.ui_coroutines.SearchEntryCoroutineDB
+import com.stockxsteals.app.ui_coroutines.SearchEntryCoroutineOnClick
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
-import kotlinx.coroutines.launch
 
 @Composable
  fun SearchEntry(title: String,
@@ -43,7 +42,6 @@ import kotlinx.coroutines.launch
                  navController: NavHostController
 ) {
 
-  val coroutineScope = rememberCoroutineScope()
   val searchRoute = AppScreens.Search.route
   val context = LocalContext.current
 
@@ -56,6 +54,7 @@ import kotlinx.coroutines.launch
     null
 
   val displayItem = remember { mutableStateOf(false) }
+  val clicked = remember { mutableStateOf(false) }
 
   Column(
     modifier = Modifier
@@ -68,34 +67,7 @@ import kotlinx.coroutines.launch
     Row(
       modifier = Modifier
         .fillMaxSize()
-        .clickable {
-          coroutineScope.launch {
-            val isPremium = productSearchViewModel.isPremium()
-            if (networkModel.checkConnection(context)) {
-              if (noQuota) {
-                dailySearch.insertSearch()
-                displayItem.value = true
-              } else if (dailySearch.dbLogic(quota!!) == 1 || isPremium) {
-                displayItem.value = true
-                if (!isPremium) {
-                  Toast
-                    .makeText(
-                      context,
-                      "${quota.search_limit - quota.search_number} free daily searches left.",
-                      Toast.LENGTH_LONG
-                    )
-                    .show()
-                }
-              } else {
-                Toast
-                  .makeText(context, "Please upgrade to L8test+.", Toast.LENGTH_LONG)
-                  .show()
-              }
-            } else {
-              networkModel.toastMessage(context)
-            }
-          }
-        },
+        .clickable { clicked.value = true },
       verticalAlignment = Alignment.CenterVertically,
       horizontalArrangement = Arrangement.SpaceAround
     ) {
@@ -130,40 +102,23 @@ import kotlinx.coroutines.launch
             .padding(16.dp))
 
 
-      LaunchedEffect(key1 = displayItem.value) {
-        if (displayItem.value) {
-          val currentSearch = productSearchViewModel.getHistoryModel().getSearchByStamp("0")
-          productSearchViewModel
-            .getHistoryModel()
-            .updateSearch(
-              timestamp = "00",
-              country = currentSearch.country,
-              currency = currentSearch.currency,
-              sizeType = currentSearch.sizeType,
-              size = currentSearch.size,
-              name = result[0],
-              image = "",
-              json = "",
-              id = currentSearch.id)
-        }
-      }
-
-
-      if (displayItem.value) {
-        productSearchViewModel.addProduct(
-          doRequest(
-            result[0],
-            productSearchViewModel.getFilterModel().getCurrentSearch().currency,
-            productSearchViewModel.getFilterModel().getCurrentSearch().country
-          )
+      if (clicked.value)
+        SearchEntryCoroutineOnClick(
+          productSearchViewModel = productSearchViewModel,
+          networkModel = networkModel,
+          context = context,
+          noQuota = noQuota,
+          dailySearch = dailySearch,
+          displayItem = displayItem,
+          quota = quota
         )
 
-        navController.currentBackStackEntry?.savedStateHandle?.set(
-          key = "productModel",
-          value = productSearchViewModel
-        )
-        navController.navigate(searchRoute)
-      }
+      SearchEntryCoroutineDB(displayItem = displayItem,
+                             productSearchViewModel = productSearchViewModel,
+                             result = result,
+                             navController = navController,
+                             searchRoute = searchRoute)
+
     }
   }
 }

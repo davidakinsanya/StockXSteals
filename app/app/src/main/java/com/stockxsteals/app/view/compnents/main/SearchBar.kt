@@ -34,12 +34,11 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.stockxsteals.app.R
-import com.stockxsteals.app.http.doRequest
+import com.stockxsteals.app.ui_coroutines.SearchComposableDB
+import com.stockxsteals.app.ui_coroutines.SearchCoroutineOnClick
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -116,11 +115,12 @@ fun RoundTextField(navController: NavHostController,
   val currentDestination = navBackStackEntry?.destination
   val sneakersDestination = AppScreens.SneakerSearch.route
   if (productSearchViewModel.getUIModel().resetTextField(currentDestination)) text.value = ""
-  val coroutineScope = rememberCoroutineScope()
+
   val presetModel = productSearchViewModel.getFilterModel().getPresetsModel()
   val currentSearch = productSearchViewModel.getFilterModel().getCurrentSearch()
   val allPresets = presetModel.allPreset.collectAsState(initial = emptyList()).value
   val produceSearch = remember { mutableStateOf(false) }
+  val clicked = remember { mutableStateOf(false) }
 
   val mauve = Color(224, 176, 255)
   val selectedIsSearch = productSearchViewModel.getUIModel().selectedIsSearch(selected)
@@ -192,29 +192,7 @@ fun RoundTextField(navController: NavHostController,
                 .searchCheck() && text.value.isNotEmpty()
             ) {
               focusManager.clearFocus()
-              coroutineScope.launch(Dispatchers.Default) {
-                if (networkModel.checkConnection(context)) {
-                  val presetExists = presetModel.presetExists(
-                    allPresets,
-                    currentSearch.country,
-                    currentSearch.currency,
-                    currentSearch.sizeType,
-                    currentSearch.size
-                  )
-
-                  if (!presetExists) {
-                    presetModel.addPreset(
-                      currentSearch.country,
-                      currentSearch.currency,
-                      currentSearch.sizeType,
-                      currentSearch.size
-                    )
-                  }
-                  produceSearch.value = true
-                } else {
-                  networkModel.toastMessage(context)
-                }
-              }
+              clicked.value = true
             } else if (productSearchViewModel.getFilterModel()
                 .searchCheck() || text.value.isEmpty()
             )
@@ -247,23 +225,11 @@ fun RoundTextField(navController: NavHostController,
       ),
     )
 
-      LaunchedEffect(key1 = produceSearch.value) {
-        if (produceSearch.value) {
-          val search = productSearchViewModel.getFilterModel().getCurrentSearch()
-          productSearchViewModel.getHistoryModel().addSearch(
-            timestamp = "0",
-            country = search.country,
-            currency = search.currency,
-            sizeType = search.sizeType,
-            size = search.size,
-            name = "",
-            image = "",
-            json = "")
-          navController.navigate(sneakersDestination)
-        }
-      }
+      if (clicked.value)
+        SearchCoroutineOnClick(networkModel, context, presetModel,
+                               allPresets, currentSearch, produceSearch)
 
-      if (produceSearch.value)
-        productSearchViewModel.getFilterModel().setSearchResults(doRequest(text.value))
+      SearchComposableDB(produceSearch, productSearchViewModel,
+                         navController, sneakersDestination, text.value)
     }
   }

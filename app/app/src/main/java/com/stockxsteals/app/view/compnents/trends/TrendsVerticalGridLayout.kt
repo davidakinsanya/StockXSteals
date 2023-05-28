@@ -1,6 +1,5 @@
 package com.stockxsteals.app.view.compnents.trends
 
-import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -10,9 +9,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,9 +22,8 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.model.ui.GridItem
-import com.stockxsteals.app.utils.getCurrentDate
+import com.stockxsteals.app.ui_coroutines.TrendCoroutineOnClick
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
-import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -81,12 +77,12 @@ fun RandomColorBox(item: GridItem,
                    trend: Trend,
                    trendsModel: TrendsUIViewModel) {
 
-  val scope = rememberCoroutineScope()
   val networkModel = trendsModel.getNetworkModel()
   val noQuota = trendsModel.getSearchModel().quota.collectAsState(initial = emptyList()).value.isEmpty()
   val quota = if (!noQuota) trendsModel.getSearchModel().quota.collectAsState(initial = emptyList()).value[0] else null
   val context = LocalContext.current
-
+  val displayItem = remember { mutableStateOf(false) }
+  val clicked = remember { mutableStateOf(false) }
   Box(modifier = Modifier
     .fillMaxWidth()
     .height(item.height)
@@ -106,56 +102,7 @@ fun RandomColorBox(item: GridItem,
             .fillMaxHeight(.9f)
             .padding(start = 150.dp)
             .fillMaxWidth(1f)
-            .clickable {
-              var displayItem = false
-
-              scope.launch {
-                val isPremium = trendsModel.getPremiumModel().getIsPremium() == 1
-                if (networkModel.checkConnection(context)) {
-                  if (noQuota) {
-                    trendsModel.getSearchModel().insertSearch()
-                    trendsModel
-                      .getHistoryModel()
-                      .addSearch(getCurrentDate(),
-                      country = "TRENDS", currency = "TRENDS", sizeType = "TRENDS",
-                      size = 0.0,
-                      trend.image,
-                      trend.name,
-                      "")
-                    displayItem = true
-
-                  } else if (trendsModel.getSearchModel().dbLogic(quota!!) == 1 || isPremium) {
-                    trendsModel.getHistoryModel()
-                      .addSearch(getCurrentDate(),
-                        country = "TRENDS", currency = "TRENDS", sizeType = "TRENDS",
-                        size = 0.0,
-                        trend.image,
-                        trend.name,
-                        "")
-                    if (!isPremium) {
-                      Toast
-                        .makeText(
-                          context,
-                          "${quota.search_limit - quota.search_number} free daily searches left.",
-                          Toast.LENGTH_LONG
-                        )
-                        .show()
-                    }
-
-                    displayItem = true
-
-                  } else {
-                    Toast
-                      .makeText(context, "Please upgrade to L8test+.", Toast.LENGTH_LONG)
-                      .show()
-                  }
-                  if (displayItem) { } // navigation
-
-                } else {
-                  networkModel.toastMessage(context)
-                }
-              }
-            })
+            .clickable { clicked.value = true })
 
       }
 
@@ -185,6 +132,18 @@ fun RandomColorBox(item: GridItem,
             .width(200.dp)
            )
       }
+
+    if (clicked.value) {
+      TrendCoroutineOnClick(
+        trendsModel = trendsModel,
+        networkModel = networkModel,
+        context = context,
+        noQuota = noQuota,
+        trend = trend,
+        quota = quota,
+        displayItem = displayItem
+      )
+    }
 
   }
 }
