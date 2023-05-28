@@ -1,4 +1,4 @@
-package com.stockxsteals.app.view.compnents.searchpage
+package com.stockxsteals.app.view.compnents.main_search_page
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

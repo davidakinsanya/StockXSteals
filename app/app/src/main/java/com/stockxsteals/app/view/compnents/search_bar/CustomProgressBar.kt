@@ -1,4 +1,4 @@
-package com.stockxsteals.app.view.compnents.topsearch
+package com.stockxsteals.app.view.compnents.search_bar
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing

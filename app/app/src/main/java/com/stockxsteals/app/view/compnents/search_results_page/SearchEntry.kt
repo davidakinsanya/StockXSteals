@@ -1,4 +1,4 @@
-package com.stockxsteals.app.view.compnents.sneakers
+package com.stockxsteals.app.view.compnents.search_results_page
 
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable

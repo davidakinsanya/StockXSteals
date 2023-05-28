@@ -1,4 +1,4 @@
-package com.stockxsteals.app.view.compnents.sneakers
+package com.stockxsteals.app.view.compnents.search_results_page
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
