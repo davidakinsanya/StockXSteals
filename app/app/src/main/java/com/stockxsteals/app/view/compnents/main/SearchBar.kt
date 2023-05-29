@@ -113,7 +113,10 @@ fun RoundTextField(navController: NavHostController,
   val navBackStackEntry by navController.currentBackStackEntryAsState()
   val currentDestination = navBackStackEntry?.destination
   val sneakersDestination = AppScreens.SneakerSearch.route
-  if (uiModel.resetTextField(currentDestination)) text.value = ""
+  if (uiModel.resetTextField(currentDestination)) {
+    focusManager.clearFocus()
+    text.value = ""
+  }
 
   val presetModel = productSearchViewModel.getFilterModel().getPresetsModel()
   val currentSearch = productSearchViewModel.getFilterModel().getCurrentSearch()
