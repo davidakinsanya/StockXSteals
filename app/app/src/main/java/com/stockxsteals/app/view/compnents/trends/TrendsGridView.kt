@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.stockxsteals.app.model.dto.Trend
+import com.stockxsteals.app.ui_coroutines.AddTrend
 import com.stockxsteals.app.ui_coroutines.bootTrends
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 
@@ -18,7 +19,10 @@ import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 fun TrendsViewComponent(trendsModel: TrendsUIViewModel) {
 
   val context = LocalContext.current
-  val currentTrends: List<Trend> = bootTrends(trendsModel = trendsModel, context = context)
+  val trendsList = bootTrends(trendsModel = trendsModel, context = context)
+  val bool = trendsList.isNotEmpty()
+  AddTrend(boolean = bool, trendsModel = trendsModel, trend = trendsList)
+  val currentTrends: List<Trend> = trendsModel.bootTrends.collectAsState().value
 
   Column(
     modifier = Modifier
@@ -31,7 +35,7 @@ fun TrendsViewComponent(trendsModel: TrendsUIViewModel) {
         .fillMaxHeight(.88f)
     ) {
 
-      TrendsLazyGrid(listOf(), trendsModel)
+      TrendsLazyGrid(currentTrends, trendsModel)
 
     }
   }

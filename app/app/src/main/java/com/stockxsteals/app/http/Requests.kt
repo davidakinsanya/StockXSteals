@@ -9,8 +9,8 @@ import com.stockxsteals.app.model.dto.blankProduct
 import com.stockxsteals.app.utils.getCurrentDate
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 
-
 private val service = ApiService.create()
+
 @Composable
 fun doRequest(model: TrendsUIViewModel, type: String,
               currency: String, int: Int): List<Trend> {

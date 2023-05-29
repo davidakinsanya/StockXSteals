@@ -35,10 +35,15 @@ class UIViewModel: ViewModel() {
     return selected == "Search"
   }
 
-  fun searchIsFilterOrSneakerScreen(selected: String, curr: NavDestination?): Boolean {
+  fun selectedIsTrend(selected: String): Boolean {
+    return selected == "Trends"
+  }
+
+  fun purpleSearchBar(selected: String, curr: NavDestination?): Boolean {
     return this.selectedIsSearch(selected) ||
             curr?.route == "top_search" ||
-            curr?.route == "sneaker_search"
+            curr?.route == "sneaker_search" ||
+            curr?.route == "trends"
   }
 
   fun resetTextField(curr: NavDestination?): Boolean {

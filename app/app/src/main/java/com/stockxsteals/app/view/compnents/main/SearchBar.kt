@@ -39,11 +39,15 @@ import com.stockxsteals.app.ui_coroutines.SearchCoroutineOnClick
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
+import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
+import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchAppBar(navController: NavHostController,
                  productSearchViewModel: ProductSearchViewModel,
+                 trendsModel: TrendsUIViewModel,
+                 uiModel: UIViewModel,
                  networkModel: NetworkViewModel) {
 
   val focusManager = LocalFocusManager.current
@@ -52,16 +56,15 @@ fun SearchAppBar(navController: NavHostController,
 
   val navBackStackEntry by navController.currentBackStackEntryAsState()
   val currentDestination = navBackStackEntry?.destination
-  val searchRoute = AppScreens.TopSearch.route
   var selected = ""
 
-  productSearchViewModel.getUIModel().listOfScreens().forEach { _ ->
+  uiModel.listOfScreens().forEach { _ ->
     val searchScreen = currentDestination?.hierarchy?.any {
-      it.route == searchRoute
+      it.route == AppScreens.TopSearch.route
     } == true
   }
 
-  productSearchViewModel.getUIModel().listOfScreens().forEach { screen ->
+  uiModel.listOfScreens().forEach { screen ->
     val tempSelected = currentDestination?.hierarchy?.any {
       it.route == screen.route
     } == true
@@ -86,13 +89,14 @@ fun SearchAppBar(navController: NavHostController,
       RoundTextField(
           navController = navController,
           productSearchViewModel = productSearchViewModel,
+          trendsModel = trendsModel,
+          uiModel = uiModel,
           networkModel = networkModel,
           text = text,
           selected = selected,
           focusManager = focusManager,
           focusRequester = focusRequester,
-          keyboardController = keyboardController,
-          searchRoute = searchRoute
+          keyboardController = keyboardController
         )
     }
       Spacer(modifier = Modifier.padding(10.dp))
@@ -103,18 +107,19 @@ fun SearchAppBar(navController: NavHostController,
 @Composable
 fun RoundTextField(navController: NavHostController,
                    productSearchViewModel: ProductSearchViewModel,
+                   trendsModel: TrendsUIViewModel,
+                   uiModel: UIViewModel,
                    networkModel: NetworkViewModel,
                    text: MutableState<String>,
                    selected: String,
                    focusManager: FocusManager,
                    focusRequester: FocusRequester,
-                   keyboardController: SoftwareKeyboardController?,
-                   searchRoute: String) {
+                   keyboardController: SoftwareKeyboardController?) {
 
   val navBackStackEntry by navController.currentBackStackEntryAsState()
   val currentDestination = navBackStackEntry?.destination
   val sneakersDestination = AppScreens.SneakerSearch.route
-  if (productSearchViewModel.getUIModel().resetTextField(currentDestination)) text.value = ""
+  if (uiModel.resetTextField(currentDestination)) text.value = ""
 
   val presetModel = productSearchViewModel.getFilterModel().getPresetsModel()
   val currentSearch = productSearchViewModel.getFilterModel().getCurrentSearch()
@@ -123,16 +128,21 @@ fun RoundTextField(navController: NavHostController,
   val clicked = remember { mutableStateOf(false) }
 
   val mauve = Color(224, 176, 255)
-  val selectedIsSearch = productSearchViewModel.getUIModel().selectedIsSearch(selected)
-  val searchIsFilterOrSneakerScreen
-  = productSearchViewModel.getUIModel().searchIsFilterOrSneakerScreen(selected, currentDestination)
+  val selectedIsSearch = uiModel.selectedIsSearch(selected)
+  val purpleSearchBar
+  = uiModel.purpleSearchBar(selected, currentDestination)
 
   val context = LocalContext.current
 
   BasicTextField(
     value = text.value,
     maxLines = 1,
-    onValueChange = { text.value = it },
+    onValueChange = {
+      text.value = it
+      if (uiModel.selectedIsTrend(selected)) {
+        trendsModel.filterTrends(it)
+      }
+    },
     enabled = true,
     modifier = Modifier
       .focusRequester(focusRequester)
@@ -140,8 +150,9 @@ fun RoundTextField(navController: NavHostController,
         if (it.isFocused) {
           if (selectedIsSearch) {
             keyboardController?.show()
-            navController.navigate(searchRoute)
-          } else if (navController.currentDestination?.route == searchRoute) {
+            navController.navigate(AppScreens.TopSearch.route)
+          } else if (navController.currentDestination?.route == AppScreens.TopSearch.route ||
+                     navController.currentDestination?.route == AppScreens.Trends.route) {
             keyboardController?.show()
           } else {
             focusManager.clearFocus()
@@ -149,15 +160,17 @@ fun RoundTextField(navController: NavHostController,
         }
       }
       .onKeyEvent {
-        if (productSearchViewModel
-            .getUIModel()
-            .textIsEmpty(text.value)
-        ) {
-          if (productSearchViewModel
-              .getUIModel()
+        if (uiModel.textIsEmpty(text.value)) {
+          if (uiModel
               .nextPressBackSpace(it)
+            &&
+            navController.currentDestination?.route == AppScreens.TopSearch.route
           ) {
             navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
+            focusManager.clearFocus()
+          } else if (uiModel.nextPressBackSpace(it)
+            &&
+            navController.currentDestination?.route == AppScreens.Trends.route) {
             focusManager.clearFocus()
           }
         }
@@ -169,7 +182,7 @@ fun RoundTextField(navController: NavHostController,
         border = BorderStroke(
           width = 1.5.dp,
           color =
-          if (searchIsFilterOrSneakerScreen) mauve else Color.Red
+          if (purpleSearchBar) mauve else Color.Red
         ),
         shape = RoundedCornerShape(50.dp)
       ),
@@ -185,10 +198,11 @@ fun RoundTextField(navController: NavHostController,
       visualTransformation = VisualTransformation.None,
       trailingIcon = {
         IconButton(onClick = {
-          if (searchIsFilterOrSneakerScreen) {
-            if (productSearchViewModel.getUIModel().selectedIsSearch(selected)) {
-              navController.navigate(searchRoute)
-            } else if (productSearchViewModel.getFilterModel()
+          if (purpleSearchBar && !uiModel.selectedIsTrend(selected)) {
+            if (uiModel.selectedIsSearch(selected)) {
+              navController.navigate(AppScreens.TopSearch.route)
+            } else if (
+              productSearchViewModel.getFilterModel()
                 .searchCheck() && text.value.isNotEmpty()
             ) {
               focusManager.clearFocus()
@@ -214,7 +228,7 @@ fun RoundTextField(navController: NavHostController,
       },
       placeholder = {
         Text(
-          text = if (searchIsFilterOrSneakerScreen) "Enter Search ..." else "",
+          text = if (purpleSearchBar) "Enter Search ..." else "",
           fontSize = 16.sp,
         )
       },

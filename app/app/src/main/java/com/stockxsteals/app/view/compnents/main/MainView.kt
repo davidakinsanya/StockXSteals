@@ -41,6 +41,8 @@ fun SetupScreen(navController: NavHostController) {
     Scaffold(
       topBar = { if (!isLogin && !isNull) SearchAppBar(navController = navController,
                                                        productSearchViewModel = productSearchModel,
+                                                       trendsModel = trendsModel,
+                                                       uiModel = uiModel,
                                                        networkModel = networkModel) },
 
       bottomBar = { if (!bool) BottomBar(navController = navController) }
