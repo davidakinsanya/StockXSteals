@@ -2,9 +2,9 @@ package com.stockxsteals.app.ui_coroutines
 
 import android.content.Context
 import android.widget.Toast
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.*
+import com.beust.klaxon.Klaxon
+import com.stockxsteals.app.http.doRequest
 import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.utils.getCurrentDate
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
@@ -70,6 +70,48 @@ fun TrendCoroutineOnClick(trendsModel: TrendsUIViewModel,
 
     } else {
       networkModel.toastMessage(context)
+    }
+  }
+}
+
+@Composable
+fun bootTrends(trendsModel: TrendsUIViewModel,
+               context: Context,
+               ): List<Trend> {
+
+  val num = remember { mutableStateOf(0) }
+  LaunchedEffect(key1 = true) {
+    num.value = trendsModel.accessTrends(context)
+  }
+  when (num.value) {
+    1 -> {
+      return doRequest(
+        model = trendsModel,
+        type = "sneakers",
+        currency = "EUR",
+        int = num.value
+      )
+    }
+
+    0 -> {
+      return doRequest(
+        model = trendsModel,
+        type = "sneakers",
+        currency = "EUR",
+        int = num.value
+      )
+    }
+
+    -1 -> {
+      return Klaxon().parse<List<Trend>>(
+        trendsModel.getTrendsModel().trends.collectAsState(
+          initial = emptyList()
+        ).value[0].json
+      )!!
+    }
+
+    else -> {
+      return listOf()
     }
   }
 }

@@ -6,6 +6,7 @@ import com.stockxsteals.app.Database
 import com.stockxsteals.app.datasource.impl.*
 import com.stockxsteals.app.datasource.intrface.*
 import com.stockxsteals.app.viewmodel.db.*
+import com.stockxsteals.app.viewmodel.ui.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -64,4 +65,43 @@ val appModule = module {
   single<TrendsDataSource> {
     TrendsImpl(get())
   }
+
+  single {
+    FilterViewModel(get())
+  }
+
+  single {
+    UIViewModel()
+  }
+
+  single {
+    QonversionViewModel()
+  }
+
+  single {
+    NetworkViewModel()
+  }
+
+  single {
+    SettingViewModel(qonversionModel = get(),
+                     premiumModel = get(),
+                     historyModel = get())
+  }
+
+  single {
+    TrendsUIViewModel(networkModel = get(),
+                      historyModel = get(),
+                      dailySearchModel = get(),
+                      premiumModel = get(),
+                      trendsDBModel = get())
+  }
+
+  single {
+    ProductSearchViewModel(filterModel = get(),
+                           searchModel = get(),
+                           historyModel = get(),
+                           premiumModel = get(),
+                           uiModel = get())
+  }
+
 }

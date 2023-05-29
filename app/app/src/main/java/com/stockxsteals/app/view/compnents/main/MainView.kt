@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -20,42 +18,19 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun SetupScreen(navController: NavHostController) {
 
-  val presetsModel: FilterPresetsViewModel = getViewModel()
-  val dailySearchModel: DailySearchViewModel = getViewModel()
-  val premiumModel: PremiumViewModel = getViewModel()
-  val historyModel: DailySearchHistoryViewModel = getViewModel()
-  val trendsDBModel: TrendsDBViewModel = getViewModel()
 
-  val context = LocalContext.current
-
-  val filterModel = FilterViewModel(presetsModel)
-  val uiModel: UIViewModel = viewModel()
-  val qonversionModel: QonversionViewModel = viewModel()
-  val networkModel: NetworkViewModel = viewModel()
-
-  val settingModel = SettingViewModel(qonversionModel,
-                                      premiumModel,
-                                      historyModel)
-
-  val trendsModel = TrendsUIViewModel(networkModel,
-                                      historyModel,
-                                      dailySearchModel,
-                                      premiumModel,
-                                      trendsDBModel,
-                                      context)
-
-  val productSearchModel = ProductSearchViewModel(filterModel = filterModel,
-                                                  historyModel = historyModel,
-                                                  premiumModel = premiumModel,
-                                                  searchModel = dailySearchModel,
-                                                  uiModel = uiModel)
+  val uiModel: UIViewModel = getViewModel()
+  val networkModel: NetworkViewModel = getViewModel()
+  val settingModel: SettingViewModel = getViewModel()
+  val trendsModel: TrendsUIViewModel = getViewModel()
+  val productSearchModel: ProductSearchViewModel = getViewModel()
 
 
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
+  val navBackStackEntry by navController.currentBackStackEntryAsState()
+  val currentDestination = navBackStackEntry?.destination
 
-    uiModel.listOfScreens().forEach { _ ->
-      val bool = currentDestination?.hierarchy?.any {
+  uiModel.listOfScreens().forEach { _ ->
+    val bool = currentDestination?.hierarchy?.any {
       uiModel.bottomNavBool().contains(it.route)
     } == true
 
