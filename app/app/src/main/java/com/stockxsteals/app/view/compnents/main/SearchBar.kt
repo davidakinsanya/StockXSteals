@@ -58,12 +58,6 @@ fun SearchAppBar(navController: NavHostController,
   val currentDestination = navBackStackEntry?.destination
   var selected = ""
 
-  uiModel.listOfScreens().forEach { _ ->
-    val searchScreen = currentDestination?.hierarchy?.any {
-      it.route == AppScreens.TopSearch.route
-    } == true
-  }
-
   uiModel.listOfScreens().forEach { screen ->
     val tempSelected = currentDestination?.hierarchy?.any {
       it.route == screen.route
@@ -130,7 +124,7 @@ fun RoundTextField(navController: NavHostController,
   val mauve = Color(224, 176, 255)
   val selectedIsSearch = uiModel.selectedIsSearch(selected)
   val purpleSearchBar
-  = uiModel.purpleSearchBar(selected, currentDestination)
+  = uiModel.purpleSearchBar(currentDestination)
 
   val context = LocalContext.current
 
@@ -228,7 +222,9 @@ fun RoundTextField(navController: NavHostController,
       },
       placeholder = {
         Text(
-          text = if (purpleSearchBar) "Enter Search ..." else "",
+          text = if (purpleSearchBar) {
+            "Enter Search ..."
+          } else "",
           fontSize = 16.sp,
         )
       },

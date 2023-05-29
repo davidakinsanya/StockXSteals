@@ -39,11 +39,12 @@ class UIViewModel: ViewModel() {
     return selected == "Trends"
   }
 
-  fun purpleSearchBar(selected: String, curr: NavDestination?): Boolean {
-    return this.selectedIsSearch(selected) ||
+  fun purpleSearchBar(curr: NavDestination?): Boolean {
+    return  curr?.route == "trends" ||
+            curr?.route == "search" ||
             curr?.route == "top_search" ||
             curr?.route == "sneaker_search" ||
-            curr?.route == "trends"
+            curr?.route == null
   }
 
   fun resetTextField(curr: NavDestination?): Boolean {
