@@ -28,7 +28,8 @@ fun NavGraphBuilder.sneakerNavGraph(
     composable(route = AppScreens.Search.route) {
       // check if search state is populated
       SneakerViewComponent(productModel = null,
-                           uiModel = productSearchViewModel.getUIModel())
+                           uiModel = productSearchViewModel.getUIModel(),
+                           navController = navController)
     }
   }
 

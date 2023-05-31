@@ -15,17 +15,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
+import androidx.navigation.NavHostController
 import com.stockxsteals.app.model.ui.ProductView
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
 @Composable
-fun SneakerViewComponent(productModel: ProductSearchViewModel?, uiModel: UIViewModel) {
+fun SneakerViewComponent(productModel: ProductSearchViewModel?,
+                         uiModel: UIViewModel,
+                         navController: NavHostController) {
 
   val productResults = productModel?.searchResult?.collectAsState()
   val productView =
     if (uiModel.productIsNotNull(productResults))
-      ProductView(productResults!!.value)
+      ProductView(productResults!!.value, navController)
     else
       null
 
