@@ -10,10 +10,10 @@ import io.ktor.client.request.*
 
 class ApiServiceImpl(private val client: HttpClient): ApiService {
 
-  private val stockxURL = "https://stockx1.p.rapidapi.com/v2/stockx/"
+  private val baseUrl = "https://stockx1.p.rapidapi.com/v2/stockx/"
   private val searchURL = "http://192.168.1.127:5000"
   private val apiHost = "stockx1.p.rapidapi.com"
-  private  val apiKey = "#####################################"
+  private  val apiKey = "fdde012a2emsh84b64c2a982e062p1ee167jsn7f2379a2c999"
 
   override suspend fun getSearch(search: String): Map<String, List<String>> {
     return try {
@@ -39,7 +39,7 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
 
   override suspend fun getTrends(query: String, currency: String): List<Trend> {
     return try {
-      client.get("$stockxURL/search") {
+      client.get(baseUrl + "trends") {
         url {
           parameters.append("query", query)
           parameters.append("currency", currency)
@@ -69,7 +69,7 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
                              country: String): Product {
 
     return try {
-      client.get("$stockxURL/trends") {
+      client.get(baseUrl + "search") {
         url {
           parameters.append("query", query)
           parameters.append("currency", currency)

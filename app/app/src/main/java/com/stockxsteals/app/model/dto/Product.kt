@@ -1,22 +1,21 @@
 package com.stockxsteals.app.model.dto
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Product(@SerializedName("id") @Expose val id: String,
-                   @SerializedName("slug") @Expose val slug: String,
-                   @SerializedName("name") @Expose val name: String,
-                   @SerializedName("brand") @Expose val brand: String,
-                   @SerializedName("image") @Expose val image: String,
-                   @SerializedName("description") @Expose var description: String,
-                   @SerializedName("category") @Expose val category: String,
-                   @SerializedName("model") @Expose val model: String,
-                   @SerializedName("sku") @Expose val sku: String,
-                   @SerializedName("traits") @Expose val traits: List<Traits>,
-                   @SerializedName("variants") @Expose val variants: List<Variants>,
-                   @SerializedName("market") @Expose val market: Market
+data class Product(@SerialName("id") val id: String,
+                   @SerialName("slug") val slug: String,
+                   @SerialName("name") val name: String,
+                   @SerialName("brand") val brand: String,
+                   @SerialName("image")  val image: String,
+                   @SerialName("description") var description: String,
+                   @SerialName("category") val category: String,
+                   @SerialName("model") val model: String,
+                   @SerialName("sku") val sku: String,
+                   @SerialName("traits") val traits: List<Traits>,
+                   @SerialName("variants") val variants: List<Variants>,
+                   @SerialName("market") val market: Market
 )
 
 fun blankProduct(): Product {
