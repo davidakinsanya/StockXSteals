@@ -13,10 +13,13 @@ import androidx.compose.ui.unit.dp
 import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.ui_coroutines.AddTrend
 import com.stockxsteals.app.ui_coroutines.bootTrends
+import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 
 @Composable
-fun TrendsViewComponent(trendsModel: TrendsUIViewModel) {
+fun TrendsViewComponent(trendsModel: TrendsUIViewModel,
+                        productModel: ProductSearchViewModel
+) {
 
   val context = LocalContext.current
   val trendsList = bootTrends(trendsModel = trendsModel, context = context)
@@ -35,7 +38,7 @@ fun TrendsViewComponent(trendsModel: TrendsUIViewModel) {
         .fillMaxHeight(.88f)
     ) {
 
-      TrendsLazyGrid(currentTrends, trendsModel)
+      TrendsLazyGrid(currentTrends, trendsModel, productModel)
 
     }
   }

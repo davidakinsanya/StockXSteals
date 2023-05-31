@@ -21,6 +21,9 @@ class ProductSearchViewModel(private val filterModel: FilterViewModel,
   private val _searchResult = MutableStateFlow(blankProduct())
   val searchResult: StateFlow<Product> = _searchResult
 
+  private val _trendSearch = MutableStateFlow(blankTrend())
+  val trendSearch: StateFlow<Trend> = _trendSearch
+
 
   fun getFilterModel(): FilterViewModel {
     return filterModel

@@ -13,3 +13,17 @@ data class Trend(@SerializedName("id") @Expose val id: String,
                  @SerializedName("image") @Expose val image: String,
                  @SerializedName("category") @Expose val category: String,
                  @SerializedName("release_date") @Expose val release_date: String)
+
+
+fun blankTrend(): Trend {
+  return Trend(
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  )
+}

@@ -23,13 +23,15 @@ import coil.compose.AsyncImage
 import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.model.ui.GridItem
 import com.stockxsteals.app.ui_coroutines.TrendCoroutineOnClick
+import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 import kotlin.random.Random
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TrendsLazyGrid(trends: List<Trend>,
-                  trendsModel: TrendsUIViewModel
+                  trendsModel: TrendsUIViewModel,
+                  productModel: ProductSearchViewModel
 ) {
 
   val items = (1..trends.size).map {
@@ -56,7 +58,7 @@ fun TrendsLazyGrid(trends: List<Trend>,
 
     } else {
       itemsIndexed(trends) { num, trend ->
-        RandomColorBox(items[num], trend, trendsModel)
+        RandomColorBox(items[num], trend, trendsModel, productModel)
       }
     }
   }
@@ -75,7 +77,8 @@ fun AlternateBox(item: GridItem) {
 @Composable
 fun RandomColorBox(item: GridItem,
                    trend: Trend,
-                   trendsModel: TrendsUIViewModel) {
+                   trendsModel: TrendsUIViewModel,
+                   productModel: ProductSearchViewModel) {
 
   val networkModel = trendsModel.getNetworkModel()
   val noQuota = trendsModel.getSearchModel().quota.collectAsState(initial = emptyList()).value.isEmpty()
@@ -83,6 +86,7 @@ fun RandomColorBox(item: GridItem,
   val context = LocalContext.current
   val displayItem = remember { mutableStateOf(false) }
   val clicked = remember { mutableStateOf(false) }
+
   Box(modifier = Modifier
     .fillMaxWidth()
     .height(item.height)

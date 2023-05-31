@@ -25,7 +25,12 @@ fun SneakerViewComponent(productModel: ProductSearchViewModel?,
                          uiModel: UIViewModel,
                          navController: NavHostController) {
 
-  val productResults = productModel?.searchResult?.collectAsState()
+  val productResults = if (navController.previousBackStackEntry?.destination?.route == "sneaker_search") {
+    productModel?.searchResult?.collectAsState()
+  } else {
+    productModel?.trendSearch?.collectAsState()
+  }
+
   val productView =
     if (uiModel.productIsNotNull(productResults))
       ProductView(productResults!!.value, navController)
