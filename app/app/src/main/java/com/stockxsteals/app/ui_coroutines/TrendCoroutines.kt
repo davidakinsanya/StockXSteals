@@ -3,17 +3,22 @@ package com.stockxsteals.app.ui_coroutines
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.runtime.*
+import androidx.navigation.NavHostController
 import com.beust.klaxon.Klaxon
 import com.stockxsteals.app.http.doRequest
 import com.stockxsteals.app.model.dto.Trend
+import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.getCurrentDate
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
+import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 import db.entity.DailySearchQuota
 
 @Composable
 fun TrendCoroutineOnClick(trendsModel: TrendsUIViewModel,
                           networkModel: NetworkViewModel,
+                          productModel: ProductSearchViewModel,
+                          navController: NavHostController,
                           context: Context,
                           noQuota: Boolean,
                           trend: Trend,
@@ -66,7 +71,9 @@ fun TrendCoroutineOnClick(trendsModel: TrendsUIViewModel,
           .show()
       }
       if (displayItem.value) {
-      } // navigation
+        productModel.addTrend(trend)
+        navController.navigate(AppScreens.Search.route)
+      }
 
     } else {
       networkModel.toastMessage(context)

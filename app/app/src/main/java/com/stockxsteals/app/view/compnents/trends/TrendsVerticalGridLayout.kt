@@ -19,9 +19,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.model.ui.GridItem
+import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.ui_coroutines.TrendCoroutineOnClick
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
@@ -31,7 +33,8 @@ import kotlin.random.Random
 @Composable
 fun TrendsLazyGrid(trends: List<Trend>,
                   trendsModel: TrendsUIViewModel,
-                  productModel: ProductSearchViewModel
+                  productModel: ProductSearchViewModel,
+                  navController: NavHostController,
 ) {
 
   val items = (1..trends.size).map {
@@ -58,7 +61,7 @@ fun TrendsLazyGrid(trends: List<Trend>,
 
     } else {
       itemsIndexed(trends) { num, trend ->
-        RandomColorBox(items[num], trend, trendsModel, productModel)
+        RandomColorBox(items[num], trend, trendsModel, productModel, navController)
       }
     }
   }
@@ -78,7 +81,8 @@ fun AlternateBox(item: GridItem) {
 fun RandomColorBox(item: GridItem,
                    trend: Trend,
                    trendsModel: TrendsUIViewModel,
-                   productModel: ProductSearchViewModel) {
+                   productModel: ProductSearchViewModel,
+                   navController: NavHostController) {
 
   val networkModel = trendsModel.getNetworkModel()
   val noQuota = trendsModel.getSearchModel().quota.collectAsState(initial = emptyList()).value.isEmpty()
@@ -106,7 +110,11 @@ fun RandomColorBox(item: GridItem,
             .fillMaxHeight(.9f)
             .padding(start = 150.dp)
             .fillMaxWidth(1f)
-            .clickable { clicked.value = true })
+            .clickable {
+              clicked.value = true
+              productModel.addTrend(trend)
+              navController.navigate(AppScreens.Search.route)
+            })
 
       }
 
@@ -142,6 +150,7 @@ fun RandomColorBox(item: GridItem,
       TrendCoroutineOnClick(
         trendsModel = trendsModel,
         networkModel = networkModel,
+        productModel = productModel,
         context = context,
         noQuota = noQuota,
         trend = trend,

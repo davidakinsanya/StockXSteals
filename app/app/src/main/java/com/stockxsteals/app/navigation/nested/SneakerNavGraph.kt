@@ -23,7 +23,8 @@ fun NavGraphBuilder.sneakerNavGraph(
 
     composable(route = AppScreens.Trends.route) {
       TrendsViewComponent(trendsModel = trendsModel,
-                          productModel = productSearchViewModel)
+                          productModel = productSearchViewModel,
+                          navController = navController)
     }
 
     composable(route = AppScreens.Search.route) {

@@ -57,6 +57,12 @@ class ProductSearchViewModel(private val filterModel: FilterViewModel,
      }
   }
 
+  fun addTrend(trend: Trend) {
+    viewModelScope.launch(Dispatchers.Default) {  // to run code in Background Thread
+      _trendSearch.emit(trend)
+    }
+  }
+
   private fun cleanUp(product: Product): Product {
     product.description = product.description.replace("\n<br>\n<br>\n", "\n")
     return product
