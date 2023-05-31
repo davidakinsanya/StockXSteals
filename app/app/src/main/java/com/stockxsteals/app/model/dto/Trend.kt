@@ -1,7 +1,5 @@
 package com.stockxsteals.app.model.dto
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

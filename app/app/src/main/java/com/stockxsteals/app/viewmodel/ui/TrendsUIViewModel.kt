@@ -49,7 +49,6 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
   // 0 = Old file
   // -1 create new file
    suspend fun accessTrends(context: Context): Int = withContext(Dispatchers.IO) { // to run code in Background Thread
-    /*
     if (getNetworkModel().checkConnection(context)) {
       if (getTrendsModel().trends.count() == 0) {
         return@withContext 1
@@ -64,9 +63,6 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
       getNetworkModel().toastMessage(context)
     }
     return@withContext -2
-
-     */
-     return@withContext 1
   }
 
    suspend fun addTrend(trends: List<Trend>) {

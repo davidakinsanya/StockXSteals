@@ -145,12 +145,12 @@ fun RandomColorBox(item: GridItem,
            )
       }
 
-    /*
     if (clicked.value) {
       TrendCoroutineOnClick(
         trendsModel = trendsModel,
         networkModel = networkModel,
         productModel = productModel,
+        navController = navController,
         context = context,
         noQuota = noQuota,
         trend = trend,
@@ -158,7 +158,5 @@ fun RandomColorBox(item: GridItem,
         displayItem = displayItem
       )
     }
-     */
-
   }
 }

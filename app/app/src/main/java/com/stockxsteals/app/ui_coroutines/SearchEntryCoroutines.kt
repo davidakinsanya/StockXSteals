@@ -7,6 +7,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.http.doRequest
+import com.stockxsteals.app.utils.getCurrentDate
 import com.stockxsteals.app.viewmodel.db.DailySearchViewModel
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
@@ -63,7 +64,7 @@ fun SearchEntryCoroutineDB(displayItem: MutableState<Boolean>,
       productSearchViewModel
         .getHistoryModel()
         .updateSearch(
-          timestamp = "00",
+          timestamp = getCurrentDate(),
           country = currentSearch.country,
           currency = currentSearch.currency,
           sizeType = currentSearch.sizeType,

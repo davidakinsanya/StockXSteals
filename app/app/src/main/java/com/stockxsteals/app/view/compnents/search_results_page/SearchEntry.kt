@@ -101,7 +101,6 @@ import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
             .fillMaxHeight()
             .padding(16.dp))
 
-      /*
       if (clicked.value)
         SearchEntryCoroutineOnClick(
           productSearchViewModel = productSearchViewModel,
@@ -118,9 +117,6 @@ import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
                              result = result,
                              navController = navController,
                              searchRoute = searchRoute)
-
-       */
-
     }
   }
 }
