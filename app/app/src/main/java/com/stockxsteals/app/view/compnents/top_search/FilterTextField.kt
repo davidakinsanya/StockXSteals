@@ -1,4 +1,4 @@
-package com.stockxsteals.app.view.compnents.search_bar
+package com.stockxsteals.app.view.compnents.top_search
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border

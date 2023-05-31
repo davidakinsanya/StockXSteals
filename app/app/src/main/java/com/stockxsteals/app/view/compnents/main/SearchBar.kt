@@ -238,11 +238,14 @@ fun RoundTextField(navController: NavHostController,
       ),
     )
 
+      /*
       if (clicked.value)
         SearchCoroutineOnClick(networkModel, context, presetModel,
                                allPresets, currentSearch, produceSearch)
 
       SearchComposableDB(produceSearch, productSearchViewModel,
                          navController, sneakersDestination, text.value)
+
+       */
     }
   }

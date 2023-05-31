@@ -133,6 +133,7 @@ fun RandomColorBox(item: GridItem,
            )
       }
 
+    /*
     if (clicked.value) {
       TrendCoroutineOnClick(
         trendsModel = trendsModel,
@@ -144,6 +145,7 @@ fun RandomColorBox(item: GridItem,
         displayItem = displayItem
       )
     }
+     */
 
   }
 }

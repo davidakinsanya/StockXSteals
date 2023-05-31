@@ -1,4 +1,4 @@
-package com.stockxsteals.app.view.compnents.search_bar
+package com.stockxsteals.app.view.compnents.top_search
 
 import android.annotation.SuppressLint
 import android.content.Context

@@ -7,7 +7,7 @@ import androidx.navigation.compose.navigation
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.view.compnents.main_search_page.SneakerViewComponent
 import com.stockxsteals.app.view.compnents.search_results_page.SneakerSplashScreen
-import com.stockxsteals.app.view.compnents.search_bar.SearchScreen
+import com.stockxsteals.app.view.compnents.top_search.SearchScreen
 import com.stockxsteals.app.view.compnents.trends.TrendsViewComponent
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
