@@ -1,5 +1,6 @@
 package com.stockxsteals.app.viewmodel.ui
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.beust.klaxon.Klaxon
@@ -49,16 +50,18 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
 
    suspend fun accessTrends() = withContext(Dispatchers.IO) { // to run code in Background Thread
      val service = ApiService.create()
-     val trendsOnDb = getTrendsModel().trends.asLiveData().value!!
 
-     if (trendsOnDb.isEmpty()) {
+     val trendsOnDb = getTrendsModel().trends.asLiveData().value
+     // trendsOnDb.isNullOrEmpty() -- set first trend
 
+
+     /*
+     if (trendsOnDb?.isEmpty() == true) {
        val data: List<Trend> = service.getTrends("sneakers", "EUR")
        getTrendsModel().setFirstTrend(getCurrentDate(), data.toString())
        addTrend(data)
      } else {
-
-       if (fileIsOld(trendsOnDb[0].timestamp)) {
+       if (fileIsOld(trendsOnDb!![0].timestamp)) {
 
          val data: List<Trend> = service.getTrends("sneakers", "EUR")
          getTrendsModel().updateTrends(getCurrentDate(), data.toString(), 0)
@@ -70,6 +73,8 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
          addTrend(data)
        }
      }
+
+      */
   }
 
    private suspend fun addTrend(trends: List<Trend>) {

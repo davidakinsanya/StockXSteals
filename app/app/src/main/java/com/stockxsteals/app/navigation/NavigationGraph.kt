@@ -21,6 +21,6 @@ fun NavGraph(navController: NavHostController,
 
     loginGraph(navController, networkModel, trendsModel)
     sneakerNavGraph(trendsModel, productSearchViewModel, navController)
-    settingsNavGraph(navController, settingModel)
+    settingsNavGraph(navController, settingModel, trendsModel)
   }
 }
