@@ -122,6 +122,7 @@ fun bootTrends(trendsModel: TrendsUIViewModel,
     }
   }
 }
+
 @Composable
 fun AddTrend(boolean: Boolean, trendsModel: TrendsUIViewModel, trend: List<Trend>) {
   LaunchedEffect(boolean) {
