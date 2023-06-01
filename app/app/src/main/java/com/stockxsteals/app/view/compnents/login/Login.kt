@@ -24,12 +24,14 @@ import com.stevdzasan.onetap.OneTapSignInWithGoogle
 import com.stevdzasan.onetap.rememberOneTapSignInState
 import com.stockxsteals.app.R
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
+import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun LoginScreen(navController: NavHostController,
-                networkModel: NetworkViewModel) {
+                networkModel: NetworkViewModel,
+                trendsModel: TrendsUIViewModel) {
 
   val state = rememberOneTapSignInState()
   val scope = rememberCoroutineScope()
@@ -41,7 +43,11 @@ fun LoginScreen(navController: NavHostController,
     clientId = "598526411757-osmt0f7ja2qs6rqrqp5j12s5lkq77quv.apps.googleusercontent.com",
     onTokenIdReceived = { tokenId ->
       Log.d("LOG", tokenId)
-      navController.navigate("trends_route")
+      scope.launch {
+        val int = trendsModel.accessTrends(context)
+        if (int == 1)
+          navController.navigate("trends_route")
+    }
     },
     onDialogDismissed = { message ->
       Log.d("LOG", message)
@@ -94,7 +100,9 @@ fun LoginScreen(navController: NavHostController,
             AsyncImage(
               model = "https://img.icons8.com/?size=512&id=V5cGWnc9R4xj&format=png",
               contentDescription = "Google Logo",
-              modifier = Modifier.fillMaxSize(0.15f).padding(end = 10.dp),
+              modifier = Modifier
+                .fillMaxSize(0.15f)
+                .padding(end = 10.dp),
               alignment = Alignment.Center
             )
             Text(text = "Sign In With Google",

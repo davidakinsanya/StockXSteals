@@ -8,12 +8,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.model.dto.Trend
-import com.stockxsteals.app.ui_coroutines.AddTrend
-import com.stockxsteals.app.ui_coroutines.bootTrends
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 
@@ -23,10 +20,6 @@ fun TrendsViewComponent(trendsModel: TrendsUIViewModel,
                         navController: NavHostController,
 ) {
 
-  val context = LocalContext.current
-  val trendsList = bootTrends(trendsModel = trendsModel, context = context)
-  val bool = trendsList.isNotEmpty()
-  AddTrend(boolean = bool, trendsModel = trendsModel, trend = trendsList)
   val currentTrends: List<Trend> = trendsModel.bootTrends.collectAsState().value
 
   Column(
