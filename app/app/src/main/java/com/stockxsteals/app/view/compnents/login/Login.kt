@@ -44,9 +44,8 @@ fun LoginScreen(navController: NavHostController,
     onTokenIdReceived = { tokenId ->
       Log.d("LOG", tokenId)
       scope.launch {
-        val int = trendsModel.accessTrends(context)
-        if (int == 1)
-          navController.navigate("trends_route")
+        trendsModel.accessTrends()
+        navController.navigate("trends_route")
     }
     },
     onDialogDismissed = { message ->

@@ -7,6 +7,7 @@ import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -16,9 +17,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import coil.compose.AsyncImage
 import com.stockxsteals.app.navigation.AppScreens
+import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
+import kotlinx.coroutines.launch
 
 @Composable
-fun BottomBar(navController: NavHostController) {
+fun BottomBar(navController: NavHostController,
+              trendsModel: TrendsUIViewModel) {
   val screens = listOf(
     AppScreens.Trends,
     AppScreens.Search,
@@ -32,7 +36,8 @@ fun BottomBar(navController: NavHostController) {
       AddItem(
         screen = screen,
         currentDestination = currentDestination,
-        navController = navController)
+        navController = navController,
+        trendsModel = trendsModel)
     }
   }
 }
@@ -41,11 +46,14 @@ fun BottomBar(navController: NavHostController) {
 fun RowScope.AddItem(
   screen: AppScreens,
   currentDestination: NavDestination?,
-  navController: NavHostController
+  navController: NavHostController,
+  trendsModel: TrendsUIViewModel
 ) {
   val selected = currentDestination?.hierarchy?.any {
     it.route == screen.route
   } == true
+
+  val scope = rememberCoroutineScope()
 
   val currentScreen = navController.currentDestination?.route
 
@@ -61,6 +69,12 @@ fun RowScope.AddItem(
           .graphicsLayer { alpha = if (currentScreen != screen.route) 0.35f else 1f })
            },
     selected = selected,
-    onClick = { if(currentScreen != screen.route) navController.navigate(screen.route) },
+    onClick = {
+      if (currentScreen != screen.route) {
+        if (screen.route == AppScreens.Trends.route)
+          scope.launch { trendsModel.accessTrends() }
+
+        navController.navigate(screen.route)
+      } },
   )
 }

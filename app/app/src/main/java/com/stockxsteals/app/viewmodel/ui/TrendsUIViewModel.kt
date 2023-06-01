@@ -1,10 +1,12 @@
 package com.stockxsteals.app.viewmodel.ui
 
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import com.beust.klaxon.Klaxon
 import com.stockxsteals.app.http.ApiService
 import com.stockxsteals.app.model.dto.Trend
+import com.stockxsteals.app.utils.fileIsOld
+import com.stockxsteals.app.utils.getCurrentDate
 import com.stockxsteals.app.viewmodel.db.DailySearchHistoryViewModel
 import com.stockxsteals.app.viewmodel.db.DailySearchViewModel
 import com.stockxsteals.app.viewmodel.db.PremiumViewModel
@@ -24,7 +26,7 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
   private val _bootTrends = MutableStateFlow<List<Trend>>(listOf())
   var bootTrends: StateFlow<List<Trend>> = _bootTrends
 
-  fun getTrendsModel(): TrendsDBViewModel {
+  private fun getTrendsModel(): TrendsDBViewModel {
     return trendsDBModel
   }
 
@@ -45,30 +47,38 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
   }
 
 
-   suspend fun accessTrends(context: Context): Int = withContext(Dispatchers.IO) { // to run code in Background Thread
+   suspend fun accessTrends() = withContext(Dispatchers.IO) { // to run code in Background Thread
+     val service = ApiService.create()
+     val trendsOnDb = getTrendsModel().trends.asLiveData().value!!
 
-    val service = ApiService.create()
-    val data: List<Trend> = service.getTrends("sneakers", "EUR")
-    addTrend(data)
+     if (trendsOnDb.isEmpty()) {
 
-    return@withContext 1
+       val data: List<Trend> = service.getTrends("sneakers", "EUR")
+       getTrendsModel().setFirstTrend(getCurrentDate(), data.toString())
+       addTrend(data)
+     } else {
+
+       if (fileIsOld(trendsOnDb[0].timestamp)) {
+
+         val data: List<Trend> = service.getTrends("sneakers", "EUR")
+         getTrendsModel().updateTrends(getCurrentDate(), data.toString(), 0)
+       } else {
+
+         val data = Klaxon().parse<List<Trend>>(
+           trendsOnDb[0].json
+         )!!
+         addTrend(data)
+       }
+     }
   }
 
-  /*
-Klaxon().parse<List<Trend>>(
-        trendsModel.getTrendsModel().trends.collectAsState(
-          initial = emptyList()
-        ).value[0].json
-      )!!
- */
-
-   suspend fun addTrend(trends: List<Trend>) {
+   private suspend fun addTrend(trends: List<Trend>) {
      withContext(Dispatchers.IO) {
        _bootTrends.emit(trends)
      }
   }
 
-   fun filterTrends(text: String) {
+  fun filterTrends(text: String) {
     if (text.isNotEmpty()) {
       bootTrends.value.filter { trend ->
         trend.name.contains(text)

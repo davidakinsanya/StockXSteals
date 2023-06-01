@@ -45,7 +45,8 @@ fun SetupScreen(navController: NavHostController) {
                                                        uiModel = uiModel,
                                                        networkModel = networkModel) },
 
-      bottomBar = { if (!bool) BottomBar(navController = navController) }
+      bottomBar = { if (!bool) BottomBar(navController = navController,
+                                         trendsModel = trendsModel) }
     ) {
       NavGraph(
         navController = navController,
