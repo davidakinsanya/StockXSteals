@@ -31,16 +31,3 @@ interface ApiService {
     }
   }
 }
-
-
-/**
- * service = ApiService.create()
- * data = produceState<T>(
- * initialValue = emptyList()
- * producer = {
- * value = httpRequest
- * }
- * )
- *
- * data.value is Type T.
- */
