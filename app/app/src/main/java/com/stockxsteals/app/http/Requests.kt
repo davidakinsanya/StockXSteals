@@ -23,7 +23,7 @@ fun doRequest(model: TrendsUIViewModel, type: String,
         model.getTrendsModel().setFirstTrend(getCurrentDate(), data.toString())
       }
 
-      -1 -> {
+      1 -> {
         model.getTrendsModel().updateTrends(getCurrentDate(), data.toString(), 0)
       }
     }
