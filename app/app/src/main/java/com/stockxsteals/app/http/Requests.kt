@@ -18,6 +18,7 @@ fun doRequest(model: TrendsUIViewModel, type: String,
 
   LaunchedEffect(int) {
     data = service.getTrends(type, currency)
+
     when (int) {
       0 -> {
         model.getTrendsModel().setFirstTrend(getCurrentDate(), data.toString())
@@ -28,6 +29,7 @@ fun doRequest(model: TrendsUIViewModel, type: String,
       }
     }
   }
+
   return data
 }
 
