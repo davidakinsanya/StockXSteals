@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -16,13 +17,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.ui.SettingViewModel
+import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SettingScreen(setting: String,
                   settingModel: SettingViewModel,
-                  navController: NavHostController) {
+                  navController: NavHostController,
+                  trendsModel: TrendsUIViewModel) {
+
+  val scope = rememberCoroutineScope()
 
   Scaffold {
     Column(
@@ -50,6 +57,10 @@ fun SettingScreen(setting: String,
         Spacer(modifier = Modifier.padding(30.dp))
         IconButton(
           onClick = {
+            val route = navController.previousBackStackEntry?.destination?.route!!
+            if (route == AppScreens.Trends.route) {
+              scope.launch { trendsModel.accessTrends() }
+            }
             navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
           }) {
           Icon(

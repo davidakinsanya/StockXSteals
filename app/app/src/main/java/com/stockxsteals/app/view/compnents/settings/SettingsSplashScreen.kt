@@ -22,11 +22,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.ui.SettingViewModel
+import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SettingsSplashScreen(navController: NavHostController,
                          settingModel: SettingViewModel,
+                         trendsModel: TrendsUIViewModel,
 ) {
   val scope = rememberCoroutineScope()
   val context = LocalContext.current
@@ -54,6 +57,7 @@ fun SettingsSplashScreen(navController: NavHostController,
         IconButton(
           onClick = {
             if (navController.previousBackStackEntry?.destination?.route == "setting_screen") {
+              scope.launch { trendsModel.accessTrends() }
               navController.navigate(AppScreens.Trends.route)
             } else {
               navController.navigate(navController.previousBackStackEntry?.destination?.route!!)

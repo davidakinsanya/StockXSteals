@@ -8,16 +8,20 @@ import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.view.compnents.settings.SettingScreen
 import com.stockxsteals.app.view.compnents.settings.SettingsSplashScreen
 import com.stockxsteals.app.viewmodel.ui.SettingViewModel
+import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 
 fun NavGraphBuilder.settingsNavGraph(
   navController: NavHostController,
-  settingModel: SettingViewModel
+  settingModel: SettingViewModel,
+  trendsModel: TrendsUIViewModel,
 ) {
   navigation(startDestination = AppScreens.Settings.route,
              route = "settings_route") {
 
     composable(route = AppScreens.Settings.route) {
-      SettingsSplashScreen(navController, settingModel)
+      SettingsSplashScreen(navController = navController,
+                           settingModel = settingModel,
+                           trendsModel = trendsModel)
     }
 
     composable(route = AppScreens.SettingScreen.route) {
@@ -29,7 +33,8 @@ fun NavGraphBuilder.settingsNavGraph(
       if (setting != null)
         SettingScreen(setting = setting,
                       navController = navController,
-                      settingModel = settingModel)
+                      settingModel = settingModel,
+                      trendsModel = trendsModel)
     }
 
   }
