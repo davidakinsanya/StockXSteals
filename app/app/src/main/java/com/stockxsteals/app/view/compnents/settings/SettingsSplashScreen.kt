@@ -20,7 +20,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.stockxsteals.app.http.trendState
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.ui.SettingViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
@@ -33,7 +32,6 @@ fun SettingsSplashScreen(navController: NavHostController,
                          trendsModel: TrendsUIViewModel,
 ) {
   val scope = rememberCoroutineScope()
-  val trend = trendState()
   val context = LocalContext.current
 
   Scaffold {
@@ -59,7 +57,7 @@ fun SettingsSplashScreen(navController: NavHostController,
         IconButton(
           onClick = {
             if (navController.previousBackStackEntry?.destination?.route == "setting_screen") {
-              scope.launch { trendsModel.accessTrends(trend) }
+              scope.launch { trendsModel.accessTrends() }
               navController.navigate(AppScreens.Trends.route)
             } else {
               navController.navigate(navController.previousBackStackEntry?.destination?.route!!)

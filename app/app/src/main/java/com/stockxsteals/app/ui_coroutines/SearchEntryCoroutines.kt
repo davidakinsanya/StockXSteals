@@ -58,7 +58,7 @@ fun SearchEntryCoroutineDB(displayItem: MutableState<Boolean>,
                            searchRoute: String,
                            ) {
 
-  LaunchedEffect(key1 = displayItem.value) {
+  LaunchedEffect(key1 = true) {
     if (displayItem.value) {
       val currentSearch = productSearchViewModel.getHistoryModel().getSearchByStamp("0")
       productSearchViewModel

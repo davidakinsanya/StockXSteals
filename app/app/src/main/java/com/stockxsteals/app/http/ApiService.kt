@@ -14,7 +14,7 @@ interface ApiService {
 
   suspend fun  getTrends(query: String, currency: String): List<Trend>
 
-  suspend fun searchProduct(query: String, currency: String, country: String): Product
+  suspend fun searchProduct(query: String, currency: String, country: String): List<Product>
 
   companion object {
     fun create(): ApiService {

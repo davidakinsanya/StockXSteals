@@ -49,9 +49,7 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
   }
 
 
-   suspend fun accessTrends(trends: State<List<Trend>?>) = withContext(Dispatchers.IO) { // to run code in Background Thread
-     val service = ApiService.create()
-
+   suspend fun accessTrends() = withContext(Dispatchers.IO) { // to run code in Background Thread
      val trendsOnDb = getTrendsModel().trends.asLiveData().value
      // trendsOnDb.isNullOrEmpty() -- set first trend
 

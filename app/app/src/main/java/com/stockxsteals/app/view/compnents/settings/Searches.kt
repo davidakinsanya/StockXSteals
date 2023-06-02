@@ -19,7 +19,7 @@ fun Searches(settingModel: SettingViewModel) {
   val model = settingModel.getHistoryModel()
   val searches = model.searches.collectAsState(initial = emptyList()).value
 
-  LazyColumn(modifier = Modifier.padding(start = 30.dp, end = 30.dp)) {
+  LazyColumn(modifier = Modifier.padding(start = 20.dp, end = 30.dp)) {
     if (searches.isNotEmpty()) {
       items(searches.size) { i ->
         SearchRow(searches[i])
@@ -32,7 +32,6 @@ fun Searches(settingModel: SettingViewModel) {
 fun SearchRow(entry: DailySearchHistory) {
   Row( modifier =
   Modifier
-    .padding(5.dp)
     .height(140.dp)
     .fillMaxWidth(),
     verticalAlignment = Alignment.CenterVertically,
@@ -41,8 +40,7 @@ fun SearchRow(entry: DailySearchHistory) {
       fontSize = 15.sp,
       textAlign = TextAlign.Left,
       modifier = Modifier
-        .width(200.dp)
-        .padding(16.dp))
+        .width(200.dp))
 
     AsyncImage(
       model = entry.image,

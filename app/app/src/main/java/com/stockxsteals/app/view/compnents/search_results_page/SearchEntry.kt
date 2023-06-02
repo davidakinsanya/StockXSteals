@@ -46,12 +46,16 @@ import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
   val context = LocalContext.current
 
   val dailySearch = productSearchViewModel.getSearchModel()
+  /*
   val noQuota = dailySearch.quota.collectAsState(initial = emptyList()).value.isEmpty()
-
   val quota = if
           (!noQuota) dailySearch.quota.collectAsState(initial = emptyList()).value[0]
+
+
   else
     null
+
+   */
 
   val displayItem = remember { mutableStateOf(false) }
   val clicked = remember { mutableStateOf(false) }
@@ -67,7 +71,7 @@ import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
     Row(
       modifier = Modifier
         .fillMaxSize()
-        .clickable { clicked.value = true },
+        .clickable { displayItem.value = true },
       verticalAlignment = Alignment.CenterVertically,
       horizontalArrangement = Arrangement.SpaceAround
     ) {
@@ -101,6 +105,7 @@ import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
             .fillMaxHeight()
             .padding(16.dp))
 
+      /*
       if (clicked.value)
         SearchEntryCoroutineOnClick(
           productSearchViewModel = productSearchViewModel,
@@ -111,6 +116,8 @@ import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
           displayItem = displayItem,
           quota = quota
         )
+
+       */
 
       SearchEntryCoroutineDB(displayItem = displayItem,
                              productSearchViewModel = productSearchViewModel,

@@ -65,7 +65,7 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
 
   override suspend fun searchProduct(query: String,
                              currency: String,
-                             country: String): Product {
+                             country: String): List<Product> {
 
     return try {
       client.get(baseUrl + "search") {
@@ -82,15 +82,15 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
     } catch(e: RedirectResponseException) {
       // 3xx - code response
       Log.d("3XX", e.response.status.description)
-      blankProduct()
+      listOf(blankProduct())
     } catch (e: ClientRequestException) {
       // 4xx - code response
       Log.d("4XX", e.response.status.description)
-      blankProduct()
+      listOf(blankProduct())
     } catch (e: ServerResponseException) {
       // 5xx - code response
       Log.d("5XX", e.response.status.description)
-      blankProduct()
+      listOf(blankProduct())
     }
   }
 }

@@ -23,7 +23,6 @@ import coil.compose.AsyncImage
 import com.stevdzasan.onetap.OneTapSignInWithGoogle
 import com.stevdzasan.onetap.rememberOneTapSignInState
 import com.stockxsteals.app.R
-import com.stockxsteals.app.http.trendState
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 import kotlinx.coroutines.launch
@@ -36,7 +35,6 @@ fun LoginScreen(navController: NavHostController,
 
   val state = rememberOneTapSignInState()
   val scope = rememberCoroutineScope()
-  val trends = trendState()
   val context = LocalContext.current
   val mauve = Color(224, 176, 255)
 
@@ -46,7 +44,7 @@ fun LoginScreen(navController: NavHostController,
     onTokenIdReceived = { tokenId ->
       Log.d("LOG", tokenId)
       scope.launch {
-        trendsModel.accessTrends(trends)
+        trendsModel.accessTrends()
         navController.navigate("trends_route")
     }
     },
