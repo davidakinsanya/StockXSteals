@@ -13,7 +13,7 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
   private val baseUrl = "https://stockx1.p.rapidapi.com/v2/stockx/"
   private val searchURL = "http://192.168.1.127:5000"
   private val apiHost = "stockx1.p.rapidapi.com"
-  private  val apiKey = "#########################################"
+  private  val apiKey = "###########################################"
 
   override suspend fun getSearch(search: String): Map<String, List<String>> {
     return try {

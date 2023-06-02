@@ -22,27 +22,43 @@ fun NavGraphBuilder.sneakerNavGraph(
   ) {
 
     composable(route = AppScreens.Trends.route) {
-      TrendsViewComponent(trendsModel = trendsModel,
-                          productModel = productSearchViewModel,
-                          navController = navController)
+      TrendsViewComponent(
+        trendsModel = trendsModel,
+        productModel = productSearchViewModel,
+        navController = navController
+      )
     }
 
     composable(route = AppScreens.Search.route) {
       // check if search state is populated
-      SneakerViewComponent(productModel = null,
-                           uiModel = productSearchViewModel.getUIModel(),
-                           navController = navController)
+      if (navController.previousBackStackEntry?.destination?.route == AppScreens.SneakerSearch.route) {
+        SneakerViewComponent(
+          productModel = productSearchViewModel,
+          uiModel = productSearchViewModel.getUIModel(),
+          navController = navController
+        )
+      } else {
+        SneakerViewComponent(
+          productModel = null,
+          uiModel = productSearchViewModel.getUIModel(),
+          navController = navController
+        )
+      }
     }
-  }
 
-  composable(route = AppScreens.TopSearch.route) {
-    SearchScreen(navController = navController,
-      productSearchViewModel = productSearchViewModel)
-  }
+    composable(route = AppScreens.TopSearch.route) {
+      SearchScreen(
+        navController = navController,
+        productSearchViewModel = productSearchViewModel
+      )
+    }
 
-  composable(route = AppScreens.SneakerSearch.route) {
-    SneakerSplashScreen(navController = navController,
+    composable(route = AppScreens.SneakerSearch.route) {
+      SneakerSplashScreen(
+        navController = navController,
         productSearchViewModel = productSearchViewModel,
-        networkModel = trendsModel.getNetworkModel())
+        networkModel = trendsModel.getNetworkModel()
+      )
+    }
   }
 }

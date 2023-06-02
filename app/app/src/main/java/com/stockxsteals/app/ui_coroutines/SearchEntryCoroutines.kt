@@ -58,7 +58,7 @@ fun SearchEntryCoroutineDB(displayItem: MutableState<Boolean>,
                            searchRoute: String,
                            ) {
 
-  LaunchedEffect(key1 = true) {
+  LaunchedEffect(key1 = displayItem.value) {
     if (displayItem.value) {
       val currentSearch = productSearchViewModel.getHistoryModel().getSearchByStamp("0")
       productSearchViewModel
@@ -70,9 +70,10 @@ fun SearchEntryCoroutineDB(displayItem: MutableState<Boolean>,
           sizeType = currentSearch.sizeType,
           size = currentSearch.size,
           name = result[0],
-          image = "",
+          image = result[1],
           json = "",
           id = currentSearch.id)
+      navController.navigate(searchRoute)
     }
   }
 
@@ -84,7 +85,6 @@ fun SearchEntryCoroutineDB(displayItem: MutableState<Boolean>,
         productSearchViewModel.getFilterModel().getCurrentSearch().country
       )
     )
-    navController.navigate(searchRoute)
   }
 }
 

@@ -31,6 +31,8 @@ fun SneakerViewComponent(productModel: ProductSearchViewModel?,
     productModel?.trendSearch?.collectAsState()
   }
 
+  println(uiModel.productIsNotNull(productResults))
+
   val productView =
     if (uiModel.productIsNotNull(productResults))
       ProductView(productResults!!.value, navController)

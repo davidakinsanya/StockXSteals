@@ -54,6 +54,7 @@ class ProductSearchViewModel(private val filterModel: FilterViewModel,
   fun addProduct(product: List<Product>) {
      viewModelScope.launch(Dispatchers.Default) {  // to run code in Background Thread
        _searchResult.emit(cleanUp(product))
+       println("product -> " + product.size)
      }
   }
 

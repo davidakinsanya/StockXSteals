@@ -110,6 +110,7 @@ class FilterViewModel(private val presetModel: FilterPresetsViewModel)
   fun setSearchResults(result: Map<String, List<String>>) {
     viewModelScope.launch(Dispatchers.Default) {  // to run code in Background Thread
         _bootMap.emit(result)
+      println(result.size)
     }
   }
 
