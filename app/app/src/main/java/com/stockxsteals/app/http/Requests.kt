@@ -7,7 +7,6 @@ import com.stockxsteals.app.model.dto.blankProduct
 
 private val service = ApiService.create()
 
-
 @Composable
 fun doRequest(search: String): Map<String, List<String>> {
   val data = produceState<Map<String, List<String>>>(
