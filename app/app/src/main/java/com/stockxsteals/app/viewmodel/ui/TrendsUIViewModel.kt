@@ -1,6 +1,7 @@
 package com.stockxsteals.app.viewmodel.ui
 
 import android.util.Log
+import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.beust.klaxon.Klaxon
@@ -27,7 +28,7 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
   private val _bootTrends = MutableStateFlow<List<Trend>>(listOf())
   var bootTrends: StateFlow<List<Trend>> = _bootTrends
 
-  private fun getTrendsModel(): TrendsDBViewModel {
+  fun getTrendsModel(): TrendsDBViewModel {
     return trendsDBModel
   }
 
@@ -48,7 +49,7 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
   }
 
 
-   suspend fun accessTrends() = withContext(Dispatchers.IO) { // to run code in Background Thread
+   suspend fun accessTrends(trends: State<List<Trend>?>) = withContext(Dispatchers.IO) { // to run code in Background Thread
      val service = ApiService.create()
 
      val trendsOnDb = getTrendsModel().trends.asLiveData().value
@@ -57,13 +58,13 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
 
      /*
      if (trendsOnDb?.isEmpty() == true) {
-       val data: List<Trend> = service.getTrends("sneakers", "EUR")
+       val data: List<Trend> = trends.value!!
        getTrendsModel().setFirstTrend(getCurrentDate(), data.toString())
        addTrend(data)
      } else {
        if (fileIsOld(trendsOnDb!![0].timestamp)) {
 
-         val data: List<Trend> = service.getTrends("sneakers", "EUR")
+         val data: List<Trend> = trends.value!!
          getTrendsModel().updateTrends(getCurrentDate(), data.toString(), 0)
        } else {
 
@@ -77,7 +78,7 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
       */
   }
 
-   private suspend fun addTrend(trends: List<Trend>) {
+   suspend fun addTrend(trends: List<Trend>) {
      withContext(Dispatchers.IO) {
        _bootTrends.emit(trends)
      }

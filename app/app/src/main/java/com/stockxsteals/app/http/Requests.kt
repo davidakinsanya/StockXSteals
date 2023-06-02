@@ -1,9 +1,19 @@
 package com.stockxsteals.app.http
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.produceState
 import com.stockxsteals.app.model.dto.Product
+import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.model.dto.blankProduct
+
+@Composable
+fun trendState(): State<List<Trend>?> {
+  return produceState(
+    initialValue = emptyList(),
+    producer = { value = service.getTrends("sneakers", "EUR") }
+  )
+}
 
 private val service = ApiService.create()
 
