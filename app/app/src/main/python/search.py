@@ -51,3 +51,7 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
 
 
+# docker build -t search .
+# docker run --name search -p 5000:5000 search 
+
+

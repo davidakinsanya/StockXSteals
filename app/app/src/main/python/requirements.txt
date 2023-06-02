@@ -13,7 +13,7 @@ certifi==2022.12.7
 cffi==1.14.4
 chardet==3.0.4
 charset-normalizer==3.1.0
-chromedriver-py==113.0.5672.24
+chromedriver-py==114.0.5735.90
 click==7.1.1
 cloudscraper==1.2.71
 colorama==0.4.1
