@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.stockxsteals.app.http.trendState
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.ui.SettingViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
@@ -30,6 +31,7 @@ fun SettingScreen(setting: String,
                   trendsModel: TrendsUIViewModel) {
 
   val scope = rememberCoroutineScope()
+  val trends = trendState()
 
   Scaffold {
     Column(
@@ -59,7 +61,7 @@ fun SettingScreen(setting: String,
           onClick = {
             val route = navController.previousBackStackEntry?.destination?.route!!
             if (route == AppScreens.Trends.route) {
-              scope.launch { trendsModel.accessTrends() }
+              scope.launch { trendsModel.accessTrends(trends) }
             }
             navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
           }) {
