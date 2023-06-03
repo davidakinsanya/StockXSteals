@@ -33,7 +33,7 @@ data class Bids(@SerialName("lowest_ask") val lowest_ask: Int,
 
 @Serializable
 data class Sales(@SerialName("annual_high") val annual_high: Int,
-                 @SerialName("annual_low")  val annual_low: Int,
+                 @SerialName("annual_low") val annual_low: Int,
                  @SerialName("volatility") val volatility: Float,
                  @SerialName("price_premium") val price_premium: Float,
                  @SerialName("last_sale") val last_sale: Int,

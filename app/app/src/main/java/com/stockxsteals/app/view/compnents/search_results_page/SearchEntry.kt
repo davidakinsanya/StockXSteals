@@ -50,11 +50,8 @@ import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
   val noQuota = dailySearch.quota.collectAsState(initial = emptyList()).value.isEmpty()
   val quota = if
           (!noQuota) dailySearch.quota.collectAsState(initial = emptyList()).value[0]
-
-
   else
     null
-
    */
 
   val displayItem = remember { mutableStateOf(false) }

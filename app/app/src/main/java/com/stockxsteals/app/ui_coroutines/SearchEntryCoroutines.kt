@@ -77,6 +77,7 @@ fun SearchEntryCoroutineDB(displayItem: MutableState<Boolean>,
     }
   }
 
+  /*
   if (displayItem.value) {
     productSearchViewModel.addProduct(
       doRequest(
@@ -86,6 +87,8 @@ fun SearchEntryCoroutineDB(displayItem: MutableState<Boolean>,
       )
     )
   }
+   */
+
 }
 
 @Composable
