@@ -51,10 +51,9 @@ class ProductSearchViewModel(private val filterModel: FilterViewModel,
     }
   }
 
-  fun addProduct(product: List<Product>) {
+  fun addProduct(product: Product) {
      viewModelScope.launch(Dispatchers.Default) {  // to run code in Background Thread
        _searchResult.emit(cleanUp(product))
-       println("product -> " + product.size)
      }
   }
 
@@ -64,8 +63,8 @@ class ProductSearchViewModel(private val filterModel: FilterViewModel,
     }
   }
 
-  private fun cleanUp(product: List<Product>): Product {
-    product[0].description = product[0].description.replace("\n<br>\n<br>\n", "\n")
-    return product[0]
+  private fun cleanUp(product: Product): Product {
+    product.description = product.description.replace("\n<br>\n<br>\n", "\n")
+    return product
   }
 }

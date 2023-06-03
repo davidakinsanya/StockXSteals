@@ -19,9 +19,9 @@ fun doRequest(search: String): Map<String, List<String>> {
 @Composable
 fun doRequest(slug: String,
               currency: String,
-              country: String): List<Product> {
+              country: String): Product {
   val data = produceState(
-    initialValue = listOf(blankProduct()),
+    initialValue = blankProduct(),
     producer = { value = service.searchProduct(slug, currency, country) }
   )
 

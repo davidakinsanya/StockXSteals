@@ -31,19 +31,11 @@ fun NavGraphBuilder.sneakerNavGraph(
 
     composable(route = AppScreens.Search.route) {
       // check if search state is populated
-      if (navController.previousBackStackEntry?.destination?.route == AppScreens.SneakerSearch.route) {
         SneakerViewComponent(
           productModel = productSearchViewModel,
           uiModel = productSearchViewModel.getUIModel(),
           navController = navController
         )
-      } else {
-        SneakerViewComponent(
-          productModel = null,
-          uiModel = productSearchViewModel.getUIModel(),
-          navController = navController
-        )
-      }
     }
 
     composable(route = AppScreens.TopSearch.route) {
