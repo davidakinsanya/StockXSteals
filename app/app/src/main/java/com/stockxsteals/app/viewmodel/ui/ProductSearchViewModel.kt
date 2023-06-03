@@ -2,6 +2,7 @@ package com.stockxsteals.app.viewmodel.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.stockxsteals.app.http.ApiService
 import com.stockxsteals.app.model.dto.*
 import com.stockxsteals.app.viewmodel.db.DailySearchHistoryViewModel
 import com.stockxsteals.app.viewmodel.db.DailySearchViewModel
@@ -51,10 +52,25 @@ class ProductSearchViewModel(private val filterModel: FilterViewModel,
     }
   }
 
-  fun addProduct(product: Product) {
-     viewModelScope.launch(Dispatchers.Default) {  // to run code in Background Thread
-       _searchResult.emit(cleanUp(product))
+  fun addProduct(slug: String, country: String, currency: String) {
+     val service = ApiService.create()
+
+     viewModelScope.launch(Dispatchers.Default) { // to run code in Background Thread
+       val result = service.searchProduct(slug, country, currency)
+       _searchResult.emit(cleanUp(result))
      }
+  }
+
+  fun clearProduct() {
+    viewModelScope.launch(Dispatchers.Default) { // to run code in Background Thread
+      _searchResult.emit(blankProduct())
+    }
+  }
+
+  fun clearTrend() {
+    viewModelScope.launch(Dispatchers.Default) { // to run code in Background Thread
+      _trendSearch.emit(blankTrend())
+    }
   }
 
   fun addTrend(trend: Trend) {

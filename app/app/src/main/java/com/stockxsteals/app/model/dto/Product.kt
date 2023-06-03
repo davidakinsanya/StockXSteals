@@ -24,6 +24,6 @@ fun blankProduct(): Product {
     "",
     listOf(), listOf(), Market(
       Bids(0,0,0,0),
-      Sales(0,0,0f,0f, 0, 0, 0f))
+      Sales2(0,0))
   )
 }

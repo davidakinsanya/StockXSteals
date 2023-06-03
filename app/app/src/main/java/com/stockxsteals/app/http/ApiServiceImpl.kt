@@ -13,7 +13,7 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
   private val baseUrl = "https://stockx1.p.rapidapi.com/v2/stockx/"
   private val searchURL = "http://192.168.1.127:5000"
   private val apiHost = "stockx1.p.rapidapi.com"
-  private  val apiKey = "##########################################"
+  private val apiKey = "#########################################"
 
   override suspend fun getSearch(search: String): Map<String, List<String>> {
     return try {
@@ -22,7 +22,7 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
           parameters.append("search", search)
         }
       }
-    } catch(e: RedirectResponseException) {
+    } catch (e: RedirectResponseException) {
       // 3xx - code response
       Log.d("3XX", e.response.status.description)
       mapOf()
@@ -49,7 +49,7 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
           append("X-RapidAPI-Host", apiHost)
         }
       }
-    } catch(e: RedirectResponseException) {
+    } catch (e: RedirectResponseException) {
       // 3xx - code response
       Log.d("3XX", e.response.status.description)
       listOf()
@@ -63,9 +63,11 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
     }
   }
 
-  override suspend fun searchProduct(query: String,
-                             currency: String,
-                             country: String): Product {
+  override suspend fun searchProduct(
+    query: String,
+    currency: String,
+    country: String
+  ): Product {
 
     return try {
       client.get(baseUrl + "product") {
@@ -79,7 +81,7 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
           append("X-RapidAPI-Host", apiHost)
         }
       }
-    } catch(e: RedirectResponseException) {
+    } catch (e: RedirectResponseException) {
       // 3xx - code response
       Log.d("3XX", e.response.status.description)
       blankProduct()

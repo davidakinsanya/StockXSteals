@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.navigation.NavHostController
-import com.stockxsteals.app.http.doRequest
 import com.stockxsteals.app.utils.getCurrentDate
 import com.stockxsteals.app.viewmodel.db.DailySearchViewModel
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
@@ -77,18 +76,13 @@ fun SearchEntryCoroutineDB(displayItem: MutableState<Boolean>,
     }
   }
 
-  /*
   if (displayItem.value) {
     productSearchViewModel.addProduct(
-      doRequest(
-        result[0],
-        productSearchViewModel.getFilterModel().getCurrentSearch().currency,
-        productSearchViewModel.getFilterModel().getCurrentSearch().country
-      )
+      result[0],
+      productSearchViewModel.getFilterModel().getCurrentSearch().currency,
+      productSearchViewModel.getFilterModel().getCurrentSearch().country
     )
   }
-   */
-
 }
 
 @Composable

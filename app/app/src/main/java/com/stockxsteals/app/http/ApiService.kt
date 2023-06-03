@@ -24,10 +24,7 @@ interface ApiService {
             level = LogLevel.ALL
           }
           install(JsonFeature) {
-            serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
-              isLenient = true
-              ignoreUnknownKeys = true
-            })
+            serializer = KotlinxSerializer()
           }
         })
     }

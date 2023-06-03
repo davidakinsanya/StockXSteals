@@ -17,25 +17,31 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.model.ui.ProductView
+import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
 @Composable
-fun SneakerViewComponent(productModel: ProductSearchViewModel?,
+fun SneakerViewComponent(productModel: ProductSearchViewModel,
                          uiModel: UIViewModel,
                          navController: NavHostController) {
 
   val productResults = when (navController.previousBackStackEntry?.destination?.route) {
     "sneaker_search" -> {
-      productModel?.searchResult?.collectAsState()
+      productModel.searchResult.collectAsState()
     }
     /*
     "trends" -> {
-      productModel?.trendSearch?.collectAsState()
+      productModel.trendSearch.collectAsState()
     } */
     else -> {
       null
     }
+  }
+
+  if (navController.currentDestination?.route != AppScreens.Search.route) {
+    productModel.clearProduct()
+    productModel.clearTrend()
   }
 
   val productView =
