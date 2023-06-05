@@ -53,21 +53,19 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
      // trendsOnDb.isNullOrEmpty() -- set first trend
     /*
     val service = ApiService.create()
-    val trends = service.getTrends()
 
-     if (trendsOnDb?.isEmpty() == true) {
-       val data: List<Trend> = trends.value!!
-       getTrendsModel().setFirstTrend(getCurrentDate(), data.toString())
-       addTrend(data)
+     if (trends.isEmpty() == true) {
+       //val newTrends = service.getTrends()
+       getTrendsModel().setFirstTrend(getCurrentDate(), "")
+       // addTrend(newTrends)
      } else {
-       if (fileIsOld(trendsOnDb!![0].timestamp)) {
-
-         val data: List<Trend> = trends.value!!
-         getTrendsModel().updateTrends(getCurrentDate(), data.toString(), 0)
+       if (fileIsOld(trends[0].timestamp)) {
+         // val newTrends = service.getTrends()
+         getTrendsModel().updateTrends(getCurrentDate(), newTrends.toString(), 0)
+         // addTrend(newTrends)
        } else {
-
          val data = Klaxon().parse<List<Trend>>(
-           trendsOnDb[0].json
+           trends[0].json
          )!!
          addTrend(data)
        }

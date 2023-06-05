@@ -57,8 +57,9 @@ fun SneakerViewComponent(productModel: ProductSearchViewModel,
   ) {
     Column(
       modifier = Modifier
-        .padding(top = 30.dp)
-        .fillMaxHeight(.88f)
+        .padding(top = 10.dp)
+        .fillMaxHeight(.93f)
+        .fillMaxWidth()
     ) {
       if (uiModel.productIsNotNull(productResults)) {
         Pager(productView, uiModel.productIsNotNull(productResults))
