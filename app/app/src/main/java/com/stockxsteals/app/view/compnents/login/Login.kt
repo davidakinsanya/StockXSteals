@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,6 +36,7 @@ fun LoginScreen(navController: NavHostController,
 
   val state = rememberOneTapSignInState()
   val scope = rememberCoroutineScope()
+  val trends = trendsModel.getTrendsModel().trends.collectAsState(initial = emptyList()).value
   val context = LocalContext.current
   val mauve = Color(224, 176, 255)
 
@@ -44,7 +46,7 @@ fun LoginScreen(navController: NavHostController,
     onTokenIdReceived = { tokenId ->
       Log.d("LOG", tokenId)
       scope.launch {
-        trendsModel.accessTrends()
+        trendsModel.accessTrends(trends)
         navController.navigate("trends_route")
     }
     },

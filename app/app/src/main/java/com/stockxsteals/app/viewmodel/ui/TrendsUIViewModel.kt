@@ -1,7 +1,5 @@
 package com.stockxsteals.app.viewmodel.ui
 
-import android.util.Log
-import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.beust.klaxon.Klaxon
@@ -13,6 +11,7 @@ import com.stockxsteals.app.viewmodel.db.DailySearchHistoryViewModel
 import com.stockxsteals.app.viewmodel.db.DailySearchViewModel
 import com.stockxsteals.app.viewmodel.db.PremiumViewModel
 import com.stockxsteals.app.viewmodel.db.TrendsDBViewModel
+import db.entity.Trends
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -49,8 +48,8 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
   }
 
 
-   suspend fun accessTrends() = withContext(Dispatchers.IO) { // to run code in Background Thread
-     val trendsOnDb = getTrendsModel().trends.asLiveData().value
+   suspend fun accessTrends(trends: List<Trends>) = withContext(Dispatchers.IO) { // to run code in Background Thread
+      println(trends.size)
      // trendsOnDb.isNullOrEmpty() -- set first trend
     /*
     val service = ApiService.create()

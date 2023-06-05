@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +31,7 @@ fun SettingScreen(setting: String,
                   trendsModel: TrendsUIViewModel) {
 
   val scope = rememberCoroutineScope()
+  val trends = trendsModel.getTrendsModel().trends.collectAsState(initial = emptyList()).value
 
   Scaffold {
     Column(
@@ -59,7 +61,7 @@ fun SettingScreen(setting: String,
           onClick = {
             val route = navController.previousBackStackEntry?.destination?.route!!
             if (route == AppScreens.Trends.route) {
-              scope.launch { trendsModel.accessTrends() }
+              scope.launch { trendsModel.accessTrends(trends) }
             }
             navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
           }) {

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -54,7 +55,7 @@ fun RowScope.AddItem(
   } == true
 
   val scope = rememberCoroutineScope()
-
+  val trends = trendsModel.getTrendsModel().trends.collectAsState(initial = emptyList()).value
   val currentScreen = navController.currentDestination?.route
 
   BottomNavigationItem(
@@ -72,7 +73,7 @@ fun RowScope.AddItem(
     onClick = {
       if (currentScreen != screen.route) {
         if (screen.route == AppScreens.Trends.route)
-          scope.launch { trendsModel.accessTrends() }
+          scope.launch { trendsModel.accessTrends(trends) }
 
         navController.navigate(screen.route)
       } },

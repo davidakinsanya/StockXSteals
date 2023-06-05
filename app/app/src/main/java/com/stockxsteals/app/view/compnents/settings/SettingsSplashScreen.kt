@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +33,7 @@ fun SettingsSplashScreen(navController: NavHostController,
                          trendsModel: TrendsUIViewModel,
 ) {
   val scope = rememberCoroutineScope()
+  val trends = trendsModel.getTrendsModel().trends.collectAsState(initial = emptyList()).value
   val context = LocalContext.current
 
   Scaffold {
@@ -57,7 +59,7 @@ fun SettingsSplashScreen(navController: NavHostController,
         IconButton(
           onClick = {
             if (navController.previousBackStackEntry?.destination?.route == "setting_screen") {
-              scope.launch { trendsModel.accessTrends() }
+              scope.launch { trendsModel.accessTrends(trends) }
               navController.navigate(AppScreens.Trends.route)
             } else {
               navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
