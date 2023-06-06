@@ -10,9 +10,9 @@ getIsPremium:
 SELECT isPremium FROM premium WHERE id = :id;
 
 newPremiumQuota:
-INSERT OR REPLACE
-INTO premium
-VALUES (0,0);
+INSERT
+INTO premium (isPremium)
+VALUES (?);
 
 setIsPremium:
 UPDATE

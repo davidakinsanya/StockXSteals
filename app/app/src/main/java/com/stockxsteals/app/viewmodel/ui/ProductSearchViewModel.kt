@@ -51,10 +51,8 @@ class ProductSearchViewModel(private val filterModel: FilterViewModel,
     withContext(Dispatchers.IO) {
        if (premium.isEmpty()) {
          getPremiumModel().newPremiumQuota()
-         println(2)
          return@withContext false
        }
-       println(1)
        return@withContext getPremiumModel().getIsPremium(premium[0].id) == 1
     }
     return false
