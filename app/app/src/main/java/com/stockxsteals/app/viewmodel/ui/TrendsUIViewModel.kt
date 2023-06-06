@@ -1,7 +1,6 @@
 package com.stockxsteals.app.viewmodel.ui
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import com.beust.klaxon.Klaxon
 import com.stockxsteals.app.http.ApiService
 import com.stockxsteals.app.model.dto.Trend
@@ -49,29 +48,29 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
 
 
    suspend fun accessTrends(trends: List<Trends>) = withContext(Dispatchers.IO) { // to run code in Background Thread
-      println(trends.size)
-     // trendsOnDb.isNullOrEmpty() -- set first trend
-    /*
-    val service = ApiService.create()
+     val service = ApiService.create()
 
-     if (trends.isEmpty() == true) {
-       //val newTrends = service.getTrends()
-       getTrendsModel().setFirstTrend(getCurrentDate(), "")
+     if (trends.isEmpty()) {
+       // val newTrends = service.getTrends("sneakers", "EUR")
+       // val newTrendsJson = Klaxon().toJsonString(newTrends)
+       // getTrendsModel().setFirstTrend(getCurrentDate(), newTrendsJson)
+       println(1)
        // addTrend(newTrends)
      } else {
        if (fileIsOld(trends[0].timestamp)) {
-         // val newTrends = service.getTrends()
-         getTrendsModel().updateTrends(getCurrentDate(), newTrends.toString(), 0)
+         // val newTrends = service.getTrends("sneakers", "EUR")
+         // val newTrendsJson = Klaxon().toJsonString(newTrends)
+         // getTrendsModel().updateTrends(getCurrentDate(), newTrendsJson, 0)
+         println(2)
          // addTrend(newTrends)
        } else {
-         val data = Klaxon().parse<List<Trend>>(
+         /*val data = Klaxon().parse<List<Trend>>(
            trends[0].json
          )!!
-         addTrend(data)
+         addTrend(data)*/
+         println(3)
        }
      }
-
-      */
   }
 
    suspend fun addTrend(trends: List<Trend>) {

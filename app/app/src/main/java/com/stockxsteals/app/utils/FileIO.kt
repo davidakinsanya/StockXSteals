@@ -25,6 +25,6 @@ fun fileIsOld(timestamp: String): Boolean {
   val currentTimeArr = currentDate[1].split(":")
   val currentDateArr = currentDate[0].split("-")
 
-  return currentTimeArr[0].toInt() - stampArr[0].toInt() <= 3 ||
+  return currentTimeArr[0].toInt() - stampArr[0].toInt() >= 3 ||
           currentDateArr[2].toInt() - stampDateArr[2].toInt() != 0
 }
