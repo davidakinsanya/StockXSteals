@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.utils.getCurrentDate
 import com.stockxsteals.app.viewmodel.db.DailySearchViewModel
@@ -21,8 +22,17 @@ fun SearchEntryCoroutineOnClick(productSearchViewModel: ProductSearchViewModel,
                                 displayItem: MutableState<Boolean>,
                                 quota: DailySearchQuota?,
                                 ) {
+  val premiumQuotas = productSearchViewModel
+    .getPremiumModel()
+    .premiumQuotas
+    .collectAsState(initial = emptyList())
+    .value
+
   LaunchedEffect(true) {
-    val isPremium = productSearchViewModel.isPremium()
+    if (premiumQuotas.isEmpty())
+        productSearchViewModel.getPremiumModel().newPremiumQuota()
+
+    val isPremium = productSearchViewModel.isPremium(0)
     if (networkModel.checkConnection(context)) {
       if (noQuota) {
         dailySearch.insertSearch()

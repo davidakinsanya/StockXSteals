@@ -1,16 +1,30 @@
 package com.stockxsteals.app.datasource.impl
 
+import com.squareup.sqldelight.runtime.coroutines.asFlow
+import com.squareup.sqldelight.runtime.coroutines.mapToList
 import com.stockxsteals.app.Database
 import com.stockxsteals.app.datasource.intrface.PremiumDataSource
+import db.entity.Premium
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 class PremiumImpl(db: Database): PremiumDataSource {
   private val queries = db.premiumQueries
 
-  override suspend fun getIsPremium(): Int {
+  override fun getPremiumQuotas(): Flow<List<Premium>> {
+    return queries.getPremiumQuota().asFlow().mapToList()
+  }
+
+  override suspend fun newPremiumQuota() {
+    withContext(Dispatchers.IO) {
+      queries.newPremiumQuota(0)
+    }
+  }
+
+  override suspend fun getIsPremium(id: Long): Int {
     return withContext(Dispatchers.IO) {
-      queries.getIsPremium().executeAsOne().toInt()
+      queries.getIsPremium(id).executeAsOne().toInt()
     }
   }
 

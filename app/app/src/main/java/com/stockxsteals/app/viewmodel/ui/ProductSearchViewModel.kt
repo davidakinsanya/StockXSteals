@@ -42,13 +42,13 @@ class ProductSearchViewModel(private val filterModel: FilterViewModel,
     return uiModel
   }
 
-  private fun getPremiumModel(): PremiumViewModel {
+   fun getPremiumModel(): PremiumViewModel {
     return premiumModel
   }
 
-  suspend fun isPremium(): Boolean {
+  suspend fun isPremium(id: Int): Boolean {
     return withContext(Dispatchers.IO) {
-       getPremiumModel().getIsPremium() == 1
+       getPremiumModel().getIsPremium(id) == 1
     }
   }
 

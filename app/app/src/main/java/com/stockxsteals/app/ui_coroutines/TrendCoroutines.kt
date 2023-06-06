@@ -25,7 +25,7 @@ fun TrendCoroutineOnClick(trendsModel: TrendsUIViewModel,
                           ) {
 
   LaunchedEffect(key1 = 1) {
-    val isPremium = trendsModel.getPremiumModel().getIsPremium() == 1
+    val isPremium = trendsModel.getPremiumModel().getIsPremium(0) == 1
     if (networkModel.checkConnection(context)) {
       if (noQuota) {
         trendsModel.getSearchModel().insertSearch()

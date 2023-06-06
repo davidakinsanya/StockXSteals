@@ -1,9 +1,19 @@
 CREATE TABLE premium (
- isPremium INTEGER NOT NULL PRIMARY KEY DEFAULT 0
+ id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+ isPremium INTEGER NOT NULL DEFAULT 0
 );
 
+getPremiumQuota:
+SELECT * FROM premium;
+
 getIsPremium:
-SELECT isPremium FROM premium;
+SELECT isPremium FROM premium WHERE id = :id;
+
+newPremiumQuota:
+INSERT OR REPLACE
+INTO premium (isPremium)
+VALUES (?);
+
 
 setIsPremium:
 UPDATE
