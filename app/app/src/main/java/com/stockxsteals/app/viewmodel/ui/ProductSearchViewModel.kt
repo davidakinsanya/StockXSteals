@@ -7,6 +7,7 @@ import com.stockxsteals.app.model.dto.*
 import com.stockxsteals.app.viewmodel.db.DailySearchHistoryViewModel
 import com.stockxsteals.app.viewmodel.db.DailySearchViewModel
 import com.stockxsteals.app.viewmodel.db.PremiumViewModel
+import db.entity.Premium
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -46,10 +47,17 @@ class ProductSearchViewModel(private val filterModel: FilterViewModel,
     return premiumModel
   }
 
-  suspend fun isPremium(id: Int): Boolean {
-    return withContext(Dispatchers.IO) {
-       getPremiumModel().getIsPremium(id) == 1
+  suspend fun isPremium(premium: List<Premium>): Boolean {
+    withContext(Dispatchers.IO) {
+       if (premium.isEmpty()) {
+         getPremiumModel().newPremiumQuota()
+         println(2)
+         return@withContext false
+       }
+       println(1)
+       return@withContext getPremiumModel().getIsPremium(premium[0].id) == 1
     }
+    return false
   }
 
   fun addProduct(slug: String, country: String, currency: String) {

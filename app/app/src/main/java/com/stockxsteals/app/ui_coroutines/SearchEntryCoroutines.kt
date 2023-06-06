@@ -29,10 +29,7 @@ fun SearchEntryCoroutineOnClick(productSearchViewModel: ProductSearchViewModel,
     .value
 
   LaunchedEffect(true) {
-    if (premiumQuotas.isEmpty())
-        productSearchViewModel.getPremiumModel().newPremiumQuota()
-
-    val isPremium = productSearchViewModel.isPremium(0)
+    val isPremium = productSearchViewModel.isPremium(premiumQuotas)
     if (networkModel.checkConnection(context)) {
       if (noQuota) {
         dailySearch.insertSearch()

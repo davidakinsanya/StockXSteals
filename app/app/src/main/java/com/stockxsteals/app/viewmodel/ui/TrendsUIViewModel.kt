@@ -53,14 +53,14 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
      if (trends.isEmpty()) {
        // val newTrends = service.getTrends("sneakers", "EUR")
        // val newTrendsJson = Klaxon().toJsonString(newTrends)
-       // getTrendsModel().setFirstTrend(getCurrentDate(), newTrendsJson)
+       //getTrendsModel().setFirstTrend(getCurrentDate(), "{}")
        println(1)
        // addTrend(newTrends)
      } else {
        if (fileIsOld(trends[0].timestamp)) {
          // val newTrends = service.getTrends("sneakers", "EUR")
          // val newTrendsJson = Klaxon().toJsonString(newTrends)
-         // getTrendsModel().updateTrends(getCurrentDate(), newTrendsJson, 0)
+         //getTrendsModel().updateTrends(getCurrentDate(), "{}", 0)
          println(2)
          // addTrend(newTrends)
        } else {

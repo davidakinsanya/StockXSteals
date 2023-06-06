@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
@@ -25,6 +27,15 @@ fun SetupScreen(navController: NavHostController) {
   val trendsModel: TrendsUIViewModel = getViewModel()
   val productSearchModel: ProductSearchViewModel = getViewModel()
 
+  val premiumQuotas = productSearchModel
+    .getPremiumModel()
+    .premiumQuotas
+    .collectAsState(initial = emptyList())
+    .value
+
+  LaunchedEffect(true) {
+    println(productSearchModel.isPremium(premiumQuotas))
+  }
 
   val navBackStackEntry by navController.currentBackStackEntryAsState()
   val currentDestination = navBackStackEntry?.destination

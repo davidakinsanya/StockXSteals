@@ -23,9 +23,9 @@ class PremiumViewModel (
      }
    }
 
-   suspend fun getIsPremium(id: Int): Int {
+   suspend fun getIsPremium(id: Long): Int {
      return withContext(Dispatchers.IO) {
-       premiumDataSource.getIsPremium(id.toLong())
+       premiumDataSource.getIsPremium(id)
      }
    }
 

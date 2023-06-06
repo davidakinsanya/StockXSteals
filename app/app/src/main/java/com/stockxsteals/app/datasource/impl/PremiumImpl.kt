@@ -18,7 +18,7 @@ class PremiumImpl(db: Database): PremiumDataSource {
 
   override suspend fun newPremiumQuota() {
     withContext(Dispatchers.IO) {
-      queries.newPremiumQuota(0)
+      queries.newPremiumQuota()
     }
   }
 
