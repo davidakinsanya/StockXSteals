@@ -18,9 +18,9 @@ class DailySearchHistoryViewModel (
 
   }
 
-   suspend fun deleteSearch(id: Long) {
+   suspend fun deleteSearch(stamp: String) {
     withContext(Dispatchers.IO) {
-      dailySearchHistorySource.deleteSearch(id)
+      dailySearchHistorySource.deleteSearch(stamp)
     }
   }
 

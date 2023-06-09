@@ -44,3 +44,7 @@ UPDATE
 SET
  timestamp = :timestamp
 WHERE id = :id;
+
+deleteRows:
+DELETE FROM DailySearchQuota
+WHERE id != :id;

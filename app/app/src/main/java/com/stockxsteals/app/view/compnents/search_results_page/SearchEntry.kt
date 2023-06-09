@@ -33,13 +33,17 @@ import com.stockxsteals.app.ui_coroutines.SearchEntryCoroutineDB
 import com.stockxsteals.app.ui_coroutines.SearchEntryCoroutineOnClick
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
+import db.entity.DailySearchQuota
+import db.entity.Premium
 
 @Composable
  fun SearchEntry(title: String,
                  result: List<String>,
                  productSearchViewModel: ProductSearchViewModel,
                  networkModel: NetworkViewModel,
-                 navController: NavHostController
+                 navController: NavHostController,
+                 searchQuota: DailySearchQuota,
+                 premiumQuota: Premium
 ) {
 
   val searchRoute = AppScreens.Search.route
@@ -96,11 +100,12 @@ import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 
       if (clicked.value)
         SearchEntryCoroutineOnClick(
-          productSearchViewModel = productSearchViewModel,
           networkModel = networkModel,
           context = context,
           dailySearch = dailySearch,
-          displayItem = displayItem
+          displayItem = displayItem,
+          searchQuota = searchQuota,
+          premiumQuota = premiumQuota
         )
 
       SearchEntryCoroutineDB(displayItem = displayItem,

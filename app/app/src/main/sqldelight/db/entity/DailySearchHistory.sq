@@ -16,7 +16,7 @@ SELECT * FROM DailySearchHistory;
 deleteSearch:
 DELETE FROM
 DailySearchHistory
-WHERE id = :id;
+WHERE timestamp = :timestamp;
 
 addSearch:
 INSERT INTO

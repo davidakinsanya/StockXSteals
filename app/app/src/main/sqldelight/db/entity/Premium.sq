@@ -19,3 +19,8 @@ UPDATE
  premium
 SET
  isPremium = :isPremium;
+
+ deleteRows:
+ DELETE FROM premium
+ WHERE
+ id != :id;

@@ -5,47 +5,34 @@ import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.utils.getCurrentDate
 import com.stockxsteals.app.viewmodel.db.DailySearchViewModel
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
+import db.entity.DailySearchQuota
+import db.entity.Premium
 
 @Composable
-fun SearchEntryCoroutineOnClick(productSearchViewModel: ProductSearchViewModel,
-                                networkModel: NetworkViewModel,
+fun SearchEntryCoroutineOnClick(networkModel: NetworkViewModel,
                                 context: Context,
                                 dailySearch: DailySearchViewModel,
                                 displayItem: MutableState<Boolean>,
+                                searchQuota: DailySearchQuota,
+                                premiumQuota: Premium
                                 ) {
 
-  val premiumQuotas = productSearchViewModel
-    .getPremiumModel()
-    .premiumQuotas
-    .collectAsState(initial = emptyList())
-    .value
-
-  val quotaList = productSearchViewModel
-    .getSearchModel()
-    .quota
-    .collectAsState(initial = emptyList())
-    .value
 
   LaunchedEffect(true) {
-    val isPremium = productSearchViewModel.isPremium(premiumQuotas)
-    productSearchViewModel.insertFirstSearch(quotaList)
-    println(isPremium)
-    val quota = quotaList[0]
 
     if (networkModel.checkConnection(context)) {
-      if (dailySearch.dbLogic(quota) == 1 || isPremium) {
+      if (dailySearch.dbLogic(searchQuota) == 1 || premiumQuota.isPremium.toInt() == 1) {
         displayItem.value = true
-        if (!isPremium) {
+        if (premiumQuota.isPremium.toInt() == 0) {
           Toast
             .makeText(
               context,
-              "${quota.search_limit - quota.search_number} free daily searches left.",
+              "${searchQuota.search_limit - searchQuota.search_number} free daily searches left.",
               Toast.LENGTH_LONG
             )
             .show()
@@ -54,6 +41,8 @@ fun SearchEntryCoroutineOnClick(productSearchViewModel: ProductSearchViewModel,
         Toast
           .makeText(context, "Please upgrade to L8test+.", Toast.LENGTH_LONG)
           .show()
+
+        println(dailySearch.dbLogic(searchQuota)) // returns -1
       }
     } else {
       networkModel.toastMessage(context)
@@ -102,8 +91,7 @@ fun DeleteSearchCoroutine(deleteSearch: MutableState<Boolean>,
                           productSearchViewModel: ProductSearchViewModel) {
   LaunchedEffect(deleteSearch.value) {
     if (deleteSearch.value) {
-      val search = productSearchViewModel.getHistoryModel().getSearchByStamp("0")
-      productSearchViewModel.getHistoryModel().deleteSearch(search.id)
+      productSearchViewModel.getHistoryModel().deleteSearch("0")
     }
   }
 }

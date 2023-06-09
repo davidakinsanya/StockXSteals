@@ -13,4 +13,6 @@ interface PremiumDataSource {
   suspend fun getIsPremium(id: Long): Int
 
   suspend fun setIsPremium(isPremium: Int)
+
+  suspend fun deleteRows(id: Long)
 }

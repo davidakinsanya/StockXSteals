@@ -33,6 +33,7 @@ class DailySearchImpl(db : Database): DailySearchDataSource {
   override suspend fun insertSearch(timestamp: String, search_number: Int) {
     withContext(Dispatchers.IO) {
         queries.insertSearch(timestamp, search_number.toLong())
+        deleteRows(1)
     }
   }
 
@@ -55,6 +56,12 @@ class DailySearchImpl(db : Database): DailySearchDataSource {
   override suspend fun updateTimeStamp(timestamp: String, id: Long) {
     withContext(Dispatchers.IO) {
       queries.updateTimeStamp(timestamp, id)
+    }
+  }
+
+  override suspend fun deleteRows(id: Long) {
+    return withContext(Dispatchers.IO) {
+      queries.deleteRows(id)
     }
   }
 }

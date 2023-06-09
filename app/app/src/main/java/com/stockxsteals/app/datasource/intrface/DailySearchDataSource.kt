@@ -21,4 +21,6 @@ interface DailySearchDataSource {
 
   suspend fun updateTimeStamp(timestamp: String, id: Long)
 
+  suspend fun deleteRows(id: Long)
+
 }

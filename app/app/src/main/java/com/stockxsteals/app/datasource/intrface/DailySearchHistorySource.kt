@@ -7,7 +7,7 @@ interface DailySearchHistorySource {
 
   fun getSearchHistory(): Flow<List<DailySearchHistory>>
 
-  suspend fun deleteSearch(id: Long)
+  suspend fun deleteSearch(stamp: String)
 
   suspend fun addSearch(timestamp: String,
                         country: String,

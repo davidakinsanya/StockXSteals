@@ -19,6 +19,7 @@ class PremiumImpl(db: Database): PremiumDataSource {
   override suspend fun newPremiumQuota() {
     withContext(Dispatchers.IO) {
       queries.newPremiumQuota(0)
+      deleteRows(1)
     }
   }
 
@@ -31,6 +32,12 @@ class PremiumImpl(db: Database): PremiumDataSource {
   override suspend fun setIsPremium(isPremium: Int) {
     withContext(Dispatchers.IO) {
       queries.setIsPremium(isPremium.toLong())
+    }
+  }
+
+  override suspend fun deleteRows(id: Long) {
+    withContext(Dispatchers.IO) {
+      queries.deleteRows(id)
     }
   }
 }

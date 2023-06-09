@@ -36,6 +36,25 @@ fun SneakerSplashScreen(navController: NavHostController,
 
   val deleteSearch = remember { mutableStateOf(false) }
 
+  var isPremium = false
+
+  val premiumQuota = productSearchViewModel
+    .getPremiumModel()
+    .premiumQuotas
+    .collectAsState(initial = emptyList())
+    .value
+
+  val searchQuotaList = productSearchViewModel
+    .getSearchModel()
+    .quota
+    .collectAsState(initial = emptyList())
+    .value
+
+  LaunchedEffect(true) {
+    isPremium = productSearchViewModel.isPremium(premiumQuota)
+    productSearchViewModel.insertFirstSearch(searchQuotaList)
+  }
+
   Scaffold {
     Column(
       modifier = Modifier
@@ -87,7 +106,9 @@ fun SneakerSplashScreen(navController: NavHostController,
                 result = map[it]!!,
                 productSearchViewModel = productSearchViewModel,
                 networkModel = networkModel,
-                navController = navController
+                navController = navController,
+                searchQuota = searchQuotaList[0],
+                premiumQuota = premiumQuota[0]
               )
             }
           }

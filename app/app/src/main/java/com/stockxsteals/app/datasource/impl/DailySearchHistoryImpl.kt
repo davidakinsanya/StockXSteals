@@ -16,9 +16,9 @@ class DailySearchHistoryImpl(db: Database): DailySearchHistorySource {
    return queries.getSearchHistory().asFlow().mapToList()
   }
 
-  override suspend fun deleteSearch(id: Long) {
+  override suspend fun deleteSearch(stamp: String) {
    return withContext(Dispatchers.IO) {
-     queries.deleteSearch(id)
+     queries.deleteSearch(stamp)
    }
   }
 

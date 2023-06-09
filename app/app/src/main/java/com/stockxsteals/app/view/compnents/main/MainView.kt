@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
@@ -27,6 +28,15 @@ fun SetupScreen(navController: NavHostController) {
 
   val navBackStackEntry by navController.currentBackStackEntryAsState()
   val currentDestination = navBackStackEntry?.destination
+
+  val sneakerScreen = currentDestination?.route != AppScreens.SneakerSearch.route ||
+                      currentDestination.route != AppScreens.Search.route
+
+  LaunchedEffect(sneakerScreen) {
+    if (sneakerScreen) {
+      productSearchModel.getHistoryModel().deleteSearch("0")
+    }
+  }
 
   uiModel.listOfScreens().forEach { _ ->
     val bool = currentDestination?.hierarchy?.any {
