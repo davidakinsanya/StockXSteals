@@ -11,30 +11,35 @@ import com.stockxsteals.app.utils.getCurrentDate
 import com.stockxsteals.app.viewmodel.db.DailySearchViewModel
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
-import db.entity.DailySearchQuota
 
 @Composable
 fun SearchEntryCoroutineOnClick(productSearchViewModel: ProductSearchViewModel,
                                 networkModel: NetworkViewModel,
                                 context: Context,
-                                noQuota: Boolean,
                                 dailySearch: DailySearchViewModel,
                                 displayItem: MutableState<Boolean>,
-                                quota: DailySearchQuota?,
                                 ) {
+
   val premiumQuotas = productSearchViewModel
     .getPremiumModel()
     .premiumQuotas
     .collectAsState(initial = emptyList())
     .value
 
+  val quotaList = productSearchViewModel
+    .getSearchModel()
+    .quota
+    .collectAsState(initial = emptyList())
+    .value
+
   LaunchedEffect(true) {
     val isPremium = productSearchViewModel.isPremium(premiumQuotas)
+    productSearchViewModel.insertFirstSearch(quotaList)
+    println(isPremium)
+    val quota = quotaList[0]
+
     if (networkModel.checkConnection(context)) {
-      if (noQuota) {
-        dailySearch.insertSearch()
-        displayItem.value = true
-      } else if (dailySearch.dbLogic(quota!!) == 1 || isPremium) {
+      if (dailySearch.dbLogic(quota) == 1 || isPremium) {
         displayItem.value = true
         if (!isPremium) {
           Toast

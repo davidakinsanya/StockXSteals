@@ -7,8 +7,10 @@ import com.stockxsteals.app.model.dto.*
 import com.stockxsteals.app.viewmodel.db.DailySearchHistoryViewModel
 import com.stockxsteals.app.viewmodel.db.DailySearchViewModel
 import com.stockxsteals.app.viewmodel.db.PremiumViewModel
+import db.entity.DailySearchQuota
 import db.entity.Premium
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -56,6 +58,14 @@ class ProductSearchViewModel(private val filterModel: FilterViewModel,
        return@withContext getPremiumModel().getIsPremium(premium[0].id) == 1
     }
     return false
+  }
+
+  suspend fun insertFirstSearch(quota: List<DailySearchQuota>) {
+    withContext(Dispatchers.IO) {
+      if(quota.isEmpty()) {
+        getSearchModel().insertSearch()
+      }
+    }
   }
 
   fun addProduct(slug: String, country: String, currency: String) {

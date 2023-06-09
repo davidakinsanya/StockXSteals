@@ -32,7 +32,7 @@ class DailySearchImpl(db : Database): DailySearchDataSource {
 
   override suspend fun insertSearch(timestamp: String, search_number: Int) {
     withContext(Dispatchers.IO) {
-      queries.insertSearch(timestamp, search_number.toLong())
+        queries.insertSearch(timestamp, search_number.toLong())
     }
   }
 
@@ -48,10 +48,8 @@ class DailySearchImpl(db : Database): DailySearchDataSource {
     }
   }
 
-  override suspend fun getQuota(): Flow<List<DailySearchQuota>> {
-    return withContext(Dispatchers.IO) {
-      queries.getQuota().asFlow().mapToList()
-    }
+  override fun getQuota(): Flow<List<DailySearchQuota>> {
+    return queries.getQuota().asFlow().mapToList()
   }
 
   override suspend fun updateTimeStamp(timestamp: String, id: Long) {

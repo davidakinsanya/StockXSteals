@@ -44,15 +44,7 @@ import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 
   val searchRoute = AppScreens.Search.route
   val context = LocalContext.current
-
   val dailySearch = productSearchViewModel.getSearchModel()
-  /*
-  val noQuota = dailySearch.quota.collectAsState(initial = emptyList()).value.isEmpty()
-  val quota = if
-          (!noQuota) dailySearch.quota.collectAsState(initial = emptyList()).value[0]
-  else
-    null
-   */
 
   val displayItem = remember { mutableStateOf(false) }
   val clicked = remember { mutableStateOf(false) }
@@ -68,7 +60,7 @@ import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
     Row(
       modifier = Modifier
         .fillMaxSize()
-        .clickable { displayItem.value = true },
+        .clickable { clicked.value = true },
       verticalAlignment = Alignment.CenterVertically,
       horizontalArrangement = Arrangement.SpaceAround
     ) {
@@ -102,19 +94,14 @@ import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
             .fillMaxHeight()
             .padding(16.dp))
 
-      /*
       if (clicked.value)
         SearchEntryCoroutineOnClick(
           productSearchViewModel = productSearchViewModel,
           networkModel = networkModel,
           context = context,
-          noQuota = noQuota,
           dailySearch = dailySearch,
-          displayItem = displayItem,
-          quota = quota
+          displayItem = displayItem
         )
-
-       */
 
       SearchEntryCoroutineDB(displayItem = displayItem,
                              productSearchViewModel = productSearchViewModel,

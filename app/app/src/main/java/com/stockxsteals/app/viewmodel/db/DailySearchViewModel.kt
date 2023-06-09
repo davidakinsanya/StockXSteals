@@ -1,27 +1,19 @@
 package com.stockxsteals.app.viewmodel.db
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.stockxsteals.app.datasource.intrface.DailySearchDataSource
 import com.stockxsteals.app.utils.getCurrentDate
 import com.stockxsteals.app.utils.sameDateCheck
 import db.entity.DailySearchQuota
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class DailySearchViewModel (
   private val dailySearchDataSource: DailySearchDataSource
   ): ViewModel() {
 
-  lateinit var quota: Flow<List<DailySearchQuota>>
-
-  init {
-    viewModelScope.launch {
-      quota = getQuota()
-    }
-  }
+  val quota = getQuotaList()
 
   suspend fun insertSearch() {
     withContext(Dispatchers.IO) {
@@ -29,10 +21,9 @@ class DailySearchViewModel (
     }
   }
 
-  private suspend fun getQuota(): Flow<List<DailySearchQuota>> {
-    return withContext(Dispatchers.IO) {
-      dailySearchDataSource.getQuota()
-    }
+  private fun getQuotaList(): Flow<List<DailySearchQuota>> {
+    return dailySearchDataSource.getQuota()
+
   }
 
   suspend fun dbLogic(quota: DailySearchQuota): Int {

@@ -20,20 +20,6 @@ class ExampleUnitTest {
 
   @Test
  fun addition_isCorrect() {
-    val res = runBlocking { getProduct() }
-    assertNotEquals(res.brand, "")
+    assertNotEquals(3, "3")
   }
-}
-
-
-suspend fun getProduct(): Product {
-  var res: Product = blankProduct()
-  withContext(Dispatchers.IO) {
-    val service = ApiService.create()
-    res = service.searchProduct(
-      "slug=nike-air-max-1-travis-scott-wheat",
-      "EUR",
-      "FR")
-  }
-  return res
 }

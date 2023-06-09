@@ -17,7 +17,7 @@ interface DailySearchDataSource {
 
   suspend fun updateSearchLimit(newNumber: Int, id: Long)
 
-  suspend fun getQuota(): Flow<List<DailySearchQuota>>
+  fun getQuota(): Flow<List<DailySearchQuota>>
 
   suspend fun updateTimeStamp(timestamp: String, id: Long)
 
