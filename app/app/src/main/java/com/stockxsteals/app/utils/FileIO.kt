@@ -13,7 +13,7 @@ fun getCurrentDate(): String {
 fun sameDateCheck(timestamp: String): Boolean {
   val stampDate = timestamp.split("T")[0].split("-")
   val currentDate = getCurrentDate().split("T")[0].split("-")
-  return currentDate.toString().equals(stampDate)
+  return currentDate.toString() == stampDate.toString()
 }
 
 fun fileIsOld(timestamp: String): Boolean {
