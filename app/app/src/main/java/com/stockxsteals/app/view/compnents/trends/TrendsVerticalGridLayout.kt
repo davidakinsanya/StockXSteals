@@ -36,10 +36,28 @@ import kotlin.random.Random
 fun TrendsLazyGrid(trends: List<Trend>,
                    trendsModel: TrendsUIViewModel,
                    productModel: ProductSearchViewModel,
-                   navController: NavHostController,
-                   searchQuota: DailySearchQuota,
-                   premiumQuota: Premium,
+                   navController: NavHostController
 ) {
+
+  var isPremium = false
+
+  val premiumQuota = productModel
+    .getPremiumModel()
+    .premiumQuotas
+    .collectAsState(initial = emptyList())
+    .value
+
+  val searchQuotaList = productModel
+    .getSearchModel()
+    .quota
+    .collectAsState(initial = emptyList())
+    .value
+
+  LaunchedEffect(true) {
+    isPremium = productModel.isPremium(premiumQuota)
+    productModel.insertFirstSearch(searchQuotaList)
+  }
+
 
   val items = (1..trends.size).map {
     GridItem(height = Random.nextInt(200, 300).dp,
@@ -70,8 +88,8 @@ fun TrendsLazyGrid(trends: List<Trend>,
                        trendsModel = trendsModel,
                        productModel = productModel,
                        navController = navController,
-                       searchQuota = searchQuota,
-                       premiumQuota = premiumQuota)
+                       searchQuota = searchQuotaList[0],
+                       premiumQuota = premiumQuota[0])
       }
     }
   }
