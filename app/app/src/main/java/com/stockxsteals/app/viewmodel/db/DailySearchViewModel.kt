@@ -31,7 +31,7 @@ class DailySearchViewModel (
 
     withContext(Dispatchers.IO) {
       result = if (sameDateCheck(quota.timestamp)) {
-        val newSearchNumber = if (quota.search_limit > quota.search_number)
+        val newSearchNumber = if (quota.search_limit >= quota.search_number)
           dailySearchDataSource.getSearchNumber(quota.id) + 1
         else null
 
