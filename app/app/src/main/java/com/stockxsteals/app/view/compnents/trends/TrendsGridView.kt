@@ -33,7 +33,31 @@ fun TrendsViewComponent(trendsModel: TrendsUIViewModel,
         .fillMaxHeight(.88f)
     ) {
 
-      TrendsLazyGrid(currentTrends, trendsModel, productModel, navController)
+      var isPremium = false
+
+      val premiumQuota = productModel
+        .getPremiumModel()
+        .premiumQuotas
+        .collectAsState(initial = emptyList())
+        .value
+
+      val searchQuotaList = productModel
+        .getSearchModel()
+        .quota
+        .collectAsState(initial = emptyList())
+        .value
+
+      LaunchedEffect(true) {
+        isPremium = productModel.isPremium(premiumQuota)
+        productModel.insertFirstSearch(searchQuotaList)
+      }
+
+      TrendsLazyGrid(trends = currentTrends,
+                     trendsModel = trendsModel,
+                     productModel =  productModel,
+                     navController = navController,
+                     searchQuota = searchQuotaList[0],
+                     premiumQuota = premiumQuota[0])
 
     }
   }

@@ -41,8 +41,6 @@ fun SearchEntryCoroutineOnClick(networkModel: NetworkViewModel,
         Toast
           .makeText(context, "Please upgrade to L8test+.", Toast.LENGTH_LONG)
           .show()
-
-        println(dailySearch.dbLogic(searchQuota)) // returns -1
       }
     } else {
       networkModel.toastMessage(context)

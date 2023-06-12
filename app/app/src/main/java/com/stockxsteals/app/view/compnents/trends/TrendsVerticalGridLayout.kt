@@ -27,14 +27,18 @@ import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.ui_coroutines.TrendCoroutineOnClick
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
+import db.entity.DailySearchQuota
+import db.entity.Premium
 import kotlin.random.Random
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TrendsLazyGrid(trends: List<Trend>,
-                  trendsModel: TrendsUIViewModel,
-                  productModel: ProductSearchViewModel,
-                  navController: NavHostController,
+                   trendsModel: TrendsUIViewModel,
+                   productModel: ProductSearchViewModel,
+                   navController: NavHostController,
+                   searchQuota: DailySearchQuota,
+                   premiumQuota: Premium,
 ) {
 
   val items = (1..trends.size).map {
@@ -61,7 +65,13 @@ fun TrendsLazyGrid(trends: List<Trend>,
 
     } else {
       itemsIndexed(trends) { num, trend ->
-        RandomColorBox(items[num], trend, trendsModel, productModel, navController)
+        RandomColorBox(item = items[num],
+                       trend = trend,
+                       trendsModel = trendsModel,
+                       productModel = productModel,
+                       navController = navController,
+                       searchQuota = searchQuota,
+                       premiumQuota = premiumQuota)
       }
     }
   }
@@ -82,11 +92,11 @@ fun RandomColorBox(item: GridItem,
                    trend: Trend,
                    trendsModel: TrendsUIViewModel,
                    productModel: ProductSearchViewModel,
-                   navController: NavHostController) {
+                   navController: NavHostController,
+                   searchQuota: DailySearchQuota,
+                   premiumQuota: Premium,) {
 
   val networkModel = trendsModel.getNetworkModel()
-  val noQuota = trendsModel.getSearchModel().quota.collectAsState(initial = emptyList()).value.isEmpty()
-  val quota = if (!noQuota) trendsModel.getSearchModel().quota.collectAsState(initial = emptyList()).value[0] else null
   val context = LocalContext.current
   val displayItem = remember { mutableStateOf(false) }
   val clicked = remember { mutableStateOf(false) }
@@ -152,9 +162,9 @@ fun RandomColorBox(item: GridItem,
         productModel = productModel,
         navController = navController,
         context = context,
-        noQuota = noQuota,
         trend = trend,
-        quota = quota,
+        searchQuota = searchQuota,
+        premiumQuota = premiumQuota,
         displayItem = displayItem
       )
     }

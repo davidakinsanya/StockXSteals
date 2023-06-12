@@ -11,6 +11,7 @@ import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 import db.entity.DailySearchQuota
+import db.entity.Premium
 
 @Composable
 fun TrendCoroutineOnClick(trendsModel: TrendsUIViewModel,
@@ -18,36 +19,16 @@ fun TrendCoroutineOnClick(trendsModel: TrendsUIViewModel,
                           productModel: ProductSearchViewModel,
                           navController: NavHostController,
                           context: Context,
-                          noQuota: Boolean,
                           trend: Trend,
-                          quota: DailySearchQuota?,
+                          searchQuota: DailySearchQuota,
+                          premiumQuota: Premium,
                           displayItem: MutableState<Boolean>
                           ) {
 
-  val premiumQuotas = productModel
-    .getPremiumModel()
-    .premiumQuotas
-    .collectAsState(initial = emptyList())
-    .value
 
   LaunchedEffect(key1 = true) {
-    val isPremium = productModel.isPremium(premiumQuotas)
     if (networkModel.checkConnection(context)) {
-      if (noQuota) {
-        trendsModel.getSearchModel().insertSearch()
-        trendsModel
-          .getHistoryModel()
-          .addSearch(
-            getCurrentDate(),
-            country = "TRENDS", currency = "TRENDS", sizeType = "TRENDS",
-            size = 0.0,
-            trend.image,
-            trend.name,
-            ""
-          )
-        displayItem.value = true
-
-      } else if (trendsModel.getSearchModel().dbLogic(quota!!) == 1 || isPremium) {
+      if (trendsModel.getSearchModel().dbLogic(searchQuota) == 1 || premiumQuota.isPremium.toInt() == 1) {
         trendsModel.getHistoryModel()
           .addSearch(
             getCurrentDate(),
@@ -57,16 +38,16 @@ fun TrendCoroutineOnClick(trendsModel: TrendsUIViewModel,
             trend.name,
             ""
           )
-        if (!isPremium) {
+
+        if (premiumQuota.isPremium.toInt() == 0) {
           Toast
             .makeText(
               context,
-              "${quota.search_limit - quota.search_number} free daily searches left.",
+              "${searchQuota.search_limit - searchQuota.search_number} free daily searches left.",
               Toast.LENGTH_LONG
             )
             .show()
         }
-
         displayItem.value = true
 
       } else {
