@@ -110,139 +110,156 @@ fun RoundTextField(navController: NavHostController,
                    focusRequester: FocusRequester,
                    keyboardController: SoftwareKeyboardController?) {
 
-  val navBackStackEntry by navController.currentBackStackEntryAsState()
-  val currentDestination = navBackStackEntry?.destination
-  val sneakersDestination = AppScreens.SneakerSearch.route
-  if (uiModel.resetTextField(currentDestination)) {
-    focusManager.clearFocus()
-    text.value = ""
-  }
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+    val sneakersDestination = AppScreens.SneakerSearch.route
+    if (uiModel.resetTextField(currentDestination)) {
+      focusManager.clearFocus()
+      text.value = ""
+    }
 
-  val presetModel = productSearchViewModel.getFilterModel().getPresetsModel()
-  val currentSearch = productSearchViewModel.getFilterModel().getCurrentSearch()
-  val allPresets = presetModel.allPreset.collectAsState(initial = emptyList()).value
-  val produceSearch = remember { mutableStateOf(false) }
-  val clicked = remember { mutableStateOf(false) }
+    val presetModel = productSearchViewModel.getFilterModel().getPresetsModel()
+    val currentSearch = productSearchViewModel.getFilterModel().getCurrentSearch()
+    val allPresets = presetModel.allPreset.collectAsState(initial = emptyList()).value
+    val produceSearch = remember { mutableStateOf(false) }
+    val clicked = remember { mutableStateOf(false) }
 
-  val mauve = Color(224, 176, 255)
-  val selectedIsSearch = uiModel.selectedIsSearch(selected)
-  val purpleSearchBar
-  = uiModel.purpleSearchBar(currentDestination)
 
-  val context = LocalContext.current
+    if (navController.previousBackStackEntry?.destination?.route != AppScreens.TopSearch.route) {
+      clicked.value = false
+      produceSearch.value = false
+    }
 
-  BasicTextField(
-    value = text.value,
-    maxLines = 1,
-    onValueChange = {
-      text.value = it
-      if (uiModel.selectedIsTrend(selected)) {
-        trendsModel.filterTrends(it)
-      }
-    },
-    enabled = true,
-    modifier = Modifier
-      .focusRequester(focusRequester)
-      .onFocusChanged {
-        if (it.isFocused) {
-          if (selectedIsSearch) {
-            keyboardController?.show()
-            navController.navigate(AppScreens.TopSearch.route)
-          } else if (navController.currentDestination?.route == AppScreens.TopSearch.route ||
-                     navController.currentDestination?.route == AppScreens.Trends.route) {
-            keyboardController?.show()
-          } else {
-            focusManager.clearFocus()
-          }
-        }
-      }
-      .onKeyEvent {
-        if (uiModel.textIsEmpty(text.value)) {
-          if (uiModel
-              .nextPressBackSpace(it)
-            &&
-            navController.currentDestination?.route == AppScreens.TopSearch.route
-          ) {
-            navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
-            focusManager.clearFocus()
-          } else if (uiModel.nextPressBackSpace(it)
-            &&
-            navController.currentDestination?.route == AppScreens.Trends.route) {
-            focusManager.clearFocus()
-          }
-        }
-        true
-      }
-      .height(35.dp)
-      .fillMaxWidth(.9f)
-      .border(
-        border = BorderStroke(
-          width = 1.5.dp,
-          color =
-          if (purpleSearchBar) mauve else Color.Red
-        ),
-        shape = RoundedCornerShape(50.dp)
-      ),
-    keyboardActions = KeyboardActions(),
-    keyboardOptions = KeyboardOptions()) {
 
-    val interactionSource = remember { MutableInteractionSource() }
-    TextFieldDefaults.TextFieldDecorationBox(
+    val mauve = Color(224, 176, 255)
+    val selectedIsSearch = uiModel.selectedIsSearch(selected)
+    val purpleSearchBar = uiModel.purpleSearchBar(currentDestination)
+
+    val context = LocalContext.current
+
+    BasicTextField(
       value = text.value,
-      innerTextField = it,
-      singleLine = true,
+      maxLines = 1,
+      onValueChange = {
+        text.value = it
+        if (uiModel.selectedIsTrend(selected)) {
+          trendsModel.filterTrends(it)
+        }
+      },
       enabled = true,
-      visualTransformation = VisualTransformation.None,
-      trailingIcon = {
-        IconButton(onClick = {
-          if (purpleSearchBar && !uiModel.selectedIsTrend(selected)) {
-            if (uiModel.selectedIsSearch(selected)) {
+      modifier = Modifier
+        .focusRequester(focusRequester)
+        .onFocusChanged {
+          if (it.isFocused) {
+            if (selectedIsSearch) {
+              keyboardController?.show()
               navController.navigate(AppScreens.TopSearch.route)
-            } else if (
-              productSearchViewModel.getFilterModel()
-                .searchCheck() && text.value.isNotEmpty()
+            } else if (navController.currentDestination?.route == AppScreens.TopSearch.route ||
+              navController.currentDestination?.route == AppScreens.Trends.route
+            ) {
+              keyboardController?.show()
+            } else {
+              focusManager.clearFocus()
+            }
+          }
+        }
+        .onKeyEvent {
+          if (uiModel.textIsEmpty(text.value)) {
+            if (uiModel
+                .nextPressBackSpace(it)
+              &&
+              navController.currentDestination?.route == AppScreens.TopSearch.route
+            ) {
+              if (navController.previousBackStackEntry?.destination?.route == sneakersDestination) {
+                navController.navigate(AppScreens.Search.route)
+                focusManager.clearFocus()
+              } else {
+                navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
+                focusManager.clearFocus()
+              }
+            } else if (uiModel.nextPressBackSpace(it)
+              &&
+              navController.currentDestination?.route == AppScreens.Trends.route
             ) {
               focusManager.clearFocus()
-              clicked.value = true
-            } else if (productSearchViewModel.getFilterModel()
-                .searchCheck() || text.value.isEmpty()
-            )
-              if (navController.currentDestination?.route == sneakersDestination) {
-                Toast.makeText(context, "Please select a sneaker.", Toast.LENGTH_SHORT).show()
-              } else if (!productSearchViewModel.getFilterModel().searchCheck()) {
-                Toast.makeText(context, "Please complete all filters.", Toast.LENGTH_SHORT).show()
-              } else {
-                Toast.makeText(context, "Please enter your sneaker.", Toast.LENGTH_SHORT).show()
-              }
+            }
           }
-        })
-        {
-          Icon(
-            imageVector = Icons.Filled.Search,
-            contentDescription = "Search Icon"
-          )
+          true
         }
-      },
-      placeholder = {
-        Text(
-          text = if (purpleSearchBar) {
-            "Enter Search ..."
-          } else "",
-          fontSize = 16.sp,
-        )
-      },
-      interactionSource = interactionSource,
-      // keep horizontal paddings but change the vertical
-      contentPadding = TextFieldDefaults.textFieldWithoutLabelPadding(
-        top = 0.dp, bottom = 0.dp
-      ),
-    )
+        .height(35.dp)
+        .fillMaxWidth(.9f)
+        .border(
+          border = BorderStroke(
+            width = 1.5.dp,
+            color =
+            if (purpleSearchBar) mauve else Color.Red
+          ),
+          shape = RoundedCornerShape(50.dp)
+        ),
+      keyboardActions = KeyboardActions(),
+      keyboardOptions = KeyboardOptions()) {
+
+      val interactionSource = remember { MutableInteractionSource() }
+      TextFieldDefaults.TextFieldDecorationBox(
+        value = text.value,
+        innerTextField = it,
+        singleLine = true,
+        enabled = true,
+        visualTransformation = VisualTransformation.None,
+        trailingIcon = {
+          IconButton(onClick = {
+            if (purpleSearchBar && !uiModel.selectedIsTrend(selected)) {
+              if (uiModel.selectedIsSearch(selected)) {
+                navController.navigate(AppScreens.TopSearch.route)
+              } else if (
+                productSearchViewModel.getFilterModel()
+                  .searchCheck() && text.value.isNotEmpty()
+              ) {
+                focusManager.clearFocus()
+                clicked.value = true
+              } else if (productSearchViewModel.getFilterModel()
+                  .searchCheck() || text.value.isEmpty()
+              )
+                if (navController.currentDestination?.route == sneakersDestination) {
+                  Toast.makeText(context, "Please select a sneaker.", Toast.LENGTH_SHORT).show()
+                } else if (!productSearchViewModel.getFilterModel().searchCheck()) {
+                  Toast.makeText(context, "Please complete all filters.", Toast.LENGTH_SHORT).show()
+                } else {
+                  Toast.makeText(context, "Please enter your sneaker.", Toast.LENGTH_SHORT).show()
+                }
+            }
+          })
+          {
+            Icon(
+              imageVector = Icons.Filled.Search,
+              contentDescription = "Search Icon"
+            )
+          }
+        },
+        placeholder = {
+          Text(
+            text = if (purpleSearchBar) {
+              "Enter Search ..."
+            } else "",
+            fontSize = 16.sp,
+          )
+        },
+        interactionSource = interactionSource,
+        // keep horizontal paddings but change the vertical
+        contentPadding = TextFieldDefaults.textFieldWithoutLabelPadding(
+          top = 0.dp, bottom = 0.dp
+        ),
+      )
 
       if (clicked.value)
-        SearchCoroutineOnClick(networkModel, context, presetModel,
-                               allPresets, currentSearch, produceSearch)
+        SearchCoroutineOnClick(
+          networkModel, context, presetModel,
+          allPresets, currentSearch, produceSearch
+        )
 
-      SearchComposableDB(produceSearch, productSearchViewModel,
-                         navController, sneakersDestination, text.value)
+      SearchComposableDB(
+        produceSearch, productSearchViewModel,
+        navController, sneakersDestination, text.value
+      )
     }
   }

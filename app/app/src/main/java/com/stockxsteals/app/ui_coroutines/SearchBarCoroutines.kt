@@ -39,6 +39,7 @@ fun SearchCoroutineOnClick(networkModel: NetworkViewModel,
         )
       }
       produceSearch.value = true
+      println("onClick() " + produceSearch.value)
     } else {
       networkModel.toastMessage(context)
     }

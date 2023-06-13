@@ -33,9 +33,7 @@ fun SneakerSplashScreen(navController: NavHostController,
   val focusManager = LocalFocusManager.current
   val searchRes = productSearchViewModel.getFilterModel().bootMap.collectAsState()
   val map = searchRes.value
-
   val deleteSearch = remember { mutableStateOf(false) }
-
   var isPremium = false
 
   val premiumQuota = productSearchViewModel
