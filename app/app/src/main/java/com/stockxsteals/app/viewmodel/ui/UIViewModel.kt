@@ -8,7 +8,6 @@ import androidx.compose.ui.input.key.key
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
-import com.stockxsteals.app.model.dto.Product
 import com.stockxsteals.app.navigation.AppScreens
 
 class UIViewModel: ViewModel() {
