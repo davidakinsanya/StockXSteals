@@ -70,7 +70,7 @@ class ProductSearchViewModel(private val filterModel: FilterViewModel,
   fun addProduct(slug: String, country: String, currency: String) {
      val service = ApiService.create()
 
-     viewModelScope.launch(Dispatchers.Default) { // to run code in Background Thread
+     viewModelScope.launch(Dispatchers.IO) { // to run code in Background Thread
        val result = service.searchProduct(slug, country, currency)
        _searchResult.emit(cleanUp(result))
      }

@@ -53,6 +53,11 @@ import db.entity.Premium
   val displayItem = remember { mutableStateOf(false) }
   val clicked = remember { mutableStateOf(false) }
 
+  if (navController.previousBackStackEntry?.destination?.route != AppScreens.SneakerSearch.route) {
+    clicked.value = false
+    displayItem.value = false
+  }
+
   Column(
     modifier = Modifier
       .fillMaxWidth()
@@ -64,7 +69,7 @@ import db.entity.Premium
     Row(
       modifier = Modifier
         .fillMaxSize()
-        .clickable { clicked.value = true },
+        .clickable { displayItem.value = true },
       verticalAlignment = Alignment.CenterVertically,
       horizontalArrangement = Arrangement.SpaceAround
     ) {

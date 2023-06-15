@@ -111,8 +111,10 @@ fun Pager(view: ProductView?, bool: Boolean) {
         .clip(RoundedCornerShape(10.dp))
         .background(color = Color(0xFFFFFFFF).copy(1f))
     ) {
-      if (bool) PagerTopRow(view!!.getConstant())
-      else SinglePagerComponent()
+      if (bool) {
+        PagerTopRow(view!!.getConstant())
+        AdditionalPagerData(page, view.listForPager())
+      } else SinglePagerComponent()
 
     }
   }

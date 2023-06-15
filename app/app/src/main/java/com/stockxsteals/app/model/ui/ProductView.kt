@@ -40,6 +40,10 @@ class ProductView(item: Any, navController: NavHostController) {
       )
 
       map["2"] = listOf(
+        product.traits
+      )
+
+      map["3"] = listOf(
         product.variants,
       )
 

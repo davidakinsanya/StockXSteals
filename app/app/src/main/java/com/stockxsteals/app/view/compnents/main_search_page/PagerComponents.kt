@@ -18,13 +18,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.stockxsteals.app.R
+import com.stockxsteals.app.model.dto.Traits
 
 @Composable
 fun PagerTopRow(constants: List<String>) {
   Column(
     modifier = Modifier
       .fillMaxWidth(1.0f)
-      .padding(0.dp)
       .height(140.dp)
       .clip(RoundedCornerShape(5.dp))
       .background(color = Color.White),
@@ -45,14 +45,13 @@ fun PagerTopRow(constants: List<String>) {
         )
         Text(
           text = constants[1],
-          fontSize = 8.sp,
+          fontSize = 12.sp,
           fontWeight = FontWeight.Medium,
           modifier = Modifier
             .width(145.dp)
             .height(20.dp)
         )
       }
-      Spacer(modifier = Modifier.width(30.dp))
       AsyncImage(
         model = constants[2],
         contentDescription = "Sneaker Image",
@@ -60,6 +59,53 @@ fun PagerTopRow(constants: List<String>) {
           .fillMaxWidth(),
         alignment = Alignment.Center
       )
+    }
+  }
+}
+
+@Composable
+fun AdditionalPagerData(count: Int, data: Map<String, List<Any>>) {
+  Column(modifier = Modifier
+    .padding(top = 150.dp)
+    .fillMaxSize()) {
+    if (count == 0) {
+      var traits: List<*>? = null
+      val emptyTraits = data["2"]?.get(0) as List<*>
+      var cwText: Traits? = null
+      var rdText: Traits? = null
+
+      if (emptyTraits.isNotEmpty()) {
+        traits = emptyTraits
+        cwText = traits[1] as Traits
+        rdText = traits[3] as Traits
+
+      }
+
+      if (emptyTraits.isNotEmpty()) {
+        Text(
+          text = "${cwText?.name}: ${cwText?.value}",
+          fontSize = 14.sp,
+          fontWeight = FontWeight.Light,
+          modifier = Modifier.padding(top = 25.dp, bottom = 10.dp, start = 30.dp, end = 10.dp)
+        )
+
+        Text(
+          text = "${rdText?.name}: ${rdText?.value}",
+          fontSize = 14.sp,
+          fontWeight = FontWeight.Light,
+          modifier = Modifier.padding(top = 25.dp, bottom = 10.dp, start = 30.dp, end = 30.dp)
+        )
+      }
+
+      Text(
+        text = data["1"]?.get(0).toString(),
+        fontSize = 14.sp,
+        fontWeight = FontWeight.Light,
+        modifier = Modifier.padding(30.dp)
+      )
+
+    } else {
+      // bids and sales data
     }
   }
 }
