@@ -47,6 +47,10 @@ class ProductView(item: Any, navController: NavHostController) {
         product.variants,
       )
 
+      map["4"] = listOf(
+        product.market
+      )
+
       map
     } else {
       map["1"] = listOf(

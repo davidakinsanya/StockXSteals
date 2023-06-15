@@ -18,7 +18,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.stockxsteals.app.R
+import com.stockxsteals.app.model.dto.Market
+import com.stockxsteals.app.model.dto.Sizes
 import com.stockxsteals.app.model.dto.Traits
+import com.stockxsteals.app.model.dto.Variants
 
 @Composable
 fun PagerTopRow(constants: List<String>) {
@@ -68,15 +71,22 @@ fun AdditionalPagerData(count: Int, data: Map<String, List<Any>>) {
   Column(modifier = Modifier
     .padding(top = 150.dp)
     .fillMaxSize()) {
-    if (count == 0) {
-      ProductFirstView(data = data)
-    } else {
-      // bids and sales data
+    when (count) {
+      0 -> {
+        DescriptionAndTraits(data = data)
+      }
+      1 -> {
+        DataBySize(data = data, "", size = 0.0)
+        // get size and type from sneaker search
+      }
+      else -> {
+        // overall market data
+      }
     }
   }
 }
 @Composable
-fun ProductFirstView(data: Map<String, List<Any>>) {
+fun DescriptionAndTraits(data: Map<String, List<Any>>) {
   val traits: List<*>?
   val emptyTraits = data["2"]?.get(0) as List<*>
   var cwText: Traits? = null
@@ -111,6 +121,49 @@ fun ProductFirstView(data: Map<String, List<Any>>) {
     fontWeight = FontWeight.Light,
     modifier = Modifier.padding(30.dp)
   )
+}
+
+@Composable
+fun DataBySize(data: Map<String, List<Any>>, type: String, size: Double) {
+  val variants = data["3"]
+  var market: Market
+
+  variants?.forEach { variant ->
+    variant as Variants
+    variant.sizes.forEach { vSize ->
+      if (vSize.size == size.toString() && vSize.type == type) market = variant.market
+    }
+  }
+
+  if (variants != null) {
+    Text(
+      text = "",
+      fontSize = 14.sp,
+      fontWeight = FontWeight.Light,
+      modifier = Modifier.padding(top = 25.dp, bottom = 5.dp, start = 30.dp, end = 10.dp)
+    )
+
+    Text(
+      text = "",
+      fontSize = 14.sp,
+      fontWeight = FontWeight.Light,
+      modifier = Modifier.padding(top = 25.dp, bottom = 5.dp, start = 30.dp, end = 10.dp)
+    )
+
+    Text(
+      text = "",
+      fontSize = 14.sp,
+      fontWeight = FontWeight.Light,
+      modifier = Modifier.padding(top = 25.dp, bottom = 5.dp, start = 30.dp, end = 10.dp)
+    )
+
+    Text(
+      text = "",
+      fontSize = 14.sp,
+      fontWeight = FontWeight.Light,
+      modifier = Modifier.padding(top = 25.dp, bottom = 5.dp, start = 30.dp, end = 10.dp)
+    )
+  }
 }
 
 @Composable
