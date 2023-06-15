@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.stockxsteals.app.R
 import com.stockxsteals.app.model.dto.Market
-import com.stockxsteals.app.model.dto.Sizes
 import com.stockxsteals.app.model.dto.Traits
 import com.stockxsteals.app.model.dto.Variants
 
