@@ -69,45 +69,48 @@ fun AdditionalPagerData(count: Int, data: Map<String, List<Any>>) {
     .padding(top = 150.dp)
     .fillMaxSize()) {
     if (count == 0) {
-      var traits: List<*>? = null
-      val emptyTraits = data["2"]?.get(0) as List<*>
-      var cwText: Traits? = null
-      var rdText: Traits? = null
-
-      if (emptyTraits.isNotEmpty()) {
-        traits = emptyTraits
-        cwText = traits[1] as Traits
-        rdText = traits[3] as Traits
-
-      }
-
-      if (emptyTraits.isNotEmpty()) {
-        Text(
-          text = "${cwText?.name}: ${cwText?.value}",
-          fontSize = 14.sp,
-          fontWeight = FontWeight.Light,
-          modifier = Modifier.padding(top = 25.dp, bottom = 10.dp, start = 30.dp, end = 10.dp)
-        )
-
-        Text(
-          text = "${rdText?.name}: ${rdText?.value}",
-          fontSize = 14.sp,
-          fontWeight = FontWeight.Light,
-          modifier = Modifier.padding(top = 25.dp, bottom = 10.dp, start = 30.dp, end = 30.dp)
-        )
-      }
-
-      Text(
-        text = data["1"]?.get(0).toString(),
-        fontSize = 14.sp,
-        fontWeight = FontWeight.Light,
-        modifier = Modifier.padding(30.dp)
-      )
-
+      ProductFirstView(data = data)
     } else {
       // bids and sales data
     }
   }
+}
+@Composable
+fun ProductFirstView(data: Map<String, List<Any>>) {
+  val traits: List<*>?
+  val emptyTraits = data["2"]?.get(0) as List<*>
+  var cwText: Traits? = null
+  var rdText: Traits? = null
+
+  if (emptyTraits.isNotEmpty()) {
+    traits = emptyTraits
+    cwText = traits[1] as Traits
+    rdText = traits[3] as Traits
+
+  }
+
+  if (emptyTraits.isNotEmpty()) {
+    Text(
+      text = "${cwText?.name}: ${cwText?.value}",
+      fontSize = 14.sp,
+      fontWeight = FontWeight.Light,
+      modifier = Modifier.padding(top = 25.dp, bottom = 10.dp, start = 30.dp, end = 10.dp)
+    )
+
+    Text(
+      text = "${rdText?.name}: ${rdText?.value}",
+      fontSize = 14.sp,
+      fontWeight = FontWeight.Light,
+      modifier = Modifier.padding(top = 25.dp, bottom = 10.dp, start = 30.dp, end = 30.dp)
+    )
+  }
+
+  Text(
+    text = data["1"]?.get(0).toString(),
+    fontSize = 14.sp,
+    fontWeight = FontWeight.Light,
+    modifier = Modifier.padding(30.dp)
+  )
 }
 
 @Composable
