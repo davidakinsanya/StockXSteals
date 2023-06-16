@@ -39,6 +39,19 @@ fun SneakerViewComponent(productModel: ProductSearchViewModel,
     }
   }
 
+  val prevPage: Int = when (navController.previousBackStackEntry?.destination?.route) {
+    "sneaker_search" -> {
+      1
+    }
+    /*
+    "trends" -> {
+      2
+    } */
+    else -> {
+      -1
+    }
+  }
+
   if (navController.currentDestination?.route != AppScreens.Search.route) {
     productModel.clearProduct()
     productModel.clearTrend()
@@ -62,9 +75,9 @@ fun SneakerViewComponent(productModel: ProductSearchViewModel,
         .fillMaxWidth()
     ) {
       if (uiModel.productIsNotNull(productResults)) {
-        Pager(productView, uiModel.productIsNotNull(productResults), productModel = productModel)
+        Pager(productView, uiModel.productIsNotNull(productResults), productModel = productModel, prevPage = prevPage)
       } else {
-        Pager(null, uiModel.productIsNotNull(productResults), productModel = productModel)
+        Pager(null, uiModel.productIsNotNull(productResults), productModel = productModel, prevPage = prevPage)
       }
     }
   }
@@ -72,15 +85,24 @@ fun SneakerViewComponent(productModel: ProductSearchViewModel,
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun Pager(view: ProductView?, bool: Boolean, productModel: ProductSearchViewModel) {
+fun Pager(view: ProductView?, bool: Boolean, productModel: ProductSearchViewModel, prevPage: Int) {
 
 
   val currentSearch = productModel.getFilterModel().getCurrentSearch()
 
   val pagerState = rememberPagerState()
-  val count = if (bool)
-    view!!.listForPager().keys.size
-  else 1
+  val count: Int = when(prevPage) {
+    1 -> {
+      3
+    }
+
+    2 -> {
+      1
+    }
+    else -> {
+      1
+    }
+  }
 
   HorizontalPager(pageCount = count) { page ->
     Card(

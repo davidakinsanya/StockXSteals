@@ -14,7 +14,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -83,7 +82,7 @@ fun AdditionalPagerData(count: Int,
         DataBySize(data = data, type = type, size = size)
       }
       else -> {
-        // overall market data
+        DataOverall(data = data)
       }
     }
   }
@@ -191,7 +190,7 @@ fun DataBySize(data: Map<String, List<Any>>, type: String, size: Double) {
     )
 
     Text(
-      text = "Last Sale (Past 3 Days): ${market!!.sales.last_sale_72h }",
+      text = "All Sales (Past 3 Days): ${market!!.sales.last_sale_72h }",
       fontSize = 16.sp,
       fontWeight = FontWeight.Light,
       modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
@@ -203,6 +202,72 @@ fun DataBySize(data: Map<String, List<Any>>, type: String, size: Double) {
       modifier = Modifier.padding(top = 35.dp, bottom = 5.dp, start = 25.dp, end = 10.dp))
 
   }
+}
+
+@Composable
+fun DataOverall(data: Map<String, List<Any>>) {
+  val market = data["4"]?.get(0) as Market?
+  if (market != null) {
+    
+    Text(text = "Market Data (Buyers)",
+      fontSize = 20.sp,
+      fontWeight = FontWeight.Normal,
+      modifier = Modifier.padding(top = 25.dp, bottom = 5.dp, start = 25.dp, end = 10.dp))
+
+    Text(
+      text = "Lowest Asking Price: ${market.bids.lowest_ask ?: "N/A"}",
+      fontSize = 16.sp,
+      fontWeight = FontWeight.Light,
+      modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
+    )
+
+    Text(
+      text = "Highest Bidding Price: ${market.bids.highest_bid ?: "N/A"}",
+      fontSize = 16.sp,
+      fontWeight = FontWeight.Light,
+      modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
+    )
+
+    Text(
+      text = "Number of Sellers: ${market.bids.num_asks ?: 0}",
+      fontSize = 16.sp,
+      fontWeight = FontWeight.Light,
+      modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
+    )
+
+    Text(
+      text = "Number of Bidders: ${market.bids.num_bids ?: 0}",
+      fontSize = 16.sp,
+      fontWeight = FontWeight.Light,
+      modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
+    )
+
+    Text(text = "Market Data (Sellers)",
+      fontSize = 20.sp,
+      fontWeight = FontWeight.Normal,
+      modifier = Modifier.padding(top = 25.dp, bottom = 5.dp, start = 25.dp, end = 10.dp))
+
+    Text(
+      text = "Last Sale: ${market.sales.last_sale }",
+      fontSize = 16.sp,
+      fontWeight = FontWeight.Light,
+      modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
+    )
+
+    Text(
+      text = "All Sales (Past 3 Days): ${market.sales.last_sale_72h }",
+      fontSize = 16.sp,
+      fontWeight = FontWeight.Light,
+      modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
+    )
+
+    Text("* Market data for all sizes.",
+      fontSize = 8.sp,
+      fontWeight = FontWeight.Normal,
+      modifier = Modifier.padding(top = 35.dp, bottom = 5.dp, start = 25.dp, end = 10.dp))
+    
+  }
+  
 }
 
 @Composable
