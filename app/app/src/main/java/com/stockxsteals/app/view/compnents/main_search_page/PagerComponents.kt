@@ -66,7 +66,11 @@ fun PagerTopRow(constants: List<String>) {
 }
 
 @Composable
-fun AdditionalPagerData(count: Int, data: Map<String, List<Any>>) {
+fun AdditionalPagerData(count: Int,
+                        data: Map<String, List<Any>>,
+                        type: String,
+                        size: Double) {
+
   Column(modifier = Modifier
     .padding(top = 150.dp)
     .fillMaxSize()) {
@@ -75,8 +79,7 @@ fun AdditionalPagerData(count: Int, data: Map<String, List<Any>>) {
         DescriptionAndTraits(data = data)
       }
       1 -> {
-        DataBySize(data = data, "", size = 0.0)
-        // get size and type from sneaker search
+        DataBySize(data = data, type = type, size = size)
       }
       else -> {
         // overall market data
@@ -130,7 +133,8 @@ fun DataBySize(data: Map<String, List<Any>>, type: String, size: Double) {
   variants?.forEach { variant ->
     variant as Variants
     variant.sizes.forEach { vSize ->
-      if (vSize.size == size.toString() && vSize.type == type) market = variant.market
+      if (vSize.size == size.toString() && vSize.type == type)
+        market = variant.market
     }
   }
 

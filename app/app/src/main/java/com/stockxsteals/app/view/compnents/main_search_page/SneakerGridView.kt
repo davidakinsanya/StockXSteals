@@ -62,9 +62,9 @@ fun SneakerViewComponent(productModel: ProductSearchViewModel,
         .fillMaxWidth()
     ) {
       if (uiModel.productIsNotNull(productResults)) {
-        Pager(productView, uiModel.productIsNotNull(productResults))
+        Pager(productView, uiModel.productIsNotNull(productResults), productModel = productModel)
       } else {
-        Pager(null, uiModel.productIsNotNull(productResults))
+        Pager(null, uiModel.productIsNotNull(productResults), productModel = productModel)
       }
     }
   }
@@ -72,7 +72,10 @@ fun SneakerViewComponent(productModel: ProductSearchViewModel,
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun Pager(view: ProductView?, bool: Boolean) {
+fun Pager(view: ProductView?, bool: Boolean, productModel: ProductSearchViewModel) {
+
+
+  val currentSearch = productModel.getFilterModel().getCurrentSearch()
 
   val pagerState = rememberPagerState()
   val count = if (bool)
@@ -113,8 +116,14 @@ fun Pager(view: ProductView?, bool: Boolean) {
     ) {
       if (bool) {
         PagerTopRow(view!!.getConstant())
-        AdditionalPagerData(page, view.listForPager())
-      } else SinglePagerComponent()
+        AdditionalPagerData(
+          page,
+          view.listForPager(),
+          currentSearch.sizeType,
+          currentSearch.size)
+      }
+      else
+        SinglePagerComponent()
 
     }
   }

@@ -99,15 +99,16 @@ fun SneakerSplashScreen(navController: NavHostController,
             AlternativeEntry()
           } else {
             map.keys.forEach {
-              SearchEntry(
-                title = it,
-                result = map[it]!!,
-                productSearchViewModel = productSearchViewModel,
-                networkModel = networkModel,
-                navController = navController,
-                searchQuota = searchQuotaList[0],
-                premiumQuota = premiumQuota[0]
-              )
+              if (searchQuotaList.isNotEmpty())
+                SearchEntry(
+                  title = it,
+                  result = map[it]!!,
+                  productSearchViewModel = productSearchViewModel,
+                  networkModel = networkModel,
+                  navController = navController,
+                  searchQuota = searchQuotaList[0],
+                  premiumQuota = premiumQuota[0]
+                )
             }
           }
           DeleteSearchCoroutine(deleteSearch = deleteSearch,
