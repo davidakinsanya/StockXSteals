@@ -28,7 +28,7 @@ interface DailySearchHistorySource {
                            json: String,
                            id: Long)
 
-  suspend fun getSearchByStamp(stamp: String): DailySearchHistory
+  suspend fun getSearchByStamp(stamp: String): DailySearchHistory?
 
   suspend fun clearSearches()
 }

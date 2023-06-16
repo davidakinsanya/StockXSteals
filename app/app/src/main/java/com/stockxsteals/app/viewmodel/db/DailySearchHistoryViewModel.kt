@@ -76,7 +76,7 @@ class DailySearchHistoryViewModel (
     }
   }
 
-  suspend fun getSearchByStamp(stamp: String): DailySearchHistory {
+  suspend fun getSearchByStamp(stamp: String): DailySearchHistory? {
     return withContext(Dispatchers.IO) {
       dailySearchHistorySource.getSearchByStamp(stamp)
     }

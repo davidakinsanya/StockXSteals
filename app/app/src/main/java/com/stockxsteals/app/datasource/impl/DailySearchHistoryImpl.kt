@@ -66,9 +66,13 @@ class DailySearchHistoryImpl(db: Database): DailySearchHistorySource {
     }
   }
 
-  override suspend fun getSearchByStamp(stamp: String): DailySearchHistory {
+  override suspend fun getSearchByStamp(stamp: String): DailySearchHistory? {
     return withContext(Dispatchers.IO) {
-      queries.getSearchByStamp(stamp).executeAsOne()
+      try {
+        queries.getSearchByStamp(stamp).executeAsOne()
+      } catch (e: Exception) {
+        null
+      }
     }
   }
 

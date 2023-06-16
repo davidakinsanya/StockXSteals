@@ -51,6 +51,8 @@ fun SneakerSplashScreen(navController: NavHostController,
   LaunchedEffect(true) {
     isPremium = productSearchViewModel.isPremium(premiumQuota)
     productSearchViewModel.insertFirstSearch(searchQuotaList)
+    if (productSearchViewModel.getHistoryModel().getSearchByStamp("0") == null)
+      navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
   }
 
   Scaffold {
