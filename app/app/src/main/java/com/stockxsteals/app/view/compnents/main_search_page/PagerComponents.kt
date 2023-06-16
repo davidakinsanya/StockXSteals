@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -106,14 +107,14 @@ fun DescriptionAndTraits(data: Map<String, List<Any>>) {
       text = "${cwText?.name}: ${cwText?.value}",
       fontSize = 14.sp,
       fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(top = 25.dp, bottom = 10.dp, start = 30.dp, end = 10.dp)
+      modifier = Modifier.padding(top = 25.dp, bottom = 10.dp, start = 25.dp, end = 10.dp)
     )
 
     Text(
       text = "${rdText?.name}: ${rdText?.value}",
       fontSize = 14.sp,
       fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(top = 25.dp, bottom = 10.dp, start = 30.dp, end = 30.dp)
+      modifier = Modifier.padding(top = 25.dp, bottom = 10.dp, start = 25.dp, end = 30.dp)
     )
   }
 
@@ -121,51 +122,86 @@ fun DescriptionAndTraits(data: Map<String, List<Any>>) {
     text = data["1"]?.get(0).toString(),
     fontSize = 14.sp,
     fontWeight = FontWeight.Light,
-    modifier = Modifier.padding(30.dp)
+    modifier = Modifier.padding(25.dp)
   )
 }
 
 @Composable
 fun DataBySize(data: Map<String, List<Any>>, type: String, size: Double) {
-  val variants = data["3"]
-  var market: Market
+  val variants = data["3"]?.get(0) as List<*>
+  var market: Market? = null
 
-  variants?.forEach { variant ->
+  variants.forEach { variant ->
     variant as Variants
     variant.sizes.forEach { vSize ->
-      if (vSize.size == size.toString() && vSize.type == type)
+
+      if (vSize.size.contains(size.toString().replace(".0", ""))
+        && vSize.type ==
+        type.replace("_", " ").lowercase())
+
         market = variant.market
     }
   }
 
-  if (variants != null) {
+  if (market != null) {
+
+    Text(text = "Market Data (Buyers)",
+      fontSize = 20.sp,
+      fontWeight = FontWeight.Normal,
+      modifier = Modifier.padding(top = 25.dp, bottom = 5.dp, start = 25.dp, end = 10.dp))
+
     Text(
-      text = "",
-      fontSize = 14.sp,
+      text = "Lowest Asking Price: ${ if (market!!.bids.lowest_ask == null) "N/A" else market!!.bids.lowest_ask }",
+      fontSize = 16.sp,
       fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(top = 25.dp, bottom = 5.dp, start = 30.dp, end = 10.dp)
+      modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
     )
 
     Text(
-      text = "",
-      fontSize = 14.sp,
+      text = "Highest Bidding Price: ${ if (market!!.bids.highest_bid == null) "N/A" else market!!.bids.highest_bid }",
+      fontSize = 16.sp,
       fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(top = 25.dp, bottom = 5.dp, start = 30.dp, end = 10.dp)
+      modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
     )
 
     Text(
-      text = "",
-      fontSize = 14.sp,
+      text = "Number of Sellers: ${ if (market!!.bids.num_asks == null) 0 else market!!.bids.num_asks }",
+      fontSize = 16.sp,
       fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(top = 25.dp, bottom = 5.dp, start = 30.dp, end = 10.dp)
+      modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
     )
 
     Text(
-      text = "",
-      fontSize = 14.sp,
+      text = "Number of Bidders: ${ if (market!!.bids.num_bids == null) 0 else market!!.bids.num_bids }",
+      fontSize = 16.sp,
       fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(top = 25.dp, bottom = 5.dp, start = 30.dp, end = 10.dp)
+      modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
     )
+
+    Text(text = "Market Data (Sellers)",
+      fontSize = 20.sp,
+      fontWeight = FontWeight.Normal,
+      modifier = Modifier.padding(top = 25.dp, bottom = 5.dp, start = 25.dp, end = 10.dp))
+
+    Text(
+      text = "Last Sale: ${market!!.sales.last_sale }",
+      fontSize = 16.sp,
+      fontWeight = FontWeight.Light,
+      modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
+    )
+
+    Text(
+      text = "Last Sale (Past 3 Days): ${market!!.sales.last_sale_72h }",
+      fontSize = 16.sp,
+      fontWeight = FontWeight.Light,
+      modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
+    )
+
+    Text("* Market data for ${type.replace("_", " ")} Size ${size.toString().replace(".0", "")} only.",
+      fontSize = 8.sp,
+      fontWeight = FontWeight.Normal,
+      modifier = Modifier.padding(top = 35.dp, bottom = 5.dp, start = 25.dp, end = 10.dp))
+
   }
 }
 
