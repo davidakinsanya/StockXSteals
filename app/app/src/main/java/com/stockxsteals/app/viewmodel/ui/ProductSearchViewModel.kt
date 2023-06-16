@@ -96,6 +96,8 @@ class ProductSearchViewModel(private val filterModel: FilterViewModel,
 
   private fun cleanUp(product: Product): Product {
     product.description = product.description.replace("\n<br>\n<br>\n", "\n")
+    product.description = product.description.replace("The", "\nThe")
+
     return product
   }
 }
