@@ -125,7 +125,7 @@ fun RoundTextField(navController: NavHostController,
     val clicked = remember { mutableStateOf(false) }
 
 
-    if (navController.previousBackStackEntry?.destination?.route != AppScreens.TopSearch.route) {
+    if (navController.previousBackStackEntry?.destination?.route == AppScreens.SneakerSearch.route ) {
       clicked.value = false
       produceSearch.value = false
     }
@@ -215,8 +215,8 @@ fun RoundTextField(navController: NavHostController,
                 productSearchViewModel.getFilterModel()
                   .searchCheck() && text.value.isNotEmpty()
               ) {
-                focusManager.clearFocus()
                 clicked.value = true
+                focusManager.clearFocus()
               } else if (productSearchViewModel.getFilterModel()
                   .searchCheck() || text.value.isEmpty()
               )

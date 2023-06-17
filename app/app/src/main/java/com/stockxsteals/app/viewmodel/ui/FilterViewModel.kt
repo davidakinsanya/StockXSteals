@@ -29,6 +29,10 @@ class FilterViewModel(private val presetModel: FilterPresetsViewModel)
             "Size: ${searchWithFilters.size}"
   }
 
+  fun clearFilterVariables() {
+    searchWithFilters = SearchWithFilters("", "", "", "", 0.0)
+  }
+
   fun getPresetsModel(): FilterPresetsViewModel {
     return presetModel
   }

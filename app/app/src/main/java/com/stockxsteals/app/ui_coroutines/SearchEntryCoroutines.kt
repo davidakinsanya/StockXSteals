@@ -24,7 +24,6 @@ fun SearchEntryCoroutineOnClick(networkModel: NetworkViewModel,
 
 
   LaunchedEffect(true) {
-
     if (networkModel.checkConnection(context)) {
       if (dailySearch.dbLogic(searchQuota) == 1 || premiumQuota.isPremium.toInt() == 1) {
         displayItem.value = true
@@ -91,6 +90,7 @@ fun DeleteSearchCoroutine(deleteSearch: MutableState<Boolean>,
   LaunchedEffect(deleteSearch.value) {
     if (deleteSearch.value) {
       productSearchViewModel.getHistoryModel().deleteSearch("0")
+      productSearchViewModel.getFilterModel().clearFilterVariables()
     }
   }
 }
