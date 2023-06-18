@@ -71,7 +71,7 @@ import db.entity.Premium
         .fillMaxSize()
         .clickable { displayItem.value = true },
       verticalAlignment = Alignment.CenterVertically,
-      horizontalArrangement = Arrangement.SpaceAround
+      horizontalArrangement = Arrangement.SpaceBetween
     ) {
       Text(text = title,
         fontSize = 15.sp,
@@ -133,7 +133,9 @@ fun AlternativeEntry() {
         .clip(RoundedCornerShape(5.dp))
         .background(color = Color.White)
     ) {
-      Row(modifier = Modifier.padding(20.dp),
+      Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(20.dp),
         horizontalArrangement = Arrangement.SpaceBetween) {
         Column() {
           Box(

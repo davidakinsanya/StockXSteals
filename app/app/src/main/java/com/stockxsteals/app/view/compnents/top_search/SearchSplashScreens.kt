@@ -62,20 +62,22 @@ fun SearchScreen(navController: NavHostController,
       val selected = remember { mutableStateOf("") }
       Row(
         modifier = Modifier
-          .fillMaxWidth()
+          .fillMaxWidth(0.9f)
           .height(30.dp)
-          .padding(start = 15.dp, end = 10.dp)
+          .padding(start = 15.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
       ) {
-
-        productSearchViewModel.getUIModel().listOfChips().forEach { it ->
-          FilterButtons(button = it,
-            selected = selected.value,
-            uiModel = productSearchViewModel.getUIModel(),
-            filterSelect = filterSelect,
-            onSelected = { selected.value = it })
+        Row {
+          productSearchViewModel.getUIModel().listOfChips().forEach { it ->
+            FilterButtons(button = it,
+              selected = selected.value,
+              uiModel = productSearchViewModel.getUIModel(),
+              filterSelect = filterSelect,
+              onSelected = { selected.value = it })
+          }
         }
         SearchPageButtons(navController = navController,
-                          uiModel = productSearchViewModel.getUIModel())
+                          productSearchViewModel = productSearchViewModel)
       }
     }
 
@@ -94,8 +96,7 @@ fun SearchScreen(navController: NavHostController,
           .height(50.dp)
       ) {
         SwitchFilters(
-          filterModel = productSearchViewModel.getFilterModel(),
-          uiModel = productSearchViewModel.getUIModel(),
+          productSearchViewModel = productSearchViewModel,
           selected = filterSelect.value,
           text = remember { mutableStateOf("") },
           progressCount = progressCount,
@@ -122,13 +123,15 @@ fun SearchScreen(navController: NavHostController,
 }
 
 @Composable
-fun SearchPageButtons(navController: NavHostController, uiModel: UIViewModel) {
+fun SearchPageButtons(navController: NavHostController, productSearchViewModel: ProductSearchViewModel) {
+  val uiModel = productSearchViewModel.getUIModel()
   val searchDestination = AppScreens.Search.route
   val focusManager = LocalFocusManager.current
 
   Row(modifier = Modifier.padding(start = 30.dp)) {
     IconButton(
       onClick = {
+        productSearchViewModel.clearProduct()
         if (uiModel.previousScreenSneaker(navController)) {
           navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
         } else {

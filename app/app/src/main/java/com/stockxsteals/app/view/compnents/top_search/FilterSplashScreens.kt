@@ -11,18 +11,21 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import com.stockxsteals.app.viewmodel.ui.FilterViewModel
+import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun SwitchFilters(filterModel: FilterViewModel,
-                  uiModel: UIViewModel,
+fun SwitchFilters(productSearchViewModel: ProductSearchViewModel,
                   selected: String,
                   text: MutableState<String>,
                   progressCount: MutableState<Int>,
                   focusManager: FocusManager,
                   focusRequester: FocusRequester,
                   keyboardController: SoftwareKeyboardController?) {
+
+  val filterModel = productSearchViewModel.getFilterModel()
+  val uiModel = productSearchViewModel.getUIModel()
 
   when(selected) {
     "Country" -> {

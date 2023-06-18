@@ -29,7 +29,7 @@ fun TrendsViewComponent(trendsModel: TrendsUIViewModel,
   ) {
     Column(
       modifier = Modifier
-        .padding(top = 30.dp)
+        .padding(top = 30.dp) // 5" or smaller add bottom padding (bottom = 30.dp)
         .fillMaxHeight(.88f)
     ) {
 
