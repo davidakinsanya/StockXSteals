@@ -16,7 +16,7 @@ fun NavGraph(navController: NavHostController,
              networkModel: NetworkViewModel
 ) {
   NavHost(navController = navController,
-          startDestination = "trends_route",
+          startDestination = "trends_route", // TODO: Change to "login_route"
           route = "root_route") {
 
     loginGraph(navController, networkModel, trendsModel)

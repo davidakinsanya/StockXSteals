@@ -183,6 +183,7 @@ fun RoundTextField(navController: NavHostController,
             ) {
               focusManager.clearFocus()
             }
+            productSearchViewModel.clearProduct()
           }
           true
         }

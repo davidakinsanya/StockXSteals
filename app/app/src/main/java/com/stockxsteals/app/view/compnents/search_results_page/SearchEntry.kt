@@ -68,21 +68,25 @@ import db.entity.Premium
   ) {
     Row(
       modifier = Modifier
-        .fillMaxSize()
-        .clickable { displayItem.value = true },
-      verticalAlignment = Alignment.CenterVertically,
-      horizontalArrangement = Arrangement.SpaceBetween
+        .fillMaxWidth(),
+        // .clickable { displayItem.value = true },
+      horizontalArrangement = Arrangement.SpaceBetween,
+      verticalAlignment = Alignment.CenterVertically
     ) {
-      Text(text = title,
+      // TODO: Adjust text size for different screen sizes.
+
+
+      Text(
+        text = title,
         fontSize = 15.sp,
         textAlign = TextAlign.Left,
         modifier = Modifier
           .width(200.dp)
-          .padding(16.dp))
+          .padding(16.dp)
+      )
 
 
-      val placeholder =  result[1].contains("Placeholder")
-
+      val placeholder = result[1].contains("Placeholder")
       if (!placeholder)
         AsyncImage(
           model = ImageRequest.Builder(LocalContext.current)
@@ -91,36 +95,38 @@ import db.entity.Premium
             .build(),
           contentDescription = title,
           modifier = Modifier
-            .fillMaxHeight()
-            .padding(16.dp)
-            .fillMaxWidth(0.7f),
-        placeholder = painterResource(R.drawable.stockxsteals))
+            .fillMaxSize()
+            .padding(16.dp),
+          placeholder = painterResource(R.drawable.stockxsteals)
+        )
       else
-        Image(painter = painterResource(R.drawable.stockxsteals),
+        Image(
+          painter = painterResource(R.drawable.stockxsteals),
           contentDescription = "Actual Placeholder",
           modifier = Modifier
-            .fillMaxWidth(.8f)
-            .fillMaxHeight()
-            .padding(16.dp))
-
-      if (clicked.value)
-        SearchEntryCoroutineOnClick(
-          networkModel = networkModel,
-          context = context,
-          dailySearch = dailySearch,
-          displayItem = displayItem,
-          searchQuota = searchQuota,
-          premiumQuota = premiumQuota
+            .size(150.dp)
+            .padding(16.dp)
         )
+    }
 
-      SearchEntryCoroutineDB(displayItem = displayItem,
-                             productSearchViewModel = productSearchViewModel,
-                             result = result,
-                             navController = navController,
-                             searchRoute = searchRoute)
+
+    if (clicked.value)
+      SearchEntryCoroutineOnClick(
+        networkModel = networkModel,
+        context = context,
+        dailySearch = dailySearch,
+        displayItem = displayItem,
+        searchQuota = searchQuota,
+        premiumQuota = premiumQuota
+      )
+
+    SearchEntryCoroutineDB(displayItem = displayItem,
+                           productSearchViewModel = productSearchViewModel,
+                           result = result,
+                           navController = navController,
+                           searchRoute = searchRoute)
     }
   }
-}
 
 @Composable
 fun AlternativeEntry() {
@@ -137,6 +143,8 @@ fun AlternativeEntry() {
         .fillMaxWidth()
         .padding(20.dp),
         horizontalArrangement = Arrangement.SpaceBetween) {
+        // TODO: Adjust box lengths for different screen sizes.
+
         Column() {
           Box(
             modifier = Modifier

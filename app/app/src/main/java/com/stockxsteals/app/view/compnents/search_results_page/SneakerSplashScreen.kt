@@ -58,16 +58,16 @@ fun SneakerSplashScreen(navController: NavHostController,
   Scaffold {
     Column(
       modifier = Modifier
+        .fillMaxSize()
         .background(color = Color(250, 240, 250))
         .padding(top = 30.dp)
-        .fillMaxSize()
     ) {
       Row(modifier =
       Modifier
         .fillMaxWidth()
         .height(50.dp)
-        .padding(),
-        horizontalArrangement = Arrangement.SpaceAround,
+        .padding(start = 30.dp, end = 30.dp), // TODO: for bigger screen change the end padding (75.dp)
+        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically) {
 
         Text(

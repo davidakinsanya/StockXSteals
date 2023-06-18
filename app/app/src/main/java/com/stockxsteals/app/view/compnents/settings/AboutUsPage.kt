@@ -21,7 +21,10 @@ fun AboutUs() {
   LazyColumn() {
     item {
       TopRow()
-      DisplayText()
+      Column(modifier = Modifier.fillMaxWidth(),
+             horizontalAlignment = Alignment.CenterHorizontally) {
+        DisplayText()
+      }
     }
   }
 }
