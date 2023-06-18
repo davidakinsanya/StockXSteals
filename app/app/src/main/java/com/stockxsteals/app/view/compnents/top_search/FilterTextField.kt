@@ -279,7 +279,7 @@ fun SecondaryFilterTextField(model: FilterViewModel,
           } else {
             placeholder.value
           },
-          fontSize = 14.sp,
+          fontSize = 14.sp, // TODO: Adjust font for smaller screen sizes.
         )
       },
 

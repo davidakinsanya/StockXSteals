@@ -66,10 +66,10 @@ fun SneakerSplashScreen(navController: NavHostController,
       Modifier
         .fillMaxWidth()
         .height(50.dp)
-        .padding(start = 30.dp, end = 30.dp), // TODO: for bigger screen change the end padding (75.dp)
+        .padding(start = 30.dp, end = 30.dp), // TODO: for bigger screen change the end padding (75.dp).
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically) {
-
+        // TODO: Change "Sneakers" font for smaller screen sizes.
         Text(
           text = "Sneakers",
           fontWeight = FontWeight.ExtraBold,

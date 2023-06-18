@@ -68,20 +68,18 @@ import db.entity.Premium
   ) {
     Row(
       modifier = Modifier
-        .fillMaxWidth(),
-        // .clickable { displayItem.value = true },
+        .fillMaxWidth()
+        .clickable { displayItem.value = true },
       horizontalArrangement = Arrangement.SpaceBetween,
       verticalAlignment = Alignment.CenterVertically
     ) {
-      // TODO: Adjust text size for different screen sizes.
-
 
       Text(
         text = title,
         fontSize = 15.sp,
         textAlign = TextAlign.Left,
         modifier = Modifier
-          .width(200.dp)
+          .width(200.dp) // TODO: Change text width for smaller devices.
           .padding(16.dp)
       )
 
@@ -143,7 +141,7 @@ fun AlternativeEntry() {
         .fillMaxWidth()
         .padding(20.dp),
         horizontalArrangement = Arrangement.SpaceBetween) {
-        // TODO: Adjust box lengths for different screen sizes.
+        // TODO: Adjust box lengths for DIFFERENT screen sizes.
 
         Column() {
           Box(

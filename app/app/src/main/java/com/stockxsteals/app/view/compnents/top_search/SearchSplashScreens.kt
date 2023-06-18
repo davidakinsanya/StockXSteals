@@ -78,6 +78,7 @@ fun SearchScreen(navController: NavHostController,
         }
         SearchPageButtons(navController = navController,
                           productSearchViewModel = productSearchViewModel)
+                          // TODO: Bring back arrow back for smaller screens
       }
     }
 
@@ -213,10 +214,10 @@ fun DisplayPreset(preset: FilterPreset,
     }
     Row (modifier = Modifier
       .padding(start = 10.dp)
-      .fillMaxWidth(0.8f),
+      .fillMaxWidth(0.75f),
          horizontalArrangement = Arrangement.SpaceBetween,
          verticalAlignment = Alignment.CenterVertically) {
-
+      Spacer(Modifier.padding(start = 5.dp)) 
       Text("'${preset.country}'", color = BLUE, fontWeight = FontWeight.Bold)
       Text("'${preset.currency}'", color = BLUE, fontWeight = FontWeight.Bold)
       Text("'${preset.sizeType}'", color = BLUE, fontWeight = FontWeight.Bold)
@@ -234,7 +235,7 @@ fun DisplayPreset(preset: FilterPreset,
       }) {
       Icon(
         imageVector = Icons.Filled.Check,
-        contentDescription = "Check Icon",
+        contentDescription = "Check Icon"
       )
     }
   }
