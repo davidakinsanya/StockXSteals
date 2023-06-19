@@ -10,6 +10,7 @@ import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.unit.dp
+import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.FilterViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
@@ -17,6 +18,7 @@ import com.stockxsteals.app.viewmodel.ui.UIViewModel
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SwitchFilters(productSearchViewModel: ProductSearchViewModel,
+                  windowSize: WindowSize,
                   selected: String,
                   text: MutableState<String>,
                   progressCount: MutableState<Int>,
@@ -32,6 +34,7 @@ fun SwitchFilters(productSearchViewModel: ProductSearchViewModel,
       FilterByCountry(
         model = filterModel,
         uiModel = uiModel,
+        windowSize = windowSize,
         selected = selected,
         text = text,
         progressCount = progressCount,
@@ -44,6 +47,7 @@ fun SwitchFilters(productSearchViewModel: ProductSearchViewModel,
       FilterByCurrency(
         model = filterModel,
         uiModel = uiModel,
+        windowSize = windowSize,
         selected = selected,
         text = text,
         progressCount = progressCount,
@@ -56,6 +60,7 @@ fun SwitchFilters(productSearchViewModel: ProductSearchViewModel,
       FilterBySize(
         model = filterModel,
         uiModel = uiModel,
+        windowSize = windowSize,
         selected = selected,
         text = text,
         progressCount = progressCount,
@@ -71,6 +76,7 @@ fun SwitchFilters(productSearchViewModel: ProductSearchViewModel,
 @Composable
 fun FilterByCountry(model: FilterViewModel,
                     uiModel: UIViewModel,
+                    windowSize: WindowSize,
                     selected: String,
                     text: MutableState<String>,
                     progressCount: MutableState<Int>,
@@ -85,6 +91,7 @@ fun FilterByCountry(model: FilterViewModel,
     FilterTextField(
       model = model,
       uiModel = uiModel,
+      windowSize = windowSize,
       text = text,
       progressCount = progressCount,
       selected = selected,
@@ -99,6 +106,7 @@ fun FilterByCountry(model: FilterViewModel,
 @Composable
 fun FilterByCurrency(model: FilterViewModel,
                      uiModel: UIViewModel,
+                     windowSize: WindowSize,
                      selected: String,
                      text: MutableState<String>,
                      progressCount: MutableState<Int>,
@@ -113,6 +121,7 @@ fun FilterByCurrency(model: FilterViewModel,
     FilterTextField(
       model = model,
       uiModel = uiModel,
+      windowSize = windowSize,
       text = text,
       progressCount = progressCount,
       selected = selected,
@@ -126,6 +135,7 @@ fun FilterByCurrency(model: FilterViewModel,
 @Composable
 fun FilterBySize(model: FilterViewModel,
                  uiModel: UIViewModel,
+                 windowSize: WindowSize,
                  selected: String,
                  text: MutableState<String>,
                  progressCount: MutableState<Int>,
@@ -141,6 +151,7 @@ fun FilterBySize(model: FilterViewModel,
     FilterTextField(
       model = model,
       uiModel = uiModel,
+      windowSize = windowSize,
       text = text,
       progressCount = progressCount,
       selected = selected,
@@ -153,6 +164,7 @@ fun FilterBySize(model: FilterViewModel,
     SecondaryFilterTextField(
       model = model,
       uiModel = uiModel,
+      windowSize = windowSize,
       text = text,
       progressCount = progressCount,
       selected = selected)

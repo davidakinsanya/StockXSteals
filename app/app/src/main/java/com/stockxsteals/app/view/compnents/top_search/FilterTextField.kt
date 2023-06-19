@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import com.stockxsteals.app.model.filter.Currency
 import com.stockxsteals.app.model.filter.ShoeSize
+import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.FilterViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
@@ -44,6 +45,7 @@ import com.stockxsteals.app.viewmodel.ui.UIViewModel
 @Composable
 fun FilterTextField(model: FilterViewModel,
                     uiModel: UIViewModel,
+                    windowSize: WindowSize,
                     selected: String,
                     text: MutableState<String>,
                     progressCount: MutableState<Int>,
@@ -93,7 +95,7 @@ fun FilterTextField(model: FilterViewModel,
         textFieldSize.value = coordinates.size.toSize()
       }
       .height(35.dp)
-      .fillMaxWidth(.5f)
+      .fillMaxWidth(uiModel.filterTextFieldMaxWidth(windowSize, selected))
       .border(
         border = BorderStroke(
           width = 1.5.dp,
@@ -225,6 +227,7 @@ fun FilterTextField(model: FilterViewModel,
 @Composable
 fun SecondaryFilterTextField(model: FilterViewModel,
                              uiModel: UIViewModel,
+                             windowSize: WindowSize,
                              selected: String,
                              text: MutableState<String>,
                              progressCount: MutableState<Int>) {
@@ -279,7 +282,7 @@ fun SecondaryFilterTextField(model: FilterViewModel,
           } else {
             placeholder.value
           },
-          fontSize = 14.sp, // TODO: Adjust font for smaller screen sizes.
+          fontSize = uiModel.sizeTextFieldSmall(windowSize)
         )
       },
 

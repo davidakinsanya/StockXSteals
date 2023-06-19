@@ -26,7 +26,6 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.WindowSize
@@ -74,13 +73,15 @@ fun SearchScreen(navController: NavHostController,
           productSearchViewModel.getUIModel().listOfChips().forEach { it ->
             FilterButtons(button = it,
               selected = selected.value,
+              windowSize = windowSize,
               uiModel = productSearchViewModel.getUIModel(),
               filterSelect = filterSelect,
               onSelected = { selected.value = it })
           }
         }
         SearchPageButtons(navController = navController,
-                          productSearchViewModel = productSearchViewModel)
+                          productSearchViewModel = productSearchViewModel,
+                          windowSize = windowSize)
                           // TODO: Bring back arrow back for smaller screens
       }
     }
@@ -101,6 +102,7 @@ fun SearchScreen(navController: NavHostController,
       ) {
         SwitchFilters(
           productSearchViewModel = productSearchViewModel,
+          windowSize = windowSize,
           selected = filterSelect.value,
           text = remember { mutableStateOf("") },
           progressCount = progressCount,
@@ -127,12 +129,12 @@ fun SearchScreen(navController: NavHostController,
 }
 
 @Composable
-fun SearchPageButtons(navController: NavHostController, productSearchViewModel: ProductSearchViewModel) {
+fun SearchPageButtons(navController: NavHostController, productSearchViewModel: ProductSearchViewModel, windowSize: WindowSize) {
   val uiModel = productSearchViewModel.getUIModel()
   val searchDestination = AppScreens.Search.route
   val focusManager = LocalFocusManager.current
 
-  Row(modifier = Modifier.padding(start = 30.dp)) {
+  Row(modifier = Modifier.padding(start = uiModel.backButtonStartPadding(windowSize))) {
     IconButton(
       onClick = {
         productSearchViewModel.clearProduct()
@@ -155,6 +157,7 @@ fun SearchPageButtons(navController: NavHostController, productSearchViewModel: 
 fun  FilterButtons(button: String,
                    selected: String,
                    uiModel: UIViewModel,
+                   windowSize: WindowSize,
                    filterSelect: MutableState<String>?,
                    onSelected: (String) -> Unit) {
 
@@ -167,7 +170,7 @@ fun  FilterButtons(button: String,
   val fontWeight  = if (isSelected) FontWeight.Bold else FontWeight.Light
 
   Button(modifier = Modifier
-    .width(90.dp)
+    .width(uiModel.filterButtonWidthSmall(windowSize))
     .padding(end = 5.dp),
     border = BorderStroke(1.dp, color = Color(224, 176, 255)),
     shape = RoundedCornerShape(50.dp),
@@ -183,7 +186,7 @@ fun  FilterButtons(button: String,
     }) {
 
     Text(text = button,
-      fontSize = 10.sp,
+      fontSize = uiModel.filterButtonTextWidthSmall(windowSize),
       fontWeight = fontWeight,
       textAlign = TextAlign.Center,
       color = textColor)

@@ -6,7 +6,9 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
@@ -102,5 +104,68 @@ class UIViewModel: ViewModel() {
       else -> {}
     }
     return dp
+  }
+
+  fun searchGridViewSmallPadding(windowSize: WindowSize): Dp {
+    var dp: Dp = 0.dp
+    when(windowSize.width) {
+      WindowType.Small -> {
+        dp = 30.dp
+      }
+      else -> {}
+    }
+    return dp
+  }
+
+  fun filterButtonWidthSmall(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Small -> {
+        80.dp
+      }
+      else -> {
+        90.dp
+      }
+    }
+    return dp
+  }
+
+  fun filterButtonTextWidthSmall(windowSize: WindowSize): TextUnit {
+    val sp: TextUnit = when(windowSize.width) {
+      WindowType.Small -> {
+        8.sp
+      }
+      else -> {
+        10.sp
+      }
+    }
+    return sp
+  }
+
+  fun backButtonStartPadding(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Small -> {
+        10.dp
+      }
+      else -> {
+        30.dp
+      }
+    }
+    return dp
+  }
+
+  fun sizeTextFieldSmall(windowSize: WindowSize): TextUnit {
+    val sp: TextUnit = when(windowSize.width) {
+      WindowType.Small -> {
+        13.sp
+      }
+      else -> {
+        14.sp
+      }
+    }
+    return sp
+  }
+
+  fun filterTextFieldMaxWidth(windowSize: WindowSize, selected: String): Float {
+    return if (selected == "Size" && windowSize.width == WindowType.Small) 0.4f else 0.5f
   }
 }
