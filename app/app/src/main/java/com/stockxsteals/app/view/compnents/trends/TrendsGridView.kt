@@ -11,13 +11,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.model.dto.Trend
+import com.stockxsteals.app.utils.WindowSize
+import com.stockxsteals.app.utils.rememberWindowSize
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
+import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
 @Composable
-fun TrendsViewComponent(trendsModel: TrendsUIViewModel,
+fun TrendsViewComponent(navController: NavHostController,
+                        trendsModel: TrendsUIViewModel,
                         productModel: ProductSearchViewModel,
-                        navController: NavHostController,
+                        uiModel: UIViewModel,
+                        windowSize: WindowSize
+
 ) {
 
   val currentTrends: List<Trend> = trendsModel.bootTrends.collectAsState().value
@@ -29,7 +35,7 @@ fun TrendsViewComponent(trendsModel: TrendsUIViewModel,
   ) {
     Column(
       modifier = Modifier
-        .padding(top = 30.dp) // TODO: 5" or smaller add bottom padding (bottom = 30.dp)
+        .padding(top = 30.dp, bottom = uiModel.trendsGridViewSmallPadding(windowSize))
         .fillMaxHeight(.88f)
     ) {
 

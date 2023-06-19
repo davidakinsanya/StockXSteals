@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.ui_coroutines.DeleteSearchCoroutine
+import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 
@@ -28,7 +29,9 @@ import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 @Composable
 fun SneakerSplashScreen(navController: NavHostController,
                         productSearchViewModel: ProductSearchViewModel,
-                        networkModel: NetworkViewModel) {
+                        networkModel: NetworkViewModel,
+                        windowSize: WindowSize
+) {
 
   val focusManager = LocalFocusManager.current
   val searchRes = productSearchViewModel.getFilterModel().bootMap.collectAsState()

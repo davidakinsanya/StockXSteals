@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.navigation.AppScreens
+import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.FilterViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
@@ -40,7 +41,9 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SearchScreen(navController: NavHostController,
-                 productSearchViewModel: ProductSearchViewModel) {
+                 productSearchViewModel: ProductSearchViewModel,
+                 windowSize: WindowSize
+) {
 
   val filterSelect = remember { mutableStateOf("") }
   val progressCount = remember { mutableStateOf(0) }

@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.stockxsteals.app.navigation.AppScreens
+import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.view.compnents.main_search_page.SneakerViewComponent
 import com.stockxsteals.app.view.compnents.search_results_page.SneakerSplashScreen
 import com.stockxsteals.app.view.compnents.top_search.SearchScreen
@@ -17,7 +18,9 @@ fun NavGraphBuilder.sneakerNavGraph(
   navController: NavHostController,
   trendsModel: TrendsUIViewModel,
   productSearchViewModel: ProductSearchViewModel,
-  uiModel: UIViewModel) {
+  uiModel: UIViewModel,
+  windowSize: WindowSize
+) {
   navigation(
     startDestination = AppScreens.Trends.route,
     route = "trends_route"
@@ -25,9 +28,11 @@ fun NavGraphBuilder.sneakerNavGraph(
 
     composable(route = AppScreens.Trends.route) {
       TrendsViewComponent(
+        navController = navController,
         trendsModel = trendsModel,
         productModel = productSearchViewModel,
-        navController = navController
+        uiModel = uiModel,
+        windowSize = windowSize
       )
     }
 
@@ -35,15 +40,16 @@ fun NavGraphBuilder.sneakerNavGraph(
       // check if search state is populated
         SneakerViewComponent(
           productModel = productSearchViewModel,
-          uiModel = productSearchViewModel.getUIModel(),
-          navController = navController
+          navController = navController,
+          windowSize = windowSize
         )
     }
 
     composable(route = AppScreens.TopSearch.route) {
       SearchScreen(
         navController = navController,
-        productSearchViewModel = productSearchViewModel
+        productSearchViewModel = productSearchViewModel,
+        windowSize = windowSize
       )
     }
 
@@ -51,7 +57,8 @@ fun NavGraphBuilder.sneakerNavGraph(
       SneakerSplashScreen(
         navController = navController,
         productSearchViewModel = productSearchViewModel,
-        networkModel = trendsModel.getNetworkModel()
+        networkModel = trendsModel.getNetworkModel(),
+        windowSize = windowSize
       )
     }
   }

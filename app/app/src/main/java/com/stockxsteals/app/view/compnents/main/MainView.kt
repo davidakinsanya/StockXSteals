@@ -11,6 +11,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.navigation.NavGraph
+import com.stockxsteals.app.utils.rememberWindowSize
 import com.stockxsteals.app.viewmodel.db.*
 import com.stockxsteals.app.viewmodel.ui.*
 import org.koin.androidx.compose.getViewModel
@@ -25,6 +26,8 @@ fun SetupScreen(navController: NavHostController) {
   val settingModel: SettingViewModel = getViewModel()
   val trendsModel: TrendsUIViewModel = getViewModel()
   val productSearchModel: ProductSearchViewModel = getViewModel()
+
+  val windowSize = rememberWindowSize()
 
   val navBackStackEntry by navController.currentBackStackEntryAsState()
   val currentDestination = navBackStackEntry?.destination
@@ -62,7 +65,9 @@ fun SetupScreen(navController: NavHostController) {
         productSearchViewModel = productSearchModel,
         settingModel = settingModel,
         trendsModel = trendsModel,
-        networkModel = networkModel)
+        networkModel = networkModel,
+        uiModel = uiModel,
+        windowSize = windowSize)
     }
   }
 }

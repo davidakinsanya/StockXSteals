@@ -5,10 +5,14 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.key
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.navigation.AppScreens
+import com.stockxsteals.app.utils.WindowSize
+import com.stockxsteals.app.utils.WindowType
 
 class UIViewModel: ViewModel() {
 
@@ -87,5 +91,16 @@ class UIViewModel: ViewModel() {
 
   fun productIsNotNull(product: State<Any>?): Boolean {
     return product != null
+  }
+
+  fun trendsGridViewSmallPadding(windowSize: WindowSize): Dp {
+    var dp: Dp = 0.dp
+    when(windowSize.width) {
+      WindowType.Small -> {
+        dp = 30.dp
+      }
+      else -> {}
+    }
+    return dp
   }
 }
