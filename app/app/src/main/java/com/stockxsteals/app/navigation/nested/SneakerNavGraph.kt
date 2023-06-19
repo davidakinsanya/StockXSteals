@@ -11,11 +11,13 @@ import com.stockxsteals.app.view.compnents.top_search.SearchScreen
 import com.stockxsteals.app.view.compnents.trends.TrendsViewComponent
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
+import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
 fun NavGraphBuilder.sneakerNavGraph(
+  navController: NavHostController,
   trendsModel: TrendsUIViewModel,
   productSearchViewModel: ProductSearchViewModel,
-  navController: NavHostController) {
+  uiModel: UIViewModel) {
   navigation(
     startDestination = AppScreens.Trends.route,
     route = "trends_route"

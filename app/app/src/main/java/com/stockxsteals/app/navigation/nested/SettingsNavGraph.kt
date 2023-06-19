@@ -9,11 +9,13 @@ import com.stockxsteals.app.view.compnents.settings.SettingScreen
 import com.stockxsteals.app.view.compnents.settings.SettingsSplashScreen
 import com.stockxsteals.app.viewmodel.ui.SettingViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
+import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
 fun NavGraphBuilder.settingsNavGraph(
-  navController: NavHostController,
-  settingModel: SettingViewModel,
-  trendsModel: TrendsUIViewModel,
+    navController: NavHostController,
+    settingModel: SettingViewModel,
+    trendsModel: TrendsUIViewModel,
+    uiModel: UIViewModel,
 ) {
   navigation(startDestination = AppScreens.Settings.route,
              route = "settings_route") {

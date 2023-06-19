@@ -13,14 +13,27 @@ fun NavGraph(navController: NavHostController,
              productSearchViewModel: ProductSearchViewModel,
              settingModel: SettingViewModel,
              trendsModel: TrendsUIViewModel,
-             networkModel: NetworkViewModel
+             networkModel: NetworkViewModel,
+             uiModel: UIViewModel
 ) {
   NavHost(navController = navController,
           startDestination = "trends_route", // TODO: Change to "login_route"
           route = "root_route") {
 
-    loginGraph(navController, networkModel, trendsModel)
-    sneakerNavGraph(trendsModel, productSearchViewModel, navController)
-    settingsNavGraph(navController, settingModel, trendsModel)
+    loginGraph(navController = navController,
+               networkModel = networkModel,
+               trendsModel = trendsModel,
+               uiModel = uiModel)
+
+
+    sneakerNavGraph(navController = navController,
+                    trendsModel = trendsModel,
+                    productSearchViewModel = productSearchViewModel,
+                    uiModel = uiModel)
+
+    settingsNavGraph(navController = navController,
+                     settingModel = settingModel,
+                     trendsModel = trendsModel,
+                     uiModel = uiModel)
   }
 }
