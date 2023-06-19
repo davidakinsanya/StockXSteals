@@ -31,8 +31,10 @@ import com.stockxsteals.app.R
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.ui_coroutines.SearchEntryCoroutineDB
 import com.stockxsteals.app.ui_coroutines.SearchEntryCoroutineOnClick
+import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
+import com.stockxsteals.app.viewmodel.ui.UIViewModel
 import db.entity.DailySearchQuota
 import db.entity.Premium
 
@@ -40,6 +42,7 @@ import db.entity.Premium
  fun SearchEntry(title: String,
                  result: List<String>,
                  productSearchViewModel: ProductSearchViewModel,
+                 windowSize: WindowSize,
                  networkModel: NetworkViewModel,
                  navController: NavHostController,
                  searchQuota: DailySearchQuota,
@@ -49,6 +52,7 @@ import db.entity.Premium
   val searchRoute = AppScreens.Search.route
   val context = LocalContext.current
   val dailySearch = productSearchViewModel.getSearchModel()
+  val uiModel = productSearchViewModel.getUIModel()
 
   val displayItem = remember { mutableStateOf(false) }
   val clicked = remember { mutableStateOf(false) }
@@ -79,7 +83,7 @@ import db.entity.Premium
         fontSize = 15.sp,
         textAlign = TextAlign.Left,
         modifier = Modifier
-          .width(200.dp) // TODO: Change text width for smaller devices.
+          .width(uiModel.searchEntryTextWidthSmall(windowSize))
           .padding(16.dp)
       )
 
@@ -127,7 +131,8 @@ import db.entity.Premium
   }
 
 @Composable
-fun AlternativeEntry() {
+fun AlternativeEntry(uiModel: UIViewModel,
+                     windowSize: WindowSize) {
   for (i in 0..18)
     Column(
       modifier = Modifier
@@ -142,25 +147,26 @@ fun AlternativeEntry() {
         .padding(20.dp),
         horizontalArrangement = Arrangement.SpaceBetween) {
         // TODO: Adjust box lengths for DIFFERENT screen sizes.
+        val leftBoxWidth = uiModel.alternativeEntryLeftBoxes(windowSize)
 
         Column() {
           Box(
             modifier = Modifier
-              .width(100.dp)
+              .width(leftBoxWidth[0])
               .height(20.dp)
               .shimmerEffect()
           )
           Spacer(modifier = Modifier.height(16.dp))
           Box(
             modifier = Modifier
-              .width(145.dp)
+              .width(leftBoxWidth[1])
               .height(20.dp)
               .shimmerEffect()
           )
           Spacer(modifier = Modifier.height(16.dp))
           Box(
             modifier = Modifier
-              .width(200.dp)
+              .width(leftBoxWidth[2])
               .height(20.dp)
               .shimmerEffect()
           )

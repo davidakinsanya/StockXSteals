@@ -168,4 +168,42 @@ class UIViewModel: ViewModel() {
   fun filterTextFieldMaxWidth(windowSize: WindowSize, selected: String): Float {
     return if (selected == "Size" && windowSize.width == WindowType.Small) 0.4f else 0.5f
   }
+
+  fun sneakersFontSizeSmall(windowSize: WindowSize): TextUnit {
+    val sp: TextUnit = when(windowSize.width) {
+      WindowType.Small -> {
+        22.sp
+      }
+      else -> {
+        25.sp
+      }
+    }
+    return sp
+  }
+
+  fun searchEntryTextWidthSmall(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Small -> {
+        150.dp
+      }
+      else -> {
+        200.dp
+      }
+    }
+    return dp
+  }
+
+  fun alternativeEntryLeftBoxes(windowSize: WindowSize): List<Dp> {
+    // TODO: Adjust box lengths for DIFFERENT screen sizes.
+
+    val dp: List<Dp> = when(windowSize.width) {
+      WindowType.Small -> {
+        listOf(40.dp, 70.dp, 100.dp)
+      }
+      else -> {
+        listOf(100.dp, 145.dp, 200.dp)
+      }
+    }
+    return dp
+  }
 }

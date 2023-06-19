@@ -18,7 +18,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.ui_coroutines.DeleteSearchCoroutine
 import com.stockxsteals.app.utils.WindowSize
@@ -35,6 +34,7 @@ fun SneakerSplashScreen(navController: NavHostController,
 
   val focusManager = LocalFocusManager.current
   val searchRes = productSearchViewModel.getFilterModel().bootMap.collectAsState()
+  val uiModel = productSearchViewModel.getUIModel()
   val map = searchRes.value
   val deleteSearch = remember { mutableStateOf(false) }
   var isPremium = false
@@ -72,11 +72,11 @@ fun SneakerSplashScreen(navController: NavHostController,
         .padding(start = 30.dp, end = 30.dp), // TODO: for bigger screen change the end padding (75.dp).
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically) {
-        // TODO: Change "Sneakers" font for smaller screen sizes.
+
         Text(
           text = "Sneakers",
           fontWeight = FontWeight.ExtraBold,
-          fontSize = 25.sp,
+          fontSize = uiModel.sneakersFontSizeSmall(windowSize),
           textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.padding(30.dp))
@@ -101,7 +101,7 @@ fun SneakerSplashScreen(navController: NavHostController,
 
         items(1) {
           if (map.keys.isEmpty()) {
-            AlternativeEntry()
+            AlternativeEntry(uiModel, windowSize)
           } else {
             map.keys.forEach {
               if (searchQuotaList.isNotEmpty())
@@ -109,6 +109,7 @@ fun SneakerSplashScreen(navController: NavHostController,
                   title = it,
                   result = map[it]!!,
                   productSearchViewModel = productSearchViewModel,
+                  windowSize = windowSize,
                   networkModel = networkModel,
                   navController = navController,
                   searchQuota = searchQuotaList[0],
