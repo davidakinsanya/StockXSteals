@@ -206,4 +206,28 @@ class UIViewModel: ViewModel() {
     }
     return dp
   }
+
+  fun settingsPaddingSmall(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Small -> {
+        50.dp
+      }
+      else -> {
+        80.dp
+      }
+    }
+    return dp
+  }
+
+  fun settingsSearchPaddingSmall(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Small -> {
+        10.dp
+      }
+      else -> {
+        25.dp
+      }
+    }
+    return dp
+  }
 }

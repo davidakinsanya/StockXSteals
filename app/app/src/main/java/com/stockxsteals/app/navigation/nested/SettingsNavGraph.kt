@@ -25,7 +25,9 @@ fun NavGraphBuilder.settingsNavGraph(
     composable(route = AppScreens.Settings.route) {
       SettingsSplashScreen(navController = navController,
                            settingModel = settingModel,
-                           trendsModel = trendsModel)
+                           trendsModel = trendsModel,
+                           uiModel = uiModel,
+                           windowSize = windowSize)
     }
 
     composable(route = AppScreens.SettingScreen.route) {
@@ -38,7 +40,9 @@ fun NavGraphBuilder.settingsNavGraph(
         SettingScreen(setting = setting,
                       navController = navController,
                       settingModel = settingModel,
-                      trendsModel = trendsModel)
+                      trendsModel = trendsModel,
+                      uiModel = uiModel,
+                      windowSize = windowSize)
     }
 
   }

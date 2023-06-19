@@ -146,10 +146,9 @@ fun AlternativeEntry(uiModel: UIViewModel,
         .fillMaxWidth()
         .padding(20.dp),
         horizontalArrangement = Arrangement.SpaceBetween) {
-        // TODO: Adjust box lengths for DIFFERENT screen sizes.
-        val leftBoxWidth = uiModel.alternativeEntryLeftBoxes(windowSize)
 
-        Column() {
+        val leftBoxWidth = uiModel.alternativeEntryLeftBoxes(windowSize)
+        Column {
           Box(
             modifier = Modifier
               .width(leftBoxWidth[0])

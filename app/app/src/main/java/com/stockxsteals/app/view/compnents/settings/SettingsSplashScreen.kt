@@ -22,8 +22,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.navigation.AppScreens
+import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.SettingViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
+import com.stockxsteals.app.viewmodel.ui.UIViewModel
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -31,6 +33,8 @@ import kotlinx.coroutines.launch
 fun SettingsSplashScreen(navController: NavHostController,
                          settingModel: SettingViewModel,
                          trendsModel: TrendsUIViewModel,
+                         uiModel: UIViewModel,
+                         windowSize: WindowSize
 ) {
   val scope = rememberCoroutineScope()
   val trends = trendsModel.getTrendsModel().trends.collectAsState(initial = emptyList()).value
@@ -44,7 +48,7 @@ fun SettingsSplashScreen(navController: NavHostController,
       Row(modifier =
       Modifier
         .fillMaxWidth()
-        .padding(bottom = 80.dp)
+        .padding(bottom = uiModel.settingsPaddingSmall(windowSize))
         .height(50.dp),
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically) {
@@ -127,7 +131,6 @@ fun SettingsSplashScreen(navController: NavHostController,
              }
           }
         }
-
     }
   }
 }

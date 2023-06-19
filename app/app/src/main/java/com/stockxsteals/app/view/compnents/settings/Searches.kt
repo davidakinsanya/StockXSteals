@@ -11,25 +11,32 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.SettingViewModel
+import com.stockxsteals.app.viewmodel.ui.UIViewModel
 import db.entity.DailySearchHistory
 
 @Composable
-fun Searches(settingModel: SettingViewModel) {
+fun Searches(settingModel: SettingViewModel,
+             uiModel: UIViewModel,
+             windowSize: WindowSize
+) {
   val model = settingModel.getHistoryModel()
   val searches = model.searches.collectAsState(initial = emptyList()).value
 
   LazyColumn(modifier = Modifier.padding(start = 20.dp, end = 30.dp)) {
     if (searches.isNotEmpty()) {
       items(searches.size) { i ->
-        SearchRow(searches[i])
+        SearchRow(searches[i], uiModel, windowSize)
       }
     }
   }
 }
 
 @Composable
-fun SearchRow(entry: DailySearchHistory) {
+fun SearchRow(entry: DailySearchHistory,
+              uiModel: UIViewModel,
+              windowSize: WindowSize) {
   Row( modifier =
   Modifier
     .height(140.dp)
@@ -40,15 +47,14 @@ fun SearchRow(entry: DailySearchHistory) {
       fontSize = 15.sp,
       textAlign = TextAlign.Left,
       modifier = Modifier
-        .width(200.dp))
+        .width(uiModel.searchEntryTextWidthSmall(windowSize)))
 
     AsyncImage(
       model = entry.image,
       contentDescription = "Sneaker Image",
       modifier = Modifier
-        .fillMaxHeight()
+        .size(150.dp)
         .padding(16.dp)
-        .fillMaxWidth(0.7f)
     )
   }
 }

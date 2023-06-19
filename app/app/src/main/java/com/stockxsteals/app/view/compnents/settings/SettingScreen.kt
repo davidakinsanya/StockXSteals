@@ -19,8 +19,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.navigation.AppScreens
+import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.SettingViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
+import com.stockxsteals.app.viewmodel.ui.UIViewModel
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -28,7 +30,10 @@ import kotlinx.coroutines.launch
 fun SettingScreen(setting: String,
                   settingModel: SettingViewModel,
                   navController: NavHostController,
-                  trendsModel: TrendsUIViewModel) {
+                  trendsModel: TrendsUIViewModel,
+                  uiModel: UIViewModel,
+                  windowSize: WindowSize
+) {
 
   val scope = rememberCoroutineScope()
   val trends = trendsModel.getTrendsModel().trends.collectAsState(initial = emptyList()).value
@@ -42,7 +47,7 @@ fun SettingScreen(setting: String,
         modifier =
         Modifier
           .fillMaxWidth()
-          .padding(bottom = 50.dp)
+          .padding(bottom = uiModel.settingsSearchPaddingSmall(windowSize))
           .height(50.dp),
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically
@@ -71,16 +76,24 @@ fun SettingScreen(setting: String,
           )
         }
       }
-     SettingPage(setting, settingModel, navController)
+     SettingPage(navController = navController,
+                 settingModel = settingModel,
+                 uiModel = uiModel,
+                 windowSize = windowSize,
+                 setting = setting)
     }
   }
 }
 
 @Composable
-fun SettingPage(setting: String, settingModel: SettingViewModel, navController: NavHostController) {
+fun SettingPage(navController: NavHostController,
+                settingModel: SettingViewModel,
+                uiModel: UIViewModel,
+                windowSize: WindowSize,
+                setting: String) {
   when (setting) {
     "Searches" -> {
-      Searches(settingModel)
+      Searches(settingModel, uiModel, windowSize)
     }
 
     "About Us" -> {
