@@ -25,18 +25,22 @@ import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.model.ui.GridItem
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.ui_coroutines.TrendCoroutineOnClick
+import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
+import com.stockxsteals.app.viewmodel.ui.UIViewModel
 import db.entity.DailySearchQuota
 import db.entity.Premium
 import kotlin.random.Random
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TrendsLazyGrid(trends: List<Trend>,
+fun TrendsLazyGrid(navController: NavHostController,
                    trendsModel: TrendsUIViewModel,
                    productModel: ProductSearchViewModel,
-                   navController: NavHostController
+                   uiModel: UIViewModel,
+                   trends: List<Trend>,
+                   windowSize: WindowSize
 ) {
 
   var isPremium = false
@@ -66,7 +70,7 @@ fun TrendsLazyGrid(trends: List<Trend>,
 
   LazyVerticalStaggeredGrid(columns = StaggeredGridCells.Fixed(2),
                             modifier = Modifier.fillMaxSize(),
-                            contentPadding = PaddingValues(16.dp),
+                            contentPadding = PaddingValues(uiModel.trendsGridViewContentPadding(windowSize)),
                             horizontalArrangement = Arrangement.spacedBy(5.dp),
                             verticalItemSpacing = 5.dp) {
 

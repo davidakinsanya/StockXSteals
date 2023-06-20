@@ -72,7 +72,10 @@ fun SneakerViewComponent(productModel: ProductSearchViewModel,
   ) {
     Column(
       modifier = Modifier
-        .padding(top = 10.dp, bottom = uiModel.searchGridViewSmallPadding(windowSize))
+        .padding(top = uiModel.searchGridTopPaddingLarge(windowSize),
+                 bottom = uiModel.searchGridViewSmallPadding(windowSize),
+                 start = uiModel.searchGridSidesPaddingLarge(windowSize),
+                 end = uiModel.searchGridSidesPaddingLarge(windowSize))
         .fillMaxHeight(.93f)
         .fillMaxWidth()
     ) {

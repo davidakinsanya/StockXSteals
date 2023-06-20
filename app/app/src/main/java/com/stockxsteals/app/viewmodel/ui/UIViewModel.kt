@@ -192,10 +192,42 @@ class UIViewModel: ViewModel() {
     return dp
   }
 
+  fun trendsGridViewContentPadding(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Large -> { 50.dp }
+      else -> { 16.dp }
+    }
+    return dp
+  }
+
+  fun trendsGridViewTopPadding(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Large -> { 0.dp }
+      else -> { 30.dp }
+    }
+    return dp
+  }
+
   fun searchGridViewSmallPadding(windowSize: WindowSize): Dp {
     val dp: Dp = when(windowSize.width) {
       WindowType.Small -> { 30.dp }
       else -> { 0.dp }
+    }
+    return dp
+  }
+
+  fun searchGridSidesPaddingLarge(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Large -> { 25.dp }
+      else -> { 0.dp }
+    }
+    return dp
+  }
+
+  fun searchGridTopPaddingLarge(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Large -> { 20.dp }
+      else -> { 10.dp }
     }
     return dp
   }

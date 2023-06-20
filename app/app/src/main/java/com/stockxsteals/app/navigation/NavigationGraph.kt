@@ -32,7 +32,6 @@ fun NavGraph(navController: NavHostController,
     sneakerNavGraph(navController = navController,
                     trendsModel = trendsModel,
                     productSearchViewModel = productSearchViewModel,
-                    uiModel = uiModel,
                     windowSize = windowSize)
 
     settingsNavGraph(navController = navController,

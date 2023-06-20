@@ -12,21 +12,19 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.utils.WindowSize
-import com.stockxsteals.app.utils.rememberWindowSize
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
-import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
 @Composable
 fun TrendsViewComponent(navController: NavHostController,
                         trendsModel: TrendsUIViewModel,
                         productModel: ProductSearchViewModel,
-                        uiModel: UIViewModel,
                         windowSize: WindowSize
 
 ) {
 
   val currentTrends: List<Trend> = trendsModel.bootTrends.collectAsState().value
+  val uiModel = productModel.getUIModel()
 
   Column(
     modifier = Modifier
@@ -35,14 +33,17 @@ fun TrendsViewComponent(navController: NavHostController,
   ) {
     Column(
       modifier = Modifier
-        .padding(top = 30.dp, bottom = uiModel.trendsGridViewSmallPadding(windowSize))
+        .padding(top = uiModel.trendsGridViewTopPadding(windowSize),
+                 bottom = uiModel.trendsGridViewSmallPadding(windowSize))
         .fillMaxHeight(.88f)
     ) {
 
-      TrendsLazyGrid(trends = currentTrends,
+      TrendsLazyGrid(navController = navController,
                      trendsModel = trendsModel,
                      productModel =  productModel,
-                     navController = navController)
+                     uiModel = uiModel,
+                     trends = currentTrends,
+                     windowSize = windowSize)
     }
   }
 }
