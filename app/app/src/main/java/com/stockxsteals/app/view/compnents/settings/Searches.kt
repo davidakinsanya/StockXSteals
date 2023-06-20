@@ -24,7 +24,7 @@ fun Searches(settingModel: SettingViewModel,
   val model = settingModel.getHistoryModel()
   val searches = model.searches.collectAsState(initial = emptyList()).value
 
-  LazyColumn(modifier = Modifier.padding(start = 20.dp, end = 30.dp)) {
+  LazyColumn(modifier = Modifier.padding(end = 30.dp)) {
     if (searches.isNotEmpty()) {
       items(searches.size) { i ->
         SearchRow(searches[i], uiModel, windowSize)
@@ -37,12 +37,15 @@ fun Searches(settingModel: SettingViewModel,
 fun SearchRow(entry: DailySearchHistory,
               uiModel: UIViewModel,
               windowSize: WindowSize) {
-  Row( modifier =
+  Row(modifier =
   Modifier
     .height(140.dp)
+    .padding(start = 30.dp,
+      bottom = 50.dp,
+      end = uiModel.searchEntryEndPaddingLarge(windowSize))
     .fillMaxWidth(),
     verticalAlignment = Alignment.CenterVertically,
-    horizontalArrangement = Arrangement.SpaceAround) {
+    horizontalArrangement = Arrangement.SpaceBetween) {
     Text(text = entry.name,
       fontSize = 15.sp,
       textAlign = TextAlign.Left,

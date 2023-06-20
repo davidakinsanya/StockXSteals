@@ -97,7 +97,7 @@ import db.entity.Premium
             .build(),
           contentDescription = title,
           modifier = Modifier
-            .fillMaxSize()
+            .size(150.dp)
             .padding(16.dp),
           placeholder = painterResource(R.drawable.stockxsteals)
         )

@@ -82,7 +82,6 @@ fun SearchScreen(navController: NavHostController,
         SearchPageButtons(navController = navController,
                           productSearchViewModel = productSearchViewModel,
                           windowSize = windowSize)
-                          // TODO: Bring back arrow back for smaller screens
       }
     }
 
@@ -171,7 +170,7 @@ fun  FilterButtons(button: String,
 
   Button(modifier = Modifier
     .width(uiModel.filterButtonWidthSmall(windowSize))
-    .padding(end = 5.dp),
+    .padding(end = uiModel.filterButtonSpaceBetweenLarge(windowSize)),
     border = BorderStroke(1.dp, color = Color(224, 176, 255)),
     shape = RoundedCornerShape(50.dp),
     colors = ButtonDefaults.buttonColors(

@@ -48,9 +48,11 @@ fun SettingsSplashScreen(navController: NavHostController,
       Row(modifier =
       Modifier
         .fillMaxWidth()
-        .padding(bottom = uiModel.settingsPaddingSmall(windowSize))
+        .padding(start = 30.dp,
+          bottom = uiModel.settingsPaddingSmall(windowSize),
+          end = uiModel.searchEntryEndPaddingLarge(windowSize))
         .height(50.dp),
-        horizontalArrangement = Arrangement.SpaceAround,
+        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically) {
 
         Text(text = "Settings",
@@ -91,10 +93,13 @@ fun SettingsSplashScreen(navController: NavHostController,
           items(settingScreens.size) { item ->
              Row(modifier =
              Modifier
-               .padding(bottom = 50.dp)
+               .padding(
+                 start = 45.dp,
+                 bottom = 50.dp,
+                 end = uiModel.searchEntryEndPaddingLarge(windowSize))
                .fillMaxWidth()
                .height(50.dp),
-               horizontalArrangement = Arrangement.SpaceAround,
+               horizontalArrangement = Arrangement.SpaceBetween,
                verticalAlignment = Alignment.CenterVertically) {
 
                Text(text = settingScreens[item],

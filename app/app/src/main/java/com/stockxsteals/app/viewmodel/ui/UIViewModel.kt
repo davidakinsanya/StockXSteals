@@ -122,6 +122,9 @@ class UIViewModel: ViewModel() {
       WindowType.Small -> {
         80.dp
       }
+      WindowType.Large -> {
+        120.dp
+      }
       else -> {
         90.dp
       }
@@ -134,11 +137,26 @@ class UIViewModel: ViewModel() {
       WindowType.Small -> {
         8.sp
       }
+      WindowType.Large -> {
+        12.sp
+      }
       else -> {
         10.sp
       }
     }
     return sp
+  }
+
+  fun filterButtonSpaceBetweenLarge(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Large -> {
+        15.dp
+      }
+      else -> {
+        5.dp
+      }
+    }
+    return dp
   }
 
   fun backButtonStartPadding(windowSize: WindowSize): Dp {
@@ -181,6 +199,18 @@ class UIViewModel: ViewModel() {
     return sp
   }
 
+  fun searchEntryEndPaddingLarge(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Large -> {
+        75.dp
+      }
+      else -> {
+        30.dp
+      }
+    }
+    return dp
+  }
+
   fun searchEntryTextWidthSmall(windowSize: WindowSize): Dp {
     val dp: Dp = when(windowSize.width) {
       WindowType.Small -> {
@@ -194,11 +224,12 @@ class UIViewModel: ViewModel() {
   }
 
   fun alternativeEntryLeftBoxes(windowSize: WindowSize): List<Dp> {
-    // TODO: Adjust box lengths for DIFFERENT screen sizes.
-
     val dp: List<Dp> = when(windowSize.width) {
       WindowType.Small -> {
         listOf(40.dp, 70.dp, 100.dp)
+      }
+      WindowType.Large -> {
+        listOf(200.dp, 290.dp, 400.dp)
       }
       else -> {
         listOf(100.dp, 145.dp, 200.dp)

@@ -41,15 +41,18 @@ fun SettingScreen(setting: String,
   Scaffold {
     Column(
       modifier = Modifier
-        .padding(top = 30.dp)
+        .padding(top = 0.dp)
     ) {
       Row(
         modifier =
         Modifier
           .fillMaxWidth()
-          .padding(bottom = uiModel.settingsSearchPaddingSmall(windowSize))
-          .height(50.dp),
-        horizontalArrangement = Arrangement.SpaceAround,
+          .padding(
+            start = 30.dp,
+            end = uiModel.searchEntryEndPaddingLarge(windowSize),
+            bottom = uiModel.settingsSearchPaddingSmall(windowSize))
+          .height(100.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
       ) {
 

@@ -69,7 +69,7 @@ fun SneakerSplashScreen(navController: NavHostController,
       Modifier
         .fillMaxWidth()
         .height(50.dp)
-        .padding(start = 30.dp, end = 30.dp), // TODO: for bigger screen change the end padding (75.dp).
+        .padding(start = 30.dp, end = uiModel.searchEntryEndPaddingLarge(windowSize)),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically) {
 
