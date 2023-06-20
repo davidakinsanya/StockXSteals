@@ -24,15 +24,20 @@ import coil.compose.AsyncImage
 import com.stevdzasan.onetap.OneTapSignInWithGoogle
 import com.stevdzasan.onetap.rememberOneTapSignInState
 import com.stockxsteals.app.R
+import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
+import com.stockxsteals.app.viewmodel.ui.UIViewModel
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun LoginScreen(navController: NavHostController,
                 networkModel: NetworkViewModel,
-                trendsModel: TrendsUIViewModel) {
+                trendsModel: TrendsUIViewModel,
+                uiModel: UIViewModel,
+                windowSize: WindowSize
+) {
 
   val state = rememberOneTapSignInState()
   val scope = rememberCoroutineScope()
@@ -58,21 +63,23 @@ fun LoginScreen(navController: NavHostController,
   Scaffold(modifier = Modifier
     .fillMaxSize()
     .padding(
-      top = 50.dp,
+      top = uiModel.loginScreenTopSmall(windowSize),
       start = 80.dp,
-      end = 80.dp
+      end = 80.dp,
+      bottom = uiModel.loginScreenBottomLarge(windowSize)
     )) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally,
+    Column(modifier = uiModel.fillMaxSizeLarge(windowSize),
+           horizontalAlignment = Alignment.CenterHorizontally,
            verticalArrangement = Arrangement.Center) {
 
       Image(painter = painterResource(R.drawable.stockxsteals),
         contentDescription = "Logo",
-        modifier = Modifier
-          .fillMaxWidth(0.8f)
-          .fillMaxHeight(0.5f))
+        modifier = uiModel.loginScreenImageModifier(windowSize))
 
+        Spacer(modifier = Modifier
+          .padding(bottom = uiModel.loginScreenImagePadding(windowSize)))
 
-        Row(verticalAlignment = Alignment.CenterVertically,
+      Row(verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier
               .width(300.dp)
@@ -80,10 +87,8 @@ fun LoginScreen(navController: NavHostController,
                 enabled = !state.opened
               ) {
                 scope.launch {
-                  if (networkModel.checkConnection(context))
-                    state.open()
-                  else
-                    networkModel.toastMessage(context)
+                  if (networkModel.checkConnection(context)) state.open()
+                  else networkModel.toastMessage(context)
                 }
               }
               .border(
@@ -101,14 +106,15 @@ fun LoginScreen(navController: NavHostController,
             AsyncImage(
               model = "https://img.icons8.com/?size=512&id=V5cGWnc9R4xj&format=png",
               contentDescription = "Google Logo",
-              modifier = Modifier
-                .fillMaxSize(0.15f)
-                .padding(end = 10.dp),
+              modifier = uiModel.googleLogoImageModifier(windowSize),
               alignment = Alignment.Center
             )
             Text(text = "Sign In With Google",
-              modifier = Modifier.padding(start = 2.dp),
-              fontSize = 16.sp, fontWeight = FontWeight.Medium,
+              modifier = Modifier.padding(
+                start = 2.dp,
+                end = uiModel.signInTextEndPaddingSmall(windowSize)),
+              fontSize = uiModel.signInTextFontSizeSmall(windowSize),
+              fontWeight = FontWeight.Medium, //
               textAlign = TextAlign.Center)
           }
         }

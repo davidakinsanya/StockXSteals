@@ -1,7 +1,9 @@
 package com.stockxsteals.app.viewmodel.ui
 
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.State
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.key
@@ -95,90 +97,147 @@ class UIViewModel: ViewModel() {
     return product != null
   }
 
-  fun trendsGridViewSmallPadding(windowSize: WindowSize): Dp {
-    var dp: Dp = 0.dp
-    when(windowSize.width) {
+  fun loginScreenTopSmall(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
       WindowType.Small -> {
-        dp = 30.dp
+        90.dp
       }
-      else -> {}
+      WindowType.Large -> {
+        0.dp
+      }
+      else -> { 50.dp }
+    }
+    return dp
+  }
+
+  fun loginScreenBottomLarge(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Large -> { 80.dp }
+      else -> { 0.dp }
+    }
+    return dp
+  }
+
+  fun fillMaxSizeLarge(windowSize: WindowSize): Modifier {
+    val modifier: Modifier = when (windowSize.width) {
+      WindowType.Large -> { Modifier.fillMaxSize() }
+      else -> { Modifier }
+    }
+    return modifier
+  }
+
+  fun loginScreenImageModifier(windowSize: WindowSize): Modifier {
+    val modifier: Modifier = when (windowSize.width) {
+      WindowType.Small -> {
+        Modifier
+          .size(150.dp)
+      }
+      WindowType.Large -> {
+        Modifier.fillMaxSize(0.4f)
+      }
+      else -> {
+        Modifier
+          .fillMaxWidth(0.8f)
+          .fillMaxHeight(0.5f)
+      }
+    }
+    return modifier
+  }
+
+  fun googleLogoImageModifier(windowSize: WindowSize): Modifier {
+    val modifier: Modifier = when(windowSize.width) {
+      WindowType.Small -> {
+        Modifier
+          .size(40.dp)
+          .padding(start = 5.dp, end = 10.dp)
+      }
+      else -> {
+        Modifier
+          .fillMaxSize(0.15f)
+          .padding(end = 10.dp)
+      }
+    }
+    return modifier
+  }
+
+  fun signInTextEndPaddingSmall(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Small -> { 6.dp }
+      else -> { 0.dp }
+    }
+    return dp
+  }
+
+  fun signInTextFontSizeSmall(windowSize: WindowSize): TextUnit {
+    val sp: TextUnit = when(windowSize.width) {
+      WindowType.Small -> { 11.sp }
+      else -> { 16.sp }
+    }
+    return sp
+  }
+
+  fun loginScreenImagePadding(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Small -> { 30.dp }
+      else -> { 0.dp }
+    }
+    return dp
+  }
+
+  fun trendsGridViewSmallPadding(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Small -> { 30.dp }
+      else -> { 0.dp }
     }
     return dp
   }
 
   fun searchGridViewSmallPadding(windowSize: WindowSize): Dp {
-    var dp: Dp = 0.dp
-    when(windowSize.width) {
-      WindowType.Small -> {
-        dp = 30.dp
-      }
-      else -> {}
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Small -> { 30.dp }
+      else -> { 0.dp }
     }
     return dp
   }
 
   fun filterButtonWidthSmall(windowSize: WindowSize): Dp {
     val dp: Dp = when(windowSize.width) {
-      WindowType.Small -> {
-        80.dp
-      }
-      WindowType.Large -> {
-        120.dp
-      }
-      else -> {
-        90.dp
-      }
+      WindowType.Small -> { 80.dp }
+      WindowType.Large -> { 120.dp }
+      else -> { 90.dp }
     }
     return dp
   }
 
   fun filterButtonTextWidthSmall(windowSize: WindowSize): TextUnit {
     val sp: TextUnit = when(windowSize.width) {
-      WindowType.Small -> {
-        8.sp
-      }
-      WindowType.Large -> {
-        12.sp
-      }
-      else -> {
-        10.sp
-      }
+      WindowType.Small -> { 8.sp }
+      WindowType.Large -> { 12.sp }
+      else -> { 10.sp }
     }
     return sp
   }
 
   fun filterButtonSpaceBetweenLarge(windowSize: WindowSize): Dp {
     val dp: Dp = when(windowSize.width) {
-      WindowType.Large -> {
-        15.dp
-      }
-      else -> {
-        5.dp
-      }
+      WindowType.Large -> { 15.dp }
+      else -> { 5.dp }
     }
     return dp
   }
 
   fun backButtonStartPadding(windowSize: WindowSize): Dp {
     val dp: Dp = when(windowSize.width) {
-      WindowType.Small -> {
-        10.dp
-      }
-      else -> {
-        30.dp
-      }
+      WindowType.Small -> { 10.dp }
+      else -> { 30.dp }
     }
     return dp
   }
 
   fun sizeTextFieldSmall(windowSize: WindowSize): TextUnit {
     val sp: TextUnit = when(windowSize.width) {
-      WindowType.Small -> {
-        13.sp
-      }
-      else -> {
-        14.sp
-      }
+      WindowType.Small -> { 13.sp }
+      else -> { 14.sp }
     }
     return sp
   }
@@ -189,36 +248,24 @@ class UIViewModel: ViewModel() {
 
   fun sneakersFontSizeSmall(windowSize: WindowSize): TextUnit {
     val sp: TextUnit = when(windowSize.width) {
-      WindowType.Small -> {
-        22.sp
-      }
-      else -> {
-        25.sp
-      }
+      WindowType.Small -> { 22.sp }
+      else -> { 25.sp }
     }
     return sp
   }
 
   fun searchEntryEndPaddingLarge(windowSize: WindowSize): Dp {
     val dp: Dp = when(windowSize.width) {
-      WindowType.Large -> {
-        75.dp
-      }
-      else -> {
-        30.dp
-      }
+      WindowType.Large -> { 75.dp }
+      else -> { 30.dp }
     }
     return dp
   }
 
   fun searchEntryTextWidthSmall(windowSize: WindowSize): Dp {
     val dp: Dp = when(windowSize.width) {
-      WindowType.Small -> {
-        150.dp
-      }
-      else -> {
-        200.dp
-      }
+      WindowType.Small -> { 150.dp }
+      else -> { 200.dp }
     }
     return dp
   }
@@ -240,24 +287,16 @@ class UIViewModel: ViewModel() {
 
   fun settingsPaddingSmall(windowSize: WindowSize): Dp {
     val dp: Dp = when(windowSize.width) {
-      WindowType.Small -> {
-        50.dp
-      }
-      else -> {
-        80.dp
-      }
+      WindowType.Small -> { 50.dp }
+      else -> { 80.dp }
     }
     return dp
   }
 
   fun settingsSearchPaddingSmall(windowSize: WindowSize): Dp {
     val dp: Dp = when(windowSize.width) {
-      WindowType.Small -> {
-        10.dp
-      }
-      else -> {
-        25.dp
-      }
+      WindowType.Small -> { 10.dp }
+      else -> { 25.dp }
     }
     return dp
   }

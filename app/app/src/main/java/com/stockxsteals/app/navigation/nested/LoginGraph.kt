@@ -24,7 +24,9 @@ fun NavGraphBuilder.loginGraph(navController: NavHostController,
 
       LoginScreen(navController = navController,
                   networkModel = networkModel,
-                  trendsModel = trendsModel)
+                  trendsModel = trendsModel,
+                  uiModel = uiModel,
+                  windowSize = windowSize)
     }
   }
 }
