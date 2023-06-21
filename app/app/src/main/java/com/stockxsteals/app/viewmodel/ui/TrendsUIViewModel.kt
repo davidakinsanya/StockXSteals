@@ -53,27 +53,25 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
      if (trends.isEmpty()) {
        // val newTrends = service.getTrends("sneakers", "EUR")
        // val newTrendsJson = Klaxon().toJsonString(newTrends)
-       //getTrendsModel().setFirstTrend(getCurrentDate(), "{}")
-       println(1)
+       // getTrendsModel().setFirstTrend(getCurrentDate(), newTrendsJson)
        // addTrend(newTrends)
      } else {
        if (fileIsOld(trends[0].timestamp)) {
          // val newTrends = service.getTrends("sneakers", "EUR")
          // val newTrendsJson = Klaxon().toJsonString(newTrends)
-         //getTrendsModel().updateTrends(getCurrentDate(), "{}", 0)
-         println(2)
+         // getTrendsModel().updateTrends(getCurrentDate(), newTrendsJson, 0)
          // addTrend(newTrends)
        } else {
-         /*val data = Klaxon().parse<List<Trend>>(
+         //TODO: Write this exact object to a text file and refactor for testing on different screens.
+         val data = Klaxon().parseArray<Trend>(
            trends[0].json
          )!!
-         addTrend(data)*/
-         println(3)
+         addTrend(data)
        }
      }
   }
 
-   suspend fun addTrend(trends: List<Trend>) {
+   private suspend fun addTrend(trends: List<Trend>) {
      withContext(Dispatchers.IO) {
        _bootTrends.emit(trends)
      }

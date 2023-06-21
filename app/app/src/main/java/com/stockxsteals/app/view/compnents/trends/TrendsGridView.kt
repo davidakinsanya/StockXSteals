@@ -36,13 +36,12 @@ fun TrendsViewComponent(navController: NavHostController,
                  bottom = uiModel.trendsGridViewSmallPadding(windowSize))
         .fillMaxHeight(.88f)
     ) {
-
-      TrendsLazyGrid(navController = navController,
-                     trendsModel = trendsModel,
-                     productModel =  productModel,
-                     uiModel = uiModel,
-                     trends = currentTrends,
-                     windowSize = windowSize)
+        TrendsLazyGrid(navController = navController,
+                       trendsModel = trendsModel,
+                       productModel =  productModel,
+                       uiModel = uiModel,
+                       trends = currentTrends,
+                       windowSize = windowSize)
     }
   }
 }

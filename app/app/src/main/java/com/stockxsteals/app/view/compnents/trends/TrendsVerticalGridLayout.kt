@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -21,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.model.ui.GridItem
 import com.stockxsteals.app.navigation.AppScreens
@@ -64,21 +64,26 @@ fun TrendsLazyGrid(navController: NavHostController,
 
 
   val items = (1..trends.size).map {
-    GridItem(height = Random.nextInt(200, 300).dp,
-      color = Color(0xFFFFFFFF).copy(1f))
+    GridItem(
+      height = Random.nextInt(200, 300).dp,
+      color = Color(0xFFFFFFFF).copy(1f)
+    )
   }
 
-  LazyVerticalStaggeredGrid(columns = StaggeredGridCells.Fixed(2),
-                            modifier = Modifier.fillMaxSize(),
-                            contentPadding = PaddingValues(uiModel.trendsGridViewContentPadding(windowSize)),
-                            horizontalArrangement = Arrangement.spacedBy(5.dp),
-                            verticalItemSpacing = 5.dp) {
-
+  LazyVerticalStaggeredGrid(
+    columns = StaggeredGridCells.Fixed(2),
+    modifier = Modifier.fillMaxSize(),
+    contentPadding = PaddingValues(uiModel.trendsGridViewContentPadding(windowSize)),
+    horizontalArrangement = Arrangement.spacedBy(5.dp),
+    verticalItemSpacing = 5.dp
+  ) {
 
     if (trends.isEmpty()) {
-      val items2 = (1 .. 10).map {
-       GridItem(height = Random.nextInt(200,300).dp,
-          color = Color(0xFFFFFFFF).copy(1f))
+      val items2 = (1..10).map {
+        GridItem(
+          height = Random.nextInt(200, 300).dp,
+          color = Color(0xFFFFFFFF).copy(1f)
+        )
       }
 
       items(items2.size) { num ->
@@ -86,18 +91,28 @@ fun TrendsLazyGrid(navController: NavHostController,
       }
 
     } else {
-      itemsIndexed(trends) { num, trend ->
-        RandomColorBox(item = items[num],
-                       trend = trend,
-                       trendsModel = trendsModel,
-                       productModel = productModel,
-                       navController = navController,
-                       searchQuota = searchQuotaList[0],
-                       premiumQuota = premiumQuota[0])
+      var count = 0
+        trends.forEach {
+          if (searchQuotaList.isNotEmpty()) {
+            item {
+              RandomColorBox(
+                item = items[count],
+                trend = it,
+                trendsModel = trendsModel,
+                productModel = productModel,
+                windowSize = windowSize,
+                navController = navController,
+                searchQuota = searchQuotaList[0],
+                premiumQuota = premiumQuota[0]
+              )
+              if (count != trends.size - 1) count++
+              else count = 0
+            }
+          }
+        }
       }
     }
   }
-}
 
 @Composable
 fun AlternateBox(item: GridItem) {
@@ -114,11 +129,13 @@ fun RandomColorBox(item: GridItem,
                    trend: Trend,
                    trendsModel: TrendsUIViewModel,
                    productModel: ProductSearchViewModel,
+                   windowSize: WindowSize,
                    navController: NavHostController,
                    searchQuota: DailySearchQuota,
-                   premiumQuota: Premium,) {
+                   premiumQuota: Premium) {
 
   val networkModel = trendsModel.getNetworkModel()
+  val uiModel = productModel.getUIModel()
   val context = LocalContext.current
   val displayItem = remember { mutableStateOf(false) }
   val clicked = remember { mutableStateOf(false) }
@@ -151,29 +168,32 @@ fun RandomColorBox(item: GridItem,
       }
 
       Column(modifier = Modifier
-        .padding(top = 20.dp)
+        .padding(top = 10.dp)
         .fillMaxWidth()
         .fillMaxHeight(),
        verticalArrangement = Arrangement.Center,
        horizontalAlignment = Alignment.CenterHorizontally) {
         AsyncImage(
-          model = trend.image,
+          model = ImageRequest.Builder(LocalContext.current)
+            .data(trend.image)
+            .crossfade(true)
+            .build(),
           contentDescription = "Sneaker Image",
           modifier =
           Modifier
             .padding()
             .fillMaxHeight(0.65f)
-            .fillMaxWidth(0.65f))
+            .fillMaxWidth(0.65f)) // TODO:
 
         Text(text = trend.name,
-          fontSize = 12.sp,
+          fontSize = 12.sp, // TODO:
           maxLines = 2,
           textAlign = TextAlign.Center,
           fontWeight = FontWeight.Bold,
           modifier =
           Modifier
-            .padding(start = 20.dp, end = 20.dp, bottom = 20.dp)
-            .width(200.dp)
+            .padding(top = 20.dp, bottom = 10.dp, start = 20.dp, end = 20.dp) // TODO:
+            .width(200.dp) // TODO:
            )
       }
 
