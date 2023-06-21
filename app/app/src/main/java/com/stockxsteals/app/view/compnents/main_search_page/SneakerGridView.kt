@@ -80,9 +80,17 @@ fun SneakerViewComponent(productModel: ProductSearchViewModel,
         .fillMaxWidth()
     ) {
       if (uiModel.productIsNotNull(productResults)) {
-        Pager(productView, uiModel.productIsNotNull(productResults), productModel = productModel, prevPage = prevPage)
+        Pager(productView,
+          uiModel.productIsNotNull(productResults),
+          productModel = productModel,
+          prevPage = prevPage,
+          windowSize = windowSize)
       } else {
-        Pager(null, uiModel.productIsNotNull(productResults), productModel = productModel, prevPage = prevPage)
+        Pager(null,
+          uiModel.productIsNotNull(productResults),
+          productModel = productModel,
+          prevPage = prevPage,
+          windowSize = windowSize)
       }
     }
   }
@@ -90,10 +98,15 @@ fun SneakerViewComponent(productModel: ProductSearchViewModel,
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun Pager(view: ProductView?, bool: Boolean, productModel: ProductSearchViewModel, prevPage: Int) {
+fun Pager(view: ProductView?,
+          bool: Boolean,
+          productModel: ProductSearchViewModel,
+          prevPage: Int,
+          windowSize: WindowSize) {
 
 
   val currentSearch = productModel.getFilterModel().getCurrentSearch()
+  val uiModel = productModel.getUIModel()
 
   val pagerState = rememberPagerState()
   val count: Int = when(prevPage) {
@@ -142,12 +155,19 @@ fun Pager(view: ProductView?, bool: Boolean, productModel: ProductSearchViewMode
         .background(color = Color(0xFFFFFFFF).copy(1f))
     ) {
       if (bool) {
-        PagerTopRow(view!!.getConstant())
+        PagerTopRow(
+          constants = view!!.getConstant(),
+          uiModel = uiModel,
+          windowSize = windowSize
+        )
         AdditionalPagerData(
-          page,
-          view.listForPager(),
-          currentSearch.sizeType,
-          currentSearch.size)
+          uiModel = uiModel,
+          windowSize = windowSize,
+          count = page,
+          data = view.listForPager(),
+          type = currentSearch.sizeType,
+          size = currentSearch.size
+        )
       }
       else
         SinglePagerComponent()

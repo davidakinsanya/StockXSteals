@@ -21,9 +21,13 @@ import com.stockxsteals.app.R
 import com.stockxsteals.app.model.dto.Market
 import com.stockxsteals.app.model.dto.Traits
 import com.stockxsteals.app.model.dto.Variants
+import com.stockxsteals.app.utils.WindowSize
+import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
 @Composable
-fun PagerTopRow(constants: List<String>) {
+fun PagerTopRow(constants: List<String>,
+                uiModel: UIViewModel,
+                windowSize: WindowSize) {
   Column(
     modifier = Modifier
       .fillMaxWidth(1.0f)
@@ -38,19 +42,19 @@ fun PagerTopRow(constants: List<String>) {
       Column {
         Text(
           text = constants[0],
-          fontSize = 15.sp,
+          fontSize = uiModel.pagerTopRowFontSize(windowSize),
           maxLines = 4,
           fontWeight = FontWeight.Bold,
           modifier = Modifier
-            .width(150.dp)
-            .height(70.dp)
+            .width(uiModel.pagerTopRowTextWidth(windowSize))
+            .height(uiModel.pagerTopRowHeight(windowSize))
         )
         Text(
           text = constants[1],
-          fontSize = 12.sp,
+          fontSize = uiModel.pagerTopRowFontSizeTwo(windowSize),
           fontWeight = FontWeight.Medium,
           modifier = Modifier
-            .width(145.dp)
+            .width(uiModel.pagerTopRowTextWidthTwo(windowSize))
             .height(20.dp)
         )
       }
@@ -66,30 +70,47 @@ fun PagerTopRow(constants: List<String>) {
 }
 
 @Composable
-fun AdditionalPagerData(count: Int,
+fun AdditionalPagerData(uiModel: UIViewModel,
+                        windowSize: WindowSize,
+                        count: Int,
                         data: Map<String, List<Any>>,
                         type: String,
                         size: Double) {
 
   Column(modifier = Modifier
-    .padding(top = 150.dp)
+    .padding(top = uiModel.additionalPagerDataTopPadding(windowSize))
     .fillMaxSize()) {
     when (count) {
       0 -> {
-        DescriptionAndTraits(data = data)
+        DescriptionAndTraits(
+          data = data,
+          uiModel = uiModel,
+          windowSize = windowSize
+        )
       }
       1 -> {
-        DataBySize(data = data, type = type, size = size)
+        DataBySize(
+          uiModel = uiModel,
+          windowSize = windowSize,
+          data = data,
+          type = type,
+          size = size)
       }
       else -> {
-        DataOverall(data = data)
+        DataOverall(
+          uiModel = uiModel,
+          windowSize = windowSize,
+          data = data)
       }
     }
   }
 }
 @Composable
-fun DescriptionAndTraits(data: Map<String, List<Any>>) {
+fun DescriptionAndTraits(data: Map<String, List<Any>>,
+                         uiModel: UIViewModel,
+                         windowSize: WindowSize) {
   val traits: List<*>?
+  val paddingList = uiModel.additionalPagerDataPaddingList(windowSize)
   val emptyTraits = data["2"]?.get(0) as List<*>
   var cwText: Traits? = null
   var rdText: Traits? = null
@@ -104,30 +125,51 @@ fun DescriptionAndTraits(data: Map<String, List<Any>>) {
   if (emptyTraits.isNotEmpty()) {
     Text(
       text = "${cwText?.name}: ${cwText?.value}",
-      fontSize = 14.sp,
+      fontSize = uiModel.additionalPagerDataSmallText(windowSize),
       fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(top = 25.dp, bottom = 10.dp, start = 25.dp, end = 10.dp)
+      modifier = Modifier.padding(
+        top = paddingList[0],
+        bottom = paddingList[1],
+        start = paddingList[2],
+        end = paddingList[3])
     )
 
     Text(
       text = "${rdText?.name}: ${rdText?.value}",
-      fontSize = 14.sp,
+      fontSize = uiModel.additionalPagerDataSmallText(windowSize),
       fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(top = 25.dp, bottom = 10.dp, start = 25.dp, end = 30.dp)
+      modifier = Modifier.padding(
+        top = paddingList[0],
+        bottom = paddingList[1],
+        start = paddingList[2],
+        end = paddingList[3])
     )
   }
 
   Text(
     text = data["1"]?.get(0).toString(),
-    fontSize = 14.sp,
+    fontSize = uiModel.additionalPagerDataSmallText(windowSize),
     fontWeight = FontWeight.Light,
-    modifier = Modifier.padding(25.dp)
+    modifier = Modifier.padding(
+      top = paddingList[0],
+      bottom = paddingList[1],
+      start = paddingList[2],
+      end = paddingList[3])
   )
 }
 
 @Composable
-fun DataBySize(data: Map<String, List<Any>>, type: String, size: Double) {
+fun DataBySize(uiModel: UIViewModel,
+               windowSize: WindowSize,
+               data: Map<String, List<Any>>,
+               type: String,
+               size: Double) {
+
   val variants = data["3"]?.get(0) as List<*>
+  val paddingList = uiModel.additionalPagerDataPaddingList(windowSize)
+  val paddingListDisclaimer = uiModel.additionalPagerDataPaddingListDisclaimer(windowSize)
+  val infoFontSize = uiModel.additionalPagerDataInfoFontSize(windowSize)
+  val headersFontSize = uiModel.additionalPagerDataHeadersFontSize(windowSize)
   var market: Market? = null
 
   variants.forEach { variant ->
@@ -145,126 +187,206 @@ fun DataBySize(data: Map<String, List<Any>>, type: String, size: Double) {
   if (market != null) {
 
     Text(text = "Market Data (Buyers)",
-      fontSize = 20.sp,
+      fontSize = headersFontSize,
       fontWeight = FontWeight.Normal,
-      modifier = Modifier.padding(top = 25.dp, bottom = 5.dp, start = 25.dp, end = 10.dp))
+      modifier = Modifier.padding(
+        top = paddingList[0],
+        bottom = paddingList[1],
+        start = paddingList[2],
+        end = paddingList[3]))
 
     Text(
       text = "Lowest Asking Price: ${ if (market!!.bids.lowest_ask == null) "N/A" else market!!.bids.lowest_ask }",
-      fontSize = 16.sp,
+      fontSize = infoFontSize,
       fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
+      modifier = Modifier.padding(
+        top = paddingList[0],
+        bottom = paddingList[1],
+        start = paddingList[2],
+        end = paddingList[3])
     )
 
     Text(
       text = "Highest Bidding Price: ${ if (market!!.bids.highest_bid == null) "N/A" else market!!.bids.highest_bid }",
-      fontSize = 16.sp,
+      fontSize = infoFontSize,
       fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
+      modifier = Modifier.padding(
+        top = paddingList[0],
+        bottom = paddingList[1],
+        start = paddingList[2],
+        end = paddingList[3])
     )
 
     Text(
       text = "Number of Sellers: ${ if (market!!.bids.num_asks == null) 0 else market!!.bids.num_asks }",
-      fontSize = 16.sp,
+      fontSize = infoFontSize,
       fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
+      modifier = Modifier.padding(
+        top = paddingList[0],
+        bottom = paddingList[1],
+        start = paddingList[2],
+        end = paddingList[3])
     )
 
     Text(
       text = "Number of Bidders: ${ if (market!!.bids.num_bids == null) 0 else market!!.bids.num_bids }",
-      fontSize = 16.sp,
+      fontSize = infoFontSize,
       fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
+      modifier = Modifier.padding(
+        top = paddingList[0],
+        bottom = paddingList[1],
+        start = paddingList[2],
+        end = paddingList[3])
     )
 
     Text(text = "Market Data (Sellers)",
-      fontSize = 20.sp,
+      fontSize = headersFontSize,
       fontWeight = FontWeight.Normal,
-      modifier = Modifier.padding(top = 25.dp, bottom = 5.dp, start = 25.dp, end = 10.dp))
+      modifier = Modifier.padding(
+        top = paddingList[0],
+        bottom = paddingList[1],
+        start = paddingList[2],
+        end = paddingList[3])
+    )
 
     Text(
       text = "Last Sale: ${market!!.sales.last_sale }",
-      fontSize = 16.sp,
+      fontSize = infoFontSize,
       fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
+      modifier = Modifier.padding(
+        top = paddingList[0],
+        bottom = paddingList[1],
+        start = paddingList[2],
+        end = paddingList[3])
     )
 
     Text(
       text = "All Sales (Past 3 Days): ${market!!.sales.last_sale_72h }",
-      fontSize = 16.sp,
+      fontSize = infoFontSize,
       fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
+      modifier = Modifier.padding(
+        top = paddingList[0],
+        bottom = paddingList[1],
+        start = paddingList[2],
+        end = paddingList[3])
     )
 
     Text("* Market data for ${type.replace("_", " ")} Size ${size.toString().replace(".0", "")} only.",
       fontSize = 8.sp,
       fontWeight = FontWeight.Normal,
-      modifier = Modifier.padding(top = 35.dp, bottom = 5.dp, start = 25.dp, end = 10.dp))
+      modifier = Modifier.padding(
+        top = paddingListDisclaimer[0],
+        bottom = paddingListDisclaimer[1],
+        start = paddingListDisclaimer[2],
+        end = paddingListDisclaimer[3]))
 
   }
 }
 
 @Composable
-fun DataOverall(data: Map<String, List<Any>>) {
+fun DataOverall(uiModel: UIViewModel,
+                windowSize: WindowSize,
+                data: Map<String, List<Any>>) {
+
   val market = data["4"]?.get(0) as Market?
+  val paddingList = uiModel.additionalPagerDataPaddingList(windowSize)
+  val paddingListDisclaimer = uiModel.additionalPagerDataPaddingListDisclaimer(windowSize)
+  val infoFontSize = uiModel.additionalPagerDataInfoFontSize(windowSize)
+  val headersFontSize = uiModel.additionalPagerDataHeadersFontSize(windowSize)
   if (market != null) {
     
     Text(text = "Market Data (Buyers)",
-      fontSize = 20.sp,
+      fontSize = headersFontSize,
       fontWeight = FontWeight.Normal,
-      modifier = Modifier.padding(top = 25.dp, bottom = 5.dp, start = 25.dp, end = 10.dp))
+      modifier = Modifier.padding(
+        top = paddingList[0],
+        bottom = paddingList[1],
+        start = paddingList[2],
+        end = paddingList[3]))
 
     Text(
       text = "Lowest Asking Price: ${market.bids.lowest_ask ?: "N/A"}",
-      fontSize = 16.sp,
+      fontSize = infoFontSize,
       fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
+      modifier = Modifier.padding(
+        top = paddingList[0],
+        bottom = paddingList[1],
+        start = paddingList[2],
+        end = paddingList[3])
     )
 
     Text(
       text = "Highest Bidding Price: ${market.bids.highest_bid ?: "N/A"}",
-      fontSize = 16.sp,
+      fontSize = infoFontSize,
       fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
+      modifier = Modifier.padding(
+        top = paddingList[0],
+        bottom = paddingList[1],
+        start = paddingList[2],
+        end = paddingList[3])
     )
 
     Text(
       text = "Number of Sellers: ${market.bids.num_asks ?: 0}",
-      fontSize = 16.sp,
+      fontSize = infoFontSize,
       fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
+      modifier = Modifier.padding(
+        top = paddingList[0],
+        bottom = paddingList[1],
+        start = paddingList[2],
+        end = paddingList[3])
     )
 
     Text(
       text = "Number of Bidders: ${market.bids.num_bids ?: 0}",
-      fontSize = 16.sp,
+      fontSize = infoFontSize,
       fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
+      modifier = Modifier.padding(
+        top = paddingList[0],
+        bottom = paddingList[1],
+        start = paddingList[2],
+        end = paddingList[3])
     )
 
     Text(text = "Market Data (Sellers)",
-      fontSize = 20.sp,
+      fontSize = headersFontSize,
       fontWeight = FontWeight.Normal,
-      modifier = Modifier.padding(top = 25.dp, bottom = 5.dp, start = 25.dp, end = 10.dp))
+      modifier = Modifier.padding(
+        top = paddingList[0],
+        bottom = paddingList[1],
+        start = paddingList[2],
+        end = paddingList[3]))
 
     Text(
       text = "Last Sale: ${market.sales.last_sale }",
-      fontSize = 16.sp,
+      fontSize = infoFontSize,
       fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
+      modifier = Modifier.padding(
+        top = paddingList[0],
+        bottom = paddingList[1],
+        start = paddingList[2],
+        end = paddingList[3])
     )
 
     Text(
       text = "All Sales (Past 3 Days): ${market.sales.last_sale_72h }",
-      fontSize = 16.sp,
+      fontSize = infoFontSize,
       fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(top = 10.dp, bottom = 5.dp, start = 25.dp, end = 10.dp)
+      modifier = Modifier.padding(
+        top = paddingList[0],
+        bottom = paddingList[1],
+        start = paddingList[2],
+        end = paddingList[3])
     )
 
     Text("* Market data for all sizes.",
       fontSize = 8.sp,
       fontWeight = FontWeight.Normal,
-      modifier = Modifier.padding(top = 35.dp, bottom = 5.dp, start = 25.dp, end = 10.dp))
+      modifier = Modifier.padding(
+        top = paddingListDisclaimer[0],
+        bottom = paddingListDisclaimer[1],
+        start = paddingListDisclaimer[2],
+        end = paddingListDisclaimer[3]))
     
   }
   

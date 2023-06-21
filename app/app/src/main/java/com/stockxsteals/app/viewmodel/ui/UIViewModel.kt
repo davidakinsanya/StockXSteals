@@ -332,4 +332,94 @@ class UIViewModel: ViewModel() {
     }
     return dp
   }
+
+  fun pagerTopRowTextWidth(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Small -> { 110.dp }
+      else -> { 150.dp }
+    }
+    return dp
+  }
+
+  // kotlinx.serialization.json.internal.JsonDecodingException
+
+  fun pagerTopRowFontSize(windowSize: WindowSize): TextUnit {
+    val sp: TextUnit = when(windowSize.width) {
+      WindowType.Small -> { 10.sp }
+      else -> { 15.sp }
+    }
+    return sp
+  }
+
+  fun pagerTopRowHeight(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Small -> { 45.dp }
+      else -> { 70.dp }
+    }
+    return dp
+  }
+
+  fun pagerTopRowFontSizeTwo(windowSize: WindowSize): TextUnit {
+    val sp: TextUnit = when(windowSize.width) {
+      WindowType.Small -> { 8.sp }
+      else -> { 12.sp }
+    }
+    return sp
+  }
+
+  fun pagerTopRowTextWidthTwo(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Small -> { 125.dp }
+      else -> { 145.dp }
+    }
+    return dp
+  }
+
+  fun additionalPagerDataTopPadding(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Small -> { 105.dp }
+      else -> { 150.dp }
+    }
+    return dp
+  }
+
+  fun additionalPagerDataSmallText(windowSize: WindowSize): TextUnit {
+    val sp: TextUnit = when(windowSize.width) {
+      WindowType.Small -> { 8.sp }
+      else -> { 14.sp }
+    }
+    return sp
+  }
+
+  fun additionalPagerDataPaddingList(windowSize: WindowSize): List<Dp> {
+    val dp: List<Dp> = when(windowSize.width) {
+      WindowType.Small -> { listOf(5.dp, 5.dp, 25.dp, 10.dp) }
+      else -> { listOf(25.dp, 10.dp, 25.dp, 10.dp) }
+    }
+    return dp
+  }
+
+  fun additionalPagerDataPaddingListDisclaimer(windowSize: WindowSize): List<Dp> {
+    val dp: List<Dp> = when(windowSize.width) {
+      WindowType.Small -> { listOf(8.dp, 5.dp, 25.dp, 10.dp) }
+      else -> { listOf(35.dp, 5.dp, 25.dp, 10.dp) }
+    }
+    return dp
+  }
+
+  fun additionalPagerDataInfoFontSize(windowSize: WindowSize): TextUnit {
+    val sp: TextUnit = when(windowSize.width) {
+      WindowType.Small -> { 8.sp }
+      else -> { 16.sp }
+    }
+    return sp
+  }
+
+  fun additionalPagerDataHeadersFontSize(windowSize: WindowSize): TextUnit {
+    val sp: TextUnit = when(windowSize.width) {
+      WindowType.Small -> { 14.sp }
+      else -> { 20.sp }
+    }
+    return sp
+  }
 }
