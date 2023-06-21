@@ -41,7 +41,7 @@ import db.entity.Premium
 @Composable
  fun SearchEntry(title: String,
                  result: List<String>,
-                 productSearchViewModel: ProductSearchViewModel,
+                 productModel: ProductSearchViewModel,
                  windowSize: WindowSize,
                  networkModel: NetworkViewModel,
                  navController: NavHostController,
@@ -51,8 +51,8 @@ import db.entity.Premium
 
   val searchRoute = AppScreens.Search.route
   val context = LocalContext.current
-  val dailySearch = productSearchViewModel.getSearchModel()
-  val uiModel = productSearchViewModel.getUIModel()
+  val dailySearch = productModel.getSearchModel()
+  val uiModel = productModel.getUIModel()
 
   val displayItem = remember { mutableStateOf(false) }
   val clicked = remember { mutableStateOf(false) }
@@ -123,7 +123,7 @@ import db.entity.Premium
       )
 
     SearchEntryCoroutineDB(displayItem = displayItem,
-                           productSearchViewModel = productSearchViewModel,
+                           productModel = productModel,
                            result = result,
                            navController = navController,
                            searchRoute = searchRoute)

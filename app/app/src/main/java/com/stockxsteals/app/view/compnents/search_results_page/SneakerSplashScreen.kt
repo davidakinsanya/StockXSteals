@@ -27,34 +27,34 @@ import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SneakerSplashScreen(navController: NavHostController,
-                        productSearchViewModel: ProductSearchViewModel,
+                        productModel: ProductSearchViewModel,
                         networkModel: NetworkViewModel,
                         windowSize: WindowSize
 ) {
 
   val focusManager = LocalFocusManager.current
-  val searchRes = productSearchViewModel.getFilterModel().bootMap.collectAsState()
-  val uiModel = productSearchViewModel.getUIModel()
+  val searchRes = productModel.getFilterModel().bootMap.collectAsState()
+  val uiModel = productModel.getUIModel()
   val map = searchRes.value
   val deleteSearch = remember { mutableStateOf(false) }
   var isPremium = false
 
-  val premiumQuota = productSearchViewModel
+  val premiumQuota = productModel
     .getPremiumModel()
     .premiumQuotas
     .collectAsState(initial = emptyList())
     .value
 
-  val searchQuotaList = productSearchViewModel
+  val searchQuotaList = productModel
     .getSearchModel()
     .quota
     .collectAsState(initial = emptyList())
     .value
 
   LaunchedEffect(true) {
-    isPremium = productSearchViewModel.isPremium(premiumQuota)
-    productSearchViewModel.insertFirstSearch(searchQuotaList)
-    if (productSearchViewModel.getHistoryModel().getSearchByStamp("0") == null)
+    isPremium = productModel.isPremium(premiumQuota)
+    productModel.insertFirstSearch(searchQuotaList)
+    if (productModel.getHistoryModel().getSearchByStamp("0") == null)
       navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
   }
 
@@ -108,7 +108,7 @@ fun SneakerSplashScreen(navController: NavHostController,
                 SearchEntry(
                   title = it,
                   result = map[it]!!,
-                  productSearchViewModel = productSearchViewModel,
+                  productModel = productModel,
                   windowSize = windowSize,
                   networkModel = networkModel,
                   navController = navController,
@@ -118,7 +118,7 @@ fun SneakerSplashScreen(navController: NavHostController,
             }
           }
           DeleteSearchCoroutine(deleteSearch = deleteSearch,
-                                productSearchViewModel = productSearchViewModel)
+                                productModel = productModel)
         }
       }
     }

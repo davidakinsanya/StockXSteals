@@ -40,15 +40,14 @@ import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
-import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchAppBar(navController: NavHostController,
-                 productSearchViewModel: ProductSearchViewModel,
+                 productModel: ProductSearchViewModel,
                  trendsModel: TrendsUIViewModel,
-                 uiModel: UIViewModel,
-                 networkModel: NetworkViewModel) {
+                 networkModel: NetworkViewModel
+) {
 
   val focusManager = LocalFocusManager.current
   val focusRequester = remember { FocusRequester() }
@@ -56,6 +55,7 @@ fun SearchAppBar(navController: NavHostController,
 
   val navBackStackEntry by navController.currentBackStackEntryAsState()
   val currentDestination = navBackStackEntry?.destination
+  val uiModel = productModel.getUIModel()
   var selected = ""
 
   uiModel.listOfScreens().forEach { screen ->
@@ -82,9 +82,8 @@ fun SearchAppBar(navController: NavHostController,
 
       RoundTextField(
           navController = navController,
-          productSearchViewModel = productSearchViewModel,
+          productModel = productModel,
           trendsModel = trendsModel,
-          uiModel = uiModel,
           networkModel = networkModel,
           text = text,
           selected = selected,
@@ -100,9 +99,8 @@ fun SearchAppBar(navController: NavHostController,
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun RoundTextField(navController: NavHostController,
-                   productSearchViewModel: ProductSearchViewModel,
+                   productModel: ProductSearchViewModel,
                    trendsModel: TrendsUIViewModel,
-                   uiModel: UIViewModel,
                    networkModel: NetworkViewModel,
                    text: MutableState<String>,
                    selected: String,
@@ -113,13 +111,14 @@ fun RoundTextField(navController: NavHostController,
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     val sneakersDestination = AppScreens.SneakerSearch.route
+    val uiModel =  productModel.getUIModel()
     if (uiModel.resetTextField(currentDestination)) {
       focusManager.clearFocus()
       text.value = ""
     }
 
-    val presetModel = productSearchViewModel.getFilterModel().getPresetsModel()
-    val currentSearch = productSearchViewModel.getFilterModel().getCurrentSearch()
+    val presetModel = productModel.getFilterModel().getPresetsModel()
+    val currentSearch = productModel.getFilterModel().getCurrentSearch()
     val allPresets = presetModel.allPreset.collectAsState(initial = emptyList()).value
     val produceSearch = remember { mutableStateOf(false) }
     val clicked = remember { mutableStateOf(false) }
@@ -183,7 +182,7 @@ fun RoundTextField(navController: NavHostController,
             ) {
               focusManager.clearFocus()
             }
-            productSearchViewModel.clearProduct()
+            productModel.clearProduct()
           }
           true
         }
@@ -213,17 +212,17 @@ fun RoundTextField(navController: NavHostController,
               if (uiModel.selectedIsSearch(selected)) {
                 navController.navigate(AppScreens.TopSearch.route)
               } else if (
-                productSearchViewModel.getFilterModel()
+                productModel.getFilterModel()
                   .searchCheck() && text.value.isNotEmpty()
               ) {
                 clicked.value = true
                 focusManager.clearFocus()
-              } else if (productSearchViewModel.getFilterModel()
+              } else if (productModel.getFilterModel()
                   .searchCheck() || text.value.isEmpty()
               )
                 if (navController.currentDestination?.route == sneakersDestination) {
                   Toast.makeText(context, "Please select a sneaker.", Toast.LENGTH_SHORT).show()
-                } else if (!productSearchViewModel.getFilterModel().searchCheck()) {
+                } else if (!productModel.getFilterModel().searchCheck()) {
                   Toast.makeText(context, "Please complete all filters.", Toast.LENGTH_SHORT).show()
                 } else {
                   Toast.makeText(context, "Please enter your sneaker.", Toast.LENGTH_SHORT).show()
@@ -259,7 +258,7 @@ fun RoundTextField(navController: NavHostController,
         )
 
       SearchComposableDB(
-        produceSearch, productSearchViewModel,
+        produceSearch, productModel,
         navController, sneakersDestination, text.value
       )
     }

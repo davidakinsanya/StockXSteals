@@ -40,7 +40,7 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SearchScreen(navController: NavHostController,
-                 productSearchViewModel: ProductSearchViewModel,
+                 productModel: ProductSearchViewModel,
                  windowSize: WindowSize
 ) {
 
@@ -50,7 +50,7 @@ fun SearchScreen(navController: NavHostController,
   val focusRequester = remember { FocusRequester() }
   val keyboardController = LocalSoftwareKeyboardController.current
 
-  val model = productSearchViewModel.getFilterModel().getPresetsModel()
+  val model = productModel.getFilterModel().getPresetsModel()
   val allPresets = model.allPreset.collectAsState(initial = emptyList()).value
   val context = LocalContext.current
   val scope = rememberCoroutineScope()
@@ -70,17 +70,17 @@ fun SearchScreen(navController: NavHostController,
         horizontalArrangement = Arrangement.SpaceBetween
       ) {
         Row {
-          productSearchViewModel.getUIModel().listOfChips().forEach { it ->
+          productModel.getUIModel().listOfChips().forEach { it ->
             FilterButtons(button = it,
               selected = selected.value,
               windowSize = windowSize,
-              uiModel = productSearchViewModel.getUIModel(),
+              uiModel = productModel.getUIModel(),
               filterSelect = filterSelect,
               onSelected = { selected.value = it })
           }
         }
         SearchPageButtons(navController = navController,
-                          productSearchViewModel = productSearchViewModel,
+                          productModel = productModel,
                           windowSize = windowSize)
       }
     }
@@ -100,7 +100,7 @@ fun SearchScreen(navController: NavHostController,
           .height(50.dp)
       ) {
         SwitchFilters(
-          productSearchViewModel = productSearchViewModel,
+          productModel = productModel,
           windowSize = windowSize,
           selected = filterSelect.value,
           text = remember { mutableStateOf("") },
@@ -121,22 +121,24 @@ fun SearchScreen(navController: NavHostController,
       .border(BorderStroke(1.dp, SolidColor(Color.LightGray))),
     ) {
       items(allPresets.size) { index ->
-        DisplayPreset(preset = allPresets[index], productSearchViewModel.getFilterModel(), progressCount, scope, context)
+        DisplayPreset(preset = allPresets[index], productModel.getFilterModel(), progressCount, scope, context)
       }
     }
   }
 }
 
 @Composable
-fun SearchPageButtons(navController: NavHostController, productSearchViewModel: ProductSearchViewModel, windowSize: WindowSize) {
-  val uiModel = productSearchViewModel.getUIModel()
+fun SearchPageButtons(navController: NavHostController,
+                      productModel: ProductSearchViewModel,
+                      windowSize: WindowSize) {
+  val uiModel = productModel.getUIModel()
   val searchDestination = AppScreens.Search.route
   val focusManager = LocalFocusManager.current
 
   Row(modifier = Modifier.padding(start = uiModel.backButtonStartPadding(windowSize))) {
     IconButton(
       onClick = {
-        productSearchViewModel.clearProduct()
+        productModel.clearProduct()
         if (uiModel.previousScreenSneaker(navController)) {
           navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
         } else {

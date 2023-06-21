@@ -49,7 +49,7 @@ fun SearchEntryCoroutineOnClick(networkModel: NetworkViewModel,
 
 @Composable
 fun SearchEntryCoroutineDB(displayItem: MutableState<Boolean>,
-                           productSearchViewModel: ProductSearchViewModel,
+                           productModel: ProductSearchViewModel,
                            result: List<String>,
                            navController: NavHostController,
                            searchRoute: String,
@@ -57,9 +57,9 @@ fun SearchEntryCoroutineDB(displayItem: MutableState<Boolean>,
 
   LaunchedEffect(key1 = displayItem.value) {
     if (displayItem.value) {
-      val currentSearch = productSearchViewModel.getHistoryModel().getSearchByStamp("0")
+      val currentSearch = productModel.getHistoryModel().getSearchByStamp("0")
       if (currentSearch != null)
-        productSearchViewModel
+        productModel
           .getHistoryModel()
           .updateSearch(
             timestamp = getCurrentDate(),
@@ -76,21 +76,21 @@ fun SearchEntryCoroutineDB(displayItem: MutableState<Boolean>,
   }
 
   if (displayItem.value) {
-    productSearchViewModel.addProduct(
+    productModel.addProduct(
       result[0],
-      productSearchViewModel.getFilterModel().getCurrentSearch().currency,
-      productSearchViewModel.getFilterModel().getCurrentSearch().country
+      productModel.getFilterModel().getCurrentSearch().currency,
+      productModel.getFilterModel().getCurrentSearch().country
     )
   }
 }
 
 @Composable
 fun DeleteSearchCoroutine(deleteSearch: MutableState<Boolean>,
-                          productSearchViewModel: ProductSearchViewModel) {
+                          productModel: ProductSearchViewModel) {
   LaunchedEffect(deleteSearch.value) {
     if (deleteSearch.value) {
-      productSearchViewModel.getHistoryModel().deleteSearch("0")
-      productSearchViewModel.getFilterModel().clearFilterVariables()
+      productModel.getHistoryModel().deleteSearch("0")
+      productModel.getFilterModel().clearFilterVariables()
     }
   }
 }

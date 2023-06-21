@@ -45,7 +45,7 @@ fun NavGraphBuilder.sneakerNavGraph(
     composable(route = AppScreens.TopSearch.route) {
       SearchScreen(
         navController = navController,
-        productSearchViewModel = productSearchViewModel,
+        productModel = productSearchViewModel,
         windowSize = windowSize
       )
     }
@@ -53,7 +53,7 @@ fun NavGraphBuilder.sneakerNavGraph(
     composable(route = AppScreens.SneakerSearch.route) {
       SneakerSplashScreen(
         navController = navController,
-        productSearchViewModel = productSearchViewModel,
+        productModel = productSearchViewModel,
         networkModel = trendsModel.getNetworkModel(),
         windowSize = windowSize
       )

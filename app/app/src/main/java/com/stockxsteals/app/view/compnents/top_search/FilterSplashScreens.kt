@@ -17,7 +17,7 @@ import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun SwitchFilters(productSearchViewModel: ProductSearchViewModel,
+fun SwitchFilters(productModel: ProductSearchViewModel,
                   windowSize: WindowSize,
                   selected: String,
                   text: MutableState<String>,
@@ -26,8 +26,8 @@ fun SwitchFilters(productSearchViewModel: ProductSearchViewModel,
                   focusRequester: FocusRequester,
                   keyboardController: SoftwareKeyboardController?) {
 
-  val filterModel = productSearchViewModel.getFilterModel()
-  val uiModel = productSearchViewModel.getUIModel()
+  val filterModel = productModel.getFilterModel()
+  val uiModel = productModel.getUIModel()
 
   when(selected) {
     "Country" -> {
