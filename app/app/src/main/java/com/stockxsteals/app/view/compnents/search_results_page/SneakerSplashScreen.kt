@@ -104,7 +104,7 @@ fun SneakerSplashScreen(navController: NavHostController,
             AlternativeEntry(uiModel, windowSize)
           } else {
             map.keys.forEach {
-              if (searchQuotaList.isNotEmpty())
+              if (searchQuotaList.isNotEmpty() && premiumQuota.isNotEmpty())
                 SearchEntry(
                   title = it,
                   result = map[it]!!,

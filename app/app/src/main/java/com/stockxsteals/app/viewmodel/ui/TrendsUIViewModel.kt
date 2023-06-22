@@ -51,18 +51,17 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
      val service = ApiService.create()
 
      if (trends.isEmpty()) {
-       // val newTrends = service.getTrends("sneakers", "EUR")
-       // val newTrendsJson = Klaxon().toJsonString(newTrends)
-       // getTrendsModel().setFirstTrend(getCurrentDate(), newTrendsJson)
-       // addTrend(newTrends)
+       val newTrends = service.getTrends("sneakers", "EUR")
+       val newTrendsJson = Klaxon().toJsonString(newTrends)
+       getTrendsModel().setFirstTrend(getCurrentDate(), newTrendsJson)
+       addTrend(newTrends)
      } else {
        if (fileIsOld(trends[0].timestamp)) {
-         // val newTrends = service.getTrends("sneakers", "EUR")
-         // val newTrendsJson = Klaxon().toJsonString(newTrends)
-         // getTrendsModel().updateTrends(getCurrentDate(), newTrendsJson, 0)
-         // addTrend(newTrends)
+         val newTrends = service.getTrends("sneakers", "EUR")
+         val newTrendsJson = Klaxon().toJsonString(newTrends)
+         getTrendsModel().updateTrends(getCurrentDate(), newTrendsJson, 1)
+         addTrend(newTrends)
        } else {
-         //TODO: Write this exact object to a text file and refactor for testing on different screens.
          val data = Klaxon().parseArray<Trend>(
            trends[0].json
          )!!

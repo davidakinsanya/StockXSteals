@@ -93,7 +93,7 @@ fun TrendsLazyGrid(navController: NavHostController,
     } else {
       var count = 0
         trends.forEach {
-          if (searchQuotaList.isNotEmpty()) {
+          if (searchQuotaList.isNotEmpty() && premiumQuota.isNotEmpty()) {
             item {
               RandomColorBox(
                 item = items[count],
