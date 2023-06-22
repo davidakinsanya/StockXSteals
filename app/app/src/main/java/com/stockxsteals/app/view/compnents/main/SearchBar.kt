@@ -143,7 +143,11 @@ fun RoundTextField(navController: NavHostController,
       maxLines = 1,
       onValueChange = {
         text.value = it
-        if (text.value.isEmpty()) scope.launch { trendsModel.resetTrends() }
+        if (text.value.isEmpty())
+          scope.launch {
+            trendsModel.resetTrends()
+            focusManager.clearFocus()
+          }
       },
       enabled = true,
       modifier = Modifier
@@ -208,9 +212,12 @@ fun RoundTextField(navController: NavHostController,
         visualTransformation = VisualTransformation.None,
         trailingIcon = {
           IconButton(onClick = {
-            if (uiModel.selectedIsTrend(selected)) {
-              scope.launch { trendsModel.filterTrends(text.value) }
-            }
+            if (uiModel.selectedIsTrend(selected))
+              scope.launch {
+                trendsModel.filterTrends(text.value)
+                focusManager.clearFocus()
+              }
+
             if (purpleSearchBar && !uiModel.selectedIsTrend(selected)) {
               if (uiModel.selectedIsSearch(selected)) {
                 navController.navigate(AppScreens.TopSearch.route)
