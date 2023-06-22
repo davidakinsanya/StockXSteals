@@ -40,6 +40,7 @@ import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -122,6 +123,7 @@ fun RoundTextField(navController: NavHostController,
     val allPresets = presetModel.allPreset.collectAsState(initial = emptyList()).value
     val produceSearch = remember { mutableStateOf(false) }
     val clicked = remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
 
 
     if (navController.previousBackStackEntry?.destination?.route == AppScreens.SneakerSearch.route ) {
@@ -141,9 +143,7 @@ fun RoundTextField(navController: NavHostController,
       maxLines = 1,
       onValueChange = {
         text.value = it
-        if (uiModel.selectedIsTrend(selected)) {
-          trendsModel.filterTrends(it)
-        }
+        if (text.value.isEmpty()) scope.launch { trendsModel.resetTrends() }
       },
       enabled = true,
       modifier = Modifier
@@ -208,6 +208,9 @@ fun RoundTextField(navController: NavHostController,
         visualTransformation = VisualTransformation.None,
         trailingIcon = {
           IconButton(onClick = {
+            if (uiModel.selectedIsTrend(selected)) {
+              scope.launch { trendsModel.filterTrends(text.value) }
+            }
             if (purpleSearchBar && !uiModel.selectedIsTrend(selected)) {
               if (uiModel.selectedIsSearch(selected)) {
                 navController.navigate(AppScreens.TopSearch.route)

@@ -92,7 +92,6 @@ val appModule = module {
     TrendsUIViewModel(networkModel = get(),
                       historyModel = get(),
                       dailySearchModel = get(),
-                      premiumModel = get(),
                       trendsDBModel = get())
   }
 
