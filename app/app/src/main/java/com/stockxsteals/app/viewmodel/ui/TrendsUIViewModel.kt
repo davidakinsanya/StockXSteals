@@ -76,6 +76,12 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
      }
   }
 
+  suspend fun addDummyTrend(trends: List<Trend>) {
+    withContext(Dispatchers.IO) {
+      _bootTrends.emit(trends)
+    }
+  }
+
   fun filterTrends(text: String) {
     if (text.isNotEmpty()) {
       bootTrends.value.filter { trend ->
