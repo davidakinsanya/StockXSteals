@@ -305,7 +305,7 @@ class UIViewModel: ViewModel() {
   fun alternativeEntryLeftBoxes(windowSize: WindowSize): List<Dp> {
     val dp: List<Dp> = when(windowSize.width) {
       WindowType.Small -> {
-        listOf(40.dp, 70.dp, 100.dp)
+        listOf(40.dp, 70.dp, 95.dp)
       }
       WindowType.Large -> {
         listOf(200.dp, 290.dp, 400.dp)
@@ -421,5 +421,26 @@ class UIViewModel: ViewModel() {
       else -> { 20.sp }
     }
     return sp
+  }
+
+  fun trendsGridExpandButtonPadding(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Small -> { 105.dp }
+      WindowType.Large -> { 330.dp }
+      else -> { 150.dp }
+    }
+    return dp
+  }
+
+  fun trendsGridImageSize(windowSize: WindowSize): Float {
+    return if (windowSize.width == WindowType.Large) 0.45f else 0.65f
+  }
+
+  fun trendsGridTextPadding(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Large -> { 40.dp }
+      else -> { 20.dp }
+    }
+    return dp
   }
 }

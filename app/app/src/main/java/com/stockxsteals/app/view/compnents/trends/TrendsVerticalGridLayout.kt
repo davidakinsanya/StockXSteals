@@ -140,6 +140,8 @@ fun RandomColorBox(item: GridItem,
   val displayItem = remember { mutableStateOf(false) }
   val clicked = remember { mutableStateOf(false) }
 
+  val imageSize = uiModel.trendsGridImageSize(windowSize)
+
   Box(modifier = Modifier
     .fillMaxWidth()
     .height(item.height)
@@ -157,7 +159,7 @@ fun RandomColorBox(item: GridItem,
           modifier =
           Modifier
             .fillMaxHeight(.9f)
-            .padding(start = 150.dp)
+            .padding(start = uiModel.trendsGridExpandButtonPadding(windowSize))
             .fillMaxWidth(1f)
             .clickable {
               clicked.value = true
@@ -182,8 +184,8 @@ fun RandomColorBox(item: GridItem,
           modifier =
           Modifier
             .padding()
-            .fillMaxHeight(0.65f)
-            .fillMaxWidth(0.65f)) // TODO:
+            .fillMaxHeight(imageSize)
+            .fillMaxWidth(imageSize))
 
         Text(text = trend.name,
           fontSize = 12.sp, // TODO:
@@ -192,8 +194,11 @@ fun RandomColorBox(item: GridItem,
           fontWeight = FontWeight.Bold,
           modifier =
           Modifier
-            .padding(top = 20.dp, bottom = 10.dp, start = 20.dp, end = 20.dp) // TODO:
-            .width(200.dp) // TODO:
+            .padding(top = uiModel.trendsGridTextPadding(windowSize),
+                     bottom = 10.dp,
+                     start = 20.dp,
+                     end = 20.dp)
+            .width(200.dp)
            )
       }
 

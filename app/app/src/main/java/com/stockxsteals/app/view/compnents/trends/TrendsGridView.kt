@@ -9,8 +9,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
+import com.beust.klaxon.Klaxon
 import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.utils.WindowSize
+import com.stockxsteals.app.utils.getDummyTrends
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 
@@ -24,6 +26,11 @@ fun TrendsViewComponent(navController: NavHostController,
 
   val currentTrends: List<Trend> = trendsModel.bootTrends.collectAsState().value
   val uiModel = productModel.getUIModel()
+
+  LaunchedEffect(true) {
+    val trends: List<Trend> = Klaxon().parseArray(getDummyTrends())!!
+    trendsModel.addDummyTrend(trends)
+  }
 
   Column(
     modifier = Modifier

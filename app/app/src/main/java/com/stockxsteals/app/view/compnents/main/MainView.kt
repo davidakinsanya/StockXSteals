@@ -9,11 +9,8 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.beust.klaxon.Klaxon
-import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.navigation.NavGraph
-import com.stockxsteals.app.utils.getDummyTrends
 import com.stockxsteals.app.utils.rememberWindowSize
 import com.stockxsteals.app.viewmodel.db.*
 import com.stockxsteals.app.viewmodel.ui.*
@@ -31,11 +28,6 @@ fun SetupScreen(navController: NavHostController) {
   val productSearchModel: ProductSearchViewModel = getViewModel()
 
   val windowSize = rememberWindowSize()
-
-  LaunchedEffect(true) {
-    val trends: List<Trend> = Klaxon().parseArray(getDummyTrends())!!
-    trendsModel.addDummyTrend(trends)
-  }
 
   val navBackStackEntry by navController.currentBackStackEntryAsState()
   val currentDestination = navBackStackEntry?.destination
