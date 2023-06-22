@@ -188,7 +188,7 @@ fun RandomColorBox(item: GridItem,
             .fillMaxWidth(imageSize))
 
         Text(text = trend.name,
-          fontSize = 12.sp, // TODO:
+          fontSize = 12.sp,
           maxLines = 2,
           textAlign = TextAlign.Center,
           fontWeight = FontWeight.Bold,
