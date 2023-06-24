@@ -8,6 +8,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,30 +29,20 @@ fun SneakerViewComponent(productModel: ProductSearchViewModel,
 ) {
 
   val uiModel = productModel.getUIModel()
-  val productResults = when (navController.previousBackStackEntry?.destination?.route) {
-    "sneaker_search" -> {
-      productModel.searchResult.collectAsState()
-    }
-    /*
-    "trends" -> {
-      productModel.trendSearch.collectAsState()
-    } */
-    else -> {
-      null
-    }
-  }
 
-  val prevPage: Int = when (navController.previousBackStackEntry?.destination?.route) {
-    "sneaker_search" -> {
-      1
-    }
-    /*
-    "trends" -> {
-      2
-    } */
-    else -> {
-      -1
-    }
+  var productResults: State<Any>? = null
+  var prevPage: Int = -1
+  val previousDestination = navController.previousBackStackEntry?.destination?.route
+  val searchResult =  productModel.searchResult.collectAsState()
+  val trendResult = productModel.trendSearch.collectAsState()
+
+  if (previousDestination == "sneaker_search" && searchResult.value.name.isNotEmpty()) {
+    productResults = searchResult
+    prevPage = 1
+  }
+  if (previousDestination == "trends" && trendResult.value.name.isNotEmpty()) {
+    productResults = trendResult
+    prevPage = 2
   }
 
   if (navController.currentDestination?.route != AppScreens.Search.route) {
@@ -72,10 +63,12 @@ fun SneakerViewComponent(productModel: ProductSearchViewModel,
   ) {
     Column(
       modifier = Modifier
-        .padding(top = uiModel.searchGridTopPaddingLarge(windowSize),
-                 bottom = uiModel.searchGridViewSmallPadding(windowSize),
-                 start = uiModel.searchGridSidesPaddingLarge(windowSize),
-                 end = uiModel.searchGridSidesPaddingLarge(windowSize))
+        .padding(
+          top = uiModel.searchGridTopPaddingLarge(windowSize),
+          bottom = uiModel.searchGridViewSmallPadding(windowSize),
+          start = uiModel.searchGridSidesPaddingLarge(windowSize),
+          end = uiModel.searchGridSidesPaddingLarge(windowSize)
+        )
         .fillMaxHeight(.93f)
         .fillMaxWidth()
     ) {
@@ -160,14 +153,16 @@ fun Pager(view: ProductView?,
           uiModel = uiModel,
           windowSize = windowSize
         )
-        AdditionalPagerData(
-          uiModel = uiModel,
-          windowSize = windowSize,
-          count = page,
-          data = view.listForPager(),
-          type = currentSearch.sizeType,
-          size = currentSearch.size
-        )
+        if (prevPage == 1)
+          AdditionalPagerData(
+            uiModel = uiModel,
+            windowSize = windowSize,
+            count = page,
+            data = view.listForPager(),
+            type = currentSearch.sizeType,
+            size = currentSearch.size
+          )
+        if (prevPage == 2) {} // TODO:
       }
       else
         SinglePagerComponent()

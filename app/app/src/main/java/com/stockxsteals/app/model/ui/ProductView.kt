@@ -11,7 +11,7 @@ class ProductView(item: Any, navController: NavHostController) {
   else
     null
 
-  private val trend = if (navController.previousBackStackEntry?.destination?.route == "trend")
+  private val trend = if (navController.previousBackStackEntry?.destination?.route == "trends")
     item as Trend
   else
     null

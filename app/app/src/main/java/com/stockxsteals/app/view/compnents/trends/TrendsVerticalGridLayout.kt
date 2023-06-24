@@ -162,7 +162,7 @@ fun RandomColorBox(item: GridItem,
             .padding(start = uiModel.trendsGridExpandButtonPadding(windowSize))
             .fillMaxWidth(1f)
             .clickable {
-              clicked.value = true
+              // clicked.value = true // TODO:
               productModel.addTrend(trend)
               navController.navigate(AppScreens.Search.route)
             })
