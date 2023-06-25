@@ -16,29 +16,17 @@ import db.entity.Premium
 @Composable
 fun TrendCoroutineOnClick(trendsModel: TrendsUIViewModel,
                           networkModel: NetworkViewModel,
-                          productModel: ProductSearchViewModel,
                           navController: NavHostController,
                           context: Context,
-                          trend: Trend,
                           searchQuota: DailySearchQuota,
                           premiumQuota: Premium,
                           displayItem: MutableState<Boolean>
-                          ) {
+) {
 
 
   LaunchedEffect(key1 = true) {
     if (networkModel.checkConnection(context)) {
       if (trendsModel.getSearchModel().dbLogic(searchQuota) == 1 || premiumQuota.isPremium.toInt() == 1) {
-        trendsModel.getHistoryModel()
-          .addSearch(
-            getCurrentDate(),
-            country = "TRENDS", currency = "TRENDS", sizeType = "TRENDS",
-            size = 0.0,
-            trend.image,
-            trend.name,
-            ""
-          )
-
         if (premiumQuota.isPremium.toInt() == 0) {
           Toast
             .makeText(
@@ -49,19 +37,49 @@ fun TrendCoroutineOnClick(trendsModel: TrendsUIViewModel,
             .show()
         }
         displayItem.value = true
-
       } else {
         Toast
           .makeText(context, "Please upgrade to L8test+.", Toast.LENGTH_LONG)
           .show()
       }
-      if (displayItem.value) {
-        productModel.addTrend(trend)
+      if (displayItem.value)
         navController.navigate(AppScreens.Search.route)
-      }
+
 
     } else {
       networkModel.toastMessage(context)
     }
   }
 }
+
+@Composable
+fun TrendCoroutineDB(displayItem: MutableState<Boolean>,
+                     trendsModel: TrendsUIViewModel,
+                     productModel: ProductSearchViewModel,
+                     trend: Trend,
+                     navController: NavHostController,
+) {
+
+  LaunchedEffect(key1 = displayItem.value) {
+    if (displayItem.value) {
+      trendsModel.getHistoryModel()
+        .addSearch(
+          getCurrentDate(),
+          country = "US", currency = "USD", sizeType = "US_M",
+          size = 0.0,
+          trend.image,
+          trend.name,
+          ""
+        )
+      navController.navigate(AppScreens.Search.route)
+    }
+  }
+
+  if (displayItem.value)
+    productModel.addProduct(
+      trend.slug,
+      "US",
+     "USD"
+    )
+}
+

@@ -24,6 +24,7 @@ import coil.request.ImageRequest
 import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.model.ui.GridItem
 import com.stockxsteals.app.navigation.AppScreens
+import com.stockxsteals.app.ui_coroutines.TrendCoroutineDB
 import com.stockxsteals.app.ui_coroutines.TrendCoroutineOnClick
 import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
@@ -162,8 +163,7 @@ fun RandomColorBox(item: GridItem,
             .padding(start = uiModel.trendsGridExpandButtonPadding(windowSize))
             .fillMaxWidth(1f)
             .clickable {
-              // clicked.value = true // TODO:
-              productModel.addTrend(trend)
+              // clicked.value = true
               navController.navigate(AppScreens.Search.route)
             })
 
@@ -194,26 +194,34 @@ fun RandomColorBox(item: GridItem,
           fontWeight = FontWeight.Bold,
           modifier =
           Modifier
-            .padding(top = uiModel.trendsGridTextPadding(windowSize),
-                     bottom = 10.dp,
-                     start = 20.dp,
-                     end = 20.dp)
+            .padding(
+              top = uiModel.trendsGridTextPadding(windowSize),
+              bottom = 10.dp,
+              start = 20.dp,
+              end = 20.dp
+            )
             .width(200.dp)
            )
       }
 
-    if (clicked.value) {
+    if (clicked.value)
       TrendCoroutineOnClick(
         trendsModel = trendsModel,
         networkModel = networkModel,
-        productModel = productModel,
         navController = navController,
         context = context,
-        trend = trend,
         searchQuota = searchQuota,
         premiumQuota = premiumQuota,
         displayItem = displayItem
       )
-    }
+
+    if (displayItem.value)
+      TrendCoroutineDB(
+        displayItem = displayItem,
+        trendsModel = trendsModel,
+        productModel = productModel,
+        trend = trend,
+        navController = navController,
+      )
   }
 }

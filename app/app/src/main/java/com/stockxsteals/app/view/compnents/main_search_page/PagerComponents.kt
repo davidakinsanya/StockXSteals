@@ -70,7 +70,7 @@ fun PagerTopRow(constants: List<String>,
 }
 
 @Composable
-fun AdditionalPagerData(uiModel: UIViewModel,
+fun AdditionalSearchPagerData(uiModel: UIViewModel,
                         windowSize: WindowSize,
                         count: Int,
                         data: Map<String, List<Any>>,
@@ -105,6 +105,34 @@ fun AdditionalPagerData(uiModel: UIViewModel,
     }
   }
 }
+
+@Composable
+fun AdditionalTrendsPagerData(uiModel: UIViewModel,
+                              windowSize: WindowSize,
+                              count: Int,
+                              data: Map<String, List<Any>>) {
+
+  Column(modifier = Modifier
+    .padding(top = uiModel.additionalPagerDataTopPadding(windowSize))
+    .fillMaxSize()) {
+    when (count) {
+      0 -> {
+        DescriptionAndTraits(
+          data = data,
+          uiModel = uiModel,
+          windowSize = windowSize
+        )
+      }
+      else -> {
+        DataOverall(
+          uiModel = uiModel,
+          windowSize = windowSize,
+          data = data)
+      }
+    }
+  }
+}
+
 @Composable
 fun DescriptionAndTraits(data: Map<String, List<Any>>,
                          uiModel: UIViewModel,

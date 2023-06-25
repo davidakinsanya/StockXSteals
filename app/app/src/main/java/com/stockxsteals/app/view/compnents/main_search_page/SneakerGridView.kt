@@ -34,14 +34,13 @@ fun SneakerViewComponent(productModel: ProductSearchViewModel,
   var prevPage: Int = -1
   val previousDestination = navController.previousBackStackEntry?.destination?.route
   val searchResult =  productModel.searchResult.collectAsState()
-  val trendResult = productModel.trendSearch.collectAsState()
 
   if (previousDestination == "sneaker_search" && searchResult.value.name.isNotEmpty()) {
     productResults = searchResult
     prevPage = 1
   }
-  if (previousDestination == "trends" && trendResult.value.name.isNotEmpty()) {
-    productResults = trendResult
+  if (previousDestination == "trends" && searchResult.value.name.isNotEmpty()) {
+    productResults = searchResult
     prevPage = 2
   }
 
@@ -108,7 +107,7 @@ fun Pager(view: ProductView?,
     }
 
     2 -> {
-      1
+      2
     }
     else -> {
       1
@@ -154,7 +153,7 @@ fun Pager(view: ProductView?,
           windowSize = windowSize
         )
         if (prevPage == 1)
-          AdditionalPagerData(
+          AdditionalSearchPagerData(
             uiModel = uiModel,
             windowSize = windowSize,
             count = page,
@@ -162,7 +161,13 @@ fun Pager(view: ProductView?,
             type = currentSearch.sizeType,
             size = currentSearch.size
           )
-        if (prevPage == 2) {} // TODO:
+        if (prevPage == 2)
+          AdditionalTrendsPagerData(
+            uiModel = uiModel,
+            windowSize = windowSize,
+            count = page,
+            data = view.listForPager()
+          )
       }
       else
         SinglePagerComponent()
