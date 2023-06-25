@@ -24,10 +24,6 @@ class ProductSearchViewModel(private val filterModel: FilterViewModel,
   private val _searchResult = MutableStateFlow(blankProduct())
   val searchResult: StateFlow<Product> = _searchResult
 
-  private val _trendSearch = MutableStateFlow(blankTrend())
-  val trendSearch: StateFlow<Trend> = _trendSearch
-
-
   fun getFilterModel(): FilterViewModel {
     return filterModel
   }
@@ -79,18 +75,6 @@ class ProductSearchViewModel(private val filterModel: FilterViewModel,
   fun clearProduct() {
     viewModelScope.launch(Dispatchers.Default) { // to run code in Background Thread
       _searchResult.emit(blankProduct())
-    }
-  }
-
-  fun clearTrend() {
-    viewModelScope.launch(Dispatchers.Default) { // to run code in Background Thread
-      _trendSearch.emit(blankTrend())
-    }
-  }
-
-  fun addTrend(trend: Trend) {
-    viewModelScope.launch(Dispatchers.Default) {  // to run code in Background Thread
-      _trendSearch.emit(trend)
     }
   }
 
