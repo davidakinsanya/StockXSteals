@@ -51,7 +51,7 @@ fun SneakerViewComponent(productModel: ProductSearchViewModel,
 
   val productView =
     if (uiModel.productIsNotNull(productResults))
-      ProductView(productResults!!.value, navController)
+      ProductView(productResults!!.value)
     else
       null
 
