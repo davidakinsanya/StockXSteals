@@ -46,7 +46,6 @@ fun SneakerViewComponent(productModel: ProductSearchViewModel,
 
   if (navController.currentDestination?.route != AppScreens.Search.route) {
     productModel.clearProduct()
-    productModel.clearTrend()
   }
 
   val productView =

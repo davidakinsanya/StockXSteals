@@ -1,11 +1,12 @@
 package com.stockxsteals.app.navigation.nested
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
+import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.navigation.animation.navigation
 import com.stockxsteals.app.navigation.AppScreens
-import com.stockxsteals.app.utils.WindowSize
+import com.stockxsteals.app.utils.*
 import com.stockxsteals.app.view.compnents.main_search_page.SneakerViewComponent
 import com.stockxsteals.app.view.compnents.search_results_page.SneakerSplashScreen
 import com.stockxsteals.app.view.compnents.top_search.SearchScreen
@@ -13,6 +14,7 @@ import com.stockxsteals.app.view.compnents.trends.TrendsViewComponent
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 
+@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.sneakerNavGraph(
   navController: NavHostController,
   trendsModel: TrendsUIViewModel,
@@ -24,7 +26,8 @@ fun NavGraphBuilder.sneakerNavGraph(
     route = "trends_route"
   ) {
 
-    composable(route = AppScreens.Trends.route) {
+    composable(route = AppScreens.Trends.route,
+               enterTransition = rightEnterTransition) {
       TrendsViewComponent(
         navController = navController,
         trendsModel = trendsModel,
@@ -33,8 +36,8 @@ fun NavGraphBuilder.sneakerNavGraph(
       )
     }
 
-    composable(route = AppScreens.Search.route) {
-      // check if search state is populated
+    composable(route = AppScreens.Search.route,
+               enterTransition = leftEnterTransition) {
         SneakerViewComponent(
           productModel = productSearchViewModel,
           navController = navController,
@@ -42,7 +45,9 @@ fun NavGraphBuilder.sneakerNavGraph(
         )
     }
 
-    composable(route = AppScreens.TopSearch.route) {
+    composable(route = AppScreens.TopSearch.route,
+               enterTransition = downEnterTransition,
+               exitTransition = upExitTransition) {
       SearchScreen(
         navController = navController,
         productModel = productSearchViewModel,
@@ -50,7 +55,8 @@ fun NavGraphBuilder.sneakerNavGraph(
       )
     }
 
-    composable(route = AppScreens.SneakerSearch.route) {
+    composable(route = AppScreens.SneakerSearch.route,
+               enterTransition = leftEnterTransition) {
       SneakerSplashScreen(
         navController = navController,
         productModel = productSearchViewModel,

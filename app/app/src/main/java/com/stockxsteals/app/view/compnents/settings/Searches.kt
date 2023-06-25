@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,21 +34,44 @@ fun Searches(settingModel: SettingViewModel,
   }
 }
 
+fun formatName(name: String): String {
+  var returnedName = ""
+  val nameList = name.split("-")
+
+  nameList.forEach { it ->
+
+    var string = it.replace(it,
+      it.replaceFirstChar {
+        if (it.isLowerCase() && it.isLetter())
+          it.titlecase()
+        else it.toString()
+      })
+
+    if (string.length == 2)
+      string = string.uppercase()
+
+    returnedName += "$string "
+  }
+
+  return returnedName
+}
+
 @Composable
 fun SearchRow(entry: DailySearchHistory,
               uiModel: UIViewModel,
               windowSize: WindowSize) {
+
   Row(modifier =
   Modifier
     .height(140.dp)
     .padding(start = 30.dp,
-      bottom = 50.dp,
-      end = uiModel.searchEntryEndPaddingLarge(windowSize))
+      bottom = 50.dp)
     .fillMaxWidth(),
     verticalAlignment = Alignment.CenterVertically,
     horizontalArrangement = Arrangement.SpaceBetween) {
-    Text(text = entry.name,
+    Text(text = formatName(entry.name),
       fontSize = 15.sp,
+      fontWeight = FontWeight.SemiBold,
       textAlign = TextAlign.Left,
       modifier = Modifier
         .width(uiModel.searchEntryTextWidthSmall(windowSize)))
@@ -55,9 +79,6 @@ fun SearchRow(entry: DailySearchHistory,
     AsyncImage(
       model = entry.image,
       contentDescription = "Sneaker Image",
-      modifier = Modifier
-        .size(150.dp)
-        .padding(16.dp)
     )
   }
 }

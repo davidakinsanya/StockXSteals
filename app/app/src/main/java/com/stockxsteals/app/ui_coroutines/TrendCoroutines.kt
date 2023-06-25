@@ -64,11 +64,11 @@ fun TrendCoroutineDB(displayItem: MutableState<Boolean>,
     if (displayItem.value) {
       trendsModel.getHistoryModel()
         .addSearch(
-          getCurrentDate(),
+          timestamp = getCurrentDate(),
           country = "US", currency = "USD", sizeType = "US_M",
           size = 0.0,
-          trend.image,
-          trend.name,
+          name = trend.name,
+          image = trend.image,
           ""
         )
       navController.navigate(AppScreens.Search.route)

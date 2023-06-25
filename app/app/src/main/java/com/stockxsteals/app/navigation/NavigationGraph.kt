@@ -1,14 +1,16 @@
 package com.stockxsteals.app.navigation
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
+import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.stockxsteals.app.navigation.nested.loginGraph
 import com.stockxsteals.app.navigation.nested.settingsNavGraph
 import com.stockxsteals.app.navigation.nested.sneakerNavGraph
 import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.*
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun NavGraph(navController: NavHostController,
              productSearchViewModel: ProductSearchViewModel,
@@ -18,7 +20,7 @@ fun NavGraph(navController: NavHostController,
              uiModel: UIViewModel,
              windowSize: WindowSize
 ) {
-  NavHost(navController = navController,
+  AnimatedNavHost(navController = navController,
           startDestination = "trends_route", // TODO: Change to "login_route"
           route = "root_route") {
 
