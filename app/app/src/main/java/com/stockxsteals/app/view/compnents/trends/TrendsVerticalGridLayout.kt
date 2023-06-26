@@ -91,23 +91,18 @@ fun TrendsLazyGrid(navController: NavHostController,
       }
 
     } else {
-      var count = 0
-      trends.forEach {
-        if (searchQuotaList.isNotEmpty() && premiumQuota.isNotEmpty()) {
-          item {
-            RandomColorBox(
-              item = items[count],
-              trend = it,
-              trendsModel = trendsModel,
-              productModel = productModel,
-              windowSize = windowSize,
-              navController = navController,
-              searchQuota = searchQuotaList[0],
-              premiumQuota = premiumQuota[0]
-            )
-            if (count != trends.size - 1) count++
-            else count = 0
-          }
+      if (searchQuotaList.isNotEmpty() && premiumQuota.isNotEmpty()) {
+        items(trends.size) {
+          RandomColorBox(
+            item = items[it],
+            trend = trends[it],
+            trendsModel = trendsModel,
+            productModel = productModel,
+            windowSize = windowSize,
+            navController = navController,
+            searchQuota = searchQuotaList[0],
+            premiumQuota = premiumQuota[0]
+          )
         }
       }
     }

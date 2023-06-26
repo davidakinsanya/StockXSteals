@@ -18,7 +18,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.stevdzasan.onetap.OneTapSignInWithGoogle
@@ -53,7 +52,7 @@ fun LoginScreen(navController: NavHostController,
       scope.launch {
         trendsModel.accessTrends(trends)
         navController.navigate("trends_route")
-    }
+      }
     },
     onDialogDismissed = { message ->
       Log.d("LOG", message)
@@ -114,7 +113,7 @@ fun LoginScreen(navController: NavHostController,
                 start = 2.dp,
                 end = uiModel.signInTextEndPaddingSmall(windowSize)),
               fontSize = uiModel.signInTextFontSizeSmall(windowSize),
-              fontWeight = FontWeight.Medium, //
+              fontWeight = FontWeight.Medium,
               textAlign = TextAlign.Center)
           }
         }

@@ -21,8 +21,8 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
                         private val trendsDBModel: TrendsDBViewModel,
 ): ViewModel() {
 
-  private val _bootTrends = MutableStateFlow<List<Trend>>(listOf())
-  private val _backUpTrends = MutableStateFlow<List<Trend>>(listOf())
+  private val _bootTrends = MutableStateFlow<List<Trend>>(emptyList())
+  private val _backUpTrends = MutableStateFlow<List<Trend>>(emptyList())
   var bootTrends: StateFlow<List<Trend>> = _bootTrends
 
   fun getTrendsModel(): TrendsDBViewModel {
@@ -79,18 +79,18 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
     }
   }
 
-    suspend fun addDummyTrend(trends: List<Trend>) {
-      withContext(Dispatchers.IO) {
-        _bootTrends.emit(trends)
-        _backUpTrends.emit(trends)
-      }
+  suspend fun addDummyTrend(trends: List<Trend>) {
+    withContext(Dispatchers.Default) {
+      _bootTrends.emit(trends)
+      _backUpTrends.emit(trends)
     }
+  }
 
-    suspend fun resetTrends() {
-      withContext(Dispatchers.IO) {
-        _bootTrends.emit(_backUpTrends.value)
-      }
+  suspend fun resetTrends() {
+    withContext(Dispatchers.IO) {
+      _bootTrends.emit(_backUpTrends.value)
     }
+  }
 
     suspend fun filterTrends(text: String) {
       var count = 0

@@ -24,13 +24,12 @@ fun TrendsViewComponent(navController: NavHostController,
 
 ) {
 
-  val currentTrends: List<Trend> = trendsModel.bootTrends.collectAsState().value
-  val uiModel = productModel.getUIModel()
-
   LaunchedEffect(true) {
-    val trends: List<Trend> = Klaxon().parseArray(getDummyTrends())!!
-    trendsModel.addDummyTrend(trends)
+    trendsModel.addDummyTrend(Klaxon().parseArray(getDummyTrends())!!)
   }
+
+  val currentTrends: List<Trend> = trendsModel.bootTrends.collectAsState(initial = emptyList()).value
+  val uiModel = productModel.getUIModel()
 
   Column(
     modifier = Modifier
