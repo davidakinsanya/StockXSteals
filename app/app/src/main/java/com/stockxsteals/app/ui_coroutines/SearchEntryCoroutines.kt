@@ -26,16 +26,22 @@ fun SearchEntryCoroutineOnClick(networkModel: NetworkViewModel,
   LaunchedEffect(true) {
     if (networkModel.checkConnection(context)) {
       if (dailySearch.dbLogic(searchQuota) == 1 || premiumQuota.isPremium.toInt() == 1) {
-        displayItem.value = true
+        val diff = searchQuota.search_limit - searchQuota.search_number
+        val toast = if (diff.toInt() == 0)
+          "Please upgrade to L8test+."
+        else
+          "$diff free daily searches left."
+
         if (premiumQuota.isPremium.toInt() == 0) {
           Toast
             .makeText(
               context,
-              "${searchQuota.search_limit - searchQuota.search_number} free daily searches left.",
+              toast,
               Toast.LENGTH_LONG
             )
             .show()
         }
+        displayItem.value = true
       } else {
         Toast
           .makeText(context, "Please upgrade to L8test+.", Toast.LENGTH_LONG)

@@ -23,7 +23,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.model.ui.GridItem
-import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.ui_coroutines.TrendCoroutineDB
 import com.stockxsteals.app.ui_coroutines.TrendCoroutineOnClick
 import com.stockxsteals.app.utils.WindowSize
@@ -162,10 +161,7 @@ fun RandomColorBox(item: GridItem,
             .fillMaxHeight(.9f)
             .padding(start = uiModel.trendsGridExpandButtonPadding(windowSize))
             .fillMaxWidth(1f)
-            .clickable {
-              // clicked.value = true
-              navController.navigate(AppScreens.Search.route)
-            })
+            .clickable { /** clicked.value = true **/ })
 
       }
 

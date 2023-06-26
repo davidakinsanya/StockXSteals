@@ -28,10 +28,14 @@ fun TrendCoroutineOnClick(trendsModel: TrendsUIViewModel,
     if (networkModel.checkConnection(context)) {
       if (trendsModel.getSearchModel().dbLogic(searchQuota) == 1 || premiumQuota.isPremium.toInt() == 1) {
         if (premiumQuota.isPremium.toInt() == 0) {
+          val diff = searchQuota.search_limit - searchQuota.search_number
+          val toast = if (diff.toInt() == 0)
+            "Please upgrade to L8test+."
+          else "$diff free daily searches left."
           Toast
             .makeText(
               context,
-              "${searchQuota.search_limit - searchQuota.search_number} free daily searches left.",
+              toast,
               Toast.LENGTH_LONG
             )
             .show()
