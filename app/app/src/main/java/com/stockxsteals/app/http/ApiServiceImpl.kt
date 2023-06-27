@@ -73,8 +73,11 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
       client.get(baseUrl + "product") {
         url {
           parameters.append("query", query)
-          parameters.append("currency", currency)
-          parameters.append("country", country)
+          if (currency.isNotEmpty())
+            parameters.append("currency", currency)
+          if (country.isNotEmpty())
+            parameters.append("country", country)
+
         }
         headers {
           append("X-RapidAPI-Key", apiKey)

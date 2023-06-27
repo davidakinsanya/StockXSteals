@@ -82,8 +82,8 @@ fun TrendCoroutineDB(displayItem: MutableState<Boolean>,
   if (displayItem.value)
     productModel.addProduct(
       trend.slug,
-      "US",
-     "USD"
+      "",
+     ""
     )
 }
 
