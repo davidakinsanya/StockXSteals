@@ -73,7 +73,7 @@ import db.entity.Premium
     Row(
       modifier = Modifier
         .fillMaxWidth()
-        .clickable { displayItem.value = true },
+        .clickable { clicked.value = true },
       horizontalArrangement = Arrangement.SpaceBetween,
       verticalAlignment = Alignment.CenterVertically
     ) {

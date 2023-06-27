@@ -156,7 +156,7 @@ fun RandomColorBox(item: GridItem,
             .fillMaxHeight(.9f)
             .padding(start = uiModel.trendsGridExpandButtonPadding(windowSize))
             .fillMaxWidth(1f)
-            .clickable { /** clicked.value = true **/ })
+            .clickable { clicked.value = true })
 
       }
 
