@@ -1,6 +1,7 @@
 package com.stockxsteals.app.viewmodel.ui
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.beust.klaxon.Klaxon
 import com.stockxsteals.app.http.ApiService
 import com.stockxsteals.app.model.dto.Trend
@@ -13,6 +14,7 @@ import db.entity.Trends
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class TrendsUIViewModel(private val networkModel: NetworkViewModel,
@@ -45,7 +47,6 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
   suspend fun accessTrends(trends: List<Trends>) =
     withContext(Dispatchers.IO) { // to run code in Background Thread
       val service = ApiService.create()
-
       if (trends.isEmpty()) {
         val newTrends = service.getTrends("sneakers", "EUR")
         val newTrendsJson = Klaxon().toJsonString(newTrends)
@@ -66,8 +67,8 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
       }
     }
 
-  private suspend fun addTrend(trends: List<Trend>) {
-    withContext(Dispatchers.IO) {
+  private fun addTrend(trends: List<Trend>) {
+    viewModelScope.launch(Dispatchers.Default) {
       _bootTrends.emit(trends)
       _backUpTrends.emit(trends)
     }
@@ -79,8 +80,8 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
     }
   }
 
-  suspend fun addDummyTrend(trends: List<Trend>) {
-    withContext(Dispatchers.Default) {
+  fun addDummyTrend(trends: List<Trend>) {
+    viewModelScope.launch(Dispatchers.Default) {
       _bootTrends.emit(trends)
       _backUpTrends.emit(trends)
     }
