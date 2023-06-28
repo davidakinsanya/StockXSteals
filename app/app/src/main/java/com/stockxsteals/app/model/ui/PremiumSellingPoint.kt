@@ -9,7 +9,7 @@ sealed class PremiumSellingPoint (
   object Searches : PremiumSellingPoint (
     icon = "https://img.icons8.com/?size=512&id=132&format=png",
     title =  "Unlimited Searches",
-    description = "The base app only allows you to make 2 L8test. searches per day. With Lt8est+, on the other hand, \n" +
+    description = "The base app only allows you to make only 2 L8test. searches per day. With Lt8est+, on the other hand, \n" +
                   "you will be able to make an unlimited amount of searches every day."
   )
 
