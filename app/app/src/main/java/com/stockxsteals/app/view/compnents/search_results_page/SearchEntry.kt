@@ -49,7 +49,6 @@ import db.entity.Premium
                  premiumQuota: Premium
 ) {
 
-  val searchRoute = AppScreens.Search.route
   val context = LocalContext.current
   val dailySearch = productModel.getSearchModel()
   val uiModel = productModel.getUIModel()
@@ -115,18 +114,19 @@ import db.entity.Premium
     if (clicked.value)
       SearchEntryCoroutineOnClick(
         networkModel = networkModel,
-        context = context,
         dailySearch = dailySearch,
         displayItem = displayItem,
         searchQuota = searchQuota,
-        premiumQuota = premiumQuota
+        premiumQuota = premiumQuota,
+        navController = navController,
+        context = context,
+        result = result
       )
 
     SearchEntryCoroutineDB(displayItem = displayItem,
                            productModel = productModel,
                            result = result,
-                           navController = navController,
-                           searchRoute = searchRoute)
+                           navController = navController)
     }
   }
 

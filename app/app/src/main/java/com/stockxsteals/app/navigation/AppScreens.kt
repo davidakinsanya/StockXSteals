@@ -46,4 +46,10 @@ sealed class AppScreens (
     title = "Sneaker Search",
     icon = ""
   )
+
+  object Premium: AppScreens(
+    route = "premium",
+    title = "Premium",
+    icon = ""
+  )
 }

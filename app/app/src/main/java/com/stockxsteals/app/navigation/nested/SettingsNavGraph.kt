@@ -31,7 +31,6 @@ fun NavGraphBuilder.settingsNavGraph(
                exitTransition = rightExitTransition
     ) {
       SettingsSplashScreen(navController = navController,
-                           settingModel = settingModel,
                            trendsModel = trendsModel,
                            uiModel = uiModel,
                            windowSize = windowSize)

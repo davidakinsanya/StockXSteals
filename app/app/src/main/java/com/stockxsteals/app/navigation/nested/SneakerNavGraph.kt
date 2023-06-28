@@ -5,13 +5,16 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
+import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.*
 import com.stockxsteals.app.view.compnents.main_search_page.SneakerViewComponent
+import com.stockxsteals.app.view.compnents.premium.PremiumSplashScreen
 import com.stockxsteals.app.view.compnents.search_results_page.SneakerSplashScreen
 import com.stockxsteals.app.view.compnents.top_search.SearchScreen
 import com.stockxsteals.app.view.compnents.trends.TrendsViewComponent
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
+import com.stockxsteals.app.viewmodel.ui.SettingViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -19,6 +22,7 @@ fun NavGraphBuilder.sneakerNavGraph(
   navController: NavHostController,
   trendsModel: TrendsUIViewModel,
   productSearchViewModel: ProductSearchViewModel,
+  settingModel: SettingViewModel,
   windowSize: WindowSize
 ) {
   navigation(
@@ -64,5 +68,31 @@ fun NavGraphBuilder.sneakerNavGraph(
         windowSize = windowSize
       )
     }
+  }
+
+  composable(route = AppScreens.Premium.route,
+            enterTransition = downEnterTransition,
+            exitTransition = upExitTransition) {
+
+    val trend = navController
+      .previousBackStackEntry
+      ?.savedStateHandle
+      ?.get<Trend>("trend")
+
+    val searchResult = navController
+      .previousBackStackEntry
+      ?.savedStateHandle
+      ?.get<List<String>>("search_result")
+
+
+
+    PremiumSplashScreen(trendsModel = trendsModel,
+                        productModel = productSearchViewModel,
+                        settingModel = settingModel,
+                        navController = navController,
+                        windowSize = windowSize,
+                        trend = trend,
+                        result = searchResult,
+    )
   }
 }

@@ -34,7 +34,8 @@ class UIViewModel: ViewModel() {
       AppScreens.Settings.route,
       AppScreens.SneakerSearch.route,
       AppScreens.SettingScreen.route,
-      AppScreens.Login.route
+      AppScreens.Login.route,
+      AppScreens.Premium.route
     )
   }
 

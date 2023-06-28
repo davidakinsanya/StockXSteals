@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.ui_coroutines.DeleteSearchCoroutine
 import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
@@ -83,7 +84,12 @@ fun SneakerSplashScreen(navController: NavHostController,
         IconButton(
           onClick = {
             deleteSearch.value = true
-            navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
+
+            if (navController.previousBackStackEntry?.destination?.route == AppScreens.Premium.route)
+              navController.navigate(AppScreens.TopSearch.route)
+            else
+              navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
+
             focusManager.clearFocus()
           }) {
           Icon(

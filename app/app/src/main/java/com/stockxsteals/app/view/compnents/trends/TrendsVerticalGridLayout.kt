@@ -203,7 +203,8 @@ fun RandomColorBox(item: GridItem,
         context = context,
         searchQuota = searchQuota,
         premiumQuota = premiumQuota,
-        displayItem = displayItem
+        displayItem = displayItem,
+        trend = trend
       )
 
     if (displayItem.value)

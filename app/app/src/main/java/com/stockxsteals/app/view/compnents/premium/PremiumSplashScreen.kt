@@ -8,22 +8,42 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.stockxsteals.app.R
+import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.model.ui.PremiumSellingPoint
+import com.stockxsteals.app.navigation.AppScreens
+import com.stockxsteals.app.ui_coroutines.SearchEntryCoroutineDB
+import com.stockxsteals.app.ui_coroutines.TrendCoroutineDB
+import com.stockxsteals.app.utils.WindowSize
+import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
+import com.stockxsteals.app.viewmodel.ui.SettingViewModel
+import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun PremiumSplashScreen() {
+fun PremiumSplashScreen(trendsModel: TrendsUIViewModel?,
+                        productModel: ProductSearchViewModel?,
+                        settingModel: SettingViewModel,
+                        navController: NavHostController,
+                        windowSize: WindowSize,
+                        trend: Trend?,
+                        result: List<String>?
+) {
 
   Scaffold(modifier = Modifier
     .fillMaxSize()
@@ -36,7 +56,14 @@ fun PremiumSplashScreen() {
         verticalArrangement = Arrangement.SpaceBetween) {
           PremiumTopRow()
           MainBody()
-          UpgradeButton()
+          UpgradeButton(
+            trendsModel = trendsModel,
+            productModel = productModel,
+            settingModel = settingModel,
+            navController = navController,
+            trend = trend,
+            result = result
+          )
       }
   }
 }
@@ -105,15 +132,29 @@ fun SellingPointRow(sellingPoint: PremiumSellingPoint) {
         Text(
           text = sellingPoint.description,
           fontSize = 12.sp,
-          modifier = Modifier.height(150.dp).verticalScroll(state = rememberScrollState())
+          modifier = Modifier
+            .height(150.dp)
+            .verticalScroll(state = rememberScrollState())
         )
     }
   }
 }
 
 @Composable
-fun UpgradeButton() {
-  Column(Modifier
+fun UpgradeButton(
+  trendsModel: TrendsUIViewModel?,
+  productModel: ProductSearchViewModel?,
+  settingModel: SettingViewModel,
+  navController: NavHostController,
+  trend: Trend?,
+  result: List<String>?
+) {
+  val scope = rememberCoroutineScope()
+  val context = LocalContext.current
+  val nextAction = remember { mutableStateOf(false) }
+
+  Column(
+    Modifier
       .fillMaxWidth()
       .padding(bottom = 20.dp),
     horizontalAlignment = Alignment.CenterHorizontally
@@ -138,27 +179,68 @@ fun UpgradeButton() {
            fontWeight = FontWeight.Bold,
            modifier = Modifier
              .align(Alignment.CenterVertically)
-             .padding(16.dp))
+             .padding(16.dp)
+             .clickable {
+               if (paymentFlow(scope, settingModel, context) == 1)
+                 nextAction.value = true
+             }
+      )
     }
 
     Text(text = "Back",
-         fontSize = 12.sp,
-         fontWeight = FontWeight.Medium,
-         textDecoration = TextDecoration.Underline,
-         modifier =
-         Modifier
-           .padding(top = 10.dp)
-           .clickable {
+      fontSize = 12.sp,
+      fontWeight = FontWeight.Medium,
+      textDecoration = TextDecoration.Underline,
+      modifier =
+      Modifier
+        .padding(top = 10.dp)
+        .clickable {
+          navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
+        }
+    )
 
-           }
-         )
+    if (nextAction.value)
+      NextAction(
+        navController = navController,
+        trendsModel = trendsModel,
+        productModel = productModel,
+        trend = trend,
+        result = result
+      )
   }
 }
 
-/*
-  uiModel: UIViewModel,
-  trendsModel: TrendsUIViewModel?,
-  productModel: ProductSearchViewModel?,
-  navController: NavHostController,
-  windowSize: WindowSize
- */
+@Composable
+fun NextAction(navController: NavHostController,
+               trendsModel: TrendsUIViewModel?,
+               productModel: ProductSearchViewModel?,
+               trend: Trend?,
+               result: List<String>?
+) {
+  val trueState = remember { mutableStateOf(true) }
+
+  when (navController.previousBackStackEntry?.destination?.route) {
+    AppScreens.Trends.route -> {
+      TrendCoroutineDB(
+        displayItem = trueState,
+        trendsModel = trendsModel!!,
+        productModel = productModel!!,
+        navController = navController,
+        trend = trend!!
+      )
+   }
+
+   AppScreens.SneakerSearch.route -> {
+     SearchEntryCoroutineDB(
+       displayItem = trueState,
+       productModel = productModel!!,
+       result = result!!,
+       navController = navController
+     )
+   }
+
+   AppScreens.Settings.route -> {
+     navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
+   }
+ }
+}

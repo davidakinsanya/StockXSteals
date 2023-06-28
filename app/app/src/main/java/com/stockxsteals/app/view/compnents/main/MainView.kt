@@ -47,7 +47,7 @@ fun SetupScreen(navController: NavHostController) {
     } == true
 
     val isNull = currentDestination?.route == null
-    val isLogin = currentDestination?.route == AppScreens.Login.route
+    val isLogin = currentDestination?.route == AppScreens.Login.route || currentDestination?.route == AppScreens.Premium.route
 
 
     Scaffold(

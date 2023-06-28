@@ -20,13 +20,14 @@ fun TrendCoroutineOnClick(trendsModel: TrendsUIViewModel,
                           context: Context,
                           searchQuota: DailySearchQuota,
                           premiumQuota: Premium,
-                          displayItem: MutableState<Boolean>
+                          displayItem: MutableState<Boolean>,
+                          trend: Trend,
 ) {
 
 
   LaunchedEffect(key1 = true) {
     if (networkModel.checkConnection(context)) {
-      if (trendsModel.getSearchModel().dbLogic(searchQuota) == 1 || premiumQuota.isPremium.toInt() == 1) {
+      if (trendsModel.getSearchModel().dbLogic(searchQuota, premiumQuota.isPremium.toInt()) == 1) {
         if (premiumQuota.isPremium.toInt() == 0) {
           val diff = searchQuota.search_limit - searchQuota.search_number
           val toast = if (diff.toInt() == 0)
@@ -42,14 +43,13 @@ fun TrendCoroutineOnClick(trendsModel: TrendsUIViewModel,
         }
         displayItem.value = true
       } else {
-        Toast
-          .makeText(context, "Please upgrade to L8test+.", Toast.LENGTH_LONG)
-          .show()
+        navController
+          .currentBackStackEntry
+          ?.savedStateHandle
+          ?.set("trend", trend)
+
+        navController.navigate(AppScreens.Premium.route)
       }
-      if (displayItem.value)
-        navController.navigate(AppScreens.Search.route)
-
-
     } else {
       networkModel.toastMessage(context)
     }

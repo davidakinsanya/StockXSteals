@@ -15,7 +15,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -23,8 +22,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.WindowSize
-import com.stockxsteals.app.view.compnents.premium.paymentFlow
-import com.stockxsteals.app.viewmodel.ui.SettingViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
 import kotlinx.coroutines.launch
@@ -32,14 +29,12 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SettingsSplashScreen(navController: NavHostController,
-                         settingModel: SettingViewModel,
                          trendsModel: TrendsUIViewModel,
                          uiModel: UIViewModel,
                          windowSize: WindowSize
 ) {
   val scope = rememberCoroutineScope()
   val trends = trendsModel.getTrendsModel().trends.collectAsState(initial = emptyList()).value
-  val context = LocalContext.current
 
   Scaffold {
     Column(
@@ -65,11 +60,18 @@ fun SettingsSplashScreen(navController: NavHostController,
         Spacer(modifier = Modifier.padding(30.dp))
         IconButton(
           onClick = {
-            if (navController.previousBackStackEntry?.destination?.route == "setting_screen") {
-              scope.launch { trendsModel.accessTrends(trends) }
-              navController.navigate(AppScreens.Trends.route)
-            } else {
-              navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
+            when (navController.previousBackStackEntry?.destination?.route) {
+              AppScreens.SettingScreen.route -> {
+                scope.launch { trendsModel.accessTrends(trends) }
+                navController.navigate(AppScreens.Trends.route)
+              }
+
+              AppScreens.Premium.route -> {
+                navController.navigate(AppScreens.Trends.route)
+              }
+              else -> {
+                navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
+              }
             }
           }) {
           Icon(
@@ -115,9 +117,7 @@ fun SettingsSplashScreen(navController: NavHostController,
                IconButton(
                  onClick = {
                    if (settingScreens[item] == "Upgrade") {
-                     paymentFlow(scope,
-                                 settingModel,
-                                 context)
+                     navController.navigate(AppScreens.Premium.route)
                    } else {
                      navController
                        .currentBackStackEntry

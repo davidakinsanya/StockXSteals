@@ -26,11 +26,13 @@ class DailySearchViewModel (
 
   }
 
-  suspend fun dbLogic(quota: DailySearchQuota): Int {
+  suspend fun dbLogic(quota: DailySearchQuota, isPremium: Int): Int {
     var result: Int
 
     withContext(Dispatchers.IO) {
-      result = if (sameDateCheck(quota.timestamp)) {
+      result = if (isPremium == 1) {
+        1
+      } else if (sameDateCheck(quota.timestamp)) {
         val newSearchNumber = if (quota.search_limit >= quota.search_number)
           dailySearchDataSource.getSearchNumber(quota.id) + 1
         else null

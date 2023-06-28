@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.navigation.NavHostController
+import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.getCurrentDate
 import com.stockxsteals.app.viewmodel.db.DailySearchViewModel
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
@@ -15,17 +16,19 @@ import db.entity.Premium
 
 @Composable
 fun SearchEntryCoroutineOnClick(networkModel: NetworkViewModel,
-                                context: Context,
                                 dailySearch: DailySearchViewModel,
                                 displayItem: MutableState<Boolean>,
                                 searchQuota: DailySearchQuota,
-                                premiumQuota: Premium
+                                premiumQuota: Premium,
+                                navController: NavHostController,
+                                context: Context,
+                                result: List<String>,
                                 ) {
 
 
   LaunchedEffect(true) {
     if (networkModel.checkConnection(context)) {
-      if (dailySearch.dbLogic(searchQuota) == 1 || premiumQuota.isPremium.toInt() == 1) {
+      if (dailySearch.dbLogic(searchQuota, premiumQuota.isPremium.toInt()) == 1) {
         val diff = searchQuota.search_limit - searchQuota.search_number
         val toast = if (diff.toInt() == 0)
           "Please upgrade to L8test+."
@@ -43,9 +46,12 @@ fun SearchEntryCoroutineOnClick(networkModel: NetworkViewModel,
         }
         displayItem.value = true
       } else {
-        Toast
-          .makeText(context, "Please upgrade to L8test+.", Toast.LENGTH_LONG)
-          .show()
+
+        navController
+          .currentBackStackEntry
+          ?.savedStateHandle
+          ?.set("search_result", result)
+        navController.navigate(AppScreens.Premium.route)
       }
     } else {
       networkModel.toastMessage(context)
@@ -58,7 +64,6 @@ fun SearchEntryCoroutineDB(displayItem: MutableState<Boolean>,
                            productModel: ProductSearchViewModel,
                            result: List<String>,
                            navController: NavHostController,
-                           searchRoute: String,
                            ) {
 
   LaunchedEffect(key1 = displayItem.value) {
@@ -77,7 +82,7 @@ fun SearchEntryCoroutineDB(displayItem: MutableState<Boolean>,
             image = result[1],
             json = "",
             id = currentSearch.id)
-      navController.navigate(searchRoute)
+      navController.navigate(AppScreens.Search.route)
     }
   }
 

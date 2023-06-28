@@ -13,7 +13,8 @@ import kotlinx.coroutines.launch
 
 fun paymentFlow(scope: CoroutineScope,
                 settingModel: SettingViewModel,
-                context: Context) {
+                context: Context): Int {
+  var success = 0
 
   Qonversion.purchase(context = context as Activity,
     product = settingModel.getQonversionModel().offerings[0].products.firstOrNull()!!,
@@ -25,10 +26,13 @@ fun paymentFlow(scope: CoroutineScope,
       override fun onSuccess(permissions: Map<String, QPermission>) {
         Toast.makeText(context, "You have now upgraded to L8test+", Toast.LENGTH_LONG).show()
         settingModel.getQonversionModel().updatePermissions()
-        scope.launch { settingModel.getPremiumModel().setIsPremium(1) }
+        scope.launch {
+          settingModel.getPremiumModel().setIsPremium(1)
+          success = 1
+        }
       }
     }
 
   )
-
+  return success
 }
