@@ -1,4 +1,4 @@
-package com.stockxsteals.app.view.compnents.settings
+package com.stockxsteals.app.view.compnents.premium
 
 import android.app.Activity
 import android.content.Context

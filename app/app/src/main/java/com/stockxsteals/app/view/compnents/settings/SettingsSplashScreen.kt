@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.WindowSize
+import com.stockxsteals.app.view.compnents.premium.paymentFlow
 import com.stockxsteals.app.viewmodel.ui.SettingViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
