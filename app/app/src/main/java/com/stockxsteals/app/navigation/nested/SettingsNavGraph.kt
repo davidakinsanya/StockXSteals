@@ -7,7 +7,7 @@ import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.WindowSize
-import com.stockxsteals.app.utils.leftEnterTransition
+import com.stockxsteals.app.utils.rightEnterTransition
 import com.stockxsteals.app.utils.rightExitTransition
 import com.stockxsteals.app.view.compnents.settings.SettingScreen
 import com.stockxsteals.app.view.compnents.settings.SettingsSplashScreen
@@ -27,9 +27,7 @@ fun NavGraphBuilder.settingsNavGraph(
              route = "settings_route") {
 
     composable(route = AppScreens.Settings.route,
-               enterTransition = leftEnterTransition,
-               exitTransition = rightExitTransition
-    ) {
+               exitTransition = rightExitTransition) {
       SettingsSplashScreen(navController = navController,
                            trendsModel = trendsModel,
                            uiModel = uiModel,
@@ -37,7 +35,7 @@ fun NavGraphBuilder.settingsNavGraph(
     }
 
     composable(route = AppScreens.SettingScreen.route,
-               enterTransition = leftEnterTransition) {
+               enterTransition = rightEnterTransition) {
       val setting = navController
         .previousBackStackEntry
         ?.savedStateHandle

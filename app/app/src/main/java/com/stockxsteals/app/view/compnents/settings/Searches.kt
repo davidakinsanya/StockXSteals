@@ -79,6 +79,7 @@ fun SearchRow(entry: DailySearchHistory,
     AsyncImage(
       model = entry.image,
       contentDescription = "Sneaker Image",
+      modifier = Modifier.width(100.dp)
     )
   }
 }

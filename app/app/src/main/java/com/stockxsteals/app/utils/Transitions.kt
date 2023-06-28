@@ -21,7 +21,7 @@ val rightEnterTransition: (AnimatedContentScope<NavBackStackEntry>.() -> EnterTr
 
 
 val upExitTransition: (AnimatedContentScope<NavBackStackEntry>.() -> ExitTransition?)
-        = { slideOutOfContainer(AnimatedContentScope.SlideDirection.Up, animationSpec = tween(700)) }
+        = { slideOutOfContainer(AnimatedContentScope.SlideDirection.Up, animationSpec = tween(350)) }
 
 
 val rightExitTransition: (AnimatedContentScope<NavBackStackEntry>.() -> ExitTransition?)
