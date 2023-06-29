@@ -1,5 +1,6 @@
 package com.stockxsteals.app.viewmodel.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.State
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -119,6 +120,7 @@ class UIViewModel: ViewModel() {
     return dp
   }
 
+  @SuppressLint("ModifierFactoryExtensionFunction")
   fun fillMaxSizeLarge(windowSize: WindowSize): Modifier {
     val modifier: Modifier = when (windowSize.width) {
       WindowType.Large -> { Modifier.fillMaxSize() }
@@ -127,6 +129,7 @@ class UIViewModel: ViewModel() {
     return modifier
   }
 
+  @SuppressLint("ModifierFactoryExtensionFunction")
   fun loginScreenImageModifier(windowSize: WindowSize): Modifier {
     val modifier: Modifier = when (windowSize.width) {
       WindowType.Small -> {
@@ -145,6 +148,7 @@ class UIViewModel: ViewModel() {
     return modifier
   }
 
+  @SuppressLint("ModifierFactoryExtensionFunction")
   fun googleLogoImageModifier(windowSize: WindowSize): Modifier {
     val modifier: Modifier = when(windowSize.width) {
       WindowType.Small -> {
@@ -443,5 +447,15 @@ class UIViewModel: ViewModel() {
       else -> { 20.dp }
     }
     return dp
+  }
+
+  @SuppressLint("ModifierFactoryExtensionFunction")
+  fun premiumScreenMainBodyModifier(windowSize: WindowSize): Modifier {
+    val modifier: Modifier = when (windowSize.width) {
+      WindowType.Small -> { Modifier.fillMaxHeight(0.6f) }
+      WindowType.Large -> { Modifier.padding(start = 60.dp, end = 60.dp) }
+      else -> { Modifier }
+    }
+    return modifier
   }
 }

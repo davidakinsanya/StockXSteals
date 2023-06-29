@@ -33,17 +33,20 @@ import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.SettingViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
+import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun PremiumSplashScreen(trendsModel: TrendsUIViewModel?,
-                        productModel: ProductSearchViewModel?,
+fun PremiumSplashScreen(trendsModel: TrendsUIViewModel,
+                        productModel: ProductSearchViewModel,
                         settingModel: SettingViewModel,
                         navController: NavHostController,
                         windowSize: WindowSize,
                         trend: Trend?,
                         result: List<String>?
 ) {
+
+  val uiModel = productModel.getUIModel()
 
   Scaffold(modifier = Modifier
     .fillMaxSize()
@@ -55,7 +58,7 @@ fun PremiumSplashScreen(trendsModel: TrendsUIViewModel?,
         .padding(bottom = 10.dp),
         verticalArrangement = Arrangement.SpaceBetween) {
           PremiumTopRow()
-          MainBody()
+          MainBody(uiModel, windowSize)
           UpgradeButton(
             trendsModel = trendsModel,
             productModel = productModel,
@@ -73,7 +76,6 @@ fun PremiumTopRow() {
   Column(modifier =
   Modifier
     .fillMaxWidth()
-    .padding(bottom = 0.dp)
     .height(120.dp),
     horizontalAlignment = Alignment.CenterHorizontally,
     verticalArrangement = Arrangement.Center
@@ -89,14 +91,16 @@ fun PremiumTopRow() {
   }
 }
 @Composable
-fun MainBody() {
+fun MainBody(uiModel: UIViewModel,
+             windowSize: WindowSize) {
   val list = listOf(
     PremiumSellingPoint.Searches,
     PremiumSellingPoint.Features,
     PremiumSellingPoint.Community
   )
 
-  LazyColumn(horizontalAlignment = Alignment.CenterHorizontally,
+  LazyColumn(modifier = uiModel.premiumScreenMainBodyModifier(windowSize),
+             horizontalAlignment = Alignment.CenterHorizontally,
              verticalArrangement = Arrangement.Center) {
     items(list.size) { SellingPointRow(list[it]) }
   }
