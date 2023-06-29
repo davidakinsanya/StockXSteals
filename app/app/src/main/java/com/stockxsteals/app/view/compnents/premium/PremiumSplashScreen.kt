@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.stockxsteals.app.R
-import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.model.ui.PremiumSellingPoint
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.ui_coroutines.SearchEntryCoroutineDB
@@ -42,7 +41,6 @@ fun PremiumSplashScreen(trendsModel: TrendsUIViewModel,
                         settingModel: SettingViewModel,
                         navController: NavHostController,
                         windowSize: WindowSize,
-                        trend: Trend?,
                         result: List<String>?
 ) {
 
@@ -64,7 +62,6 @@ fun PremiumSplashScreen(trendsModel: TrendsUIViewModel,
             productModel = productModel,
             settingModel = settingModel,
             navController = navController,
-            trend = trend,
             result = result
           )
       }
@@ -146,11 +143,10 @@ fun SellingPointRow(sellingPoint: PremiumSellingPoint) {
 
 @Composable
 fun UpgradeButton(
-  trendsModel: TrendsUIViewModel?,
-  productModel: ProductSearchViewModel?,
+  trendsModel: TrendsUIViewModel,
+  productModel: ProductSearchViewModel,
   settingModel: SettingViewModel,
   navController: NavHostController,
-  trend: Trend?,
   result: List<String>?
 ) {
   val scope = rememberCoroutineScope()
@@ -199,6 +195,8 @@ fun UpgradeButton(
       Modifier
         .padding(top = 10.dp)
         .clickable {
+          productModel.clearTrends()
+          productModel.clearQuota()
           navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
         }
     )
@@ -208,7 +206,6 @@ fun UpgradeButton(
         navController = navController,
         trendsModel = trendsModel,
         productModel = productModel,
-        trend = trend,
         result = result
       )
   }
@@ -216,9 +213,8 @@ fun UpgradeButton(
 
 @Composable
 fun NextAction(navController: NavHostController,
-               trendsModel: TrendsUIViewModel?,
-               productModel: ProductSearchViewModel?,
-               trend: Trend?,
+               trendsModel: TrendsUIViewModel,
+               productModel: ProductSearchViewModel,
                result: List<String>?
 ) {
   val trueState = remember { mutableStateOf(true) }
@@ -227,20 +223,27 @@ fun NextAction(navController: NavHostController,
     AppScreens.Trends.route -> {
       TrendCoroutineDB(
         displayItem = trueState,
-        trendsModel = trendsModel!!,
-        productModel = productModel!!,
+        trendsModel = trendsModel,
+        productModel = productModel,
+        trend = productModel.getCurrentTrends(),
         navController = navController,
-        trend = trend!!
+        context = LocalContext.current,
+        searchQuota = productModel.getDailySearchQuota()
       )
+      productModel.clearTrends()
+      productModel.clearQuota()
    }
 
    AppScreens.SneakerSearch.route -> {
      SearchEntryCoroutineDB(
        displayItem = trueState,
-       productModel = productModel!!,
+       productModel = productModel,
        result = result!!,
-       navController = navController
+       navController = navController,
+       context = LocalContext.current,
+       searchQuota = productModel.getDailySearchQuota()
      )
+     productModel.clearQuota()
    }
 
    AppScreens.Settings.route -> {

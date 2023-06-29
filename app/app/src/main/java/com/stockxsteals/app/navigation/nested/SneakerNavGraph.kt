@@ -5,7 +5,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
-import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.*
 import com.stockxsteals.app.view.compnents.main_search_page.SneakerViewComponent
@@ -74,11 +73,6 @@ fun NavGraphBuilder.sneakerNavGraph(
             enterTransition = downEnterTransition,
             exitTransition = upExitTransition) {
 
-    val trend = navController
-      .previousBackStackEntry
-      ?.savedStateHandle
-      ?.get<Trend>("trend")
-
     val searchResult = navController
       .previousBackStackEntry
       ?.savedStateHandle
@@ -91,8 +85,7 @@ fun NavGraphBuilder.sneakerNavGraph(
                         settingModel = settingModel,
                         navController = navController,
                         windowSize = windowSize,
-                        trend = trend,
-                        result = searchResult,
+                        result = searchResult
     )
   }
 }

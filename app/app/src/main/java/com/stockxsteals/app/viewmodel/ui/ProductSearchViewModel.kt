@@ -1,7 +1,9 @@
 package com.stockxsteals.app.viewmodel.ui
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavHostController
 import com.stockxsteals.app.http.ApiService
 import com.stockxsteals.app.model.dto.*
 import com.stockxsteals.app.viewmodel.db.DailySearchHistoryViewModel
@@ -24,25 +26,30 @@ class ProductSearchViewModel(private val filterModel: FilterViewModel,
   private val _searchResult = MutableStateFlow(blankProduct())
   val searchResult: StateFlow<Product> = _searchResult
 
-  fun getFilterModel(): FilterViewModel {
-    return filterModel
-  }
+  private var searchQuota: DailySearchQuota? = null
+  private var currentTrend: Trend = blankTrend()
 
-  fun getSearchModel(): DailySearchViewModel {
-    return searchModel
-  }
+  fun getFilterModel(): FilterViewModel { return filterModel }
 
-  fun getHistoryModel(): DailySearchHistoryViewModel {
-    return historyModel
-  }
+  fun getSearchModel(): DailySearchViewModel { return searchModel }
 
-  fun getUIModel(): UIViewModel {
-    return uiModel
-  }
+  fun getHistoryModel(): DailySearchHistoryViewModel { return historyModel }
 
-   fun getPremiumModel(): PremiumViewModel {
-    return premiumModel
-  }
+  fun getUIModel(): UIViewModel { return uiModel }
+
+   fun getPremiumModel(): PremiumViewModel { return premiumModel }
+
+  fun setDailySearchQuota(quota: DailySearchQuota) { searchQuota = quota }
+
+  fun getDailySearchQuota(): DailySearchQuota { return searchQuota!! }
+
+  fun clearQuota() { searchQuota = null }
+
+  fun setCurrentTrends(trend: Trend) { currentTrend = trend }
+
+  fun getCurrentTrends(): Trend { return currentTrend }
+
+  fun clearTrends() { currentTrend = blankTrend() }
 
   suspend fun isPremium(premium: List<Premium>): Boolean {
     withContext(Dispatchers.IO) {
@@ -63,11 +70,25 @@ class ProductSearchViewModel(private val filterModel: FilterViewModel,
     }
   }
 
-  fun addProduct(slug: String, country: String, currency: String) {
+  fun addProduct(slug: String,
+                 country: String,
+                 currency: String,
+                 quota: DailySearchQuota,
+                 navController: NavHostController,
+                 context: Context
+  ) {
      val service = ApiService.create()
 
      viewModelScope.launch(Dispatchers.IO) { // to run code in Background Thread
-       val result = service.searchProduct(slug, country, currency)
+       val result = service.searchProduct(
+         slug,
+         country,
+         currency,
+         quota,
+         getSearchModel(),
+         navController,
+         context,
+       )
        _searchResult.emit(cleanUp(result))
      }
   }

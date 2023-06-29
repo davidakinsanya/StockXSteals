@@ -28,7 +28,6 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.stockxsteals.app.R
-import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.ui_coroutines.SearchEntryCoroutineDB
 import com.stockxsteals.app.ui_coroutines.SearchEntryCoroutineOnClick
 import com.stockxsteals.app.utils.WindowSize
@@ -55,11 +54,13 @@ import db.entity.Premium
 
   val displayItem = remember { mutableStateOf(false) }
   val clicked = remember { mutableStateOf(false) }
-
+  /*
   if (navController.previousBackStackEntry?.destination?.route != AppScreens.SneakerSearch.route) {
     clicked.value = false
     displayItem.value = false
+    // TODO: Refactor this mess.
   }
+   */
 
   Column(
     modifier = Modifier
@@ -110,11 +111,11 @@ import db.entity.Premium
         )
     }
 
-
     if (clicked.value)
       SearchEntryCoroutineOnClick(
         networkModel = networkModel,
         dailySearch = dailySearch,
+        productModel = productModel,
         displayItem = displayItem,
         searchQuota = searchQuota,
         premiumQuota = premiumQuota,
@@ -126,7 +127,10 @@ import db.entity.Premium
     SearchEntryCoroutineDB(displayItem = displayItem,
                            productModel = productModel,
                            result = result,
-                           navController = navController)
+                           searchQuota = searchQuota,
+                           navController = navController,
+                           context = context
+    )
     }
   }
 

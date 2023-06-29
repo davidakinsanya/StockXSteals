@@ -199,6 +199,7 @@ fun RandomColorBox(item: GridItem,
       TrendCoroutineOnClick(
         trendsModel = trendsModel,
         networkModel = networkModel,
+        productModel = productModel,
         navController = navController,
         context = context,
         searchQuota = searchQuota,
@@ -213,7 +214,9 @@ fun RandomColorBox(item: GridItem,
         trendsModel = trendsModel,
         productModel = productModel,
         trend = trend,
+        searchQuota = searchQuota,
         navController = navController,
+        context = context,
       )
   }
 }

@@ -17,6 +17,7 @@ import db.entity.Premium
 @Composable
 fun SearchEntryCoroutineOnClick(networkModel: NetworkViewModel,
                                 dailySearch: DailySearchViewModel,
+                                productModel: ProductSearchViewModel,
                                 displayItem: MutableState<Boolean>,
                                 searchQuota: DailySearchQuota,
                                 premiumQuota: Premium,
@@ -46,11 +47,12 @@ fun SearchEntryCoroutineOnClick(networkModel: NetworkViewModel,
         }
         displayItem.value = true
       } else {
-
         navController
           .currentBackStackEntry
           ?.savedStateHandle
           ?.set("search_result", result)
+
+        productModel.setDailySearchQuota(searchQuota)
         navController.navigate(AppScreens.Premium.route)
       }
     } else {
@@ -63,9 +65,10 @@ fun SearchEntryCoroutineOnClick(networkModel: NetworkViewModel,
 fun SearchEntryCoroutineDB(displayItem: MutableState<Boolean>,
                            productModel: ProductSearchViewModel,
                            result: List<String>,
+                           searchQuota: DailySearchQuota,
                            navController: NavHostController,
+                           context: Context
                            ) {
-
   LaunchedEffect(key1 = displayItem.value) {
     if (displayItem.value) {
       val currentSearch = productModel.getHistoryModel().getSearchByStamp("0")
@@ -90,7 +93,10 @@ fun SearchEntryCoroutineDB(displayItem: MutableState<Boolean>,
     productModel.addProduct(
       result[0],
       productModel.getFilterModel().getCurrentSearch().currency,
-      productModel.getFilterModel().getCurrentSearch().country
+      productModel.getFilterModel().getCurrentSearch().country,
+      searchQuota,
+      navController,
+      context
     )
   }
 }

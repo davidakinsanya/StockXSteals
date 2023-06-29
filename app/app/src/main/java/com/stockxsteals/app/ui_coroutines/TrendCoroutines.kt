@@ -16,6 +16,7 @@ import db.entity.Premium
 @Composable
 fun TrendCoroutineOnClick(trendsModel: TrendsUIViewModel,
                           networkModel: NetworkViewModel,
+                          productModel: ProductSearchViewModel,
                           navController: NavHostController,
                           context: Context,
                           searchQuota: DailySearchQuota,
@@ -43,11 +44,8 @@ fun TrendCoroutineOnClick(trendsModel: TrendsUIViewModel,
         }
         displayItem.value = true
       } else {
-        navController
-          .currentBackStackEntry
-          ?.savedStateHandle
-          ?.set("trend", trend)
-
+        productModel.setCurrentTrends(trend)
+        productModel.setDailySearchQuota(searchQuota)
         navController.navigate(AppScreens.Premium.route)
       }
     } else {
@@ -61,7 +59,9 @@ fun TrendCoroutineDB(displayItem: MutableState<Boolean>,
                      trendsModel: TrendsUIViewModel,
                      productModel: ProductSearchViewModel,
                      trend: Trend,
+                     searchQuota: DailySearchQuota,
                      navController: NavHostController,
+                     context: Context,
 ) {
 
   LaunchedEffect(key1 = displayItem.value) {
@@ -83,7 +83,10 @@ fun TrendCoroutineDB(displayItem: MutableState<Boolean>,
     productModel.addProduct(
       trend.slug,
       "",
-     ""
+     "",
+      searchQuota,
+      navController,
+      context
     )
 }
 
