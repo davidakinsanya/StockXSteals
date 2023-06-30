@@ -137,6 +137,12 @@ fun RoundTextField(navController: NavHostController,
     val selectedIsSearch = uiModel.selectedIsSearch(selected)
     val purpleSearchBar = uiModel.purpleSearchBar(currentDestination)
 
+    val placeholder = if (purpleSearchBar && (currentDestination?.route == AppScreens.Search.route))
+      "Enter Search ..."
+    else if (purpleSearchBar && (currentDestination?.route == AppScreens.Trends.route))
+      "Filter Trends ..."
+    else ""
+
     val context = LocalContext.current
 
     BasicTextField(
@@ -250,9 +256,7 @@ fun RoundTextField(navController: NavHostController,
         },
         placeholder = {
           Text(
-            text = if (purpleSearchBar) {
-              "Enter Search ..."
-            } else "",
+            text = placeholder,
             fontSize = 16.sp,
           )
         },

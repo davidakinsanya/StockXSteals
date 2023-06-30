@@ -28,6 +28,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.stockxsteals.app.R
+import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.ui_coroutines.SearchEntryCoroutineDB
 import com.stockxsteals.app.ui_coroutines.SearchEntryCoroutineOnClick
 import com.stockxsteals.app.utils.WindowSize
@@ -49,18 +50,17 @@ import db.entity.Premium
 ) {
 
   val context = LocalContext.current
-  val dailySearch = productModel.getSearchModel()
   val uiModel = productModel.getUIModel()
+  val resultIsNotEmpty = productModel.searchResult.collectAsState().value.id.isNotEmpty()
 
   val displayItem = remember { mutableStateOf(false) }
   val clicked = remember { mutableStateOf(false) }
-  /*
-  if (navController.previousBackStackEntry?.destination?.route != AppScreens.SneakerSearch.route) {
+
+  if (navController.currentBackStackEntry?.destination?.route == AppScreens.Search.route) {
     clicked.value = false
     displayItem.value = false
-    // TODO: Refactor this mess.
+    println(1)
   }
-   */
 
   Column(
     modifier = Modifier
@@ -114,19 +114,20 @@ import db.entity.Premium
     if (clicked.value)
       SearchEntryCoroutineOnClick(
         networkModel = networkModel,
-        dailySearch = dailySearch,
         productModel = productModel,
         displayItem = displayItem,
         searchQuota = searchQuota,
         premiumQuota = premiumQuota,
         navController = navController,
         context = context,
-        result = result
+        result = result,
+        resultBool = resultIsNotEmpty
       )
 
     SearchEntryCoroutineDB(displayItem = displayItem,
                            productModel = productModel,
                            result = result,
+                           resultBool = resultIsNotEmpty,
                            searchQuota = searchQuota,
                            navController = navController,
                            context = context

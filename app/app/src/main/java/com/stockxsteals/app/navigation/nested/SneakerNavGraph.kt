@@ -80,12 +80,12 @@ fun NavGraphBuilder.sneakerNavGraph(
 
 
 
-    PremiumSplashScreen(trendsModel = trendsModel,
-                        productModel = productSearchViewModel,
-                        settingModel = settingModel,
-                        navController = navController,
-                        windowSize = windowSize,
-                        result = searchResult
+    PremiumSplashScreen(
+      productModel = productSearchViewModel,
+      settingModel = settingModel,
+      navController = navController,
+      windowSize = windowSize,
+      result = searchResult
     )
   }
 }

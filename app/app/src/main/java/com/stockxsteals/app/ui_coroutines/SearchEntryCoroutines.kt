@@ -8,7 +8,6 @@ import androidx.compose.runtime.MutableState
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.getCurrentDate
-import com.stockxsteals.app.viewmodel.db.DailySearchViewModel
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import db.entity.DailySearchQuota
@@ -16,7 +15,6 @@ import db.entity.Premium
 
 @Composable
 fun SearchEntryCoroutineOnClick(networkModel: NetworkViewModel,
-                                dailySearch: DailySearchViewModel,
                                 productModel: ProductSearchViewModel,
                                 displayItem: MutableState<Boolean>,
                                 searchQuota: DailySearchQuota,
@@ -24,19 +22,19 @@ fun SearchEntryCoroutineOnClick(networkModel: NetworkViewModel,
                                 navController: NavHostController,
                                 context: Context,
                                 result: List<String>,
+                                resultBool: Boolean
                                 ) {
 
 
   LaunchedEffect(true) {
     if (networkModel.checkConnection(context)) {
-      if (dailySearch.dbLogic(searchQuota, premiumQuota.isPremium.toInt()) == 1) {
-        val diff = searchQuota.search_limit - searchQuota.search_number
-        val toast = if (diff.toInt() == 0)
-          "Please upgrade to L8test+."
-        else
-          "$diff free daily searches left."
-
-        if (premiumQuota.isPremium.toInt() == 0) {
+      if (productModel.getSearchModel().dbLogic(searchQuota, premiumQuota.isPremium.toInt()) == 1) {
+        if (premiumQuota.isPremium.toInt() == 0 && resultBool) {
+          val diff = searchQuota.search_limit - searchQuota.search_number
+          val toast = if (diff.toInt() == 0)
+            "Please upgrade to L8test+."
+          else
+            "$diff free daily searches left."
           Toast
             .makeText(
               context,
@@ -47,6 +45,7 @@ fun SearchEntryCoroutineOnClick(networkModel: NetworkViewModel,
         }
         displayItem.value = true
       } else {
+        println(searchQuota.search_number)
         navController
           .currentBackStackEntry
           ?.savedStateHandle
@@ -65,6 +64,7 @@ fun SearchEntryCoroutineOnClick(networkModel: NetworkViewModel,
 fun SearchEntryCoroutineDB(displayItem: MutableState<Boolean>,
                            productModel: ProductSearchViewModel,
                            result: List<String>,
+                           resultBool: Boolean,
                            searchQuota: DailySearchQuota,
                            navController: NavHostController,
                            context: Context
@@ -85,7 +85,7 @@ fun SearchEntryCoroutineDB(displayItem: MutableState<Boolean>,
             image = result[1],
             json = "",
             id = currentSearch.id)
-      navController.navigate(AppScreens.Search.route)
+      if (resultBool) navController.navigate(AppScreens.Search.route)
     }
   }
 

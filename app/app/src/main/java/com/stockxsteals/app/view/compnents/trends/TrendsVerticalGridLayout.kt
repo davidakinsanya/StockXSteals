@@ -134,6 +134,7 @@ fun RandomColorBox(item: GridItem,
   val context = LocalContext.current
   val displayItem = remember { mutableStateOf(false) }
   val clicked = remember { mutableStateOf(false) }
+  val resultIsNotEmpty = productModel.searchResult.collectAsState().value.id.isNotEmpty()
 
   val imageSize = uiModel.trendsGridImageSize(windowSize)
 
@@ -197,7 +198,6 @@ fun RandomColorBox(item: GridItem,
 
     if (clicked.value)
       TrendCoroutineOnClick(
-        trendsModel = trendsModel,
         networkModel = networkModel,
         productModel = productModel,
         navController = navController,
@@ -205,18 +205,19 @@ fun RandomColorBox(item: GridItem,
         searchQuota = searchQuota,
         premiumQuota = premiumQuota,
         displayItem = displayItem,
-        trend = trend
+        trend = trend,
+        resultBool = resultIsNotEmpty
       )
 
     if (displayItem.value)
       TrendCoroutineDB(
         displayItem = displayItem,
-        trendsModel = trendsModel,
         productModel = productModel,
         trend = trend,
         searchQuota = searchQuota,
         navController = navController,
         context = context,
+        resultBool = resultIsNotEmpty
       )
   }
 }

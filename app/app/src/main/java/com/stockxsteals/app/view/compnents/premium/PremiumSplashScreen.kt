@@ -7,10 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,17 +28,16 @@ import com.stockxsteals.app.ui_coroutines.TrendCoroutineDB
 import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.SettingViewModel
-import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun PremiumSplashScreen(trendsModel: TrendsUIViewModel,
-                        productModel: ProductSearchViewModel,
-                        settingModel: SettingViewModel,
-                        navController: NavHostController,
-                        windowSize: WindowSize,
-                        result: List<String>?
+fun PremiumSplashScreen(
+  productModel: ProductSearchViewModel,
+  settingModel: SettingViewModel,
+  navController: NavHostController,
+  windowSize: WindowSize,
+  result: List<String>?
 ) {
 
   val uiModel = productModel.getUIModel()
@@ -58,7 +54,6 @@ fun PremiumSplashScreen(trendsModel: TrendsUIViewModel,
           PremiumTopRow()
           MainBody(uiModel, windowSize)
           UpgradeButton(
-            trendsModel = trendsModel,
             productModel = productModel,
             settingModel = settingModel,
             navController = navController,
@@ -143,7 +138,6 @@ fun SellingPointRow(sellingPoint: PremiumSellingPoint) {
 
 @Composable
 fun UpgradeButton(
-  trendsModel: TrendsUIViewModel,
   productModel: ProductSearchViewModel,
   settingModel: SettingViewModel,
   navController: NavHostController,
@@ -204,7 +198,6 @@ fun UpgradeButton(
     if (nextAction.value)
       NextAction(
         navController = navController,
-        trendsModel = trendsModel,
         productModel = productModel,
         result = result
       )
@@ -213,7 +206,6 @@ fun UpgradeButton(
 
 @Composable
 fun NextAction(navController: NavHostController,
-               trendsModel: TrendsUIViewModel,
                productModel: ProductSearchViewModel,
                result: List<String>?
 ) {
@@ -223,12 +215,12 @@ fun NextAction(navController: NavHostController,
     AppScreens.Trends.route -> {
       TrendCoroutineDB(
         displayItem = trueState,
-        trendsModel = trendsModel,
         productModel = productModel,
         trend = productModel.getCurrentTrends(),
         navController = navController,
         context = LocalContext.current,
-        searchQuota = productModel.getDailySearchQuota()
+        searchQuota = productModel.getDailySearchQuota(),
+                resultBool = productModel.searchResult.collectAsState().value.id.isNotEmpty()
       )
       productModel.clearTrends()
       productModel.clearQuota()
@@ -239,6 +231,7 @@ fun NextAction(navController: NavHostController,
        displayItem = trueState,
        productModel = productModel,
        result = result!!,
+       resultBool = productModel.searchResult.collectAsState().value.id.isNotEmpty(),
        navController = navController,
        context = LocalContext.current,
        searchQuota = productModel.getDailySearchQuota()

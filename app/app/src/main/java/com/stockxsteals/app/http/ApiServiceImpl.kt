@@ -1,5 +1,6 @@
 package com.stockxsteals.app.http
 
+import android.app.Activity
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
@@ -7,7 +8,6 @@ import androidx.navigation.NavHostController
 import com.stockxsteals.app.model.dto.Product
 import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.model.dto.blankProduct
-import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.db.DailySearchViewModel
 import db.entity.DailySearchQuota
 import io.ktor.client.*
@@ -97,41 +97,46 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
     } catch (e: RedirectResponseException) {
       // 3xx - code response
       println("${e.response.status.value} " + e.response.status.description)
-      Toast.makeText(
-        context,
-        "Our remote sever is currently dealing with an error coded: " +
-                "${e.response.status.value} " +
-                e.response.status.description,
-        Toast.LENGTH_LONG).show()
-      searchModel.reverseSearch(quota)
-      navController.navigate(AppScreens.TopSearch.route)
+      (context as Activity).runOnUiThread {
+        Toast.makeText(
+          context,
+          "Our remote server is currently dealing with an error coded: " +
+                  "${e.response.status.value} " +
+                  e.response.status.description,
+          Toast.LENGTH_LONG
+        ).show()
+        searchModel.reverseSearch(quota)
+      }
       blankProduct()
 
     } catch (e: ClientRequestException) {
       // 4xx - code response
       println("${e.response.status.value} " + e.response.status.description)
-      Toast.makeText(
-        context,
-        "Our remote sever is currently dealing with an error coded: " +
-                "${e.response.status.value} " +
-                e.response.status.description,
-        Toast.LENGTH_LONG).show()
+      (context as Activity).runOnUiThread {
+        Toast.makeText(
+          context,
+          "Our remote server is currently dealing with an error coded: " +
+                  "${e.response.status.value} " +
+                  e.response.status.description,
+          Toast.LENGTH_LONG
+        ).show()
+        searchModel.reverseSearch(quota)
+      }
 
-      searchModel.reverseSearch(quota)
-      navController.navigate(AppScreens.TopSearch.route)
       blankProduct()
     } catch (e: ServerResponseException) {
       // 5xx - code response
       println("${e.response.status.value} " + e.response.status.description)
-      Toast.makeText(
-        context,
-        "Our remote sever is currently dealing with an error coded: " +
-                "${e.response.status.value} " +
-                e.response.status.description,
-        Toast.LENGTH_LONG).show()
-
-      searchModel.reverseSearch(quota)
-      navController.navigate(AppScreens.TopSearch.route)
+      (context as Activity).runOnUiThread {
+        Toast.makeText(
+          context,
+          "Our remote server is currently dealing with an error coded: " +
+                  "${e.response.status.value} " +
+                  e.response.status.description,
+          Toast.LENGTH_LONG
+        ).show()
+        searchModel.reverseSearch(quota)
+      }
       blankProduct()
     }
   }

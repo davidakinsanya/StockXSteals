@@ -9,13 +9,11 @@ import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.getCurrentDate
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
-import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 import db.entity.DailySearchQuota
 import db.entity.Premium
 
 @Composable
-fun TrendCoroutineOnClick(trendsModel: TrendsUIViewModel,
-                          networkModel: NetworkViewModel,
+fun TrendCoroutineOnClick(networkModel: NetworkViewModel,
                           productModel: ProductSearchViewModel,
                           navController: NavHostController,
                           context: Context,
@@ -23,13 +21,14 @@ fun TrendCoroutineOnClick(trendsModel: TrendsUIViewModel,
                           premiumQuota: Premium,
                           displayItem: MutableState<Boolean>,
                           trend: Trend,
+                          resultBool: Boolean
 ) {
 
 
   LaunchedEffect(key1 = true) {
     if (networkModel.checkConnection(context)) {
-      if (trendsModel.getSearchModel().dbLogic(searchQuota, premiumQuota.isPremium.toInt()) == 1) {
-        if (premiumQuota.isPremium.toInt() == 0) {
+      if (productModel.getSearchModel().dbLogic(searchQuota, premiumQuota.isPremium.toInt()) == 1) {
+        if (premiumQuota.isPremium.toInt() == 0 && resultBool) {
           val diff = searchQuota.search_limit - searchQuota.search_number
           val toast = if (diff.toInt() == 0)
             "Please upgrade to L8test+."
@@ -56,17 +55,18 @@ fun TrendCoroutineOnClick(trendsModel: TrendsUIViewModel,
 
 @Composable
 fun TrendCoroutineDB(displayItem: MutableState<Boolean>,
-                     trendsModel: TrendsUIViewModel,
                      productModel: ProductSearchViewModel,
                      trend: Trend,
                      searchQuota: DailySearchQuota,
                      navController: NavHostController,
                      context: Context,
+                     resultBool: Boolean,
+
 ) {
 
   LaunchedEffect(key1 = displayItem.value) {
     if (displayItem.value) {
-      trendsModel.getHistoryModel()
+      productModel.getHistoryModel()
         .addSearch(
           timestamp = getCurrentDate(),
           country = "US", currency = "USD", sizeType = "US_M",
@@ -75,7 +75,7 @@ fun TrendCoroutineDB(displayItem: MutableState<Boolean>,
           image = trend.image,
           ""
         )
-      navController.navigate(AppScreens.Search.route)
+      if (resultBool) navController.navigate(AppScreens.Search.route)
     }
   }
 
