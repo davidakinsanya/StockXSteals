@@ -14,11 +14,12 @@ import io.ktor.client.features.logging.*
 
 interface ApiService {
 
-  suspend fun getSearch(search: String): Map<String, List<String>>
+  suspend fun getSearch(search: String,
+                        navController: NavHostController,
+                        context: Context): Map<String, List<String>>
 
   suspend fun getTrends(query: String,
                         currency: String,
-                        navController: NavHostController,
                         context: Context): List<Trend>
 
   suspend fun searchProduct(query: String,

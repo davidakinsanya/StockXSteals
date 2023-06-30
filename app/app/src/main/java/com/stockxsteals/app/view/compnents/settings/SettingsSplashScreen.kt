@@ -64,7 +64,7 @@ fun SettingsSplashScreen(navController: NavHostController,
           onClick = {
             when (navController.previousBackStackEntry?.destination?.route) {
               AppScreens.SettingScreen.route -> {
-                scope.launch { trendsModel.accessTrends(trends, navController, context) }
+                scope.launch { trendsModel.accessTrends(trends, context) }
                 navController.navigate(AppScreens.Trends.route)
               }
 

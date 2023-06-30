@@ -2,6 +2,7 @@ package com.stockxsteals.app.view.compnents.login
 
 import android.annotation.SuppressLint
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -49,8 +50,9 @@ fun LoginScreen(navController: NavHostController,
     clientId = "598526411757-osmt0f7ja2qs6rqrqp5j12s5lkq77quv.apps.googleusercontent.com",
     onTokenIdReceived = { tokenId ->
       Log.d("LOG", tokenId)
+      Toast.makeText(context, "Welcome to L8test.", Toast.LENGTH_SHORT).show()
       scope.launch {
-        trendsModel.accessTrends(trends, navController, context)
+        trendsModel.accessTrends(trends, context)
         navController.navigate("trends_route")
       }
     },

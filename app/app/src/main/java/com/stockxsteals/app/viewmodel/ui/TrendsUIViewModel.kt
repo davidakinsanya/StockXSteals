@@ -3,7 +3,6 @@ package com.stockxsteals.app.viewmodel.ui
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavHostController
 import com.beust.klaxon.Klaxon
 import com.stockxsteals.app.http.ApiService
 import com.stockxsteals.app.model.dto.Trend
@@ -34,17 +33,17 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
   }
 
 
-  suspend fun accessTrends(trends: List<Trends>, navController: NavHostController, context: Context) =
+  suspend fun accessTrends(trends: List<Trends>, context: Context) =
     withContext(Dispatchers.IO) { // to run code in Background Thread
       val service = ApiService.create()
       if (trends.isEmpty()) {
-        val newTrends = service.getTrends("sneakers", "EUR", navController, context)
+        val newTrends = service.getTrends("sneakers", "EUR", context)
         val newTrendsJson = Klaxon().toJsonString(newTrends)
         getTrendsModel().setFirstTrend(getCurrentDate(), newTrendsJson)
         addTrend(newTrends)
       } else {
         if (fileIsOld(trends[0].timestamp)) {
-          val newTrends = service.getTrends("sneakers", "EUR", navController, context)
+          val newTrends = service.getTrends("sneakers", "EUR", context)
           val newTrendsJson = Klaxon().toJsonString(newTrends)
           getTrendsModel().updateTrends(getCurrentDate(), newTrendsJson, 1)
           addTrend(newTrends)

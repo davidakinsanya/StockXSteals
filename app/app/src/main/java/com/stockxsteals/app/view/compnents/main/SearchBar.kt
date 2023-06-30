@@ -180,7 +180,7 @@ fun RoundTextField(navController: NavHostController,
               &&
               navController.currentDestination?.route == AppScreens.TopSearch.route
             ) {
-              if (navController.previousBackStackEntry?.destination?.route == sneakersDestination) {
+              if (navController.previousBackStackEntry?.destination?.route == AppScreens.SneakerSearch.route) {
                 navController.navigate(AppScreens.Search.route)
                 focusManager.clearFocus()
               } else {
@@ -274,8 +274,11 @@ fun RoundTextField(navController: NavHostController,
         )
 
       SearchComposableDB(
-        produceSearch, productModel,
-        navController, sneakersDestination, text.value
+        produceSearch = produceSearch,
+        productModel = productModel,
+        navController = navController,
+        text = text.value,
+        context = context
       )
     }
   }

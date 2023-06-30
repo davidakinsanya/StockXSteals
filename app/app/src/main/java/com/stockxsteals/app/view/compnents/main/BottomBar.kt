@@ -75,7 +75,7 @@ fun RowScope.AddItem(
     onClick = {
       if (currentScreen != screen.route) {
         if (screen.route == AppScreens.Trends.route)
-          scope.launch { trendsModel.accessTrends(trends, navController, context) }
+          scope.launch { trendsModel.accessTrends(trends, context) }
 
         navController.navigate(screen.route)
       } },

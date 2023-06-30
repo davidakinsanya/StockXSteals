@@ -2,7 +2,6 @@ package com.stockxsteals.app.http
 
 import android.app.Activity
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.model.dto.Product
@@ -21,7 +20,9 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
   private val apiHost = "stockx1.p.rapidapi.com"
   private val apiKey = "##########################################"
 
-  override suspend fun getSearch(search: String): Map<String, List<String>> {
+  override suspend fun getSearch(search: String,
+                                 navController: NavHostController,
+                                 context: Context): Map<String, List<String>> {
     return try {
       client.get(searchURL) {
         url {
@@ -30,22 +31,48 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
       }
     } catch (e: RedirectResponseException) {
       // 3xx - code response
-      Log.d("3XX", e.response.status.description)
+      (context as Activity).runOnUiThread {
+        Toast.makeText(
+          context,
+          "Our remote server is currently dealing with an error coded: " +
+                  "${e.response.status.value} " +
+                  e.response.status.description,
+          Toast.LENGTH_LONG
+        ).show()
+        navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
+      }
       mapOf()
     } catch (e: ClientRequestException) {
       // 4xx - code response
-      Log.d("4XX", e.response.status.description)
+      (context as Activity).runOnUiThread {
+        Toast.makeText(
+          context,
+          "Our remote server is currently dealing with an error coded: " +
+                  "${e.response.status.value} " +
+                  e.response.status.description,
+          Toast.LENGTH_LONG
+        ).show()
+        navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
+      }
       mapOf()
     } catch (e: ServerResponseException) {
       // 5xx - code response
-      Log.d("5XX", e.response.status.description)
+      (context as Activity).runOnUiThread {
+        Toast.makeText(
+          context,
+          "Our remote server is currently dealing with an error coded: " +
+                  "${e.response.status.value} " +
+                  e.response.status.description,
+          Toast.LENGTH_LONG
+        ).show()
+        navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
+      }
       mapOf()
     }
   }
 
   override suspend fun getTrends(query: String,
                                  currency: String,
-                                 navController: NavHostController,
                                  context: Context): List<Trend> {
     return try {
       client.get(baseUrl + "trends") {

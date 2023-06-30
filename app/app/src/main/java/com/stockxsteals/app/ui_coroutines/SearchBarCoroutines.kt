@@ -7,6 +7,7 @@ import androidx.compose.runtime.MutableState
 import androidx.navigation.NavHostController
 import com.stockxsteals.app.http.doRequest
 import com.stockxsteals.app.model.filter.SearchWithFilters
+import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.viewmodel.db.FilterPresetsViewModel
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
@@ -47,15 +48,15 @@ fun SearchCoroutineOnClick(networkModel: NetworkViewModel,
 
 @Composable
 fun SearchComposableDB(produceSearch: MutableState<Boolean>,
-                       productSearchViewModel: ProductSearchViewModel,
+                       productModel: ProductSearchViewModel,
                        navController: NavHostController,
-                       sneakersDestination: String,
-                       text: String) {
+                       text: String,
+                       context: Context) {
 
   LaunchedEffect(key1 = produceSearch.value) {
     if (produceSearch.value) {
-      val search = productSearchViewModel.getFilterModel().getCurrentSearch()
-      productSearchViewModel.getHistoryModel().addSearch(
+      val search = productModel.getFilterModel().getCurrentSearch()
+      productModel.getHistoryModel().addSearch(
         timestamp = "0",
         country = search.country,
         currency = search.currency,
@@ -64,10 +65,10 @@ fun SearchComposableDB(produceSearch: MutableState<Boolean>,
         name = "",
         image = "",
         json = "")
-      navController.navigate(sneakersDestination)
+      navController.navigate(AppScreens.SneakerSearch.route)
     }
   }
   if (produceSearch.value)
-    productSearchViewModel.getFilterModel().setSearchResults(doRequest(text))
+    productModel.getFilterModel().setSearchResults(doRequest(text, navController, context))
 
 }

@@ -71,7 +71,7 @@ fun SettingScreen(setting: String,
           onClick = {
             val route = navController.previousBackStackEntry?.destination?.route!!
             if (route == AppScreens.Trends.route) {
-              scope.launch { trendsModel.accessTrends(trends, navController, context) }
+              scope.launch { trendsModel.accessTrends(trends, context) }
             }
             navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
           }) {
