@@ -13,6 +13,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -36,6 +37,7 @@ fun SettingScreen(setting: String,
 ) {
 
   val scope = rememberCoroutineScope()
+  val context = LocalContext.current
   val trends = trendsModel.getTrendsModel().trends.collectAsState(initial = emptyList()).value
 
   Scaffold {
@@ -69,7 +71,7 @@ fun SettingScreen(setting: String,
           onClick = {
             val route = navController.previousBackStackEntry?.destination?.route!!
             if (route == AppScreens.Trends.route) {
-              scope.launch { trendsModel.accessTrends(trends) }
+              scope.launch { trendsModel.accessTrends(trends, navController, context) }
             }
             navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
           }) {

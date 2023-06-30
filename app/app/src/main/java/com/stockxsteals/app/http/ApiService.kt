@@ -16,7 +16,10 @@ interface ApiService {
 
   suspend fun getSearch(search: String): Map<String, List<String>>
 
-  suspend fun getTrends(query: String, currency: String): List<Trend>
+  suspend fun getTrends(query: String,
+                        currency: String,
+                        navController: NavHostController,
+                        context: Context): List<Trend>
 
   suspend fun searchProduct(query: String,
                             currency: String,

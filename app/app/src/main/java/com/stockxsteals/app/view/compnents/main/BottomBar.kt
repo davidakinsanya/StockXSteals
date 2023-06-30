@@ -12,6 +12,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
@@ -57,6 +58,7 @@ fun RowScope.AddItem(
   val scope = rememberCoroutineScope()
   val trends = trendsModel.getTrendsModel().trends.collectAsState(initial = emptyList()).value
   val currentScreen = navController.currentDestination?.route
+  val context = LocalContext.current
 
   BottomNavigationItem(
     modifier = Modifier
@@ -73,7 +75,7 @@ fun RowScope.AddItem(
     onClick = {
       if (currentScreen != screen.route) {
         if (screen.route == AppScreens.Trends.route)
-          scope.launch { trendsModel.accessTrends(trends) }
+          scope.launch { trendsModel.accessTrends(trends, navController, context) }
 
         navController.navigate(screen.route)
       } },

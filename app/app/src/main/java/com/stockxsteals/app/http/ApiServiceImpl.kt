@@ -43,7 +43,10 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
     }
   }
 
-  override suspend fun getTrends(query: String, currency: String): List<Trend> {
+  override suspend fun getTrends(query: String,
+                                 currency: String,
+                                 navController: NavHostController,
+                                 context: Context): List<Trend> {
     return try {
       client.get(baseUrl + "trends") {
         url {
@@ -57,14 +60,39 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
       }
     } catch (e: RedirectResponseException) {
       // 3xx - code response
-      Log.d("3XX", e.response.status.description)
+      (context as Activity).runOnUiThread {
+        Toast.makeText(
+          context,
+          "Our remote server is currently dealing with an error coded: " +
+                  "${e.response.status.value} " +
+                  e.response.status.description,
+          Toast.LENGTH_LONG
+        ).show()
+      }
       listOf()
     } catch (e: ClientRequestException) {
       // 4xx - code response
+      (context as Activity).runOnUiThread {
+        Toast.makeText(
+          context,
+          "Our remote server is currently dealing with an error coded: " +
+                  "${e.response.status.value} " +
+                  e.response.status.description,
+          Toast.LENGTH_LONG
+        ).show()
+      }
       listOf()
     } catch (e: ServerResponseException) {
       // 5xx - code response
-      Log.d("5XX", e.response.status.description)
+      (context as Activity).runOnUiThread {
+        Toast.makeText(
+          context,
+          "Our remote server is currently dealing with an error coded: " +
+                  "${e.response.status.value} " +
+                  e.response.status.description,
+          Toast.LENGTH_LONG
+        ).show()
+      }
       listOf()
     }
   }

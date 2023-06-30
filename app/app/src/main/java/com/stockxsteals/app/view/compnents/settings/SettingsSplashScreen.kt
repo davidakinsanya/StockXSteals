@@ -15,6 +15,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -34,6 +35,7 @@ fun SettingsSplashScreen(navController: NavHostController,
                          windowSize: WindowSize
 ) {
   val scope = rememberCoroutineScope()
+  val context = LocalContext.current
   val trends = trendsModel.getTrendsModel().trends.collectAsState(initial = emptyList()).value
 
   Scaffold {
@@ -62,7 +64,7 @@ fun SettingsSplashScreen(navController: NavHostController,
           onClick = {
             when (navController.previousBackStackEntry?.destination?.route) {
               AppScreens.SettingScreen.route -> {
-                scope.launch { trendsModel.accessTrends(trends) }
+                scope.launch { trendsModel.accessTrends(trends, navController, context) }
                 navController.navigate(AppScreens.Trends.route)
               }
 

@@ -1,14 +1,14 @@
 package com.stockxsteals.app.viewmodel.ui
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavHostController
 import com.beust.klaxon.Klaxon
 import com.stockxsteals.app.http.ApiService
 import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.utils.fileIsOld
 import com.stockxsteals.app.utils.getCurrentDate
-import com.stockxsteals.app.viewmodel.db.DailySearchHistoryViewModel
-import com.stockxsteals.app.viewmodel.db.DailySearchViewModel
 import com.stockxsteals.app.viewmodel.db.TrendsDBViewModel
 import db.entity.Trends
 import kotlinx.coroutines.Dispatchers
@@ -18,8 +18,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class TrendsUIViewModel(private val networkModel: NetworkViewModel,
-                        private val historyModel: DailySearchHistoryViewModel,
-                        private val dailySearchModel: DailySearchViewModel,
                         private val trendsDBModel: TrendsDBViewModel,
 ): ViewModel() {
 
@@ -35,26 +33,18 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
     return networkModel
   }
 
-  fun getHistoryModel(): DailySearchHistoryViewModel {
-    return historyModel
-  }
 
-  fun getSearchModel(): DailySearchViewModel {
-    return dailySearchModel
-  }
-
-
-  suspend fun accessTrends(trends: List<Trends>) =
+  suspend fun accessTrends(trends: List<Trends>, navController: NavHostController, context: Context) =
     withContext(Dispatchers.IO) { // to run code in Background Thread
       val service = ApiService.create()
       if (trends.isEmpty()) {
-        val newTrends = service.getTrends("sneakers", "EUR")
+        val newTrends = service.getTrends("sneakers", "EUR", navController, context)
         val newTrendsJson = Klaxon().toJsonString(newTrends)
         getTrendsModel().setFirstTrend(getCurrentDate(), newTrendsJson)
         addTrend(newTrends)
       } else {
         if (fileIsOld(trends[0].timestamp)) {
-          val newTrends = service.getTrends("sneakers", "EUR")
+          val newTrends = service.getTrends("sneakers", "EUR", navController, context)
           val newTrendsJson = Klaxon().toJsonString(newTrends)
           getTrendsModel().updateTrends(getCurrentDate(), newTrendsJson, 1)
           addTrend(newTrends)
@@ -77,13 +67,6 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
   private suspend fun addFilterTrend(trends: List<Trend>) {
     withContext(Dispatchers.IO) {
       _bootTrends.emit(trends)
-    }
-  }
-
-  fun addDummyTrend(trends: List<Trend>) {
-    viewModelScope.launch(Dispatchers.Default) {
-      _bootTrends.emit(trends)
-      _backUpTrends.emit(trends)
     }
   }
 

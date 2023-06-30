@@ -50,7 +50,7 @@ fun LoginScreen(navController: NavHostController,
     onTokenIdReceived = { tokenId ->
       Log.d("LOG", tokenId)
       scope.launch {
-        trendsModel.accessTrends(trends)
+        trendsModel.accessTrends(trends, navController, context)
         navController.navigate("trends_route")
       }
     },
