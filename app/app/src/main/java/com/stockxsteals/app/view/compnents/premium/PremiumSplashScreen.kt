@@ -180,20 +180,19 @@ fun UpgradeButton(
              }
       )
     }
-
-    Text(text = "Back",
-      fontSize = 12.sp,
-      fontWeight = FontWeight.Medium,
-      textDecoration = TextDecoration.Underline,
-      modifier =
-      Modifier
-        .padding(top = 10.dp)
-        .clickable {
-          productModel.clearTrends()
-          productModel.clearQuota()
-          navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
-        }
-    )
+    if (navController.previousBackStackEntry?.destination?.route == AppScreens.Settings.route )
+      Text(
+        text = "Back",
+        fontSize = 12.sp,
+        fontWeight = FontWeight.Medium,
+        textDecoration = TextDecoration.Underline,
+        modifier =
+        Modifier
+          .padding(top = 10.dp)
+          .clickable {
+            navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
+          }
+      )
 
     if (nextAction.value)
       NextAction(

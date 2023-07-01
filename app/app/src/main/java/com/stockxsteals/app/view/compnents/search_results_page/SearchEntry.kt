@@ -59,7 +59,6 @@ import db.entity.Premium
   if (navController.currentBackStackEntry?.destination?.route == AppScreens.Search.route) {
     clicked.value = false
     displayItem.value = false
-    println(1)
   }
 
   Column(
@@ -132,8 +131,8 @@ import db.entity.Premium
                            navController = navController,
                            context = context
     )
-    }
   }
+ }
 
 @Composable
 fun AlternativeEntry(uiModel: UIViewModel,

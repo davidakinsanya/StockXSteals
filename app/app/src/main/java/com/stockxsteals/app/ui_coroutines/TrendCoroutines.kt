@@ -69,7 +69,7 @@ fun TrendCoroutineDB(displayItem: MutableState<Boolean>,
       productModel.getHistoryModel()
         .addSearch(
           timestamp = getCurrentDate(),
-          country = "US", currency = "USD", sizeType = "US_M",
+          country = "null", currency = "null", sizeType = "null",
           size = 0.0,
           name = trend.name,
           image = trend.image,

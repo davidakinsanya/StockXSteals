@@ -18,7 +18,7 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
   private val baseUrl = "https://stockx1.p.rapidapi.com/v2/stockx/"
   private val searchURL = "http://192.168.1.127:5000"
   private val apiHost = "stockx1.p.rapidapi.com"
-  private val apiKey = "##########################################"
+  private val apiKey = "############################################"
 
   override suspend fun getSearch(search: String,
                                  navController: NavHostController,
@@ -34,7 +34,7 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
       (context as Activity).runOnUiThread {
         Toast.makeText(
           context,
-          "Our remote server is currently dealing with an error coded: " +
+          "Server Error Code: " +
                   "${e.response.status.value} " +
                   e.response.status.description,
           Toast.LENGTH_LONG
@@ -47,7 +47,7 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
       (context as Activity).runOnUiThread {
         Toast.makeText(
           context,
-          "Our remote server is currently dealing with an error coded: " +
+          "Server Error Code: " +
                   "${e.response.status.value} " +
                   e.response.status.description,
           Toast.LENGTH_LONG
@@ -60,7 +60,7 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
       (context as Activity).runOnUiThread {
         Toast.makeText(
           context,
-          "Our remote server is currently dealing with an error coded: " +
+          "Server Error Code: " +
                   "${e.response.status.value} " +
                   e.response.status.description,
           Toast.LENGTH_LONG
@@ -90,7 +90,7 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
       (context as Activity).runOnUiThread {
         Toast.makeText(
           context,
-          "Our remote server is currently dealing with an error coded: " +
+          "Server Error Code:  " +
                   "${e.response.status.value} " +
                   e.response.status.description,
           Toast.LENGTH_LONG
@@ -102,7 +102,7 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
       (context as Activity).runOnUiThread {
         Toast.makeText(
           context,
-          "Our remote server is currently dealing with an error coded: " +
+          "Server Error Code: " +
                   "${e.response.status.value} " +
                   e.response.status.description,
           Toast.LENGTH_LONG
@@ -114,7 +114,7 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
       (context as Activity).runOnUiThread {
         Toast.makeText(
           context,
-          "Our remote server is currently dealing with an error coded: " +
+          "Server Error Code: " +
                   "${e.response.status.value} " +
                   e.response.status.description,
           Toast.LENGTH_LONG
@@ -155,7 +155,7 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
       (context as Activity).runOnUiThread {
         Toast.makeText(
           context,
-          "Our remote server is currently dealing with an error coded: " +
+          "Server Error Code: " +
                   "${e.response.status.value} " +
                   e.response.status.description,
           Toast.LENGTH_LONG
@@ -170,7 +170,7 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
       (context as Activity).runOnUiThread {
         Toast.makeText(
           context,
-          "Our remote server is currently dealing with an error coded: " +
+          "Server Error Code: " +
                   "${e.response.status.value} " +
                   e.response.status.description,
           Toast.LENGTH_LONG
@@ -185,7 +185,7 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
       (context as Activity).runOnUiThread {
         Toast.makeText(
           context,
-          "Our remote server is currently dealing with an error coded: " +
+          "Server Error Code:  " +
                   "${e.response.status.value} " +
                   e.response.status.description,
           Toast.LENGTH_LONG

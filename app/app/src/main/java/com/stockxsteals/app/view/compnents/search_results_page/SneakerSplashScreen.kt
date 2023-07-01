@@ -38,7 +38,6 @@ fun SneakerSplashScreen(navController: NavHostController,
   val uiModel = productModel.getUIModel()
   val map = searchRes.value
   val deleteSearch = remember { mutableStateOf(false) }
-  var isPremium = false
 
   val premiumQuota = productModel
     .getPremiumModel()
@@ -53,7 +52,7 @@ fun SneakerSplashScreen(navController: NavHostController,
     .value
 
   LaunchedEffect(true) {
-    isPremium = productModel.isPremium(premiumQuota)
+    productModel.isPremium(premiumQuota)
     productModel.insertFirstSearch(searchQuotaList)
     if (productModel.getHistoryModel().getSearchByStamp("0") == null)
       navController.navigate(navController.previousBackStackEntry?.destination?.route!!)

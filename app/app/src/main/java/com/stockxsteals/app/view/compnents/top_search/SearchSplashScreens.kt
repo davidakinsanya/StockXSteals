@@ -121,7 +121,12 @@ fun SearchScreen(navController: NavHostController,
       .border(BorderStroke(1.dp, SolidColor(Color.LightGray))),
     ) {
       items(allPresets.size) { index ->
-        DisplayPreset(preset = allPresets[index], productModel.getFilterModel(), progressCount, scope, context)
+        DisplayPreset(
+          preset = allPresets[index],
+          model = productModel.getFilterModel(),
+          count = progressCount,
+          scope = scope,
+          context = context)
       }
     }
   }

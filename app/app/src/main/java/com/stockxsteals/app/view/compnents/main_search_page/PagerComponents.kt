@@ -11,12 +11,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.stockxsteals.app.R
 import com.stockxsteals.app.model.dto.Market
 import com.stockxsteals.app.model.dto.Traits
@@ -58,13 +60,28 @@ fun PagerTopRow(constants: List<String>,
             .height(20.dp)
         )
       }
-      AsyncImage(
-        model = constants[2],
-        contentDescription = "Sneaker Image",
-        modifier = Modifier
-          .fillMaxWidth(),
-        alignment = Alignment.Center
-      )
+
+      val placeholder = constants[2].contains("Placeholder")
+      if (placeholder)
+        AsyncImage(
+          model = ImageRequest.Builder(LocalContext.current)
+            .data(constants[2])
+            .crossfade(true)
+            .build(),
+          contentDescription = "placeholder",
+          modifier = Modifier
+            .size(150.dp)
+            .padding(16.dp),
+          placeholder = painterResource(R.drawable.stockxsteals)
+        )
+      else
+        AsyncImage(
+          model = constants[2],
+          contentDescription = "Sneaker Image",
+          modifier = Modifier
+            .fillMaxWidth(),
+          alignment = Alignment.Center
+        )
     }
   }
 }
