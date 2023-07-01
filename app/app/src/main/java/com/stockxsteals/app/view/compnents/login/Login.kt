@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -24,8 +25,10 @@ import coil.compose.AsyncImage
 import com.stevdzasan.onetap.OneTapSignInWithGoogle
 import com.stevdzasan.onetap.rememberOneTapSignInState
 import com.stockxsteals.app.R
+import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
+import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
 import kotlinx.coroutines.launch
@@ -33,6 +36,7 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun LoginScreen(navController: NavHostController,
+                productModel: ProductSearchViewModel,
                 networkModel: NetworkViewModel,
                 trendsModel: TrendsUIViewModel,
                 uiModel: UIViewModel,
@@ -45,6 +49,28 @@ fun LoginScreen(navController: NavHostController,
   val context = LocalContext.current
   val mauve = Color(224, 176, 255)
 
+  val premiumQuota = productModel
+    .getPremiumModel()
+    .premiumQuotas
+    .collectAsState(initial = emptyList())
+    .value
+
+  val searchQuotaList = productModel
+    .getSearchModel()
+    .quota
+    .collectAsState(initial = emptyList())
+    .value
+
+  var showPaywall = false
+
+  LaunchedEffect(true) {
+    productModel.isPremium(premiumQuota)
+    productModel.insertFirstSearch(searchQuotaList)
+    if (searchQuotaList.isNotEmpty())
+      showPaywall = productModel.getSearchModel().paywallLock(searchQuotaList[0], premiumQuota[0].isPremium.toInt()) == 1
+  }
+
+
   OneTapSignInWithGoogle(
     state = state,
     clientId = "598526411757-osmt0f7ja2qs6rqrqp5j12s5lkq77quv.apps.googleusercontent.com",
@@ -52,8 +78,13 @@ fun LoginScreen(navController: NavHostController,
       Log.d("LOG", tokenId)
       Toast.makeText(context, "Welcome to L8test.", Toast.LENGTH_SHORT).show()
       scope.launch {
-        trendsModel.accessTrends(trends, context)
-        navController.navigate("trends_route")
+        if (showPaywall) {
+          trendsModel.setTrendsHolding(trends)
+          navController.navigate(AppScreens.Premium.route)
+        } else {
+          trendsModel.accessTrends(trends, context)
+          navController.navigate("trends_route")
+        }
       }
     },
     onDialogDismissed = { message ->

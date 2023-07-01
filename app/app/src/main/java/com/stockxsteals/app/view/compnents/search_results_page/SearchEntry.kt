@@ -88,7 +88,15 @@ import db.entity.Premium
 
 
       val placeholder = result[1].contains("Placeholder")
-      if (!placeholder)
+      if (placeholder)
+        Image(
+          painter = painterResource(R.drawable.stockxsteals),
+          contentDescription = "Actual Placeholder",
+          modifier = Modifier
+            .size(150.dp)
+            .padding(16.dp)
+        )
+      else
         AsyncImage(
           model = ImageRequest.Builder(LocalContext.current)
             .data(result[1])
@@ -99,14 +107,6 @@ import db.entity.Premium
             .size(150.dp)
             .padding(16.dp),
           placeholder = painterResource(R.drawable.stockxsteals)
-        )
-      else
-        Image(
-          painter = painterResource(R.drawable.stockxsteals),
-          contentDescription = "Actual Placeholder",
-          modifier = Modifier
-            .size(150.dp)
-            .padding(16.dp)
         )
     }
 

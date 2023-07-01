@@ -28,6 +28,22 @@ class DailySearchViewModel (
 
   }
 
+  suspend fun paywallLock(quota: DailySearchQuota, isPremium: Int): Int {
+    var result: Int
+    withContext(Dispatchers.IO) {
+      result = if (isPremium == 1) {
+        1
+      } else if (sameDateCheck(quota.timestamp) && quota.search_limit >= quota.search_number) {
+        1
+      } else if (!sameDateCheck(quota.timestamp)) {
+        1
+      } else {
+        -1
+      }
+    }
+    return result
+  }
+
   suspend fun dbLogic(quota: DailySearchQuota, isPremium: Int): Int {
     var result: Int
 

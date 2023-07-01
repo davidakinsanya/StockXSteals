@@ -25,6 +25,7 @@ fun NavGraph(navController: NavHostController,
           route = "root_route") {
 
     loginGraph(navController = navController,
+               productModel = productSearchViewModel,
                networkModel = networkModel,
                trendsModel = trendsModel,
                uiModel = uiModel,

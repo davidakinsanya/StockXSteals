@@ -24,12 +24,26 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
   private val _backUpTrends = MutableStateFlow<List<Trend>>(emptyList())
   var bootTrends: StateFlow<List<Trend>> = _bootTrends
 
+  private var trendsHolding: List<Trends> = listOf()
+
   fun getTrendsModel(): TrendsDBViewModel {
     return trendsDBModel
   }
 
   fun getNetworkModel(): NetworkViewModel {
     return networkModel
+  }
+
+  fun setTrendsHolding(trends: List<Trends>) {
+    trendsHolding = trends
+  }
+
+  fun getTrendsHolding(): List<Trends> {
+    return trendsHolding
+  }
+
+  fun clearTrendsHolding() {
+    trendsHolding = listOf()
   }
 
 

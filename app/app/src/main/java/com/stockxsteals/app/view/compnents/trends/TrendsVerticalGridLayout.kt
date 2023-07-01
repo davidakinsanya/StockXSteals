@@ -1,6 +1,7 @@
 package com.stockxsteals.app.view.compnents.trends
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -169,17 +170,14 @@ fun RandomColorBox(item: GridItem,
        horizontalAlignment = Alignment.CenterHorizontally) {
 
         val placeholder = trend.image.contains("Placeholder")
+        println(trend.image)
         if (placeholder)
-          AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-              .data(trend.image)
-              .crossfade(true)
-              .build(),
-            contentDescription = "placeholder",
+          Image(
+            painter = painterResource(R.drawable.stockxsteals),
+            contentDescription = "Actual Placeholder",
             modifier = Modifier
-              .size(150.dp)
-              .padding(16.dp),
-            placeholder = painterResource(R.drawable.stockxsteals)
+              .size(140.dp)
+              .padding(16.dp)
           )
         else
           AsyncImage(

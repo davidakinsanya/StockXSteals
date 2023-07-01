@@ -28,12 +28,14 @@ import com.stockxsteals.app.ui_coroutines.TrendCoroutineDB
 import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.SettingViewModel
+import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun PremiumSplashScreen(
   productModel: ProductSearchViewModel,
+  trendsModel: TrendsUIViewModel,
   settingModel: SettingViewModel,
   navController: NavHostController,
   windowSize: WindowSize,
@@ -55,6 +57,7 @@ fun PremiumSplashScreen(
           MainBody(uiModel, windowSize)
           UpgradeButton(
             productModel = productModel,
+            trendsModel = trendsModel,
             settingModel = settingModel,
             navController = navController,
             result = result
@@ -139,6 +142,7 @@ fun SellingPointRow(sellingPoint: PremiumSellingPoint) {
 @Composable
 fun UpgradeButton(
   productModel: ProductSearchViewModel,
+  trendsModel: TrendsUIViewModel,
   settingModel: SettingViewModel,
   navController: NavHostController,
   result: List<String>?
@@ -198,6 +202,7 @@ fun UpgradeButton(
       NextAction(
         navController = navController,
         productModel = productModel,
+        trendsModel = trendsModel,
         result = result
       )
   }
@@ -206,35 +211,45 @@ fun UpgradeButton(
 @Composable
 fun NextAction(navController: NavHostController,
                productModel: ProductSearchViewModel,
+               trendsModel: TrendsUIViewModel,
                result: List<String>?
 ) {
   val trueState = remember { mutableStateOf(true) }
+  val context = LocalContext.current
 
   when (navController.previousBackStackEntry?.destination?.route) {
-    AppScreens.Trends.route -> {
-      TrendCoroutineDB(
-        displayItem = trueState,
-        productModel = productModel,
-        trend = productModel.getCurrentTrends(),
-        navController = navController,
-        context = LocalContext.current,
-        searchQuota = productModel.getDailySearchQuota(),
-      )
-      productModel.clearTrends()
-      productModel.clearQuota()
-   }
+      AppScreens.Trends.route -> {
+        TrendCoroutineDB(
+          displayItem = trueState,
+          productModel = productModel,
+          trend = productModel.getCurrentTrends(),
+          navController = navController,
+          context = context,
+          searchQuota = productModel.getDailySearchQuota(),
+        )
+        productModel.clearTrends()
+        productModel.clearQuota()
+     }
 
-   AppScreens.SneakerSearch.route -> {
-     SearchEntryCoroutineDB(
-       displayItem = trueState,
-       productModel = productModel,
-       result = result!!,
-       navController = navController,
-       context = LocalContext.current,
-       searchQuota = productModel.getDailySearchQuota()
-     )
-     productModel.clearQuota()
-   }
+     AppScreens.SneakerSearch.route -> {
+       SearchEntryCoroutineDB(
+         displayItem = trueState,
+         productModel = productModel,
+         result = result!!,
+         navController = navController,
+         context = context,
+         searchQuota = productModel.getDailySearchQuota()
+       )
+       productModel.clearQuota()
+     }
+
+    AppScreens.Login.route -> {
+      LaunchedEffect(key1 = true) {
+        trendsModel.accessTrends(trendsModel.getTrendsHolding(), context)
+        navController.navigate("trends_route")
+      }
+      trendsModel.clearTrendsHolding()
+    }
 
    AppScreens.Settings.route -> {
      navController.navigate(navController.previousBackStackEntry?.destination?.route!!)

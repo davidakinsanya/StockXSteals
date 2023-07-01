@@ -82,6 +82,7 @@ fun NavGraphBuilder.sneakerNavGraph(
 
     PremiumSplashScreen(
       productModel = productSearchViewModel,
+      trendsModel = trendsModel,
       settingModel = settingModel,
       navController = navController,
       windowSize = windowSize,
