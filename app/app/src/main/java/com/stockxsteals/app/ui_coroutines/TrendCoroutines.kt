@@ -60,7 +60,6 @@ fun TrendCoroutineDB(displayItem: MutableState<Boolean>,
                      searchQuota: DailySearchQuota,
                      navController: NavHostController,
                      context: Context,
-                     resultBool: Boolean,
 
 ) {
 
@@ -75,7 +74,7 @@ fun TrendCoroutineDB(displayItem: MutableState<Boolean>,
           image = trend.image,
           ""
         )
-      if (resultBool) navController.navigate(AppScreens.Search.route)
+     navController.navigate(AppScreens.Search.route)
     }
   }
 

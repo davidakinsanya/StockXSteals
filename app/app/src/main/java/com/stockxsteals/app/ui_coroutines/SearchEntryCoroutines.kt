@@ -45,7 +45,6 @@ fun SearchEntryCoroutineOnClick(networkModel: NetworkViewModel,
         }
         displayItem.value = true
       } else {
-        println(searchQuota.search_number)
         navController
           .currentBackStackEntry
           ?.savedStateHandle
@@ -64,7 +63,6 @@ fun SearchEntryCoroutineOnClick(networkModel: NetworkViewModel,
 fun SearchEntryCoroutineDB(displayItem: MutableState<Boolean>,
                            productModel: ProductSearchViewModel,
                            result: List<String>,
-                           resultBool: Boolean,
                            searchQuota: DailySearchQuota,
                            navController: NavHostController,
                            context: Context
@@ -85,7 +83,7 @@ fun SearchEntryCoroutineDB(displayItem: MutableState<Boolean>,
             image = result[1],
             json = "",
             id = currentSearch.id)
-      if (resultBool) navController.navigate(AppScreens.Search.route)
+      navController.navigate(AppScreens.Search.route)
     }
   }
 

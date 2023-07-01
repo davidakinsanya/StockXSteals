@@ -219,7 +219,6 @@ fun NextAction(navController: NavHostController,
         navController = navController,
         context = LocalContext.current,
         searchQuota = productModel.getDailySearchQuota(),
-                resultBool = productModel.searchResult.collectAsState().value.id.isNotEmpty()
       )
       productModel.clearTrends()
       productModel.clearQuota()
@@ -230,7 +229,6 @@ fun NextAction(navController: NavHostController,
        displayItem = trueState,
        productModel = productModel,
        result = result!!,
-       resultBool = productModel.searchResult.collectAsState().value.id.isNotEmpty(),
        navController = navController,
        context = LocalContext.current,
        searchQuota = productModel.getDailySearchQuota()
