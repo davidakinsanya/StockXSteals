@@ -170,7 +170,6 @@ fun RandomColorBox(item: GridItem,
        horizontalAlignment = Alignment.CenterHorizontally) {
 
         val placeholder = trend.image.contains("Placeholder")
-        println(trend.image)
         if (placeholder)
           Image(
             painter = painterResource(R.drawable.stockxsteals),

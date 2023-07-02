@@ -35,3 +35,11 @@ sealed class PremiumSellingPoint (
   )
 
 }
+
+fun sellingPointsList(): List<PremiumSellingPoint> {
+  return listOf(
+    PremiumSellingPoint.Searches,
+    PremiumSellingPoint.Features,
+    PremiumSellingPoint.Community
+  )
+}

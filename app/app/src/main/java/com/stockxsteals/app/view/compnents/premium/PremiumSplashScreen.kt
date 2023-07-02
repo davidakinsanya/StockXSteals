@@ -22,6 +22,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.stockxsteals.app.R
 import com.stockxsteals.app.model.ui.PremiumSellingPoint
+import com.stockxsteals.app.model.ui.sellingPointsList
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.ui_coroutines.SearchEntryCoroutineDB
 import com.stockxsteals.app.ui_coroutines.TrendCoroutineDB
@@ -88,11 +89,7 @@ fun PremiumTopRow() {
 @Composable
 fun MainBody(uiModel: UIViewModel,
              windowSize: WindowSize) {
-  val list = listOf(
-    PremiumSellingPoint.Searches,
-    PremiumSellingPoint.Features,
-    PremiumSellingPoint.Community
-  )
+  val list = sellingPointsList()
 
   LazyColumn(modifier = uiModel.premiumScreenMainBodyModifier(windowSize),
              horizontalAlignment = Alignment.CenterHorizontally,

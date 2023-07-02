@@ -1,5 +1,6 @@
 package com.stockxsteals.app.view.compnents.settings
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Text
@@ -7,11 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.stockxsteals.app.R
 import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.SettingViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
@@ -76,10 +79,20 @@ fun SearchRow(entry: DailySearchHistory,
       modifier = Modifier
         .width(uiModel.searchEntryTextWidthSmall(windowSize)))
 
-    AsyncImage(
-      model = entry.image,
-      contentDescription = "Sneaker Image",
-      modifier = Modifier.width(100.dp)
-    )
+    val placeholder = entry.image.contains("Placeholder")
+    if (placeholder)
+      Image(
+        painter = painterResource(R.drawable.stockxsteals),
+        contentDescription = "Actual Placeholder",
+        modifier = Modifier
+          .size(140.dp)
+          .padding(16.dp)
+      )
+    else
+      AsyncImage(
+        model = entry.image,
+        contentDescription = "Sneaker Image",
+        modifier = Modifier.width(100.dp)
+      )
   }
 }

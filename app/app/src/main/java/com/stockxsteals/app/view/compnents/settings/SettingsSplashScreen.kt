@@ -1,6 +1,7 @@
 package com.stockxsteals.app.view.compnents.settings
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Icon
@@ -9,7 +10,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
@@ -21,6 +21,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
+import com.stockxsteals.app.model.ui.settingScreensList
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
@@ -87,14 +89,7 @@ fun SettingsSplashScreen(navController: NavHostController,
       Modifier
         .fillMaxHeight(0.9f)) {
 
-          val settingScreens = listOf(
-            "Upgrade",
-            "Searches",
-            "About Us",
-            "T&Cs",
-            "Log Out"
-          )
-
+          val settingScreens = settingScreensList() //TODO: Check premium status and swap upgrade for socials if premium
           items(settingScreens.size) { item ->
              Row(modifier =
              Modifier
@@ -107,35 +102,36 @@ fun SettingsSplashScreen(navController: NavHostController,
                horizontalArrangement = Arrangement.SpaceBetween,
                verticalAlignment = Alignment.CenterVertically) {
 
-               Text(text = settingScreens[item],
+               Text(text = settingScreens[item].screen,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 18.sp,
                     maxLines = 2,
                     modifier = Modifier.width(150.dp)
                )
 
-               Spacer(modifier = Modifier.padding(5.dp))
+               Spacer(modifier = Modifier.padding(50.dp))
 
-               IconButton(
-                 onClick = {
-                   if (settingScreens[item] == "Upgrade") {
-                     navController.navigate(AppScreens.Premium.route)
-                   } else {
-                     navController
-                       .currentBackStackEntry
-                       ?.savedStateHandle
-                       ?.set(
-                         "setting",
-                         settingScreens[item]
-                       )
-                     navController.navigate(AppScreens.SettingScreen.route)
-                   }
-                 }) {
-                 Icon(
-                   imageVector = Icons.Default.Info,
-                   contentDescription = "Back Icon",
-                 )
-               }
+
+               AsyncImage(
+                 model = settingScreens[item].icon,
+                 contentDescription = "Expand Button",
+                 modifier =
+                 Modifier
+                   .fillMaxSize(.75f)
+                   .clickable {
+                     if (settingScreens[item].screen == "Upgrade") {
+                       navController.navigate(AppScreens.Premium.route)
+                     } else {
+                       navController
+                         .currentBackStackEntry
+                         ?.savedStateHandle
+                         ?.set(
+                           "setting",
+                           settingScreens[item].screen
+                         )
+                       navController.navigate(AppScreens.SettingScreen.route)
+                     }
+                   })
              }
           }
         }
