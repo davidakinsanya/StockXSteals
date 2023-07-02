@@ -93,7 +93,7 @@ fun TermsAndConditions() {
                   "\n\n" +
                   "**Contact Us**\n" +
                   "If you have any questions, concerns, or suggestions regarding this Privacy Policy\n" +
-                  "or our privacy practices, please contact us at l8test@gmail.com.",
+                  "or our privacy practices, please contact us at l8test@googlegroups.com.",
           modifier = Modifier
             .padding(bottom = 40.dp)
             .width(450.dp),
