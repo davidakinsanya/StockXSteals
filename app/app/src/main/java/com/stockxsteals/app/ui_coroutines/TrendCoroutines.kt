@@ -59,7 +59,7 @@ fun TrendCoroutineDB(displayItem: MutableState<Boolean>,
                      trend: Trend,
                      searchQuota: DailySearchQuota,
                      navController: NavHostController,
-                     context: Context,
+                     context: Context
 
 ) {
 

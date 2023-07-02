@@ -51,12 +51,12 @@ import db.entity.Premium
 
   val context = LocalContext.current
   val uiModel = productModel.getUIModel()
-  val resultIsNotEmpty = productModel.searchResult.collectAsState().value.id.isNotEmpty()
+  val resultIsNotEmpty = navController.currentBackStackEntry?.destination?.route == AppScreens.Search.route
 
   val displayItem = remember { mutableStateOf(false) }
   val clicked = remember { mutableStateOf(false) }
 
-  if (navController.currentBackStackEntry?.destination?.route == AppScreens.Search.route) {
+  if (resultIsNotEmpty) {
     clicked.value = false
     displayItem.value = false
   }
