@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.stockxsteals.app.model.ui.SettingScreen
+import com.stockxsteals.app.model.ui.SettingScreens
 import com.stockxsteals.app.model.ui.settingScreensList
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.WindowSize
@@ -110,8 +110,8 @@ fun SettingsSplashScreen(navController: NavHostController,
           val settingScreens = settingScreensList()
 
           if (isPremium) {
-            settingScreens.remove(SettingScreen.Upgrade)
-            settingScreens.add(0, SettingScreen.Socials)
+            settingScreens.remove(SettingScreens.Upgrade)
+            settingScreens.add(0, SettingScreens.Socials)
           }
 
         items(settingScreens.size) { item ->

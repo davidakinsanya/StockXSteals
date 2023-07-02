@@ -97,6 +97,14 @@ fun SettingPage(navController: NavHostController,
                 windowSize: WindowSize,
                 setting: String) {
   when (setting) {
+    "Updates" -> {
+
+    }
+
+    "Socials" -> {
+
+    }
+
     "Searches" -> {
       Searches(settingModel, uiModel, windowSize)
     }

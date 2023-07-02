@@ -1,46 +1,52 @@
 package com.stockxsteals.app.model.ui
 
-sealed class SettingScreen(
+sealed class SettingScreens (
   val screen: String,
   val icon: String,
 ) {
-  object Upgrade: SettingScreen (
+  object Upgrade: SettingScreens (
     screen = "Upgrade",
     icon = "https://img.icons8.com/?size=512&id=RsreCOAj5rfI&format=png",
   )
 
-  object Searches: SettingScreen (
+  object Updates: SettingScreens (
+    screen = "Updates",
+    icon = "https://img.icons8.com/?size=512&id=21866&format=png"
+          )
+
+  object Searches: SettingScreens (
     screen = "Searches",
     icon = "https://img.icons8.com/?size=512&id=131&format=png"
   )
 
-  object AboutUs: SettingScreen (
+  object AboutUs: SettingScreens (
     screen = "About Us",
     icon = "https://img.icons8.com/?size=512&id=89239&format=png"
   )
 
-  object TC: SettingScreen (
+  object TC: SettingScreens (
     screen = "T&Cs",
     icon = "https://img.icons8.com/?size=512&id=102445&format=png"
   )
 
-  object LogOut: SettingScreen (
+  object LogOut: SettingScreens (
     screen = "Log Out",
     icon = "https://img.icons8.com/?size=512&id=2444&format=png"
   )
 
-  object Socials: SettingScreen (
+  object Socials: SettingScreens (
     screen = "Socials",
     icon = "https://img.icons8.com/?size=512&id=7411&format=png"
   )
 }
 
-fun settingScreensList(): MutableList<SettingScreen> {
+fun settingScreensList(): MutableList<SettingScreens> {
   return mutableListOf(
-    SettingScreen.Upgrade,
-    SettingScreen.Searches,
-    SettingScreen.AboutUs,
-    SettingScreen.TC,
-    SettingScreen.LogOut
+    SettingScreens.Upgrade,
+    SettingScreens.Updates,
+    SettingScreens.Searches,
+    SettingScreens.AboutUs,
+    SettingScreens.TC,
+    SettingScreens.LogOut
   )
 }
