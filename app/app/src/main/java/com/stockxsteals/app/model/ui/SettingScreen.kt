@@ -35,8 +35,8 @@ sealed class SettingScreen(
   )
 }
 
-fun settingScreensList(): List<SettingScreen> {
-  return listOf(
+fun settingScreensList(): MutableList<SettingScreen> {
+  return mutableListOf(
     SettingScreen.Upgrade,
     SettingScreen.Searches,
     SettingScreen.AboutUs,

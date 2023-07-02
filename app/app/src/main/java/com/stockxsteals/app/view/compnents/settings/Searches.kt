@@ -26,7 +26,7 @@ fun Searches(settingModel: SettingViewModel,
              windowSize: WindowSize
 ) {
   val model = settingModel.getHistoryModel()
-  val searches = model.searches.collectAsState(initial = emptyList()).value
+  val searches = model.searches.collectAsState(initial = emptyList()).value.reversed()
 
   LazyColumn(modifier = Modifier.padding(end = 30.dp)) {
     if (searches.isNotEmpty()) {

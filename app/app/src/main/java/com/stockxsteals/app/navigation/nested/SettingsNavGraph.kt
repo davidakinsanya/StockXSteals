@@ -31,6 +31,7 @@ fun NavGraphBuilder.settingsNavGraph(
       SettingsSplashScreen(navController = navController,
                            trendsModel = trendsModel,
                            uiModel = uiModel,
+                           settingModel = settingModel,
                            windowSize = windowSize)
     }
 

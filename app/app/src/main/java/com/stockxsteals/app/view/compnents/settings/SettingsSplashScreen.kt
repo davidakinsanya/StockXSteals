@@ -11,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -22,9 +23,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.stockxsteals.app.model.ui.SettingScreen
 import com.stockxsteals.app.model.ui.settingScreensList
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.WindowSize
+import com.stockxsteals.app.viewmodel.ui.SettingViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
 import kotlinx.coroutines.launch
@@ -34,11 +37,26 @@ import kotlinx.coroutines.launch
 fun SettingsSplashScreen(navController: NavHostController,
                          trendsModel: TrendsUIViewModel,
                          uiModel: UIViewModel,
+                         settingModel: SettingViewModel,
                          windowSize: WindowSize
 ) {
   val scope = rememberCoroutineScope()
   val context = LocalContext.current
   val trends = trendsModel.getTrendsModel().trends.collectAsState(initial = emptyList()).value
+
+  val premiumQuota = settingModel
+    .getPremiumModel()
+    .premiumQuotas
+    .collectAsState(initial = emptyList())
+    .value
+
+  var isPremium = false
+
+  LaunchedEffect(true) {
+    isPremium = settingModel.isPremium(premiumQuota)
+  }
+
+
 
   Scaffold {
     Column(
@@ -89,8 +107,14 @@ fun SettingsSplashScreen(navController: NavHostController,
       Modifier
         .fillMaxHeight(0.9f)) {
 
-          val settingScreens = settingScreensList() //TODO: Check premium status and swap upgrade for socials if premium
-          items(settingScreens.size) { item ->
+          val settingScreens = settingScreensList()
+
+          if (isPremium) {
+            settingScreens.remove(SettingScreen.Upgrade)
+            settingScreens.add(0, SettingScreen.Socials)
+          }
+
+        items(settingScreens.size) { item ->
              Row(modifier =
              Modifier
                .padding(
