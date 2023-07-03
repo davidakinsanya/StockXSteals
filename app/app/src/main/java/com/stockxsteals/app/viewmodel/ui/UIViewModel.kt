@@ -346,14 +346,29 @@ class UIViewModel: ViewModel() {
     return dp
   }
 
-  // kotlinx.serialization.json.internal.JsonDecodingException
-
   fun pagerTopRowFontSize(windowSize: WindowSize): TextUnit {
     val sp: TextUnit = when(windowSize.width) {
       WindowType.Small -> { 10.sp }
       else -> { 15.sp }
     }
     return sp
+  }
+
+  fun settingIconSpacerPadding(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Large -> { 230.dp }
+      else -> { 0.dp }
+    }
+    return dp
+  }
+
+  fun settingEndPadding(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Large -> { 75.dp }
+      WindowType.Small -> { 30.dp }
+      else -> { 10.dp }
+    }
+    return dp
   }
 
   fun pagerTopRowHeight(windowSize: WindowSize): Dp {

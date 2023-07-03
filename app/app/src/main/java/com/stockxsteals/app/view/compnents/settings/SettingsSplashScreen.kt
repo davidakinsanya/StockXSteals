@@ -105,6 +105,7 @@ fun SettingsSplashScreen(navController: NavHostController,
 
       LazyColumn(modifier =
       Modifier
+        .fillMaxWidth()
         .fillMaxHeight(0.9f)) {
 
           val settingScreens = settingScreensList()
@@ -117,11 +118,11 @@ fun SettingsSplashScreen(navController: NavHostController,
         items(settingScreens.size) { item ->
              Row(modifier =
              Modifier
+               .fillMaxWidth()
                .padding(
                  start = 45.dp,
                  bottom = 50.dp,
-                 end = uiModel.searchEntryEndPaddingLarge(windowSize))
-               .fillMaxWidth()
+                 end = uiModel.settingEndPadding(windowSize))
                .height(50.dp),
                horizontalArrangement = Arrangement.SpaceBetween,
                verticalAlignment = Alignment.CenterVertically) {
@@ -133,15 +134,14 @@ fun SettingsSplashScreen(navController: NavHostController,
                     modifier = Modifier.width(150.dp)
                )
 
-               Spacer(modifier = Modifier.padding(50.dp))
-
+               Spacer(Modifier.padding(uiModel.settingIconSpacerPadding(windowSize)))
 
                AsyncImage(
                  model = settingScreens[item].icon,
                  contentDescription = "Expand Button",
                  modifier =
                  Modifier
-                   .fillMaxSize(.75f)
+                   .fillMaxSize(.5f)
                    .clickable {
                      if (settingScreens[item].screen == "Upgrade") {
                        navController.navigate(AppScreens.Premium.route)
