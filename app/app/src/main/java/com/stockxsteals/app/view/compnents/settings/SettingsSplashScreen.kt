@@ -138,7 +138,7 @@ fun SettingsSplashScreen(navController: NavHostController,
 
                AsyncImage(
                  model = settingScreens[item].icon,
-                 contentDescription = "Expand Button",
+                 contentDescription = "Setting Logo",
                  modifier =
                  Modifier
                    .fillMaxSize(.5f)

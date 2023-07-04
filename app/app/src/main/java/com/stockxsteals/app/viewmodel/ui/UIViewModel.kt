@@ -371,6 +371,15 @@ class UIViewModel: ViewModel() {
     return dp
   }
 
+  fun settingSocialIconEndPadding(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Large -> { 255.dp }
+      WindowType.Small -> { 15.dp }
+      else -> { 35.dp }
+    }
+    return dp
+  }
+
   fun pagerTopRowHeight(windowSize: WindowSize): Dp {
     val dp: Dp = when(windowSize.width) {
       WindowType.Small -> { 45.dp }
