@@ -14,7 +14,7 @@ sealed class Socials (
   object Discord : Socials (
     socials = "Discord",
     icon = "https://img.icons8.com/?size=512&id=gxdxl0oMFoSA&format=png",
-    link = "https://www.google.co.uk/"
+    link = "https://discord.gg/ErqGVceQE6"
   )
 }
 
