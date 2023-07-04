@@ -482,4 +482,30 @@ class UIViewModel: ViewModel() {
     }
     return modifier
   }
+
+  fun updateScreenStartPadding(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Small -> { 10.dp }
+      WindowType.Large -> { 100.dp }
+      else -> { 20.dp }
+    }
+    return dp
+  }
+
+  fun updateScreenEndPadding(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Large -> { 150.dp }
+      else -> { 10.dp }
+    }
+    return dp
+  }
+
+  fun updateScreenDateBottomPadding(windowSize: WindowSize): Dp {
+    val dp: Dp = when(windowSize.width) {
+      WindowType.Large -> { 45.dp }
+      WindowType.Small -> { 10.dp }
+      else -> { 25.dp }
+    }
+    return dp
+  }
 }

@@ -98,7 +98,7 @@ fun SettingPage(navController: NavHostController,
                 setting: String) {
   when (setting) {
     "Updates" -> {
-
+      UpdateScreen(uiModel, windowSize)
     }
 
     "Socials" -> {
