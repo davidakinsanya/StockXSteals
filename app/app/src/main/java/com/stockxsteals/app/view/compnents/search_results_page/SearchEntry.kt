@@ -170,7 +170,7 @@ fun AlternativeEntry(uiModel: UIViewModel,
             modifier = Modifier
               .width(leftBoxWidth[2])
               .height(20.dp)
-              .shimmerEffect()
+              .then(Modifier.shimmerEffect())
           )
         }
         Spacer(Modifier.padding(15.dp))
@@ -178,12 +178,13 @@ fun AlternativeEntry(uiModel: UIViewModel,
           modifier = Modifier
             .size(100.dp)
             .clip(RectangleShape)
-            .shimmerEffect()
+            .then(Modifier.shimmerEffect())
         )
       }
     }
 }
 
+@Suppress("ModifierFactoryUnreferencedReceiver")
 fun Modifier.shimmerEffect(): Modifier = composed {
   var size by remember {
     mutableStateOf(IntSize.Zero)
