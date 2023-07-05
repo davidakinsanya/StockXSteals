@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.widget.Toast
 import androidx.navigation.NavHostController
+import com.stockxsteals.app.BuildConfig
 import com.stockxsteals.app.model.dto.Product
 import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.model.dto.blankProduct
@@ -15,10 +16,10 @@ import io.ktor.client.request.*
 
 class ApiServiceImpl(private val client: HttpClient): ApiService {
 
-  private val baseUrl = "https://stockx1.p.rapidapi.com/v2/stockx/"
-  private val searchURL = "http://192.168.1.127:5000"
-  private val apiHost = "stockx1.p.rapidapi.com"
-  private val apiKey = "############################################"
+  private val baseUrl = BuildConfig.STOCKX_BASE_URL
+  private val searchURL = BuildConfig.FLASK_SEARCH_API
+  private val apiHost = BuildConfig.STOCKX_API_HOST
+  private val apiKey = BuildConfig.API_KEY
 
   override suspend fun getSearch(search: String,
                                  navController: NavHostController,

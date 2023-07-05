@@ -20,6 +20,10 @@ import androidx.navigation.NavHostController
 import com.stockxsteals.app.model.ui.ProductView
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.WindowSize
+import com.stockxsteals.app.view.compnents.main_search_page.pager_components.AdditionalSearchPagerData
+import com.stockxsteals.app.view.compnents.main_search_page.pager_components.AdditionalTrendsPagerData
+import com.stockxsteals.app.view.compnents.main_search_page.pager_components.PagerTopRow
+import com.stockxsteals.app.view.compnents.main_search_page.pager_components.SinglePagerComponent
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 
 @Composable
@@ -90,7 +94,7 @@ fun SneakerViewComponent(productModel: ProductSearchViewModel,
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Pager(view: ProductView?,
-          bool: Boolean,
+          productIsNotNull: Boolean,
           productModel: ProductSearchViewModel,
           prevPage: Int,
           windowSize: WindowSize) {
@@ -101,16 +105,9 @@ fun Pager(view: ProductView?,
 
   val pagerState = rememberPagerState()
   val count: Int = when(prevPage) {
-    1 -> {
-      3
-    }
-
-    2 -> {
-      2
-    }
-    else -> {
-      1
-    }
+    1 -> { 3 }
+    2 -> { 2 }
+    else -> { 1 }
   }
 
   HorizontalPager(pageCount = count) { page ->
@@ -145,7 +142,7 @@ fun Pager(view: ProductView?,
         .clip(RoundedCornerShape(10.dp))
         .background(color = Color(0xFFFFFFFF).copy(1f))
     ) {
-      if (bool) {
+      if (productIsNotNull) {
         PagerTopRow(
           constants = view!!.getConstant(),
           uiModel = uiModel,
@@ -153,19 +150,23 @@ fun Pager(view: ProductView?,
         )
         if (prevPage == 1)
           AdditionalSearchPagerData(
+            productModel = productModel,
             uiModel = uiModel,
             windowSize = windowSize,
             count = page,
             data = view.listForPager(),
             type = currentSearch.sizeType,
-            size = currentSearch.size
+            size = currentSearch.size,
+            prevPage = prevPage
           )
         if (prevPage == 2)
           AdditionalTrendsPagerData(
+            productModel = productModel,
             uiModel = uiModel,
             windowSize = windowSize,
             count = page,
-            data = view.listForPager()
+            data = view.listForPager(),
+            prevPage = prevPage
           )
       }
       else
