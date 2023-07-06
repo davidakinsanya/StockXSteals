@@ -78,7 +78,7 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
                                  context: Context): List<Trend> {
     var apiKey: String
     withContext(Dispatchers.IO) {
-      apiKey = client.get(searchURL + "api-key") 
+      apiKey = client.get("$searchURL/api-key")
     }
     
     return try {
@@ -143,7 +143,7 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
 
     var apiKey: String
     withContext(Dispatchers.IO) {
-      apiKey = client.get(searchURL + "api-key")
+      apiKey = client.get("$searchURL/api-key")
     }
 
     return try {
@@ -163,7 +163,6 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
       }
     } catch (e: RedirectResponseException) {
       // 3xx - code response
-      println("${e.response.status.value} " + e.response.status.description)
       (context as Activity).runOnUiThread {
         Toast.makeText(
           context,
@@ -178,7 +177,6 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
 
     } catch (e: ClientRequestException) {
       // 4xx - code response
-      println("${e.response.status.value} " + e.response.status.description)
       (context as Activity).runOnUiThread {
         Toast.makeText(
           context,
@@ -193,7 +191,6 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
       blankProduct()
     } catch (e: ServerResponseException) {
       // 5xx - code response
-      println("${e.response.status.value} " + e.response.status.description)
       (context as Activity).runOnUiThread {
         Toast.makeText(
           context,
