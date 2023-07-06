@@ -46,7 +46,7 @@ fun PagerTopRow(constants: List<String>,
           fontWeight = FontWeight.Bold,
           modifier = Modifier
             .width(uiModel.pagerTopRowTextWidth(windowSize))
-            .height(uiModel.pagerTopRowHeight(windowSize))
+            .padding(bottom = 10.dp)
         )
         Text(
           text = constants[1],
@@ -54,7 +54,6 @@ fun PagerTopRow(constants: List<String>,
           fontWeight = FontWeight.Medium,
           modifier = Modifier
             .width(uiModel.pagerTopRowTextWidthTwo(windowSize))
-            .height(20.dp)
         )
       }
 

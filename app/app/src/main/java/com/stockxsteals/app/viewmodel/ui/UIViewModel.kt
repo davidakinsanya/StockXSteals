@@ -380,14 +380,6 @@ class UIViewModel: ViewModel() {
     return dp
   }
 
-  fun pagerTopRowHeight(windowSize: WindowSize): Dp {
-    val dp: Dp = when(windowSize.width) {
-      WindowType.Small -> { 45.dp }
-      else -> { 70.dp }
-    }
-    return dp
-  }
-
   fun pagerTopRowFontSizeTwo(windowSize: WindowSize): TextUnit {
     val sp: TextUnit = when(windowSize.width) {
       WindowType.Small -> { 8.sp }
