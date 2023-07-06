@@ -24,6 +24,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.stevdzasan.onetap.OneTapSignInWithGoogle
 import com.stevdzasan.onetap.rememberOneTapSignInState
+import com.stockxsteals.app.BuildConfig
 import com.stockxsteals.app.R
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.WindowSize
@@ -73,7 +74,7 @@ fun LoginScreen(navController: NavHostController,
 
   OneTapSignInWithGoogle(
     state = state,
-    clientId = "598526411757-osmt0f7ja2qs6rqrqp5j12s5lkq77quv.apps.googleusercontent.com",
+    clientId = BuildConfig.GMAIL_LOGIN_CLIENT,
     onTokenIdReceived = { tokenId ->
       Log.d("LOG", tokenId)
       Toast.makeText(context, "Welcome to L8test.", Toast.LENGTH_SHORT).show()

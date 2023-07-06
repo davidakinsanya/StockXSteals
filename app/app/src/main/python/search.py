@@ -21,29 +21,39 @@ def driver():
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--no-sandbox')
 
-    return uc.Chrome(
-            options=options
-        )
+    return uc.Chrome(options=options)
+
+
+
+@app.route('/api-key', methods=['GET'])
+def api_key():
+    return "######################################"
+
+
 
 @app.route('/', methods=['GET'])
 def search():
-    search_title = request.args.get('search')
-    url = "https://stockx.com/en-gb/search?s={}".format(search_title)
-    driver.get(url)
-    search_map = {}
-    doc = bs4(driver.page_source, 'html.parser')
-    search_res = doc.find('div', {'class', 'loading css-1ouqd68'})
-    search_res2 = search_res.find_all('div', {'class', 'css-pnc6ci'})
-    img_search = search_res.find_all('div', {'class', 'css-tkc8ar'})
+    try:
+        search_title = request.args.get('search')
+        url = "https://stockx.com/en-gb/search?s={}".format(search_title)
+        driver.get(url)
+        search_map = {}
+        doc = bs4(driver.page_source, 'html.parser')
+        search_res = doc.find('div', {'class', 'loading css-1ouqd68'})
+        search_res2 = search_res.find_all('div', {'class', 'css-pnc6ci'})
+        img_search = search_res.find_all('div', {'class', 'css-tkc8ar'})
 
+            
+        for i in range(0, len(search_res2)):
+            search_map[img_search[i].img['alt']] = [
+                search_res2[i].a['href'].replace('/en-gb/', ''),
+                img_search[i].img['src'] 
+                ]
         
-    for i in range(0, len(search_res2)):
-        search_map[img_search[i].img['alt']] = [
-            search_res2[i].a['href'].replace('/en-gb/', ''),
-            img_search[i].img['src'] 
-            ]
+        return search_map
+    except:
+        pass
         
-    return search_map
 
 driver = driver()
 

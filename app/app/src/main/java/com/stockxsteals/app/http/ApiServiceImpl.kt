@@ -13,13 +13,14 @@ import db.entity.DailySearchQuota
 import io.ktor.client.*
 import io.ktor.client.features.*
 import io.ktor.client.request.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class ApiServiceImpl(private val client: HttpClient): ApiService {
 
   private val baseUrl = BuildConfig.STOCKX_BASE_URL
   private val searchURL = BuildConfig.FLASK_SEARCH_API
   private val apiHost = BuildConfig.STOCKX_API_HOST
-  private val apiKey = BuildConfig.API_KEY
 
   override suspend fun getSearch(search: String,
                                  navController: NavHostController,
@@ -75,6 +76,11 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
   override suspend fun getTrends(query: String,
                                  currency: String,
                                  context: Context): List<Trend> {
+    var apiKey: String
+    withContext(Dispatchers.IO) {
+      apiKey = client.get(searchURL + "api-key") 
+    }
+    
     return try {
       client.get(baseUrl + "trends") {
         url {
@@ -134,6 +140,11 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
     navController: NavHostController,
     context: Context
   ): Product {
+
+    var apiKey: String
+    withContext(Dispatchers.IO) {
+      apiKey = client.get(searchURL + "api-key")
+    }
 
     return try {
       client.get(baseUrl + "product") {
