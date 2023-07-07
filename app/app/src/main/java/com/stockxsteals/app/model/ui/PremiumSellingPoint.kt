@@ -22,7 +22,7 @@ sealed class PremiumSellingPoint (
 
   object Community : PremiumSellingPoint (
     icon = "https://img.icons8.com/?size=512&id=3685&format=png",
-    title =  "Community",
+    title =  "Unlocking Community Access",
     description = "At L8test. We value the asset that presents itself with a loyal, active social media presence. " +
                   "and we care about the users who invest in the platform and its longevity. (continue scrolling)" +
                   "\n\n\n" +

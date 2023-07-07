@@ -21,6 +21,7 @@ class ProductSearchViewModel(private val filterModel: FilterViewModel,
                              private val searchModel: DailySearchViewModel,
                              private val historyModel: DailySearchHistoryViewModel,
                              private val premiumModel: PremiumViewModel,
+                             private val qonversionModel: QonversionViewModel,
                              private val uiModel: UIViewModel): ViewModel() {
 
   private val _searchResult = MutableStateFlow(blankProduct())
@@ -35,9 +36,11 @@ class ProductSearchViewModel(private val filterModel: FilterViewModel,
 
   fun getHistoryModel(): DailySearchHistoryViewModel { return historyModel }
 
+  fun getPremiumModel(): PremiumViewModel { return premiumModel }
+
   fun getUIModel(): UIViewModel { return uiModel }
 
-   fun getPremiumModel(): PremiumViewModel { return premiumModel }
+  private fun getQonversionModel(): QonversionViewModel { return qonversionModel }
 
   fun setDailySearchQuota(quota: DailySearchQuota) { searchQuota = quota }
 
@@ -57,7 +60,8 @@ class ProductSearchViewModel(private val filterModel: FilterViewModel,
          getPremiumModel().newPremiumQuota()
          return@withContext false
        }
-       return@withContext getPremiumModel().getIsPremium(premium[0].id) == 1
+       return@withContext getPremiumModel().getIsPremium(premium[0].id) == 1 ||
+                          getQonversionModel().hasPremiumPermission
     }
     return false
   }
