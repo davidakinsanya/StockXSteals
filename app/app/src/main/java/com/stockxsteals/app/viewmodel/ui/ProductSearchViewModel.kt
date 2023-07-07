@@ -60,7 +60,7 @@ class ProductSearchViewModel(private val filterModel: FilterViewModel,
          getPremiumModel().newPremiumQuota()
          return@withContext false
        }
-       return@withContext getPremiumModel().getIsPremium(premium[0].id) == 1 ||
+       return@withContext getPremiumModel().getIsPremium(premium[0].id) == 1 &&
                           getQonversionModel().hasPremiumPermission
     }
     return false
