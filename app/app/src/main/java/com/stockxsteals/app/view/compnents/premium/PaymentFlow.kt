@@ -20,7 +20,7 @@ fun paymentFlow(scope: CoroutineScope,
     product = settingModel.getQonversionModel().offerings[0].products.firstOrNull()!!,
     callback = object : QonversionPermissionsCallback {
       override fun onError(error: QonversionError) {
-       Toast.makeText(context, error.description, Toast.LENGTH_LONG).show()
+       Toast.makeText(context, error.description, Toast.LENGTH_SHORT).show()
       }
 
       override fun onSuccess(permissions: Map<String, QPermission>) {

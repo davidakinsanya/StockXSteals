@@ -12,7 +12,12 @@ sealed class SettingScreens (
   object Updates: SettingScreens (
     screen = "Updates",
     icon = "https://img.icons8.com/?size=512&id=21866&format=png"
-          )
+  )
+
+  object Tutorial : SettingScreens (
+    screen = "Tutorial",
+    icon = "https://img.icons8.com/?size=512&id=79384&format=png"
+  )
 
   object Searches: SettingScreens (
     screen = "Searches",
@@ -43,10 +48,11 @@ sealed class SettingScreens (
 fun settingScreensList(): MutableList<SettingScreens> {
   return mutableListOf(
     SettingScreens.Upgrade,
-    SettingScreens.Updates,
+    SettingScreens.Tutorial,
     SettingScreens.Searches,
     SettingScreens.AboutUs,
     SettingScreens.TC,
+    SettingScreens.Updates,
     SettingScreens.LogOut
   )
 }

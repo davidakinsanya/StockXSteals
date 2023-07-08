@@ -1,6 +1,7 @@
 package com.stockxsteals.app.view.compnents.premium
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,6 +32,7 @@ import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.SettingViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -192,6 +194,23 @@ fun UpgradeButton(
           .padding(top = 10.dp)
           .clickable {
             navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
+          }
+      )
+    if (navController.previousBackStackEntry?.destination?.route == AppScreens.Login.route)
+      Text(
+        text = "Continue",
+        fontSize = 12.sp,
+        fontWeight = FontWeight.Medium,
+        textDecoration = TextDecoration.Underline,
+        modifier =
+        Modifier
+          .padding(top = 10.dp)
+          .clickable {
+            scope.launch {
+              trendsModel.accessTrends(trendsModel.getTrendsHolding(), context)
+              navController.navigate("trends_route")
+              Toast.makeText(context, "Go to 'Tutorial' in Settings for a demo video.", Toast.LENGTH_SHORT).show()
+            }
           }
       )
 

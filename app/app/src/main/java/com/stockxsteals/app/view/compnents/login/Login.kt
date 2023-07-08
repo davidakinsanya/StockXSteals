@@ -77,14 +77,14 @@ fun LoginScreen(navController: NavHostController,
     clientId = BuildConfig.GMAIL_LOGIN_CLIENT,
     onTokenIdReceived = { tokenId ->
       Log.d("LOG", tokenId)
-      Toast.makeText(context, "Welcome to L8test.", Toast.LENGTH_SHORT).show()
       scope.launch {
-        if (showPaywall) {
+        if (showPaywall || trends.isEmpty()) {
           trendsModel.setTrendsHolding(trends)
           navController.navigate(AppScreens.Premium.route)
         } else {
           trendsModel.accessTrends(trends, context)
           navController.navigate("trends_route")
+          Toast.makeText(context, "Welcome to L8test.", Toast.LENGTH_SHORT).show()
         }
       }
     },

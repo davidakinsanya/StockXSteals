@@ -468,9 +468,9 @@ class UIViewModel: ViewModel() {
   @SuppressLint("ModifierFactoryExtensionFunction")
   fun premiumScreenMainBodyModifier(windowSize: WindowSize): Modifier {
     val modifier: Modifier = when (windowSize.width) {
-      WindowType.Small -> { Modifier.fillMaxHeight(0.6f) }
+      WindowType.Small -> { Modifier.fillMaxHeight(0.6f).padding(top = 10.dp) }
       WindowType.Large -> { Modifier.padding(start = 60.dp, end = 60.dp) }
-      else -> { Modifier }
+      else -> { Modifier.padding(top = 10.dp) }
     }
     return modifier
   }

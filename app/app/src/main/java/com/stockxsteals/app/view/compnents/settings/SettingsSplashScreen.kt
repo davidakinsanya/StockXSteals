@@ -1,6 +1,10 @@
 package com.stockxsteals.app.view.compnents.settings
 
 import android.annotation.SuppressLint
+import android.app.PendingIntent
+import android.app.TaskStackBuilder
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -55,7 +59,6 @@ fun SettingsSplashScreen(navController: NavHostController,
   LaunchedEffect(true) {
     isPremium = settingModel.isPremium(premiumQuota)
   }
-
 
 
   Scaffold {
@@ -143,17 +146,34 @@ fun SettingsSplashScreen(navController: NavHostController,
                  Modifier
                    .fillMaxSize(.5f)
                    .clickable {
-                     if (settingScreens[item].screen == "Upgrade") {
-                       navController.navigate(AppScreens.Premium.route)
-                     } else {
-                       navController
-                         .currentBackStackEntry
-                         ?.savedStateHandle
-                         ?.set(
-                           "setting",
-                           settingScreens[item].screen
+                     when (settingScreens[item].screen) {
+                       "Upgrade" -> {
+                         navController.navigate(AppScreens.Premium.route)
+                       }
+                       "Tutorial" -> {
+                         val intent = Intent(
+                           Intent.ACTION_VIEW,
+                           Uri.parse("https://google.co.uk")
                          )
-                       navController.navigate(AppScreens.SettingScreen.route)
+                         val pendingIntent = TaskStackBuilder.create(context).run {
+                           addNextIntentWithParentStack(intent)
+                           getPendingIntent(
+                             0,
+                             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                           )
+                         }
+                         pendingIntent.send()
+                       }
+                       else -> {
+                         navController
+                           .currentBackStackEntry
+                           ?.savedStateHandle
+                           ?.set(
+                             "setting",
+                             settingScreens[item].screen
+                           )
+                         navController.navigate(AppScreens.SettingScreen.route)
+                       }
                      }
                    })
              }
