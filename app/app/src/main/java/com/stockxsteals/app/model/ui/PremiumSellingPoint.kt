@@ -16,8 +16,9 @@ sealed class PremiumSellingPoint (
   object Features : PremiumSellingPoint (
     icon = "https://img.icons8.com/?size=512&id=25224&format=png",
     title =  "New Features",
-    description = "As part of your L8test+ subscription, you will have access the all new features for as long as your " +
-                  "subscribed at no extra cost."
+    description = "Pour into us, so we can simply pour back into the app. " +
+                  "As part of your L8test+ subscription, you will have access " +
+                  "all new features for as long as your subscribed at no extra cost."
   )
 
   object Community : PremiumSellingPoint (
@@ -34,12 +35,20 @@ sealed class PremiumSellingPoint (
                   "will ensure scalable and measurable growth in this platform and its offerings."
   )
 
+  object Cancel : PremiumSellingPoint (
+    icon = "https://img.icons8.com/?size=512&id=3062&format=png",
+    title = "Cancel Anytime",
+    description = "You will not be contractually obligated to continue paying for our premium service and " +
+                  "you can unsubscribe and resubscribe to L8test+ if or when you please."
+  )
+
 }
 
 fun sellingPointsList(): List<PremiumSellingPoint> {
   return listOf(
     PremiumSellingPoint.Searches,
     PremiumSellingPoint.Features,
-    PremiumSellingPoint.Community
+    PremiumSellingPoint.Community,
+    PremiumSellingPoint.Cancel
   )
 }
