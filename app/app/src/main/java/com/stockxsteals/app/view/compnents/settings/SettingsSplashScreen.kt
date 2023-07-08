@@ -163,6 +163,7 @@ fun SettingsSplashScreen(navController: NavHostController,
                            )
                          }
                          pendingIntent.send()
+                         navController.navigate(AppScreens.Premium.route)
                        }
                        else -> {
                          navController
