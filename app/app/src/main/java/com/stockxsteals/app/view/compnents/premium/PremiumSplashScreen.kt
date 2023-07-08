@@ -47,7 +47,7 @@ fun PremiumSplashScreen(
 
   Scaffold(modifier = Modifier
     .fillMaxSize()
-    .padding(top = 10.dp)
+    .padding(top = 5.dp)
     .background(color = Color(250, 240, 250))) {
       Column(modifier =
       Modifier

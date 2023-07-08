@@ -17,8 +17,9 @@ sealed class PremiumSellingPoint (
     icon = "https://img.icons8.com/?size=512&id=25224&format=png",
     title =  "New Features",
     description = "Pour into us, so we can simply pour back into the app. " +
+                  "We want to continue working on new features, but we need support. " +
                   "As part of your L8test+ subscription, you will have access " +
-                  "all new features for as long as your subscribed at no extra cost."
+                  "all new features for as long as you're subscribed at no extra cost."
   )
 
   object Community : PremiumSellingPoint (
