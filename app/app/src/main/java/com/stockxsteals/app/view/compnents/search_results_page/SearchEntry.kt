@@ -1,5 +1,7 @@
 package com.stockxsteals.app.view.compnents.search_results_page
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
@@ -135,7 +137,22 @@ import db.entity.Premium
 
 @Composable
 fun AlternativeEntry(uiModel: UIViewModel,
-                     windowSize: WindowSize) {
+                     windowSize: WindowSize,
+                     context: Context
+) {
+
+  Toast.makeText(
+    context,
+    "Apologies in advance for the long search times.",
+    Toast.LENGTH_SHORT
+  ).show()
+
+  Toast.makeText(
+    context,
+    "We are working very hard to drastically shorten these times.",
+    Toast.LENGTH_SHORT
+  ).show()
+
   for (i in 0..18)
     Column(
       modifier = Modifier

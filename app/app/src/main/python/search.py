@@ -71,6 +71,7 @@ if __name__ == '__main__':
 
 
 # docker build -t search .
-# docker run --name search -p 5000:5000 search 
+# docker run --name search -p 5000:5000 search
+# docker container rm <id>
 
 

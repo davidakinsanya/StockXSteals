@@ -169,7 +169,7 @@ fun UpgradeButton(
       )
       .clickable {},
       horizontalArrangement = Arrangement.Center) {
-      Text(text = "Upgrade",
+      Text(text = "Upgrade For ~$12/mo",
            fontSize = 12.sp,
            fontWeight = FontWeight.Bold,
            modifier = Modifier

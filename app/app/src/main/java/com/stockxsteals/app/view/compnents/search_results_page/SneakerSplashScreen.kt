@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -34,6 +35,7 @@ fun SneakerSplashScreen(navController: NavHostController,
 ) {
 
   val focusManager = LocalFocusManager.current
+  val context = LocalContext.current
   val searchRes = productModel.getFilterModel().bootMap.collectAsState()
   val uiModel = productModel.getUIModel()
   val map = searchRes.value
@@ -106,7 +108,7 @@ fun SneakerSplashScreen(navController: NavHostController,
 
         items(1) {
           if (map.keys.isEmpty()) {
-            AlternativeEntry(uiModel, windowSize)
+            AlternativeEntry(uiModel, windowSize, context)
           } else {
             map.keys.forEach {
               if (searchQuotaList.isNotEmpty() && premiumQuota.isNotEmpty())
