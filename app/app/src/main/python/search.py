@@ -2,6 +2,7 @@ import undetected_chromedriver as uc
 from bs4 import BeautifulSoup as bs4
 from flask import Flask
 from flask import request
+from concurrent.futures import ThreadPoolExecutor
 
 app = Flask(__name__)
 
@@ -33,22 +34,30 @@ def api_key():
 
 @app.route('/', methods=['GET'])
 def search():
+    search_res = ""
+    search_res2 = ""
+    img_search = ""
+    doc = ""
+    
     try:
-        search_title = request.args.get('search')
-        url = "https://stockx.com/en-gb/search?s={}".format(search_title)
-        driver.get(url)
-        search_map = {}
-        doc = bs4(driver.page_source, 'html.parser')
-        search_res = doc.find('div', {'class', 'loading css-1ouqd68'})
-        search_res2 = search_res.find_all('div', {'class', 'css-pnc6ci'})
-        img_search = search_res.find_all('div', {'class', 'css-tkc8ar'})
+        with ThreadPoolExecutor(max_workers=20) as p:
+            search_title = request.args.get('search')
+            url = "https://stockx.com/en-gb/search?s={}".format(search_title)
+            driver.get(url)
+            search_map = {}
+            doc = bs4(driver.page_source, 'lxml')
 
-            
-        for i in range(0, len(search_res2)):
-            search_map[img_search[i].img['alt']] = [
-                search_res2[i].a['href'].replace('/en-gb/', ''),
-                img_search[i].img['src'] 
-                ]
+        with ThreadPoolExecutor(max_workers=20) as p:
+            search_res = doc.find('div', {'class', 'loading css-1ouqd68'}) 
+            search_res2 = search_res.find_all('div', {'class', 'css-pnc6ci'})
+            img_search = search_res.find_all('div', {'class', 'css-tkc8ar'})
+
+        with ThreadPoolExecutor(max_workers=20) as p:  
+            for i in range(0, len(search_res2)):
+                search_map[img_search[i].img['alt']] = [
+                    search_res2[i].a['href'].replace('/en-gb/', ''),
+                    img_search[i].img['src'] 
+            ]
         
         return search_map
     except:
