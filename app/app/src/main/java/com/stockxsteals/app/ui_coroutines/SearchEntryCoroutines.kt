@@ -1,7 +1,6 @@
 package com.stockxsteals.app.ui_coroutines
 
 import android.content.Context
-import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -24,27 +23,12 @@ fun SearchEntryCoroutineOnClick(networkModel: NetworkViewModel,
                                 navController: NavHostController,
                                 context: Context,
                                 result: List<String>,
-                                resultBool: Boolean
                                 ) {
 
 
   LaunchedEffect(true) {
     if (networkModel.checkConnection(context)) {
       if (productModel.getSearchModel().dbLogic(searchQuota, premiumQuota.isPremium.toInt()) == 1) {
-        if (premiumQuota.isPremium.toInt() == 0 && resultBool) {
-          val diff = searchQuota.search_limit - searchQuota.search_number
-          val toast = if (diff.toInt() == 0)
-            "Please upgrade to L8test+."
-          else
-            "$diff free daily searches left."
-          Toast
-            .makeText(
-              context,
-              toast,
-              Toast.LENGTH_LONG
-            )
-            .show()
-        }
         displayItem.value = true
       } else {
         navController

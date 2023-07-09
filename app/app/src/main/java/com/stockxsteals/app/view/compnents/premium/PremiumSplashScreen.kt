@@ -1,7 +1,6 @@
 package com.stockxsteals.app.view.compnents.premium
 
 import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -209,7 +208,6 @@ fun UpgradeButton(
             scope.launch {
               trendsModel.accessTrends(trendsModel.getTrendsHolding(), context)
               navController.navigate("trends_route")
-              Toast.makeText(context, "Go to 'Tutorial' in Settings for a demo video.", Toast.LENGTH_SHORT).show()
             }
           }
       )

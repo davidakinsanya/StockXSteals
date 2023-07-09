@@ -45,6 +45,7 @@ android {
     buildConfigField "String", "STOCKX_BASE_URL", "\"${properties.getProperty("STOCKX_BASE_URL")}\""
     buildConfigField "String", "STOCKX_API_HOST", "\"${properties.getProperty("STOCKX_API_HOST")}\""
     buildConfigField "String", "FLASK_SEARCH_API", "\"${properties.getProperty("FLASK_SEARCH_API")}\""
+    buildConfigField "String", "STOCKX_API_KEY", "\"${properties.getProperty("STOCKX_API_KEY")}\""
 
 
     buildTypes {

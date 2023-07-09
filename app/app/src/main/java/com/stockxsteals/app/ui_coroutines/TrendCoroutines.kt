@@ -22,27 +22,12 @@ fun TrendCoroutineOnClick(networkModel: NetworkViewModel,
                           searchQuota: DailySearchQuota,
                           premiumQuota: Premium,
                           displayItem: MutableState<Boolean>,
-                          trend: Trend,
-                          resultBool: Boolean
+                          trend: Trend
 ) {
-
 
   LaunchedEffect(key1 = true) {
     if (networkModel.checkConnection(context)) {
       if (productModel.getSearchModel().dbLogic(searchQuota, premiumQuota.isPremium.toInt()) == 1) {
-        if (premiumQuota.isPremium.toInt() == 0 && resultBool) {
-          val diff = searchQuota.search_limit - searchQuota.search_number
-          val toast = if (diff.toInt() == 0)
-            "Please upgrade to L8test+."
-          else "$diff free daily searches left."
-          Toast
-            .makeText(
-              context,
-              toast,
-              Toast.LENGTH_LONG
-            )
-            .show()
-        }
         displayItem.value = true
       } else {
         productModel.setCurrentTrends(trend)
@@ -90,6 +75,7 @@ fun TrendCoroutineDB(displayItem: MutableState<Boolean>,
       navController,
       context
     )
+    Toast.makeText(context, "Give us a second while we render the results.", Toast.LENGTH_LONG).show()
     productView(firebase)
   }
 }

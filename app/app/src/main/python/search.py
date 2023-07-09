@@ -25,13 +25,6 @@ def driver():
     return uc.Chrome(options=options)
 
 
-
-@app.route('/api-key', methods=['GET'])
-def api_key():
-    return "b7006fcc8fmsh5f2808a34ce122cp1a6b33jsnd7fb2c28985a"
-
-
-
 @app.route('/', methods=['GET'])
 def search():
     search_res = ""

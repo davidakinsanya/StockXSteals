@@ -26,7 +26,6 @@ import coil.request.ImageRequest
 import com.stockxsteals.app.R
 import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.model.ui.GridItem
-import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.ui_coroutines.TrendCoroutineDB
 import com.stockxsteals.app.ui_coroutines.TrendCoroutineOnClick
 import com.stockxsteals.app.utils.WindowSize
@@ -136,7 +135,6 @@ fun RandomColorBox(item: GridItem,
   val context = LocalContext.current
   val displayItem = remember { mutableStateOf(false) }
   val clicked = remember { mutableStateOf(false) }
-  val resultIsNotEmpty = navController.currentBackStackEntry?.destination?.route == AppScreens.Search.route
 
   val imageSize = uiModel.trendsGridImageSize(windowSize)
 
@@ -218,8 +216,7 @@ fun RandomColorBox(item: GridItem,
         searchQuota = searchQuota,
         premiumQuota = premiumQuota,
         displayItem = displayItem,
-        trend = trend,
-        resultBool = resultIsNotEmpty
+        trend = trend
       )
 
     if (displayItem.value)

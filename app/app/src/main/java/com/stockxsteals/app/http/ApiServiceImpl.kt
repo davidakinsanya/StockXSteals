@@ -2,25 +2,25 @@ package com.stockxsteals.app.http
 
 import android.app.Activity
 import android.content.Context
-import android.widget.Toast
 import androidx.navigation.NavHostController
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.stockxsteals.app.BuildConfig
 import com.stockxsteals.app.model.dto.Product
 import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.model.dto.blankProduct
+import com.stockxsteals.app.utils.errorEvent
 import com.stockxsteals.app.viewmodel.db.DailySearchViewModel
 import db.entity.DailySearchQuota
 import io.ktor.client.*
 import io.ktor.client.features.*
 import io.ktor.client.request.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class ApiServiceImpl(private val client: HttpClient): ApiService {
 
   private val baseUrl = BuildConfig.STOCKX_BASE_URL
   private val searchURL = BuildConfig.FLASK_SEARCH_API
   private val apiHost = BuildConfig.STOCKX_API_HOST
+  private val apiKey = BuildConfig.STOCKX_API_KEY
 
   override suspend fun getSearch(search: String,
                                  navController: NavHostController,
@@ -33,42 +33,33 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
       }
     } catch (e: RedirectResponseException) {
       // 3xx - code response
+      val firebase = FirebaseAnalytics.getInstance(context)
+      errorEvent(firebase, e.response.status.value)
+
       (context as Activity).runOnUiThread {
-        Toast.makeText(
-          context,
-          "Server Error Code: " +
-                  "${e.response.status.value} " +
-                  e.response.status.description,
-          Toast.LENGTH_LONG
-        ).show()
         navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
       }
+
       mapOf()
     } catch (e: ClientRequestException) {
       // 4xx - code response
+      val firebase = FirebaseAnalytics.getInstance(context)
+      errorEvent(firebase, e.response.status.value)
+
       (context as Activity).runOnUiThread {
-        Toast.makeText(
-          context,
-          "Server Error Code: " +
-                  "${e.response.status.value} " +
-                  e.response.status.description,
-          Toast.LENGTH_LONG
-        ).show()
         navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
       }
+
       mapOf()
     } catch (e: ServerResponseException) {
       // 5xx - code response
+      val firebase = FirebaseAnalytics.getInstance(context)
+      errorEvent(firebase, e.response.status.value)
+
       (context as Activity).runOnUiThread {
-        Toast.makeText(
-          context,
-          "Server Error Code: " +
-                  "${e.response.status.value} " +
-                  e.response.status.description,
-          Toast.LENGTH_LONG
-        ).show()
         navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
       }
+
       mapOf()
     }
   }
@@ -76,10 +67,6 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
   override suspend fun getTrends(query: String,
                                  currency: String,
                                  context: Context): List<Trend> {
-    var apiKey: String
-    withContext(Dispatchers.IO) {
-      apiKey = client.get("$searchURL/api-key")
-    }
     
     return try {
       client.get(baseUrl + "trends") {
@@ -94,39 +81,21 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
       }
     } catch (e: RedirectResponseException) {
       // 3xx - code response
-      (context as Activity).runOnUiThread {
-        Toast.makeText(
-          context,
-          "Server Error Code:  " +
-                  "${e.response.status.value} " +
-                  e.response.status.description,
-          Toast.LENGTH_LONG
-        ).show()
-      }
+      val firebase = FirebaseAnalytics.getInstance(context)
+      errorEvent(firebase, e.response.status.value)
+
       listOf()
     } catch (e: ClientRequestException) {
       // 4xx - code response
-      (context as Activity).runOnUiThread {
-        Toast.makeText(
-          context,
-          "Server Error Code: " +
-                  "${e.response.status.value} " +
-                  e.response.status.description,
-          Toast.LENGTH_LONG
-        ).show()
-      }
+      val firebase = FirebaseAnalytics.getInstance(context)
+      errorEvent(firebase, e.response.status.value)
+
       listOf()
     } catch (e: ServerResponseException) {
       // 5xx - code response
-      (context as Activity).runOnUiThread {
-        Toast.makeText(
-          context,
-          "Server Error Code: " +
-                  "${e.response.status.value} " +
-                  e.response.status.description,
-          Toast.LENGTH_LONG
-        ).show()
-      }
+      val firebase = FirebaseAnalytics.getInstance(context)
+      errorEvent(firebase, e.response.status.value)
+
       listOf()
     }
   }
@@ -140,11 +109,6 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
     navController: NavHostController,
     context: Context
   ): Product {
-
-    var apiKey: String
-    withContext(Dispatchers.IO) {
-      apiKey = client.get("$searchURL/api-key")
-    }
 
     return try {
       client.get(baseUrl + "product") {
@@ -163,44 +127,21 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
       }
     } catch (e: RedirectResponseException) {
       // 3xx - code response
-      (context as Activity).runOnUiThread {
-        Toast.makeText(
-          context,
-          "Server Error Code: " +
-                  "${e.response.status.value} " +
-                  e.response.status.description,
-          Toast.LENGTH_LONG
-        ).show()
-        searchModel.reverseSearch(quota)
-      }
-      blankProduct()
+      val firebase = FirebaseAnalytics.getInstance(context)
+      errorEvent(firebase, e.response.status.value)
 
+      blankProduct()
     } catch (e: ClientRequestException) {
       // 4xx - code response
-      (context as Activity).runOnUiThread {
-        Toast.makeText(
-          context,
-          "Server Error Code: " +
-                  "${e.response.status.value} " +
-                  e.response.status.description,
-          Toast.LENGTH_LONG
-        ).show()
-        searchModel.reverseSearch(quota)
-      }
+      val firebase = FirebaseAnalytics.getInstance(context)
+      errorEvent(firebase, e.response.status.value)
 
       blankProduct()
     } catch (e: ServerResponseException) {
       // 5xx - code response
-      (context as Activity).runOnUiThread {
-        Toast.makeText(
-          context,
-          "Server Error Code:  " +
-                  "${e.response.status.value} " +
-                  e.response.status.description,
-          Toast.LENGTH_LONG
-        ).show()
-        searchModel.reverseSearch(quota)
-      }
+      val firebase = FirebaseAnalytics.getInstance(context)
+      errorEvent(firebase, e.response.status.value)
+
       blankProduct()
     }
   }

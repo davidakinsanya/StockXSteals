@@ -61,6 +61,7 @@ import db.entity.Premium
   if (resultIsNotEmpty) {
     clicked.value = false
     displayItem.value = false
+    Toast.makeText(context, "Give us a second while we render the results.", Toast.LENGTH_LONG).show()
   }
 
   Column(
@@ -121,8 +122,7 @@ import db.entity.Premium
         premiumQuota = premiumQuota,
         navController = navController,
         context = context,
-        result = result,
-        resultBool = resultIsNotEmpty
+        result = result
       )
 
     SearchEntryCoroutineDB(displayItem = displayItem,
