@@ -27,10 +27,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.stockxsteals.app.model.ui.SettingScreens
 import com.stockxsteals.app.model.ui.settingScreensList
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.WindowSize
+import com.stockxsteals.app.utils.tutorialView
 import com.stockxsteals.app.viewmodel.ui.SettingViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
@@ -46,6 +48,7 @@ fun SettingsSplashScreen(navController: NavHostController,
 ) {
   val scope = rememberCoroutineScope()
   val context = LocalContext.current
+  val firebase = FirebaseAnalytics.getInstance(context)
   val trends = trendsModel.getTrendsModel().trends.collectAsState(initial = emptyList()).value
 
   val premiumQuota = settingModel
@@ -151,6 +154,8 @@ fun SettingsSplashScreen(navController: NavHostController,
                          navController.navigate(AppScreens.Premium.route)
                        }
                        "Tutorial" -> {
+                         tutorialView(firebase)
+
                          val intent = Intent(
                            Intent.ACTION_VIEW,
                            Uri.parse("https://google.co.uk")

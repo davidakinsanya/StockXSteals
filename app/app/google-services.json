@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "598526411757",
+    "project_id": "pc-api-9077359454035362151-50",
+    "storage_bucket": "pc-api-9077359454035362151-50.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:598526411757:android:f82e5ed36501c4d3621de4",
+        "android_client_info": {
+          "package_name": "com.stockxsteals.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "598526411757-f911cs3771maeiv20bels8eh8v267j08.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBavGL-ZFZafRHNAYJHxRx5OR6TbDHuwhk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "598526411757-f911cs3771maeiv20bels8eh8v267j08.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

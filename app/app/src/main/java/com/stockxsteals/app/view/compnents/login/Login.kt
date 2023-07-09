@@ -22,12 +22,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.stevdzasan.onetap.OneTapSignInWithGoogle
 import com.stevdzasan.onetap.rememberOneTapSignInState
 import com.stockxsteals.app.BuildConfig
 import com.stockxsteals.app.R
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.WindowSize
+import com.stockxsteals.app.utils.payWallView
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
@@ -49,6 +51,7 @@ fun LoginScreen(navController: NavHostController,
   val trends = trendsModel.getTrendsModel().trends.collectAsState(initial = emptyList()).value
   val context = LocalContext.current
   val mauve = Color(224, 176, 255)
+  val firebase = FirebaseAnalytics.getInstance(context)
 
   val premiumQuota = productModel
     .getPremiumModel()
@@ -68,7 +71,11 @@ fun LoginScreen(navController: NavHostController,
     productModel.isPremium(premiumQuota)
     productModel.insertFirstSearch(searchQuotaList)
     if (searchQuotaList.isNotEmpty())
-      showPaywall = productModel.getSearchModel().paywallLock(searchQuotaList[0], premiumQuota[0].isPremium.toInt()) == 1
+      showPaywall = productModel
+        .getSearchModel()
+        .paywallLock(
+          searchQuotaList[0],
+          premiumQuota[0].isPremium.toInt()) == 1
   }
 
 
@@ -79,6 +86,7 @@ fun LoginScreen(navController: NavHostController,
       Log.d("LOG", tokenId)
       scope.launch {
         if (showPaywall || trends.isEmpty()) {
+          payWallView(firebase)
           trendsModel.setTrendsHolding(trends)
           navController.navigate(AppScreens.Premium.route)
         } else {

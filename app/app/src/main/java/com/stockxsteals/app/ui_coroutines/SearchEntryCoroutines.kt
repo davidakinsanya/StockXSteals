@@ -6,8 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.navigation.NavHostController
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.getCurrentDate
+import com.stockxsteals.app.utils.productView
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import db.entity.DailySearchQuota
@@ -67,6 +69,8 @@ fun SearchEntryCoroutineDB(displayItem: MutableState<Boolean>,
                            navController: NavHostController,
                            context: Context
                            ) {
+  val firebase = FirebaseAnalytics.getInstance(context)
+
   LaunchedEffect(key1 = displayItem.value) {
     if (displayItem.value) {
       val currentSearch = productModel.getHistoryModel().getSearchByStamp("0")
@@ -96,6 +100,7 @@ fun SearchEntryCoroutineDB(displayItem: MutableState<Boolean>,
       navController,
       context
     )
+    productView(firebase)
   }
 }
 

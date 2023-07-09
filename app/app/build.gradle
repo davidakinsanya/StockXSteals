@@ -4,6 +4,8 @@ plugins {
   id "org.jetbrains.dokka" version "1.8.10"
   id 'com.squareup.sqldelight'
   id 'org.jetbrains.kotlin.plugin.serialization'
+  id "com.google.gms.google-services" version "4.3.15" apply false
+  id "com.google.firebase.crashlytics" version "2.9.6" apply false
 }
 
 android {
@@ -86,13 +88,14 @@ android {
     def serialization_version = '1.3.0'
     def koin_version = "3.4.0"
 
+    // One Tap Sign-In
     implementation 'com.github.stevdza-san:OneTapCompose:1.0.3'
 
+    //Serialization
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$serialization_version"
 
-    implementation "io.ktor:ktor-client-core:$ktor_version"
     // HTTP engine: The HTTP client used to perform network requests.
-
+    implementation "io.ktor:ktor-client-core:$ktor_version"
     implementation "io.ktor:ktor-client-android:$ktor_version"
 
     // The serialization engine used to convert objects to and from JSON.
@@ -103,6 +106,11 @@ android {
 
     // Qonversion SDK
     implementation 'io.qonversion.android.sdk:sdk:3.2.3'
+
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.1.1"))
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-crashlytics-ktx")
 
     // Native Kotlin DateTime
     implementation "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
