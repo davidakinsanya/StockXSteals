@@ -49,7 +49,6 @@ fun SearchEntryCoroutineOnClick(networkModel: NetworkViewModel,
 fun SearchEntryCoroutineDB(displayItem: MutableState<Boolean>,
                            productModel: ProductSearchViewModel,
                            result: List<String>,
-                           searchQuota: DailySearchQuota,
                            navController: NavHostController,
                            context: Context
                            ) {
@@ -80,8 +79,6 @@ fun SearchEntryCoroutineDB(displayItem: MutableState<Boolean>,
       result[0],
       productModel.getFilterModel().getCurrentSearch().currency,
       productModel.getFilterModel().getCurrentSearch().country,
-      searchQuota,
-      navController,
       context
     )
     productView(firebase)

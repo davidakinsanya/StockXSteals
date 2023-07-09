@@ -224,7 +224,6 @@ fun RandomColorBox(item: GridItem,
         displayItem = displayItem,
         productModel = productModel,
         trend = trend,
-        searchQuota = searchQuota,
         navController = navController,
         context = context
       )

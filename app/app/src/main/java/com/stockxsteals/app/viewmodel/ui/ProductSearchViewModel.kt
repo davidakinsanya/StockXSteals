@@ -3,7 +3,6 @@ package com.stockxsteals.app.viewmodel.ui
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavHostController
 import com.stockxsteals.app.http.ApiService
 import com.stockxsteals.app.model.dto.*
 import com.stockxsteals.app.viewmodel.db.DailySearchHistoryViewModel
@@ -44,8 +43,6 @@ class ProductSearchViewModel(private val filterModel: FilterViewModel,
 
   fun setDailySearchQuota(quota: DailySearchQuota) { searchQuota = quota }
 
-  fun getDailySearchQuota(): DailySearchQuota { return searchQuota!! }
-
   fun clearQuota() { searchQuota = null }
 
   fun setCurrentTrends(trend: Trend) { currentTrend = trend }
@@ -77,8 +74,6 @@ class ProductSearchViewModel(private val filterModel: FilterViewModel,
   fun addProduct(slug: String,
                  country: String,
                  currency: String,
-                 quota: DailySearchQuota,
-                 navController: NavHostController,
                  context: Context
   ) {
      val service = ApiService.create()
@@ -88,9 +83,6 @@ class ProductSearchViewModel(private val filterModel: FilterViewModel,
          slug,
          country,
          currency,
-         quota,
-         getSearchModel(),
-         navController,
          context,
        )
        _searchResult.emit(cleanUp(result))

@@ -182,6 +182,7 @@ fun UpgradeButton(
              }
       )
     }
+
     if (navController.previousBackStackEntry?.destination?.route == AppScreens.Settings.route )
       Text(
         text = "Back",
@@ -195,6 +196,7 @@ fun UpgradeButton(
             navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
           }
       )
+
     if (navController.previousBackStackEntry?.destination?.route == AppScreens.Login.route)
       Text(
         text = "Continue",
@@ -238,8 +240,7 @@ fun NextAction(navController: NavHostController,
           productModel = productModel,
           trend = productModel.getCurrentTrends(),
           navController = navController,
-          context = context,
-          searchQuota = productModel.getDailySearchQuota(),
+          context = context
         )
         productModel.clearTrends()
         productModel.clearQuota()
@@ -251,8 +252,7 @@ fun NextAction(navController: NavHostController,
          productModel = productModel,
          result = result!!,
          navController = navController,
-         context = context,
-         searchQuota = productModel.getDailySearchQuota()
+         context = context
        )
        productModel.clearQuota()
      }

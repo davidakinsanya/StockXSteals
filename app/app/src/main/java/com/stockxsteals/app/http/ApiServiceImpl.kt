@@ -9,8 +9,6 @@ import com.stockxsteals.app.model.dto.Product
 import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.model.dto.blankProduct
 import com.stockxsteals.app.utils.errorEvent
-import com.stockxsteals.app.viewmodel.db.DailySearchViewModel
-import db.entity.DailySearchQuota
 import io.ktor.client.*
 import io.ktor.client.features.*
 import io.ktor.client.request.*
@@ -104,9 +102,6 @@ class ApiServiceImpl(private val client: HttpClient): ApiService {
     query: String,
     currency: String,
     country: String,
-    quota: DailySearchQuota,
-    searchModel: DailySearchViewModel,
-    navController: NavHostController,
     context: Context
   ): Product {
 

@@ -44,7 +44,6 @@ fun TrendCoroutineOnClick(networkModel: NetworkViewModel,
 fun TrendCoroutineDB(displayItem: MutableState<Boolean>,
                      productModel: ProductSearchViewModel,
                      trend: Trend,
-                     searchQuota: DailySearchQuota,
                      navController: NavHostController,
                      context: Context
 
@@ -71,8 +70,6 @@ fun TrendCoroutineDB(displayItem: MutableState<Boolean>,
       trend.slug,
       "",
       "",
-      searchQuota,
-      navController,
       context
     )
     Toast.makeText(context, "Give us a second while we render the results.", Toast.LENGTH_LONG).show()

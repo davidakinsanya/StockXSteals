@@ -128,7 +128,6 @@ import db.entity.Premium
     SearchEntryCoroutineDB(displayItem = displayItem,
                            productModel = productModel,
                            result = result,
-                           searchQuota = searchQuota,
                            navController = navController,
                            context = context
     )
