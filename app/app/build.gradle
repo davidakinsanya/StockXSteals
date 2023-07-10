@@ -5,7 +5,8 @@ plugins {
   id 'com.squareup.sqldelight'
   id 'org.jetbrains.kotlin.plugin.serialization'
   id "com.google.gms.google-services" version "4.3.15"
-  id "com.google.firebase.crashlytics" version "2.9.6" 
+  id "com.google.firebase.crashlytics" version "2.9.6"
+  id "com.google.firebase.firebase-perf" version "1.4.2"
 }
 
 android {
@@ -112,6 +113,7 @@ android {
     implementation(platform("com.google.firebase:firebase-bom:32.1.1"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-crashlytics-ktx")
+    implementation("com.google.firebase:firebase-perf-ktx")
 
     // Native Kotlin DateTime
     implementation "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
