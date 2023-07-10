@@ -30,13 +30,22 @@ fun DataOverall(productModel: ProductSearchViewModel,
 
   Currency.values().forEach {
     if (it.type == currentSearch.currency) {
-      if (prevPage == 3)
+      if (prevPage == 1)
         currency = it.symbol
     }
   }
 
   if (market != null) {
-    Text(text = "Market Data (Buyers)",
+    /*
+      val lowestAskFigure = if (market.bids.lowest_ask == null) "N/A" else ("~$currency" + market.bids.lowest_ask)
+      val highestBidFigure =  if (market.bids.highest_bid == null) "N/A" else ("~$currency" + market.bids.highest_bid)}
+      val numberOfSellersFigure = market.bids.num_asks ?: 0
+      val numberOfBiddersFigure = market.bids.num_bids ?: 0
+      val lastSaleFigure = "~$currency" + market.sales.last_sale
+      val lastSaleThreeDaysFigure = (market.sales.last_sale_72h).toString()
+     */
+
+      Text(text = "Market Data (Buyers)",
       fontSize = headersFontSize,
       fontWeight = FontWeight.Normal,
       modifier = Modifier.padding(
