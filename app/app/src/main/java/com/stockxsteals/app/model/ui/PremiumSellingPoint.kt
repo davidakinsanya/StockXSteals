@@ -25,7 +25,7 @@ sealed class PremiumSellingPoint (
 
   object Community : PremiumSellingPoint (
     icon = "https://img.icons8.com/?size=512&id=3685&format=png",
-    title =  "Unlocking Community Access",
+    title =  "Community",
     description = "At L8test. We value the asset that presents itself with a loyal, active social media presence. " +
                   "and we care about the users who invest in the platform and its longevity. (continue scrolling)" +
                   "\n\n\n" +
@@ -54,7 +54,7 @@ sealed class PremiumSellingPoint (
 
   object Performance : PremiumSellingPoint (
     icon = "https://img.icons8.com/?size=512&id=41152&format=png",
-    title = "Steady Performance Increases",
+    title = "Performance",
     description = "We understand the app is at it's beginning stages. At L8test, we are not the type to dump an " +
                   "app on the market and leave it there knowing it is not the best it can be. Our early user will " +
                   "benefit most through seeing gradual increases in our performance and ability to deliver our service " +
