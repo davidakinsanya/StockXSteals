@@ -15,12 +15,6 @@ fun productView(firebase: FirebaseAnalytics) {
   firebase.logEvent("PRODUCT_VIEW", bundle)
 }
 
-fun tutorialView(firebase: FirebaseAnalytics) {
-  val bundle = Bundle()
-  bundle.putString("TUTORIAL_VIEW", "true")
-  firebase.logEvent("TUTORIAL_VIEW", bundle)
-}
-
 fun conversionEvent(firebase: FirebaseAnalytics) {
   val bundle = Bundle()
   bundle.putString("CONVERSION_EVENT", "true")

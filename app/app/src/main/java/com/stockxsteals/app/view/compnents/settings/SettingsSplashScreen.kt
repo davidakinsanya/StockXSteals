@@ -1,10 +1,6 @@
 package com.stockxsteals.app.view.compnents.settings
 
 import android.annotation.SuppressLint
-import android.app.PendingIntent
-import android.app.TaskStackBuilder
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -27,12 +23,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.stockxsteals.app.model.ui.SettingScreens
 import com.stockxsteals.app.model.ui.settingScreensList
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.WindowSize
-import com.stockxsteals.app.utils.tutorialView
 import com.stockxsteals.app.viewmodel.ui.SettingViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
@@ -48,7 +42,6 @@ fun SettingsSplashScreen(navController: NavHostController,
 ) {
   val scope = rememberCoroutineScope()
   val context = LocalContext.current
-  val firebase = FirebaseAnalytics.getInstance(context)
   val trends = trendsModel.getTrendsModel().trends.collectAsState(initial = emptyList()).value
 
   val premiumQuota = settingModel
@@ -152,23 +145,6 @@ fun SettingsSplashScreen(navController: NavHostController,
                      when (settingScreens[item].screen) {
                        "Upgrade" -> {
                          navController.navigate(AppScreens.Premium.route)
-                       }
-                       "Tutorial" -> {
-                         tutorialView(firebase)
-
-                         val intent = Intent(
-                           Intent.ACTION_VIEW,
-                           Uri.parse("https://google.co.uk")
-                         )
-                         val pendingIntent = TaskStackBuilder.create(context).run {
-                           addNextIntentWithParentStack(intent)
-                           getPendingIntent(
-                             0,
-                             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                           )
-                         }
-                         pendingIntent.send()
-                         if (!isPremium) navController.navigate(AppScreens.Premium.route)
                        }
                        else -> {
                          navController
