@@ -17,9 +17,10 @@ sealed class PremiumSellingPoint (
     icon = "https://img.icons8.com/?size=512&id=25224&format=png",
     title =  "New Features",
     description = "Pour into us, so we can simply pour back into the app. " +
-                  "We want to continue working on new features, but we need support. " +
+                  "We want to continue working on new sneaker-centric features, " +
+                  "steering us clear from the next big thing. " +
                   "As part of your L8test+ subscription, you will have access " +
-                  "all new features for as long as you're subscribed at no extra cost."
+                  "all new features for as long as you are subscribed at no extra cost."
   )
 
   object Community : PremiumSellingPoint (
@@ -43,6 +44,22 @@ sealed class PremiumSellingPoint (
                   "you can unsubscribe and resubscribe to L8test+ if or when you please."
   )
 
+  object Ads : PremiumSellingPoint (
+    icon = "https://img.icons8.com/?size=512&id=40463&format=png",
+    title = "No Ads, Ever!",
+    description = "L8test. is reliant on subscription revenue in order to continually push the best " +
+                  "possible product for the our market of sneaker lovers. We strongly believe ads will gravely hinder " +
+                  "our ability to do so."
+  )
+
+  object Performance : PremiumSellingPoint (
+    icon = "https://img.icons8.com/?size=512&id=41152&format=png",
+    title = "Steady Performance Increases",
+    description = "We understand the app is at it's beginning stages. At L8test, we are not the type to dump an " +
+                  "app on the market and leave it there knowing it is not the best it can be. Our early user will " +
+                  "benefit most through seeing gradual increases in our performance and ability to deliver our service " +
+                  "over time."
+  )
 }
 
 fun sellingPointsList(): List<PremiumSellingPoint> {
@@ -50,6 +67,8 @@ fun sellingPointsList(): List<PremiumSellingPoint> {
     PremiumSellingPoint.Searches,
     PremiumSellingPoint.Features,
     PremiumSellingPoint.Community,
-    PremiumSellingPoint.Cancel
+    PremiumSellingPoint.Cancel,
+    PremiumSellingPoint.Ads,
+    PremiumSellingPoint.Performance
   )
 }

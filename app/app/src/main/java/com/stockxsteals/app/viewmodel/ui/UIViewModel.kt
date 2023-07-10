@@ -470,7 +470,7 @@ class UIViewModel: ViewModel() {
     val modifier: Modifier = when (windowSize.width) {
       WindowType.Small -> { Modifier.fillMaxHeight(0.6f).padding(top = 10.dp) }
       WindowType.Large -> { Modifier.padding(start = 60.dp, end = 60.dp) }
-      else -> { Modifier.padding(top = 10.dp) }
+      else -> { Modifier.padding(top = 10.dp).fillMaxHeight(0.8f) }
     }
     return modifier
   }

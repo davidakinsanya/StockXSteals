@@ -76,6 +76,6 @@ fun DataBySize(productModel: ProductSearchViewModel,
                         , "(2/3)", paddingListDisclaimer, 8.sp, FontWeight.Normal)
 
   } else {
-    SinglePagerComponent(text1 = "Couldn't find any size-specific market data. Please keep swiping.")
+    SinglePagerComponent(text1 = "Sorry, we could not find any size-specific market data. Please keep swiping.")
   }
 }
