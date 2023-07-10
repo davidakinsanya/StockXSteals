@@ -225,7 +225,7 @@ fun DescriptionAndTraits(data: Map<String, List<Any>>,
 
   // Disclaimer
   MainSearchRow("* Market data for all sizes. ", "(1/${pageNum})",
-                 paddingListDisclaimer, 8.sp, FontWeight.Normal)
+                 paddingList, 8.sp, FontWeight.Normal)
 
 }
 
