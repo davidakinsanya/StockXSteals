@@ -1,6 +1,7 @@
 package com.stockxsteals.app.ui_coroutines
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -29,6 +30,10 @@ fun SearchEntryCoroutineOnClick(networkModel: NetworkViewModel,
   LaunchedEffect(true) {
     if (networkModel.checkConnection(context)) {
       if (productModel.getSearchModel().dbLogic(searchQuota, premiumQuota.isPremium.toInt()) == 1) {
+        Toast.makeText(
+          context,
+          "Give us a second while we render the results.",
+          Toast.LENGTH_LONG).show()
         displayItem.value = true
       } else {
         navController

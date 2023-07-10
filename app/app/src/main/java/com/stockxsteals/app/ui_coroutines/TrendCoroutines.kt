@@ -28,6 +28,10 @@ fun TrendCoroutineOnClick(networkModel: NetworkViewModel,
   LaunchedEffect(key1 = true) {
     if (networkModel.checkConnection(context)) {
       if (productModel.getSearchModel().dbLogic(searchQuota, premiumQuota.isPremium.toInt()) == 1) {
+        Toast.makeText(
+          context,
+          "Give us a second while we render the results.",
+          Toast.LENGTH_LONG).show()
         displayItem.value = true
       } else {
         productModel.setCurrentTrends(trend)
@@ -72,7 +76,6 @@ fun TrendCoroutineDB(displayItem: MutableState<Boolean>,
       "",
       context
     )
-    Toast.makeText(context, "Give us a second while we render the results.", Toast.LENGTH_LONG).show()
     productView(firebase)
   }
 }

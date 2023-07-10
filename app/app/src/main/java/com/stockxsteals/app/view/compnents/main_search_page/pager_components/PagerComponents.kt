@@ -213,7 +213,7 @@ fun DescriptionAndTraits(data: Map<String, List<Any>>,
     fontSize = uiModel.additionalPagerDataSmallText(windowSize),
     fontWeight = FontWeight.Light,
     modifier = Modifier
-      .height(if (data["1"]?.get(0).toString().isNotEmpty()) 300.dp else 50.dp)
+      .height(if (data["1"]?.get(0).toString().isNotEmpty()) 300.dp else 20.dp)
       .verticalScroll(rememberScrollState())
       .padding(
       top = paddingList[0],

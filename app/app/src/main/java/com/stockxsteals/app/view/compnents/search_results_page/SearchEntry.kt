@@ -1,6 +1,5 @@
 package com.stockxsteals.app.view.compnents.search_results_page
 
-import android.widget.Toast
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
@@ -60,10 +59,6 @@ import db.entity.Premium
   if (resultIsNotEmpty) {
     clicked.value = false
     displayItem.value = false
-    Toast.makeText(
-      context,
-      "Give us a second while we render the results.",
-      Toast.LENGTH_LONG).show()
   }
 
   Column(
