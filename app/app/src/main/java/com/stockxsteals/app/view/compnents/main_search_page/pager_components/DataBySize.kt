@@ -1,14 +1,12 @@
 package com.stockxsteals.app.view.compnents.main_search_page.pager_components
 
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.stockxsteals.app.model.dto.Market
 import com.stockxsteals.app.model.dto.Variants
 import com.stockxsteals.app.model.filter.Currency
+import com.stockxsteals.app.utils.MainSearchRow
 import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
@@ -47,101 +45,35 @@ fun DataBySize(productModel: ProductSearchViewModel,
   }
 
   if (market != null) {
-   // TODO: Same as Overall.
+    // Header
+    MainSearchRow("Market Data (Buyers)", "", paddingList, headersFontSize, FontWeight.Normal)
 
-    Text(text = "Market Data (Buyers)",
-      fontSize = headersFontSize,
-      fontWeight = FontWeight.Normal,
-      modifier = Modifier.padding(
-        top = paddingList[0],
-        bottom = paddingList[1],
-        start = paddingList[2],
-        end = paddingList[3]))
 
-    Text(
-      text = "Lowest Asking Price: ${ if (market!!.bids.lowest_ask == null) "N/A" else "~$currency" + market!!.bids.lowest_ask }",
-      fontSize = infoFontSize,
-      fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(
-        top = paddingList[0],
-        bottom = paddingList[1],
-        start = paddingList[2],
-        end = paddingList[3])
-    )
+    val lowestAskFigure = if (market!!.bids.lowest_ask == null) "N/A" else ("~$currency" + market!!.bids.lowest_ask)
+    MainSearchRow("Lowest Asking Price", lowestAskFigure, paddingList, infoFontSize, FontWeight.Light)
 
-    Text(
-      text = "Highest Bidding Price: ${ if (market!!.bids.highest_bid == null) "N/A" else "~$currency" + market!!.bids.highest_bid }",
-      fontSize = infoFontSize,
-      fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(
-        top = paddingList[0],
-        bottom = paddingList[1],
-        start = paddingList[2],
-        end = paddingList[3])
-    )
+    val highestBidFigure =  if (market!!.bids.highest_bid == null) "N/A" else ("~$currency" + market!!.bids.highest_bid)
+    MainSearchRow("Highest Bidding Price", highestBidFigure, paddingList, infoFontSize, FontWeight.Light)
 
-    Text(
-      text = "Number of Sellers: ${ if (market!!.bids.num_asks == null) 0 else market!!.bids.num_asks }",
-      fontSize = infoFontSize,
-      fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(
-        top = paddingList[0],
-        bottom = paddingList[1],
-        start = paddingList[2],
-        end = paddingList[3])
-    )
+    val numberOfSellersFigure = market!!.bids.num_asks ?: 0
+    MainSearchRow("Number of Sellers", numberOfSellersFigure.toString(), paddingList, infoFontSize, FontWeight.Light)
 
-    Text(
-      text = "Number of Bidders: ${ if (market!!.bids.num_bids == null) 0 else market!!.bids.num_bids }",
-      fontSize = infoFontSize,
-      fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(
-        top = paddingList[0],
-        bottom = paddingList[1],
-        start = paddingList[2],
-        end = paddingList[3])
-    )
+    val numberOfBiddersFigure = market!!.bids.num_bids ?: 0
+    MainSearchRow("Number of Bidders", numberOfBiddersFigure.toString(), paddingList, infoFontSize, FontWeight.Light)
 
-    Text(text = "Market Data (Sellers)",
-      fontSize = headersFontSize,
-      fontWeight = FontWeight.Normal,
-      modifier = Modifier.padding(
-        top = paddingList[0],
-        bottom = paddingList[1],
-        start = paddingList[2],
-        end = paddingList[3])
-    )
+    // Header
+    MainSearchRow("Market Data (Sellers)", "", paddingList, headersFontSize, FontWeight.Normal)
 
-    Text(
-      text = "Last Sale: ${ "~$currency" + market!!.sales.last_sale }",
-      fontSize = infoFontSize,
-      fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(
-        top = paddingList[0],
-        bottom = paddingList[1],
-        start = paddingList[2],
-        end = paddingList[3])
-    )
 
-    Text(
-      text = "All Sales (Past 3 Days): ${market!!.sales.last_sale_72h }",
-      fontSize = infoFontSize,
-      fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(
-        top = paddingList[0],
-        bottom = paddingList[1],
-        start = paddingList[2],
-        end = paddingList[3])
-    )
+    val lastSaleFigure = "~$currency" + market!!.sales.last_sale
+    MainSearchRow("Last Sale", lastSaleFigure, paddingList, infoFontSize, FontWeight.Light)
 
-    Text("* Market data for ${type.replace("_", " ")} Size ${size.toString().replace(".0", "")} only.",
-      fontSize = 8.sp,
-      fontWeight = FontWeight.Normal,
-      modifier = Modifier.padding(
-        top = paddingListDisclaimer[0],
-        bottom = paddingListDisclaimer[1],
-        start = paddingListDisclaimer[2],
-        end = paddingListDisclaimer[3]))
+    val lastSaleThreeDaysFigure = (market!!.sales.last_sale_72h)
+    MainSearchRow("All Sales (Past 3 Days)", lastSaleThreeDaysFigure.toString(), paddingList, infoFontSize, FontWeight.Light)
+
+    // Disclaimer
+    MainSearchRow("* Market data for ${type.replace("_", " ")} Size ${size.toString().replace(".0", "")} only."
+                        , "(2/3)", paddingListDisclaimer, 8.sp, FontWeight.Normal)
 
   }
 }

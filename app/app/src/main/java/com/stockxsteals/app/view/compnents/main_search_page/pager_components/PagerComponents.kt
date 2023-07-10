@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.stockxsteals.app.R
 import com.stockxsteals.app.model.dto.Traits
+import com.stockxsteals.app.utils.MainSearchRow
 import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
@@ -96,7 +97,8 @@ fun AdditionalSearchPagerData(productModel: ProductSearchViewModel,
         DescriptionAndTraits(
           data = data,
           uiModel = uiModel,
-          windowSize = windowSize
+          windowSize = windowSize,
+          prevPage = prevPage
         )
       }
       1 -> {
@@ -136,7 +138,8 @@ fun AdditionalTrendsPagerData(productModel: ProductSearchViewModel,
         DescriptionAndTraits(
           data = data,
           uiModel = uiModel,
-          windowSize = windowSize
+          windowSize = windowSize,
+          prevPage = prevPage
         )
       }
       else -> {
@@ -154,9 +157,12 @@ fun AdditionalTrendsPagerData(productModel: ProductSearchViewModel,
 @Composable
 fun DescriptionAndTraits(data: Map<String, List<Any>>,
                          uiModel: UIViewModel,
-                         windowSize: WindowSize) {
+                         windowSize: WindowSize,
+                         prevPage: Int) {
   val traits: List<*>?
   val paddingList = uiModel.additionalPagerDataPaddingList(windowSize)
+  val paddingListDisclaimer = uiModel.additionalPagerDataPaddingListDisclaimer(windowSize)
+  val pageNum = if (prevPage == 1) 3 else 2
   val emptyTraits = data["2"]?.get(0) as List<*>
   var cwText: Traits? = null
   var rdText: Traits? = null
@@ -202,6 +208,11 @@ fun DescriptionAndTraits(data: Map<String, List<Any>>,
       start = paddingList[2],
       end = paddingList[3])
   )
+
+  // Disclaimer
+  MainSearchRow("* Market data for all sizes. ", "(1/${pageNum})",
+                 paddingListDisclaimer, 8.sp, FontWeight.Normal)
+
 }
 
 @Composable

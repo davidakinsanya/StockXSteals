@@ -21,7 +21,7 @@ fun NavGraph(navController: NavHostController,
              windowSize: WindowSize
 ) {
   AnimatedNavHost(navController = navController,
-          startDestination = "login_route", // TODO: Change to "login_route"
+          startDestination = "trends_route", // TODO: Change to "login_route"
           route = "root_route") {
 
     loginGraph(navController = navController,

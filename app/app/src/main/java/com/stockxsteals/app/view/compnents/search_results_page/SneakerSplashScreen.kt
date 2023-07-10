@@ -1,6 +1,7 @@
 package com.stockxsteals.app.view.compnents.search_results_page
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -58,6 +59,20 @@ fun SneakerSplashScreen(navController: NavHostController,
     productModel.insertFirstSearch(searchQuotaList)
     if (productModel.getHistoryModel().getSearchByStamp("0") == null)
       navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
+
+    if (map.isEmpty()) {
+      Toast.makeText(
+        context,
+        "Apologies in advance for the long search times.",
+        Toast.LENGTH_SHORT
+      ).show()
+
+      Toast.makeText(
+        context,
+        "We are working very hard to drastically shorten these times.",
+        Toast.LENGTH_SHORT
+      ).show()
+    }
   }
 
   Scaffold {
@@ -108,7 +123,7 @@ fun SneakerSplashScreen(navController: NavHostController,
 
         items(1) {
           if (map.keys.isEmpty()) {
-            AlternativeEntry(uiModel, windowSize, context)
+            AlternativeEntry(uiModel, windowSize)
           } else {
             map.keys.forEach {
               if (searchQuotaList.isNotEmpty() && premiumQuota.isNotEmpty())

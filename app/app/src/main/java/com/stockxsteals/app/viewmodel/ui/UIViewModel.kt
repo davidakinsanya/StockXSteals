@@ -422,8 +422,8 @@ class UIViewModel: ViewModel() {
 
   fun additionalPagerDataPaddingListDisclaimer(windowSize: WindowSize): List<Dp> {
     val dp: List<Dp> = when(windowSize.width) {
-      WindowType.Small -> { listOf(8.dp, 5.dp, 25.dp, 10.dp) }
-      else -> { listOf(35.dp, 5.dp, 25.dp, 10.dp) }
+      WindowType.Small -> { listOf(8.dp, 5.dp, 25.dp, 25.dp) }
+      else -> { listOf(35.dp, 5.dp, 25.dp, 25.dp) }
     }
     return dp
   }
