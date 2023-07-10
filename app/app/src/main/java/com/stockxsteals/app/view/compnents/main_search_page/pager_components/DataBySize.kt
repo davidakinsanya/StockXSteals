@@ -75,5 +75,7 @@ fun DataBySize(productModel: ProductSearchViewModel,
     MainSearchRow("* Market data for ${type.replace("_", " ")} Size ${size.toString().replace(".0", "")} only."
                         , "(2/3)", paddingListDisclaimer, 8.sp, FontWeight.Normal)
 
+  } else {
+    SinglePagerComponent(text1 = "Couldn't find any size-specific market data. Please keep swiping.")
   }
 }

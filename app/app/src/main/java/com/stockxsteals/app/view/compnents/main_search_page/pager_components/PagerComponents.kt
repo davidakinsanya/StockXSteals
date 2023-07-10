@@ -3,7 +3,9 @@ package com.stockxsteals.app.view.compnents.main_search_page.pager_components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,13 +33,15 @@ fun PagerTopRow(constants: List<String>,
   Column(
     modifier = Modifier
       .fillMaxWidth(1.0f)
-      .height(140.dp)
       .clip(RoundedCornerShape(5.dp))
       .background(color = Color.White),
   ) {
     Row(
-      modifier = Modifier.padding(20.dp),
-      horizontalArrangement = Arrangement.SpaceBetween
+      modifier = Modifier
+        .height(140.dp)
+        .padding(20.dp),
+      horizontalArrangement = Arrangement.SpaceBetween,
+      verticalAlignment = Alignment.CenterVertically
     ) {
       Column {
         Text(
@@ -72,8 +76,9 @@ fun PagerTopRow(constants: List<String>,
           model = constants[2],
           contentDescription = "Sneaker Image",
           modifier = Modifier
-            .fillMaxWidth(),
-          alignment = Alignment.Center
+            .padding(start = 10.dp)
+            .fillMaxHeight(),
+          alignment = Alignment.TopCenter
         )
     }
   }
@@ -161,7 +166,10 @@ fun DescriptionAndTraits(data: Map<String, List<Any>>,
                          prevPage: Int) {
   val traits: List<*>?
   val paddingList = uiModel.additionalPagerDataPaddingList(windowSize)
-  val paddingListDisclaimer = uiModel.additionalPagerDataPaddingListDisclaimer(windowSize)
+
+  val paddingListDisclaimer = uiModel.additionalPagerDataPaddingListDisclaimer(windowSize).toMutableList()
+  paddingListDisclaimer[0] = if (data["1"]?.get(0).toString().isEmpty()) 0.dp else paddingListDisclaimer[0]
+
   val pageNum = if (prevPage == 1) 3 else 2
   val emptyTraits = data["2"]?.get(0) as List<*>
   var cwText: Traits? = null
@@ -190,11 +198,13 @@ fun DescriptionAndTraits(data: Map<String, List<Any>>,
       text = "${rdText?.name}: ${rdText?.value}",
       fontSize = uiModel.additionalPagerDataSmallText(windowSize),
       fontWeight = FontWeight.Light,
-      modifier = Modifier.padding(
-        top = paddingList[0],
-        bottom = paddingList[1],
-        start = paddingList[2],
-        end = paddingList[3])
+      modifier = Modifier
+        .padding(
+          top = paddingList[0],
+          bottom = paddingList[1],
+          start = paddingList[2],
+          end = paddingList[3]
+        )
     )
   }
 
@@ -202,11 +212,15 @@ fun DescriptionAndTraits(data: Map<String, List<Any>>,
     text = data["1"]?.get(0).toString(),
     fontSize = uiModel.additionalPagerDataSmallText(windowSize),
     fontWeight = FontWeight.Light,
-    modifier = Modifier.padding(
+    modifier = Modifier
+      .height(if (data["1"]?.get(0).toString().isNotEmpty()) 300.dp else 50.dp)
+      .verticalScroll(rememberScrollState())
+      .padding(
       top = paddingList[0],
       bottom = paddingList[1],
       start = paddingList[2],
       end = paddingList[3])
+
   )
 
   // Disclaimer
@@ -216,7 +230,7 @@ fun DescriptionAndTraits(data: Map<String, List<Any>>,
 }
 
 @Composable
-fun SinglePagerComponent() {
+fun SinglePagerComponent(text1: String) {
   Column(modifier = Modifier.fillMaxHeight(),
          horizontalAlignment = Alignment.CenterHorizontally,
          verticalArrangement = Arrangement.Center) {
@@ -225,10 +239,10 @@ fun SinglePagerComponent() {
       contentDescription = "Placeholder",
       modifier = Modifier
         .fillMaxWidth()
-        .fillMaxHeight(.35f)
+        .fillMaxHeight(if (text1.contains("market")) .0f else .35f)
         .graphicsLayer { alpha = 0.55f })
 
-    Text(text = "Hit the \uD83D\uDD0D icon above to start your search.",
+    Text(text = text1,
          modifier = Modifier.width(250.dp),
          maxLines = 2,
       textAlign = TextAlign.Center,

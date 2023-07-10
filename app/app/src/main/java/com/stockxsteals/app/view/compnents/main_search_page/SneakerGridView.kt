@@ -170,7 +170,7 @@ fun Pager(view: ProductView?,
           )
       }
       else
-        SinglePagerComponent()
+        SinglePagerComponent(text1 = "Hit the \uD83D\uDD0D icon above to start your search.")
 
     }
   }
