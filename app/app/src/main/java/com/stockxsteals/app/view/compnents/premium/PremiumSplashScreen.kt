@@ -31,14 +31,13 @@ import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.SettingViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
-import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun PremiumSplashScreen(
   productModel: ProductSearchViewModel,
-  trendsModel: TrendsUIViewModel,
   settingModel: SettingViewModel,
+  trendsModel: TrendsUIViewModel,
   navController: NavHostController,
   windowSize: WindowSize,
   result: List<String>?
@@ -59,8 +58,8 @@ fun PremiumSplashScreen(
           MainBody(uiModel, windowSize)
           UpgradeButton(
             productModel = productModel,
-            trendsModel = trendsModel,
             settingModel = settingModel,
+            trendsModel = trendsModel,
             navController = navController,
             result = result
           )
@@ -107,7 +106,7 @@ fun SellingPointRow(sellingPoint: PremiumSellingPoint) {
     .height(100.dp)) {
     AsyncImage(
       model = sellingPoint.icon,
-      contentDescription = "selling point Icon",
+      contentDescription = "Selling Point Icon",
       modifier = Modifier
         .fillMaxHeight(0.5f)
     )
@@ -140,8 +139,8 @@ fun SellingPointRow(sellingPoint: PremiumSellingPoint) {
 @Composable
 fun UpgradeButton(
   productModel: ProductSearchViewModel,
-  trendsModel: TrendsUIViewModel,
   settingModel: SettingViewModel,
+  trendsModel: TrendsUIViewModel,
   navController: NavHostController,
   result: List<String>?
 ) {
@@ -170,7 +169,7 @@ fun UpgradeButton(
       )
       .clickable {},
       horizontalArrangement = Arrangement.Center) {
-      Text(text = "Upgrade For ~$12/mo",
+      Text(text = "Upgrade For ~$2.99/wk",
            fontSize = 12.sp,
            fontWeight = FontWeight.Bold,
            modifier = Modifier
@@ -199,19 +198,12 @@ fun UpgradeButton(
 
     if (navController.previousBackStackEntry?.destination?.route == AppScreens.Login.route)
       Text(
-        text = "Continue",
+        text = "Less than a coffee a week.",
         fontSize = 12.sp,
         fontWeight = FontWeight.Medium,
         textDecoration = TextDecoration.Underline,
         modifier =
-        Modifier
-          .padding(top = 10.dp)
-          .clickable {
-            scope.launch {
-              trendsModel.accessTrends(trendsModel.getTrendsHolding(), context)
-              navController.navigate("trends_route")
-            }
-          }
+        Modifier.padding(top = 10.dp)
       )
 
     if (nextAction.value)
@@ -262,7 +254,6 @@ fun NextAction(navController: NavHostController,
         trendsModel.accessTrends(trendsModel.getTrendsHolding(), context)
         navController.navigate("trends_route")
       }
-      trendsModel.clearTrendsHolding()
     }
 
    AppScreens.Settings.route -> {

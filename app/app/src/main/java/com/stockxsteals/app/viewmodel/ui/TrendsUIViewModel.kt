@@ -42,10 +42,6 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
     return trendsHolding
   }
 
-  fun clearTrendsHolding() {
-    trendsHolding = listOf()
-  }
-
 
   suspend fun accessTrends(trends: List<Trends>, context: Context) =
     withContext(Dispatchers.IO) { // to run code in Background Thread
@@ -68,6 +64,7 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
           addTrend(data)
         }
       }
+      trendsHolding = listOf()
     }
 
   private fun addTrend(trends: List<Trend>) {

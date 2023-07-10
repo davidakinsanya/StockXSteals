@@ -9,6 +9,7 @@ import com.qonversion.android.sdk.QonversionError
 import com.qonversion.android.sdk.QonversionPermissionsCallback
 import com.qonversion.android.sdk.dto.QPermission
 import com.stockxsteals.app.utils.conversionEvent
+import com.stockxsteals.app.utils.getDiscord
 import com.stockxsteals.app.viewmodel.ui.SettingViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -17,6 +18,7 @@ fun paymentFlow(scope: CoroutineScope,
                 settingModel: SettingViewModel,
                 context: Context): Int {
   var success = 0
+
 
   Qonversion.purchase(context = context as Activity,
     product = settingModel.getQonversionModel().offerings[0].products.firstOrNull()!!,
@@ -30,10 +32,11 @@ fun paymentFlow(scope: CoroutineScope,
         conversionEvent(firebase)
         Toast.makeText(context, "You have now upgraded to L8test+", Toast.LENGTH_SHORT).show()
         Toast.makeText(context, "You now have access to our Discord in the settings " +
-                                     "under 'Socials.'", Toast.LENGTH_SHORT).show()
+                                     "under 'SocialMedia.'", Toast.LENGTH_SHORT).show()
         settingModel.getQonversionModel().updatePermissions()
         scope.launch {
           settingModel.getPremiumModel().setIsPremium(1)
+          getDiscord(context)
           success = 1
         }
       }

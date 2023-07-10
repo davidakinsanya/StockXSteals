@@ -101,7 +101,7 @@ fun SettingPage(navController: NavHostController,
       UpdateScreen(uiModel, windowSize)
     }
 
-    "Socials" -> {
+    "SocialMedia" -> {
       SocialSplashScreen(uiModel, windowSize)
     }
 
