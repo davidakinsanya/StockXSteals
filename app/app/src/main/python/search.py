@@ -2,7 +2,6 @@ import undetected_chromedriver as uc
 from bs4 import BeautifulSoup as bs4
 from flask import Flask
 from flask import request
-from concurrent.futures import ThreadPoolExecutor
 
 app = Flask(__name__)
 
@@ -27,29 +26,24 @@ def driver():
 
 @app.route('/', methods=['GET'])
 def search():
-    search_res = ""
-    search_res2 = ""
-    img_search = ""
-    doc = ""
-    
+
     try:
-        with ThreadPoolExecutor(max_workers=20) as p:
-            search_title = request.args.get('search')
-            url = "https://stockx.com/en-gb/search?s={}".format(search_title)
-            driver.get(url)
-            search_map = {}
-            doc = bs4(driver.page_source, 'lxml')
+        search_title = request.args.get('search')
+        url = "https://stockx.com/en-gb/search?s={}".format(search_title)
+        driver.get(url)
+        search_map = {}
+        doc = bs4(driver.page_source, 'lxml')
 
-        with ThreadPoolExecutor(max_workers=20) as p:
-            search_res = doc.find('div', {'class', 'loading css-1ouqd68'}) 
-            search_res2 = search_res.find_all('div', {'class', 'css-pnc6ci'})
-            img_search = search_res.find_all('div', {'class', 'css-tkc8ar'})
+        
+        search_res = doc.find('div', {'class', 'loading css-1ouqd68'}) 
+        search_res2 = search_res.find_all('div', {'class', 'css-pnc6ci'})
+        img_search = search_res.find_all('div', {'class', 'css-tkc8ar'})
 
-        with ThreadPoolExecutor(max_workers=20) as p:  
-            for i in range(0, len(search_res2)):
-                search_map[img_search[i].img['alt']] = [
-                    search_res2[i].a['href'].replace('/en-gb/', ''),
-                    img_search[i].img['src'] 
+       
+        for i in range(0, len(search_res2)):
+            search_map[img_search[i].img['alt']] = [
+                search_res2[i].a['href'].replace('/en-gb/', ''),
+                img_search[i].img['src'] 
             ]
         
         return search_map
@@ -65,6 +59,8 @@ if __name__ == '__main__':
 
 # docker build -t search .
 # docker run --name search -p 5000:5000 search
-# docker container rm <id>
+
+# docker stop $(docker ps -a -q)
+# docker rm $(docker ps -a -q)
 
 
