@@ -22,7 +22,7 @@ fun TrendsViewComponent(navController: NavHostController,
 
 ) {
 
-  val currentTrends: List<Trend> = trendsModel.bootTrends.collectAsState(initial = emptyList()).value
+  val currentTrends: List<Trend> by trendsModel.bootTrends.collectAsState(initial = emptyList())
   val uiModel = productModel.getUIModel()
 
   Column(

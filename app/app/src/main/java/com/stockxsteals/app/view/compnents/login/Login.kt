@@ -85,14 +85,14 @@ fun LoginScreen(navController: NavHostController,
     onTokenIdReceived = { tokenId ->
       Log.d("LOG", tokenId)
       scope.launch {
-        if (showPaywall || trends.isEmpty()) {
+        if (showPaywall) {
           payWallView(firebase)
           trendsModel.setTrendsHolding(trends)
           navController.navigate(AppScreens.Premium.route)
         } else {
+          Toast.makeText(context, "Welcome to L8test.", Toast.LENGTH_SHORT).show()
           trendsModel.accessTrends(trends, context)
           navController.navigate("trends_route")
-          Toast.makeText(context, "Welcome to L8test.", Toast.LENGTH_SHORT).show()
         }
       }
     },

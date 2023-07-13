@@ -47,13 +47,13 @@ class TrendsUIViewModel(private val networkModel: NetworkViewModel,
     withContext(Dispatchers.IO) { // to run code in Background Thread
       val service = ApiService.create()
       if (trends.isEmpty()) {
-        val newTrends = service.getTrends("sneakers", "EUR", context)
+        val newTrends = service.getTrends("sneakers", "USD", context)
         val newTrendsJson = Klaxon().toJsonString(newTrends)
         getTrendsModel().setFirstTrend(getCurrentDate(), newTrendsJson)
         addTrend(newTrends)
       } else {
         if (fileIsOld(trends[0].timestamp)) {
-          val newTrends = service.getTrends("sneakers", "EUR", context)
+          val newTrends = service.getTrends("sneakers", "USD", context)
           val newTrendsJson = Klaxon().toJsonString(newTrends)
           getTrendsModel().updateTrends(getCurrentDate(), newTrendsJson, 1)
           addTrend(newTrends)

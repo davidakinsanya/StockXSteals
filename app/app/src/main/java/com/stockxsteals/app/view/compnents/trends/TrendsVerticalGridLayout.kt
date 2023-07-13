@@ -87,13 +87,13 @@ fun TrendsLazyGrid(navController: NavHostController,
         )
       }
 
-      items(items2.size) { num ->
-        AlternateBox(item = items2[num])
+      items(items2.size, key = {it}) {
+        AlternateBox(item = items2[it])
       }
 
     } else {
       if (searchQuotaList.isNotEmpty() && premiumQuota.isNotEmpty()) {
-        items(trends.size) {
+        items(trends.size, key = {it}) {
           RandomColorBox(
             item = items[it],
             trend = trends[it],
