@@ -4,7 +4,6 @@ plugins {
   id "org.jetbrains.dokka" version "1.8.10"
   id 'com.squareup.sqldelight'
   id 'org.jetbrains.kotlin.plugin.serialization'
-  id "com.google.gms.google-services" version "4.3.15"
   id "com.google.firebase.crashlytics" version "2.9.6"
   id "com.google.firebase.firebase-perf" version "1.4.2"
 }

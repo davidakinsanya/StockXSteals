@@ -1,14 +1,12 @@
 package com.stockxsteals.app.viewmodel.db
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.stockxsteals.app.datasource.intrface.DailySearchDataSource
 import com.stockxsteals.app.utils.getCurrentDate
 import com.stockxsteals.app.utils.sameDateCheck
 import db.entity.DailySearchQuota
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class DailySearchViewModel (
@@ -51,7 +49,7 @@ class DailySearchViewModel (
       result = if (isPremium == 1) {
         1
       } else if (sameDateCheck(quota.timestamp)) {
-        val newSearchNumber = if (quota.search_limit >= quota.search_number)
+        val newSearchNumber = if (quota.search_limit > quota.search_number)
           dailySearchDataSource.getSearchNumber(quota.id) + 1
         else null
 
@@ -67,16 +65,5 @@ class DailySearchViewModel (
       }
     }
     return result
-  }
-
-  fun reverseSearch(quota: DailySearchQuota) {
-    viewModelScope.launch(Dispatchers.IO) {
-      val newSearchNumber =
-        if (dailySearchDataSource.getSearchNumber(quota.id) != 1)
-         dailySearchDataSource.getSearchNumber(quota.id) - 1
-       else
-        1
-      dailySearchDataSource.updateSearchNumber(newSearchNumber, quota.id)
-    }
   }
 }

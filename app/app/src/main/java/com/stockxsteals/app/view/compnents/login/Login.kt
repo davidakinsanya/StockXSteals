@@ -90,9 +90,9 @@ fun LoginScreen(navController: NavHostController,
           trendsModel.setTrendsHolding(trends)
           navController.navigate(AppScreens.Premium.route)
         } else {
+          Toast.makeText(context, "Welcome to L8test.", Toast.LENGTH_LONG).show()
           trendsModel.accessTrends(trends, context)
           navController.navigate("trends_route")
-          Toast.makeText(context, "Welcome to L8test.", Toast.LENGTH_SHORT).show()
         }
       }
     },
