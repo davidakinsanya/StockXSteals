@@ -5,9 +5,9 @@ import android.content.Context
 import android.widget.Toast
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.qonversion.android.sdk.Qonversion
-import com.qonversion.android.sdk.QonversionError
-import com.qonversion.android.sdk.QonversionPermissionsCallback
-import com.qonversion.android.sdk.dto.QPermission
+import com.qonversion.android.sdk.dto.QEntitlement
+import com.qonversion.android.sdk.dto.QonversionError
+import com.qonversion.android.sdk.listeners.QonversionEntitlementsCallback
 import com.stockxsteals.app.utils.conversionEvent
 import com.stockxsteals.app.utils.getDiscord
 import com.stockxsteals.app.viewmodel.ui.SettingViewModel
@@ -20,14 +20,12 @@ fun paymentFlow(scope: CoroutineScope,
   var success = 0
 
 
-  Qonversion.purchase(context = context as Activity,
+  Qonversion.shared.purchase(context = context as Activity,
     product = settingModel.getQonversionModel().offerings[0].products.firstOrNull()!!,
-    callback = object : QonversionPermissionsCallback {
-      override fun onError(error: QonversionError) {
-       Toast.makeText(context, error.description, Toast.LENGTH_SHORT).show()
-      }
+    callback = object : QonversionEntitlementsCallback {
+      override fun onError(error: QonversionError) {}
 
-      override fun onSuccess(permissions: Map<String, QPermission>) {
+      override fun onSuccess(entitlements: Map<String, QEntitlement>) {
         val firebase = FirebaseAnalytics.getInstance(context)
         conversionEvent(firebase)
         Toast.makeText(context, "You have now upgraded to L8test+", Toast.LENGTH_SHORT).show()

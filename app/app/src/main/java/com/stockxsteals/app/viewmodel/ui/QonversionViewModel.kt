@@ -5,12 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.qonversion.android.sdk.Qonversion
-import com.qonversion.android.sdk.QonversionError
-import com.qonversion.android.sdk.QonversionOfferingsCallback
-import com.qonversion.android.sdk.QonversionPermissionsCallback
-import com.qonversion.android.sdk.dto.QPermission
+import com.qonversion.android.sdk.dto.QEntitlement
+import com.qonversion.android.sdk.dto.QonversionError
 import com.qonversion.android.sdk.dto.offerings.QOffering
 import com.qonversion.android.sdk.dto.offerings.QOfferings
+import com.qonversion.android.sdk.listeners.QonversionEntitlementsCallback
+import com.qonversion.android.sdk.listeners.QonversionOfferingsCallback
 
 class QonversionViewModel: ViewModel() {
 
@@ -26,7 +26,7 @@ class QonversionViewModel: ViewModel() {
   }
 
   private fun loadOfferings() {
-    Qonversion.offerings(object : QonversionOfferingsCallback {
+    Qonversion.shared.offerings(object : QonversionOfferingsCallback {
       override fun onError(error: QonversionError) = Unit
 
       override fun onSuccess(offerings: QOfferings) {
@@ -36,11 +36,11 @@ class QonversionViewModel: ViewModel() {
   }
 
   fun updatePermissions() {
-    Qonversion.checkPermissions(object : QonversionPermissionsCallback {
+    Qonversion.shared.checkEntitlements(object : QonversionEntitlementsCallback {
       override fun onError(error: QonversionError) = Unit
 
-      override fun onSuccess(permissions: Map<String, QPermission>) {
-       hasPremiumPermission = permissions["4634623343721453467"]?.isActive() == true
+      override fun onSuccess(entitlements: Map<String, QEntitlement>) {
+       hasPremiumPermission = entitlements["4634623343721453467"]?.isActive == true
       }
 
     })
