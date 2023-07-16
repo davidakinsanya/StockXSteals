@@ -8,13 +8,11 @@ import com.google.accompanist.navigation.animation.navigation
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.view.compnents.login.LoginScreen
-import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
-import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
-import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
-import com.stockxsteals.app.viewmodel.ui.UIViewModel
+import com.stockxsteals.app.viewmodel.ui.*
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.loginGraph(navController: NavHostController,
+                               signInModel: SignInViewModel,
                                productModel: ProductSearchViewModel,
                                networkModel: NetworkViewModel,
                                trendsModel: TrendsUIViewModel,
@@ -27,6 +25,7 @@ fun NavGraphBuilder.loginGraph(navController: NavHostController,
     composable(route = AppScreens.Login.route) {
 
       LoginScreen(navController = navController,
+                  signInModel = signInModel,
                   productModel = productModel,
                   networkModel = networkModel,
                   trendsModel = trendsModel,

@@ -102,4 +102,8 @@ val appModule = module {
                            uiModel = get())
   }
 
+  viewModel {
+    SignInViewModel()
+  }
+
 }

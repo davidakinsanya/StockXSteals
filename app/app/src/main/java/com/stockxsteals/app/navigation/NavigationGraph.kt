@@ -17,6 +17,7 @@ fun NavGraph(navController: NavHostController,
              settingModel: SettingViewModel,
              trendsModel: TrendsUIViewModel,
              networkModel: NetworkViewModel,
+             signInModel: SignInViewModel,
              uiModel: UIViewModel,
              windowSize: WindowSize
 ) {
@@ -25,6 +26,7 @@ fun NavGraph(navController: NavHostController,
           route = "root_route") {
 
     loginGraph(navController = navController,
+               signInModel = signInModel,
                productModel = productSearchViewModel,
                networkModel = networkModel,
                trendsModel = trendsModel,

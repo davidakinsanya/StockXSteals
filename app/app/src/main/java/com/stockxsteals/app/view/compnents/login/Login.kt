@@ -1,17 +1,18 @@
 package com.stockxsteals.app.view.compnents.login
 
 import android.annotation.SuppressLint
-import android.util.Log
+import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,23 +23,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.google.android.gms.auth.api.identity.Identity
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.stevdzasan.onetap.OneTapSignInWithGoogle
-import com.stevdzasan.onetap.rememberOneTapSignInState
-import com.stockxsteals.app.BuildConfig
 import com.stockxsteals.app.R
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.utils.payWallView
-import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
-import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
-import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
-import com.stockxsteals.app.viewmodel.ui.UIViewModel
+import com.stockxsteals.app.viewmodel.ui.*
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun LoginScreen(navController: NavHostController,
+                signInModel: SignInViewModel,
                 productModel: ProductSearchViewModel,
                 networkModel: NetworkViewModel,
                 trendsModel: TrendsUIViewModel,
@@ -46,10 +43,12 @@ fun LoginScreen(navController: NavHostController,
                 windowSize: WindowSize
 ) {
 
-  val state = rememberOneTapSignInState()
-  val scope = rememberCoroutineScope()
-  val trends = trendsModel.getTrendsModel().trends.collectAsState(initial = emptyList()).value
+
   val context = LocalContext.current
+  val state by signInModel.state.collectAsState()
+  val scope = rememberCoroutineScope()
+
+  val trends = trendsModel.getTrendsModel().trends.collectAsState(initial = emptyList()).value
   val mauve = Color(224, 176, 255)
   val firebase = FirebaseAnalytics.getInstance(context)
 
@@ -79,12 +78,29 @@ fun LoginScreen(navController: NavHostController,
           premiumQuota[0].isPremium.toInt()) == 1
   }
 
+  val googleAuthUiClient by lazy {
+    GoogleAuthUiClient(
+      oneTapClient = Identity.getSignInClient(context as Activity)
+    )
+  }
 
-  OneTapSignInWithGoogle(
-    state = state,
-    clientId = BuildConfig.GMAIL_LOGIN_CLIENT,
-    onTokenIdReceived = { tokenId ->
-      Log.d("LOG", tokenId)
+  val launcher = rememberLauncherForActivityResult(
+    contract = ActivityResultContracts.StartIntentSenderForResult(),
+    onResult = { result ->
+      if(result.resultCode == RESULT_OK) {
+        scope.launch {
+          val signInResult = googleAuthUiClient.signInWithIntent(
+            intent = result.data ?: return@launch
+          )
+          signInModel.onSignInResult(signInResult)
+        }
+      }
+    }
+  )
+  println(state.signInError)
+
+  LaunchedEffect(key1 = state.isSignInSuccessful) {
+    if(state.isSignInSuccessful) {
       scope.launch {
         if ((showPaywall || trends.isEmpty()) && !isPremium) {
           payWallView(firebase)
@@ -96,11 +112,9 @@ fun LoginScreen(navController: NavHostController,
           navController.navigate("trends_route")
         }
       }
-    },
-    onDialogDismissed = { message ->
-      Log.d("LOG", message)
+      signInModel.resetState()
     }
-  )
+  }
 
   Scaffold(modifier = Modifier
     .fillMaxSize()
@@ -125,11 +139,19 @@ fun LoginScreen(navController: NavHostController,
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier
               .width(300.dp)
-              .clickable(
-                enabled = !state.opened
-              ) {
+              .clickable {
                 scope.launch {
-                  if (networkModel.checkConnection(context)) state.open()
+                  if (networkModel.checkConnection(context)) {
+                    scope.launch {
+                      val signInIntentSender = googleAuthUiClient.signIn()
+                      @Suppress("LABEL_NAME_CLASH")
+                      launcher.launch(
+                        IntentSenderRequest.Builder(
+                          signInIntentSender ?: return@launch
+                        ).build()
+                      )
+                    }
+                  }
                   else networkModel.toastMessage(context)
                 }
               }

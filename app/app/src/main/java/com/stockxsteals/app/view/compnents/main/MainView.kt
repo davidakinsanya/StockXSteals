@@ -26,6 +26,7 @@ fun SetupScreen(navController: NavHostController) {
   val settingModel: SettingViewModel = getViewModel()
   val trendsModel: TrendsUIViewModel = getViewModel()
   val productSearchModel: ProductSearchViewModel = getViewModel()
+  val signInModel: SignInViewModel = getViewModel()
 
   val windowSize = rememberWindowSize()
 
@@ -65,6 +66,7 @@ fun SetupScreen(navController: NavHostController) {
         settingModel = settingModel,
         trendsModel = trendsModel,
         networkModel = networkModel,
+        signInModel = signInModel,
         uiModel = uiModel,
         windowSize = windowSize)
     }
