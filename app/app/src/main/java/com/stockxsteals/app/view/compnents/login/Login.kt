@@ -182,3 +182,54 @@ fun LoginScreen(navController: NavHostController,
       }
     }
   }
+
+@Composable
+fun AlternativeStartUpLogic(
+  navController: NavHostController,
+  productModel: ProductSearchViewModel,
+  trendsModel: TrendsUIViewModel,
+) {
+
+  val context = LocalContext.current
+  val trends = trendsModel.getTrendsModel().trends.collectAsState(initial = emptyList()).value
+  val firebase = FirebaseAnalytics.getInstance(context)
+
+  val premiumQuota = productModel
+    .getPremiumModel()
+    .premiumQuotas
+    .collectAsState(initial = emptyList())
+    .value
+
+  val searchQuotaList = productModel
+    .getSearchModel()
+    .quota
+    .collectAsState(initial = emptyList())
+    .value
+
+  var showPaywall = false
+  var isPremium = false
+
+  LaunchedEffect(true) {
+    isPremium = productModel.isPremium(premiumQuota)
+    productModel.insertFirstSearch(searchQuotaList)
+    if (searchQuotaList.isNotEmpty())
+      showPaywall = productModel
+        .getSearchModel()
+        .paywallLock(
+          searchQuotaList[0],
+          premiumQuota[0].isPremium.toInt()) == 1
+  }
+
+
+
+  LaunchedEffect(true) {
+    if ((showPaywall || trends.isEmpty()) && !isPremium) {
+      payWallView(firebase)
+      trendsModel.setTrendsHolding(trends)
+      navController.navigate(AppScreens.Premium.route)
+    } else {
+      trendsModel.accessTrends(trends, context)
+      navController.navigate("trends_route")
+    }
+  }
+}

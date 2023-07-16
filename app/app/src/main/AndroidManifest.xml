@@ -34,7 +34,7 @@
 
       <meta-data
           android:name="com.google.android.play.billingclient.version"
-          android:value="10" />
+          android:value="11" />
     </activity>
   </application>
 
