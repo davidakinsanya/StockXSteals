@@ -3,7 +3,6 @@ package com.stockxsteals.app.view.compnents.login
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Activity.RESULT_OK
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -97,7 +96,6 @@ fun LoginScreen(navController: NavHostController,
       }
     }
   )
-  println(state.signInError)
 
   LaunchedEffect(key1 = state.isSignInSuccessful) {
     if(state.isSignInSuccessful) {
@@ -107,7 +105,6 @@ fun LoginScreen(navController: NavHostController,
           trendsModel.setTrendsHolding(trends)
           navController.navigate(AppScreens.Premium.route)
         } else {
-          Toast.makeText(context, "Welcome to L8test.", Toast.LENGTH_LONG).show()
           trendsModel.accessTrends(trends, context)
           navController.navigate("trends_route")
         }

@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "598526411757-f911cs3771maeiv20bels8eh8v267j08.apps.googleusercontent.com",
+          "client_id": "598526411757-qtlc2gq3227kgm2p6sl6ud6o7l361g0b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stockxsteals.app",
+            "certificate_hash": "ef317ff524d870d7e8381a0c51e1863019e2fab3"
+          }
+        },
+        {
+          "client_id": "598526411757-ukor7ohr50ivr0l7he9d0vle3k8pg6ft.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
