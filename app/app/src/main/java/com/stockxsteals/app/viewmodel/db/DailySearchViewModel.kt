@@ -31,7 +31,7 @@ class DailySearchViewModel (
     withContext(Dispatchers.IO) {
       result = if (isPremium == 1) {
         1
-      } else if (sameDateCheck(quota.timestamp) && quota.search_limit >= quota.search_number) {
+      } else if (sameDateCheck(quota.timestamp) && quota.search_limit > quota.search_number) {
         1
       } else if (!sameDateCheck(quota.timestamp)) {
         1

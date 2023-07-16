@@ -66,9 +66,10 @@ fun LoginScreen(navController: NavHostController,
     .value
 
   var showPaywall = false
+  var isPremium = false
 
   LaunchedEffect(true) {
-    productModel.isPremium(premiumQuota)
+    isPremium = productModel.isPremium(premiumQuota)
     productModel.insertFirstSearch(searchQuotaList)
     if (searchQuotaList.isNotEmpty())
       showPaywall = productModel
@@ -85,7 +86,7 @@ fun LoginScreen(navController: NavHostController,
     onTokenIdReceived = { tokenId ->
       Log.d("LOG", tokenId)
       scope.launch {
-        if (showPaywall || trends.isEmpty()) {
+        if ((showPaywall || trends.isEmpty()) && !isPremium) {
           payWallView(firebase)
           trendsModel.setTrendsHolding(trends)
           navController.navigate(AppScreens.Premium.route)
