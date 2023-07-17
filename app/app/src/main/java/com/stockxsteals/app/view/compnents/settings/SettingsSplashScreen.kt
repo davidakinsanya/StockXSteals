@@ -144,7 +144,7 @@ fun SettingsSplashScreen(navController: NavHostController,
                    .clickable {
                      when (settingScreens[item].screen) {
                        "Upgrade" -> {
-                         navController.navigate(AppScreens.Premium.route)
+                         // navController.navigate(AppScreens.Premium.route)
                        }
                        else -> {
                          navController

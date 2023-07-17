@@ -27,7 +27,9 @@ fun NavGraph(navController: NavHostController,
     loginGraph(navController = navController,
                productModel = productSearchViewModel,
                networkModel = networkModel,
-               trendsModel = trendsModel)
+               trendsModel = trendsModel,
+               uiModel = uiModel,
+               windowSize = windowSize)
 
 
     sneakerNavGraph(navController = navController,
