@@ -26,3 +26,10 @@ fun errorEvent(firebase: FirebaseAnalytics, code: Int) {
   bundle.putString("ERROR_EVENT_$code", "true")
   firebase.logEvent("ERROR_EVENT", bundle)
 }
+
+
+fun conversionErrorEvent(firebase: FirebaseAnalytics) {
+  val bundle = Bundle()
+  bundle.putString("CONVERSION_ERROR_EVENT", "true")
+  firebase.logEvent("CONVERSION_ERROR_EVENT", bundle)
+}

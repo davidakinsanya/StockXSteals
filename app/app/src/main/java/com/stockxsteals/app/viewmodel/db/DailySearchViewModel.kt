@@ -43,6 +43,7 @@ class DailySearchViewModel (
   }
 
   suspend fun dbLogic(quota: DailySearchQuota, isPremium: Int): Int {
+    /*
     var result: Int
 
     withContext(Dispatchers.IO) {
@@ -65,5 +66,9 @@ class DailySearchViewModel (
       }
     }
     return result
+  }
+
+     */
+    return 1
   }
 }

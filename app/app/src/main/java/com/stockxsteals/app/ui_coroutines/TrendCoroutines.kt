@@ -8,6 +8,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.stockxsteals.app.model.dto.Trend
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.getCurrentDate
+import com.stockxsteals.app.utils.payWallView
 import com.stockxsteals.app.utils.productView
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
@@ -37,6 +38,8 @@ fun TrendCoroutineOnClick(networkModel: NetworkViewModel,
         productModel.setCurrentTrends(trend)
         productModel.setDailySearchQuota(searchQuota)
         navController.navigate(AppScreens.Premium.route)
+        val firebase = FirebaseAnalytics.getInstance(context)
+        payWallView(firebase)
       }
     } else {
       networkModel.toastMessage(context)

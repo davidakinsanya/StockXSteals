@@ -24,11 +24,6 @@ sealed class SettingScreens (
     icon = "https://img.icons8.com/?size=512&id=102445&format=png"
   )
 
-  object LogOut: SettingScreens (
-    screen = "Log Out",
-    icon = "https://img.icons8.com/?size=512&id=2444&format=png"
-  )
-
   object Socials: SettingScreens (
     screen = "SocialMedia",
     icon = "https://img.icons8.com/?size=512&id=7411&format=png"
@@ -41,6 +36,5 @@ fun settingScreensList(): MutableList<SettingScreens> {
     SettingScreens.Searches,
     SettingScreens.AboutUs,
     SettingScreens.TC,
-    SettingScreens.LogOut
   )
 }

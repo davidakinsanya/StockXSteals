@@ -98,7 +98,6 @@ val appModule = module {
                            searchModel = get(),
                            historyModel = get(),
                            premiumModel = get(),
-                           qonversionModel = get(),
                            uiModel = get())
   }
 

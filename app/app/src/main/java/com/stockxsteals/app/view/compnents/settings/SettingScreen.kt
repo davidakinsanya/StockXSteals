@@ -81,8 +81,7 @@ fun SettingScreen(setting: String,
           )
         }
       }
-     SettingPage(navController = navController,
-                 settingModel = settingModel,
+     SettingPage(settingModel = settingModel,
                  uiModel = uiModel,
                  windowSize = windowSize,
                  setting = setting)
@@ -91,8 +90,7 @@ fun SettingScreen(setting: String,
 }
 
 @Composable
-fun SettingPage(navController: NavHostController,
-                settingModel: SettingViewModel,
+fun SettingPage(settingModel: SettingViewModel,
                 uiModel: UIViewModel,
                 windowSize: WindowSize,
                 setting: String) {
@@ -115,10 +113,6 @@ fun SettingPage(navController: NavHostController,
 
     "T&Cs" -> {
       TermsAndConditions()
-    }
-
-    "Log Out" -> {
-      navController.navigate("root_route")
     }
   }
 }
