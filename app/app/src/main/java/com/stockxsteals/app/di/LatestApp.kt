@@ -17,7 +17,7 @@ class LatestApp: Application() {
     val qonversionConfig = QonversionConfig.Builder(
       this,
       "jCMdbPE5u0fYo1IBuygpK1qb5s6RI_EK",
-      QLaunchMode.Analytics
+      QLaunchMode.SubscriptionManagement
     ).build()
     Qonversion.initialize(qonversionConfig)
   }

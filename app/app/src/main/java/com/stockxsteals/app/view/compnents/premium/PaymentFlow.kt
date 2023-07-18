@@ -7,6 +7,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.qonversion.android.sdk.Qonversion
 import com.qonversion.android.sdk.dto.QEntitlement
 import com.qonversion.android.sdk.dto.QonversionError
+import com.qonversion.android.sdk.dto.products.QProduct
 import com.qonversion.android.sdk.listeners.QonversionEntitlementsCallback
 import com.stockxsteals.app.utils.conversionErrorEvent
 import com.stockxsteals.app.utils.conversionEvent
@@ -22,34 +23,41 @@ fun paymentFlow(scope: CoroutineScope,
   val firebase = FirebaseAnalytics.getInstance(context)
   var success = 0
 
-  Qonversion.shared.purchase(context = context as Activity,
-    product = settingModel.getQonversionModel().offerings[0].products.firstOrNull()!!,
-    callback = object : QonversionEntitlementsCallback {
-      override fun onError(error: QonversionError) {
-        conversionErrorEvent(firebase)
-      }
+  var product: QProduct? = null
+  settingModel.getQonversionModel().offerings.forEach {
+    if (it.offeringID == "l8test_plus") {
+      product = it.products.firstOrNull()
+    }
+  }
 
-      override fun onSuccess(entitlements: Map<String, QEntitlement>) {
-        val premiumEntitlement = entitlements["4634623343721453467"]
-        if (premiumEntitlement != null && premiumEntitlement.isActive) {
+    Qonversion.shared.purchase(context = context as Activity,
+      product = product!!,
+      callback = object : QonversionEntitlementsCallback {
+        override fun onError(error: QonversionError) {
+          conversionErrorEvent(firebase)
+        }
 
-          val client = settingModel.getQonversionModel().billingClient(context)
+        override fun onSuccess(entitlements: Map<String, QEntitlement>) {
           Qonversion.shared.syncPurchases()
-          conversionEvent(firebase)
+          val premiumEntitlement = entitlements["4634623343721453467"]
+          if (premiumEntitlement != null && premiumEntitlement.isActive) {
+            conversionEvent(firebase)
 
-          Toast.makeText(context, "You have now upgraded to L8test+", Toast.LENGTH_SHORT).show()
-          Toast.makeText(context, "You now have access to our Discord in the settings " +
-                  "under 'Social Media.'", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "You have now upgraded to L8test+", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+              context, "You now have access to our Discord in the settings " +
+                      "under 'Social Media.'", Toast.LENGTH_SHORT
+            ).show()
 
-          settingModel.getQonversionModel().updatePermissions()
-          scope.launch {
-            settingModel.getPremiumModel().setIsPremium(1)
-            getDiscord(context)
-            success = 1
+            settingModel.getQonversionModel().updatePermissions()
+            scope.launch {
+              settingModel.getPremiumModel().setIsPremium(1)
+              getDiscord(context)
+              success = 1
+            }
           }
         }
       }
-    }
-  )
-  return success
-}
+    )
+    return success
+  }

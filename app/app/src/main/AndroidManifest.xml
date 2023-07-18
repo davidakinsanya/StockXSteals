@@ -31,10 +31,6 @@
       <meta-data
           android:name="android.app.lib_name"
           android:value="" />
-
-      <meta-data
-          android:name="com.google.android.play.billingclient.version"
-          android:value="15" />
     </activity>
   </application>
 
