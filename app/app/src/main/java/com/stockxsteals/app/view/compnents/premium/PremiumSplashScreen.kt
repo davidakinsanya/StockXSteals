@@ -176,7 +176,9 @@ fun UpgradeButton(
              .align(Alignment.CenterVertically)
              .padding(16.dp)
              .clickable {
-               if (paymentFlow(scope, settingModel, context) == 1)
+               if (paymentFlow(scope,
+                               settingModel,
+                               context) == 1)
                  nextAction.value = true
              }
       )
