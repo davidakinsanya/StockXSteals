@@ -25,7 +25,7 @@ sealed class SettingScreens (
   )
 
   object Socials: SettingScreens (
-    screen = "SocialMedia",
+    screen = "Socials",
     icon = "https://img.icons8.com/?size=512&id=7411&format=png"
   )
 }

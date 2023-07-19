@@ -36,7 +36,6 @@ import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
 import db.entity.DailySearchQuota
-import db.entity.Premium
 
 @Composable
  fun SearchEntry(title: String,
@@ -46,7 +45,7 @@ import db.entity.Premium
                  networkModel: NetworkViewModel,
                  navController: NavHostController,
                  searchQuota: DailySearchQuota,
-                 premiumQuota: Premium
+                 premiumQuota: Int
 ) {
 
   val context = LocalContext.current

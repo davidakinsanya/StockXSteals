@@ -33,7 +33,6 @@ import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
 import db.entity.DailySearchQuota
-import db.entity.Premium
 import kotlin.random.Random
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -52,6 +51,8 @@ fun TrendsLazyGrid(navController: NavHostController,
     .collectAsState(initial = emptyList())
     .value
 
+  var isPremium by remember { mutableStateOf(0) }
+
   val searchQuotaList = productModel
     .getSearchModel()
     .quota
@@ -59,7 +60,7 @@ fun TrendsLazyGrid(navController: NavHostController,
     .value
 
   LaunchedEffect(true) {
-    productModel.isPremium(premiumQuota)
+    isPremium = productModel.getPremiumModel().getIsPremium(1)
     productModel.insertFirstSearch(searchQuotaList)
   }
 
@@ -102,7 +103,7 @@ fun TrendsLazyGrid(navController: NavHostController,
             windowSize = windowSize,
             navController = navController,
             searchQuota = searchQuotaList[0],
-            premiumQuota = premiumQuota[0]
+            premiumQuota = isPremium
           )
         }
       }
@@ -128,7 +129,7 @@ fun RandomColorBox(item: GridItem,
                    windowSize: WindowSize,
                    navController: NavHostController,
                    searchQuota: DailySearchQuota,
-                   premiumQuota: Premium) {
+                   premiumQuota: Int) {
 
   val networkModel = trendsModel.getNetworkModel()
   val uiModel = productModel.getUIModel()

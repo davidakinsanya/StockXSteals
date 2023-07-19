@@ -14,14 +14,13 @@ import com.stockxsteals.app.utils.productView
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import db.entity.DailySearchQuota
-import db.entity.Premium
 
 @Composable
 fun SearchEntryCoroutineOnClick(networkModel: NetworkViewModel,
                                 productModel: ProductSearchViewModel,
                                 displayItem: MutableState<Boolean>,
                                 searchQuota: DailySearchQuota,
-                                premiumQuota: Premium,
+                                premiumQuota: Int,
                                 navController: NavHostController,
                                 context: Context,
                                 result: List<String>,
@@ -30,7 +29,7 @@ fun SearchEntryCoroutineOnClick(networkModel: NetworkViewModel,
 
   LaunchedEffect(true) {
     if (networkModel.checkConnection(context)) {
-      if (productModel.getSearchModel().dbLogic(searchQuota, premiumQuota.isPremium.toInt()) == 1) {
+      if (productModel.getSearchModel().dbLogic(searchQuota, premiumQuota) == 1) {
         Toast.makeText(
           context,
           "Give us a second while we render the results.",

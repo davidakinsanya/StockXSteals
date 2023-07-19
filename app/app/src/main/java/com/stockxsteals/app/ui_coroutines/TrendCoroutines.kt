@@ -13,7 +13,6 @@ import com.stockxsteals.app.utils.productView
 import com.stockxsteals.app.viewmodel.ui.NetworkViewModel
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import db.entity.DailySearchQuota
-import db.entity.Premium
 
 @Composable
 fun TrendCoroutineOnClick(networkModel: NetworkViewModel,
@@ -21,14 +20,14 @@ fun TrendCoroutineOnClick(networkModel: NetworkViewModel,
                           navController: NavHostController,
                           context: Context,
                           searchQuota: DailySearchQuota,
-                          premiumQuota: Premium,
+                          premiumQuota: Int,
                           displayItem: MutableState<Boolean>,
                           trend: Trend
 ) {
 
   LaunchedEffect(key1 = true) {
     if (networkModel.checkConnection(context)) {
-      if (productModel.getSearchModel().dbLogic(searchQuota, premiumQuota.isPremium.toInt()) == 1) {
+      if (productModel.getSearchModel().dbLogic(searchQuota, premiumQuota) == 1) {
         Toast.makeText(
           context,
           "Give us a second while we render the results.",

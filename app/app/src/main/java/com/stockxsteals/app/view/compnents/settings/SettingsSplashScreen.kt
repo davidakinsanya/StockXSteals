@@ -10,10 +10,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -44,16 +41,10 @@ fun SettingsSplashScreen(navController: NavHostController,
   val context = LocalContext.current
   val trends = trendsModel.getTrendsModel().trends.collectAsState(initial = emptyList()).value
 
-  val premiumQuota = settingModel
-    .getPremiumModel()
-    .premiumQuotas
-    .collectAsState(initial = emptyList())
-    .value
-
-  var isPremium = false
+  var isPremium by remember { mutableStateOf(false) }
 
   LaunchedEffect(true) {
-    isPremium = settingModel.isPremium(premiumQuota)
+    isPremium = settingModel.getPremiumModel().getIsPremium(1) == 1
   }
 
 
@@ -106,7 +97,6 @@ fun SettingsSplashScreen(navController: NavHostController,
       Modifier
         .fillMaxWidth()
         .fillMaxHeight(0.9f)) {
-
           val settingScreens = settingScreensList()
 
           if (isPremium) {

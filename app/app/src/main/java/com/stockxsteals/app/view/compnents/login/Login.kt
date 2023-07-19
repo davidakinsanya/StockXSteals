@@ -20,6 +20,7 @@ import androidx.navigation.NavHostController
 import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.*
 import com.stockxsteals.app.R
+import com.stockxsteals.app.navigation.AppScreens
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -35,11 +36,9 @@ fun AlternativeStartUpLogic(
   val context = LocalContext.current
   val trends = trendsModel.getTrendsModel().trends.collectAsState(initial = emptyList()).value
 
-  val premiumQuota = productModel
-    .getPremiumModel()
-    .premiumQuotas
-    .collectAsState(initial = emptyList())
-    .value
+  var isPremium by remember { mutableStateOf(0) }
+  var showPaywall by remember { mutableStateOf(false) }
+
 
   val searchQuotaList = productModel
     .getSearchModel()
@@ -48,17 +47,23 @@ fun AlternativeStartUpLogic(
     .value
 
   LaunchedEffect(true) {
-    productModel.isPremium(premiumQuota)
+    isPremium = productModel.getPremiumModel().getIsPremium(1)
+    showPaywall = productModel.getSearchModel().paywallLock(searchQuotaList[0], isPremium) != 1
     productModel.insertFirstSearch(searchQuotaList)
   }
 
   LaunchedEffect(true) {
     if (networkModel.checkConnection(context)) {
-      trendsModel.accessTrends(trends, context)
+      if (showPaywall || trends.isEmpty()) {
+        trendsModel.setTrendsHolding(trends)
+        navController.navigate(AppScreens.Premium.route)
+      } else {
+        trendsModel.accessTrends(trends, context)
+        navController.navigate("trends_route")
+      }
     } else {
       networkModel.toastMessage(context)
     }
-    navController.navigate("trends_route")
   }
 
   Scaffold(modifier = Modifier

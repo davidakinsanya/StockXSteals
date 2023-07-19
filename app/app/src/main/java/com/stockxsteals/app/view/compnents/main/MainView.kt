@@ -6,9 +6,11 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.android.billingclient.api.*
 import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.navigation.NavGraph
 import com.stockxsteals.app.utils.rememberWindowSize
@@ -26,6 +28,8 @@ fun SetupScreen(navController: NavHostController) {
   val settingModel: SettingViewModel = getViewModel()
   val trendsModel: TrendsUIViewModel = getViewModel()
   val productSearchModel: ProductSearchViewModel = getViewModel()
+
+ settingModel.billingClient(LocalContext.current)
 
   val windowSize = rememberWindowSize()
 

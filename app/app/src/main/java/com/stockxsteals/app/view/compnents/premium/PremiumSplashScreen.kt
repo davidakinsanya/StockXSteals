@@ -144,7 +144,7 @@ fun UpgradeButton(
   navController: NavHostController,
   result: List<String>?
 ) {
-  val scope = rememberCoroutineScope()
+
   val context = LocalContext.current
   val nextAction = remember { mutableStateOf(false) }
 
@@ -176,8 +176,7 @@ fun UpgradeButton(
              .align(Alignment.CenterVertically)
              .padding(16.dp)
              .clickable {
-               if (paymentFlow(scope,
-                               settingModel,
+               if (paymentFlow(settingModel,
                                context) == 1)
                  nextAction.value = true
              }
