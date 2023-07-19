@@ -45,6 +45,12 @@ fun TrendsLazyGrid(navController: NavHostController,
                    windowSize: WindowSize
 ) {
 
+  val searchQuotaList = productModel
+    .getSearchModel()
+    .quota
+    .collectAsState(initial = emptyList())
+    .value
+
   val premiumQuota = productModel
     .getPremiumModel()
     .premiumQuotas
@@ -53,15 +59,11 @@ fun TrendsLazyGrid(navController: NavHostController,
 
   var isPremium by remember { mutableStateOf(0) }
 
-  val searchQuotaList = productModel
-    .getSearchModel()
-    .quota
-    .collectAsState(initial = emptyList())
-    .value
 
   LaunchedEffect(true) {
-    isPremium = productModel.getPremiumModel().getIsPremium(1)
+    productModel.isPremium(premiumQuota)
     productModel.insertFirstSearch(searchQuotaList)
+    isPremium = productModel.getPremiumModel().getIsPremium(1)
   }
 
 

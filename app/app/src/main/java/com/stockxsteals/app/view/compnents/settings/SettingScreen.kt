@@ -99,7 +99,7 @@ fun SettingPage(settingModel: SettingViewModel,
       UpdateScreen(uiModel, windowSize)
     }
 
-    "SocialMedia" -> {
+    "Socials" -> {
       SocialSplashScreen(uiModel, windowSize)
     }
 

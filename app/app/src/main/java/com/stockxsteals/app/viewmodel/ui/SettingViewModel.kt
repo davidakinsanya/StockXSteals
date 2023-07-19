@@ -81,7 +81,6 @@ class SettingViewModel(private val qonversionModel: QonversionViewModel,
         for (purchase in purchases) {
           viewModelScope.launch {
             if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED && purchase.isAutoRenewing) {
-
               if (purchase.products[0] == "premium_access"
                 &&
                 getPremiumModel().getIsPremium(1) != 1

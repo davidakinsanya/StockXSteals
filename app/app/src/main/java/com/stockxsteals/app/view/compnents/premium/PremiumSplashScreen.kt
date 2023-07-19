@@ -197,7 +197,6 @@ fun UpgradeButton(
           }
       )
 
-    if (navController.previousBackStackEntry?.destination?.route == AppScreens.Login.route)
       Text(
         text = "Less than a coffee a week.",
         fontSize = 12.sp,

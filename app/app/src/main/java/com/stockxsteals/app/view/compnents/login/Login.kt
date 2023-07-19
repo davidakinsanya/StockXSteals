@@ -2,10 +2,7 @@ package com.stockxsteals.app.view.compnents.login
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -20,7 +17,6 @@ import androidx.navigation.NavHostController
 import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.*
 import com.stockxsteals.app.R
-import com.stockxsteals.app.navigation.AppScreens
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -35,9 +31,7 @@ fun AlternativeStartUpLogic(
 
   val context = LocalContext.current
   val trends = trendsModel.getTrendsModel().trends.collectAsState(initial = emptyList()).value
-
   var isPremium by remember { mutableStateOf(0) }
-  var showPaywall by remember { mutableStateOf(false) }
 
 
   val searchQuotaList = productModel
@@ -46,21 +40,25 @@ fun AlternativeStartUpLogic(
     .collectAsState(initial = emptyList())
     .value
 
+  val premiumQuota = productModel
+    .getPremiumModel()
+    .premiumQuotas
+    .collectAsState(initial = emptyList())
+    .value
+
   LaunchedEffect(true) {
+    productModel.isPremium(premiumQuota)
     isPremium = productModel.getPremiumModel().getIsPremium(1)
-    showPaywall = productModel.getSearchModel().paywallLock(searchQuotaList[0], isPremium) != 1
-    productModel.insertFirstSearch(searchQuotaList)
+
+    if (searchQuotaList.isNotEmpty()) {
+      productModel.insertFirstSearch(searchQuotaList)
+    }
   }
 
   LaunchedEffect(true) {
     if (networkModel.checkConnection(context)) {
-      if (showPaywall || trends.isEmpty()) {
-        trendsModel.setTrendsHolding(trends)
-        navController.navigate(AppScreens.Premium.route)
-      } else {
-        trendsModel.accessTrends(trends, context)
-        navController.navigate("trends_route")
-      }
+      trendsModel.accessTrends(trends, context)
+      navController.navigate("trends_route")
     } else {
       networkModel.toastMessage(context)
     }
@@ -82,7 +80,7 @@ fun AlternativeStartUpLogic(
         contentDescription = "Logo",
         modifier = uiModel.loginScreenImageModifier(windowSize))
 
-      Text(text = "Welcome To L8test.", fontSize = 20.sp, fontWeight = FontWeight.ExtraLight, modifier = Modifier.padding(top = 0.dp))
+      Text(text = "Welcome To L8test.", fontSize = 22.sp, fontWeight = FontWeight.Light)
     }
   }
 }

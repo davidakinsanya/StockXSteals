@@ -48,10 +48,21 @@ fun SneakerSplashScreen(navController: NavHostController,
     .collectAsState(initial = emptyList())
     .value
 
+  val premiumQuota = productModel
+    .getPremiumModel()
+    .premiumQuotas
+    .collectAsState(initial = emptyList())
+    .value
+
   var isPremium by remember { mutableStateOf(0) }
 
   LaunchedEffect(true) {
+    productModel.isPremium(premiumQuota)
     isPremium = productModel.getPremiumModel().getIsPremium(1)
+
+    productModel.insertFirstSearch(searchQuotaList)
+
+
     if (productModel.getHistoryModel().getSearchByStamp("0") == null)
       navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
 
