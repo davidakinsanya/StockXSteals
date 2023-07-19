@@ -11,6 +11,7 @@ import com.qonversion.android.sdk.dto.QonversionErrorCode
 import com.qonversion.android.sdk.dto.products.QProduct
 import com.qonversion.android.sdk.listeners.QonversionEntitlementsCallback
 import com.stockxsteals.app.utils.conversionEvent
+import com.stockxsteals.app.utils.getDiscord
 import com.stockxsteals.app.viewmodel.ui.SettingViewModel
 
 fun paymentFlow(settingModel: SettingViewModel,
@@ -41,6 +42,7 @@ fun paymentFlow(settingModel: SettingViewModel,
 
       override fun onSuccess(entitlements: Map<String, QEntitlement>) {
         conversionEvent(firebase)
+        getDiscord(context)
 
         Toast.makeText(context, "You have now upgraded to L8test+", Toast.LENGTH_SHORT).show()
         Toast.makeText(
