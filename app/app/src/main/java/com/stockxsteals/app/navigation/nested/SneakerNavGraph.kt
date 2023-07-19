@@ -73,20 +73,11 @@ fun NavGraphBuilder.sneakerNavGraph(
             enterTransition = downEnterTransition,
             exitTransition = upExitTransition) {
 
-    val searchResult = navController
-      .previousBackStackEntry
-      ?.savedStateHandle
-      ?.get<List<String>>("search_result")
-
-
-
     PremiumSplashScreen(
       productModel = productSearchViewModel,
-      trendsModel = trendsModel,
       settingModel = settingModel,
       navController = navController,
       windowSize = windowSize,
-      result = searchResult
     )
   }
 }

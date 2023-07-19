@@ -117,8 +117,7 @@ import db.entity.DailySearchQuota
         searchQuota = searchQuota,
         premiumQuota = premiumQuota,
         navController = navController,
-        context = context,
-        result = result
+        context = context
       )
 
     SearchEntryCoroutineDB(displayItem = displayItem,

@@ -23,7 +23,6 @@ fun SearchEntryCoroutineOnClick(networkModel: NetworkViewModel,
                                 premiumQuota: Int,
                                 navController: NavHostController,
                                 context: Context,
-                                result: List<String>,
                                 ) {
 
 
@@ -36,11 +35,6 @@ fun SearchEntryCoroutineOnClick(networkModel: NetworkViewModel,
           Toast.LENGTH_LONG).show()
         displayItem.value = true
       } else {
-        navController
-          .currentBackStackEntry
-          ?.savedStateHandle
-          ?.set("search_result", result)
-
         productModel.setDailySearchQuota(searchQuota)
         navController.navigate(AppScreens.Premium.route)
         val firebase = FirebaseAnalytics.getInstance(context)

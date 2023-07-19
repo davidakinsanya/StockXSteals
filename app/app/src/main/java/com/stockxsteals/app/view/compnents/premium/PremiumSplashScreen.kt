@@ -24,12 +24,9 @@ import com.stockxsteals.app.R
 import com.stockxsteals.app.model.ui.PremiumSellingPoint
 import com.stockxsteals.app.model.ui.sellingPointsList
 import com.stockxsteals.app.navigation.AppScreens
-import com.stockxsteals.app.ui_coroutines.SearchEntryCoroutineDB
-import com.stockxsteals.app.ui_coroutines.TrendCoroutineDB
 import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.SettingViewModel
-import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -37,10 +34,8 @@ import com.stockxsteals.app.viewmodel.ui.UIViewModel
 fun PremiumSplashScreen(
   productModel: ProductSearchViewModel,
   settingModel: SettingViewModel,
-  trendsModel: TrendsUIViewModel,
   navController: NavHostController,
   windowSize: WindowSize,
-  result: List<String>?
 ) {
 
   val uiModel = productModel.getUIModel()
@@ -57,11 +52,8 @@ fun PremiumSplashScreen(
           PremiumTopRow()
           MainBody(uiModel, windowSize)
           UpgradeButton(
-            productModel = productModel,
             settingModel = settingModel,
-            trendsModel = trendsModel,
             navController = navController,
-            result = result
           )
       }
   }
@@ -138,15 +130,11 @@ fun SellingPointRow(sellingPoint: PremiumSellingPoint) {
 
 @Composable
 fun UpgradeButton(
-  productModel: ProductSearchViewModel,
   settingModel: SettingViewModel,
-  trendsModel: TrendsUIViewModel,
   navController: NavHostController,
-  result: List<String>?
 ) {
 
   val context = LocalContext.current
-  val nextAction = remember { mutableStateOf(false) }
 
   Column(
     Modifier
@@ -176,14 +164,14 @@ fun UpgradeButton(
              .align(Alignment.CenterVertically)
              .padding(16.dp)
              .clickable {
-               if (paymentFlow(settingModel,
-                               context) == 1)
-                 nextAction.value = true
+               paymentFlow(settingModel,
+                 navController,
+                 context)
              }
       )
     }
 
-    if (navController.previousBackStackEntry?.destination?.route == AppScreens.Settings.route )
+    if (navController.previousBackStackEntry?.destination?.route == AppScreens.Settings.route) {
       Text(
         text = "Back",
         fontSize = 12.sp,
@@ -196,7 +184,7 @@ fun UpgradeButton(
             navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
           }
       )
-
+    } else {
       Text(
         text = "Less than a coffee a week.",
         fontSize = 12.sp,
@@ -205,59 +193,6 @@ fun UpgradeButton(
         modifier =
         Modifier.padding(top = 10.dp)
       )
-
-    if (nextAction.value)
-      NextAction(
-        navController = navController,
-        productModel = productModel,
-        trendsModel = trendsModel,
-        result = result
-      )
-  }
-}
-
-@Composable
-fun NextAction(navController: NavHostController,
-               productModel: ProductSearchViewModel,
-               trendsModel: TrendsUIViewModel,
-               result: List<String>?
-) {
-  val trueState = remember { mutableStateOf(true) }
-  val context = LocalContext.current
-
-  when (navController.previousBackStackEntry?.destination?.route) {
-      AppScreens.Trends.route -> {
-        TrendCoroutineDB(
-          displayItem = trueState,
-          productModel = productModel,
-          trend = productModel.getCurrentTrends(),
-          navController = navController,
-          context = context
-        )
-        productModel.clearTrends()
-        productModel.clearQuota()
-     }
-
-     AppScreens.SneakerSearch.route -> {
-       SearchEntryCoroutineDB(
-         displayItem = trueState,
-         productModel = productModel,
-         result = result!!,
-         navController = navController,
-         context = context
-       )
-       productModel.clearQuota()
-     }
-
-    AppScreens.Login.route -> {
-      LaunchedEffect(key1 = true) {
-        trendsModel.accessTrends(trendsModel.getTrendsHolding(), context)
-        navController.navigate("trends_route")
-      }
     }
-
-   AppScreens.Settings.route -> {
-     navController.navigate(navController.previousBackStackEntry?.destination?.route!!)
-   }
- }
+  }
 }
