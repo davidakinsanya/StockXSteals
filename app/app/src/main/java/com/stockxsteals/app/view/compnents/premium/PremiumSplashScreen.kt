@@ -155,7 +155,11 @@ fun UpgradeButton(
         ),
         shape = RoundedCornerShape(50.dp)
       )
-      .clickable {},
+      .clickable {
+        paymentFlow(settingModel,
+          navController,
+          context)
+      },
       horizontalArrangement = Arrangement.Center) {
       Text(text = "Upgrade For ~$2.99/wk",
            fontSize = 12.sp,
@@ -163,11 +167,6 @@ fun UpgradeButton(
            modifier = Modifier
              .align(Alignment.CenterVertically)
              .padding(16.dp)
-             .clickable {
-               paymentFlow(settingModel,
-                 navController,
-                 context)
-             }
       )
     }
 
