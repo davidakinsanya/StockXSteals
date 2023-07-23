@@ -31,7 +31,7 @@ android {
     applicationId "com.stockxsteals.app"
     minSdk 26
     targetSdk 33
-    versionCode 39
+    versionCode 40
     versionName "1.0"
 
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -112,7 +112,7 @@ android {
 
     // Qonversion SDK
     implementation 'io.qonversion.android.sdk:sdk:5.0.1'
-    implementation 'com.android.billingclient:billing:billing_client'
+    implementation "com.android.billingclient:billing:$billing_client"
 
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.1.1"))

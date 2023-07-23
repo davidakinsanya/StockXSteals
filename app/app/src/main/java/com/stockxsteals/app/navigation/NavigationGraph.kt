@@ -20,6 +20,7 @@ fun NavGraph(navController: NavHostController,
              uiModel: UIViewModel,
              windowSize: WindowSize
 ) {
+
   AnimatedNavHost(navController = navController,
           startDestination = "login_route",
           route = "root_route") {

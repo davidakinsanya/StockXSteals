@@ -27,18 +27,24 @@ import com.stockxsteals.app.navigation.AppScreens
 import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.ProductSearchViewModel
 import com.stockxsteals.app.viewmodel.ui.SettingViewModel
+import com.stockxsteals.app.viewmodel.ui.TrendsUIViewModel
 import com.stockxsteals.app.viewmodel.ui.UIViewModel
+import db.entity.Trends
+import kotlinx.coroutines.CoroutineScope
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun PremiumSplashScreen(
   productModel: ProductSearchViewModel,
+  trendsModel: TrendsUIViewModel,
   settingModel: SettingViewModel,
   navController: NavHostController,
   windowSize: WindowSize,
 ) {
 
   val uiModel = productModel.getUIModel()
+  val trends = trendsModel.getTrendsModel().trends.collectAsState(initial = emptyList()).value
+  val scope = rememberCoroutineScope()
 
   Scaffold(modifier = Modifier
     .fillMaxSize()
@@ -53,7 +59,10 @@ fun PremiumSplashScreen(
           MainBody(uiModel, windowSize)
           UpgradeButton(
             settingModel = settingModel,
+            trendsModel = trendsModel,
             navController = navController,
+            scope = scope,
+            trends = trends
           )
       }
   }
@@ -131,7 +140,10 @@ fun SellingPointRow(sellingPoint: PremiumSellingPoint) {
 @Composable
 fun UpgradeButton(
   settingModel: SettingViewModel,
+  trendsModel: TrendsUIViewModel,
   navController: NavHostController,
+  scope: CoroutineScope,
+  trends: List<Trends>
 ) {
 
   val context = LocalContext.current
@@ -156,9 +168,14 @@ fun UpgradeButton(
         shape = RoundedCornerShape(50.dp)
       )
       .clickable {
-        paymentFlow(settingModel,
+        paymentFlow(
+          settingModel,
+          trendsModel,
           navController,
-          context)
+          context,
+          scope,
+          trends
+        )
       },
       horizontalArrangement = Arrangement.Center) {
       Text(text = "Upgrade For ~$2.99/wk",

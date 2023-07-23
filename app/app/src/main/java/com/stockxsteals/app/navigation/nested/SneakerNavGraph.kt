@@ -24,6 +24,7 @@ fun NavGraphBuilder.sneakerNavGraph(
   settingModel: SettingViewModel,
   windowSize: WindowSize
 ) {
+
   navigation(
     startDestination = AppScreens.Trends.route,
     route = "trends_route"
@@ -75,6 +76,7 @@ fun NavGraphBuilder.sneakerNavGraph(
 
     PremiumSplashScreen(
       productModel = productSearchViewModel,
+      trendsModel = trendsModel,
       settingModel = settingModel,
       navController = navController,
       windowSize = windowSize,
