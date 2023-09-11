@@ -14,12 +14,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.stockxsteals.app.utils.WindowSize
 import com.stockxsteals.app.viewmodel.ui.*
 import com.stockxsteals.app.R
-import com.stockxsteals.app.navigation.AppScreens
-import com.stockxsteals.app.utils.payWallView
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -49,25 +46,17 @@ fun AlternativeStartUpLogic(
     .collectAsState(initial = emptyList())
     .value
 
-  var showPaywall by remember { mutableStateOf(false) }
-
   LaunchedEffect(true) {
     productModel.isPremium(premiumQuota)
     isPremium = productModel.getPremiumModel().getIsPremium(1)
 
     if (searchQuotaList.isNotEmpty()) {
       productModel.insertFirstSearch(searchQuotaList)
-      showPaywall = searchQuotaList[0].search_limit < searchQuotaList[0].search_number
-              && isPremium == 0
     }
   }
 
   LaunchedEffect(true) {
-    if ((showPaywall || trends.isEmpty()) && isPremium == 0) {
-      trendsModel.setTrendsHolding(trends)
-      navController.navigate(AppScreens.Premium.route)
-      payWallView(firebase = FirebaseAnalytics.getInstance(context))
-    } else if (networkModel.checkConnection(context)) {
+    if (networkModel.checkConnection(context)) {
       trendsModel.accessTrends(trends, context)
       navController.navigate("trends_route")
     } else {
